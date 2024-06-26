@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
             aimDir = Vector2.zero;
             playerState = State.AIMING;
             playerAnimation.SetAim();
+            playerAnimation.ToggleLineRenderer(true);
             startPos = mousePos;
             if (debugVectors)
             {
@@ -86,6 +87,7 @@ public class PlayerController : MonoBehaviour
             forceDir *= dragSensitivity;
             forceLength = forceDir.magnitude;
             playerAnimation.FlipSprite(forceDir.normalized);
+            playerAnimation.DrawTrajectory(Vector2.ClampMagnitude(forceDir, maxForce));
             //aimer.transform.position = Vector2.ClampMagnitude(aimDir, launchForce);
             if (debugVectors)
             {
@@ -97,6 +99,7 @@ public class PlayerController : MonoBehaviour
     }
     private void LeftReleased()
     {
+        playerAnimation.ToggleLineRenderer(false);
         if (debugVectors)
         {
             ToggleDebug(false);
@@ -147,6 +150,12 @@ public class PlayerController : MonoBehaviour
         playerState = State.IDLE;
         rb.velocity = Vector2.zero;
         playerAnimation.SetIdle();
+    }
+    
+    public Vector2 GetPosition(Vector2 vel,float t)
+    {
+        var pos = (Vector2)transform.position + vel * t+0.5f*Physics2D.gravity*t*t;
+        return pos;
     }
     private void OnDisable()
     {
