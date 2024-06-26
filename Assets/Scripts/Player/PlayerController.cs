@@ -1,33 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public enum State
 {
     IDLE,
     AIMING,
     LAUNCHED,
+    FIRSTBOUNCE,
     POUND
 }
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] PlayerInput playerInput;
-    [SerializeField] PlayerAnimation playerAnimation;
+    public float Velocity => rb.velocity.y;
     public State playerState;
+
     private Vector2 startPos;
     private Vector2 dragPos;
     private Vector2 aimDir;
+    private Vector2 forceDir;
+    private Rigidbody2D rb;
+    private PlayerInput playerInput;
 
+    [SerializeField] PlayerAnimation playerAnimation;
     [SerializeField] GameObject start;
     [SerializeField] GameObject dragger;
     [SerializeField] GameObject aimer;
-    [SerializeField] float launchForce;
-    [SerializeField] float reticleRange;
-    Rigidbody2D rb;
+    [SerializeField] bool debugVectors;
+    [SerializeField] float dragSensitivity;
+    [SerializeField] float maxForce;
+    [SerializeField] float forceLength;
+    [SerializeField] float gravity = -20f;
+    //[SerializeField] float reticleRange;
+
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        playerInput = GetComponent<PlayerInput>();
+        Physics2D.gravity = Vector2.up * gravity;
+    }
+    void Start()
+    {
         playerState = State.IDLE;
     }
     private void OnEnable()
@@ -45,29 +60,69 @@ public class PlayerController : MonoBehaviour
 
     private void LeftClicked(Vector2 mousePos)
     {
-        playerState = State.AIMING;
-        playerAnimation.SetAim();
-        startPos = mousePos;
-        start.transform.position = startPos;
+        if(playerState == State.IDLE)
+        {
+            aimDir = Vector2.zero;
+            playerState = State.AIMING;
+            playerAnimation.SetAim();
+            startPos = mousePos;
+            if (debugVectors)
+            {
+                ToggleDebug(true);
+                start.transform.position = startPos;
+            }
+        }
     }
     
     private void LeftDragging(Vector2 mousePos)
     {
         // calculate aim force and sprite flip direction
-        dragPos = mousePos;
-        dragger.transform.position = mousePos;
-        var dir = dragPos - startPos;
-        aimDir = (Vector2)transform.position + (-dir);
-        aimer.transform.position = Vector2.ClampMagnitude(aimDir, launchForce);
+        if (playerState == State.AIMING)
+        {
+            dragPos = mousePos;
+            var dir = dragPos - startPos;
+            aimDir = (Vector2)transform.position + (-dir);
+            forceDir = aimDir - (Vector2)transform.position;
+            forceDir *= dragSensitivity;
+            forceLength = forceDir.magnitude;
+            playerAnimation.FlipSprite(forceDir.normalized);
+            //aimer.transform.position = Vector2.ClampMagnitude(aimDir, launchForce);
+            if (debugVectors)
+            {
+                dragger.transform.position = mousePos;
+                aimer.transform.position = aimDir;
+            }
+        }
+
     }
     private void LeftReleased()
     {
+        if (debugVectors)
+        {
+            ToggleDebug(false);
+        }
+        if (forceLength < 0.1)
+        {
+            SetToIdle();
+            return;
+        }
         //launch
-        playerState = State.LAUNCHED;
-        playerAnimation.SetRoll();
-        var forceDir = aimer.transform.position - transform.position;
-        //rb.AddForce(forceDir, ForceMode2D.Impulse);
-        rb.velocity = forceDir;
+        if (playerState == State.AIMING)
+        {
+            var dotValue = Vector2.Dot(Vector2.up, forceDir.normalized);
+            if (dotValue < 0.1)
+            {
+                SetToFirstBounce();
+            }
+            else
+            {
+                playerState = State.LAUNCHED;
+            }
+            forceDir = Vector2.ClampMagnitude(forceDir, maxForce);
+            rb.velocity = forceDir;
+
+        }
+        
     }
     private void RightClicked()
     {
@@ -76,18 +131,22 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("right mouse clicked");
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void ToggleDebug(bool value)
     {
-        //Debug.Log("collided with : " + collision.gameObject.name);
-        //if(playerState == State.LAUNCHED)
-        //{
-        //    rb.velocity = Vector2.zero;
-        //    rb.rotation = 0f;
-        //    transform.rotation = Quaternion.Euler(Vector3.zero);
-        //    playerAnimation.SetIdle();
-        //    playerState = State.IDLE;
-        //}
-       
+        start.gameObject.SetActive(value);
+        dragger.gameObject.SetActive(value);
+        aimer.gameObject.SetActive(value);
+    }
+    public void SetToFirstBounce()
+    {
+        playerState = State.FIRSTBOUNCE;
+        playerAnimation.SetRoll();
+    }
+    public void SetToIdle()
+    {
+        playerState = State.IDLE;
+        rb.velocity = Vector2.zero;
+        playerAnimation.SetIdle();
     }
     private void OnDisable()
     {

@@ -310,7 +310,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &747888924
 Transform:
   m_ObjectHideFlags: 0
@@ -656,7 +656,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1726722320
 Transform:
   m_ObjectHideFlags: 0
@@ -740,7 +740,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1838269001
 Transform:
   m_ObjectHideFlags: 0
@@ -950,6 +950,7 @@ GameObject:
   - component: {fileID: 2048312383}
   - component: {fileID: 2048312385}
   - component: {fileID: 2048312384}
+  - component: {fileID: 2048312388}
   - component: {fileID: 2048312387}
   - component: {fileID: 2048312386}
   m_Layer: 0
@@ -987,14 +988,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 360e93967754eb842b5d923afc6edb3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInput: {fileID: 2048312385}
-  playerAnimation: {fileID: 2084122806}
   playerState: 0
+  playerAnimation: {fileID: 2084122806}
   start: {fileID: 1838269000}
   dragger: {fileID: 747888923}
   aimer: {fileID: 1726722319}
-  launchForce: 10
-  reticleRange: 5
+  debugVectors: 1
+  dragSensitivity: 3.5
+  maxForce: 25
+  forceLength: 0
+  gravity: -20
 --- !u!114 &2048312385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1070,6 +1073,18 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 1.2
+--- !u!114 &2048312388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2048312382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92138428ba934d8409eb07084a203d66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2084122802
 GameObject:
   m_ObjectHideFlags: 0
@@ -1191,6 +1206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3141799ccee6e24a83cba8a8a49300f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerController: {fileID: 2048312384}
 --- !u!120 &2084122807
 LineRenderer:
   serializedVersion: 2
