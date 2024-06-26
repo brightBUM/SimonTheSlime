@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Drawing;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,6 +6,9 @@ public class PlayerAnimation : MonoBehaviour
 {
     [SerializeField] PlayerController playerController;
     [SerializeField] Material lineMaterial;
+    [SerializeField] TrailRenderer trailRenderer;
+    [SerializeField] Gradient normalTrail;
+    [SerializeField] Gradient poundTrail;
     [SerializeField] float trajectorySpeed = 5f;
     LineRenderer lineRenderer;
     Animator animator;
@@ -44,7 +46,7 @@ public class PlayerAnimation : MonoBehaviour
             lineRenderer.SetPosition(i, pos);
         }
 
-        //animater line rendere material
+        //animate line renderer material
         timer -= Time.deltaTime;
         var result = Mathf.Lerp(0, 1, timer);
         if(result <= 0)
@@ -76,5 +78,19 @@ public class PlayerAnimation : MonoBehaviour
         //    lineRenderer.SetPosition(i, Vector3.zero);
         //}
         lineRenderer.enabled = value;
+    }
+    public void ToggleTrailRenderer(bool value)
+    {
+        trailRenderer.enabled = value;
+    }
+    public void PoundTrailEffect()
+    {
+        trailRenderer.startWidth = 2.5f;
+        trailRenderer.colorGradient = poundTrail;
+    }
+    public void ResetTrailEffect()
+    {
+        trailRenderer.startWidth = 1.5f;
+        trailRenderer.colorGradient = normalTrail;
     }
 }

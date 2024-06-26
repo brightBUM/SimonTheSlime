@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject aimer;
     [SerializeField] bool debugVectors;
     [SerializeField] float dragSensitivity;
+    [SerializeField] float poundForce = 10f;
     [SerializeField] float maxForce;
     [SerializeField] float forceLength;
     [SerializeField] float gravity = -20f;
@@ -74,7 +75,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    
     private void LeftDragging(Vector2 mousePos)
     {
         // calculate aim force and sprite flip direction
@@ -123,14 +123,21 @@ public class PlayerController : MonoBehaviour
             }
             forceDir = Vector2.ClampMagnitude(forceDir, maxForce);
             rb.velocity = forceDir;
+            playerAnimation.ToggleTrailRenderer(true);
 
         }
-        
+
     }
     private void RightClicked()
     {
         //pound only when in mid air
-
+        if(playerState == State.LAUNCHED)
+        {
+            playerState = State.POUND;
+            rb.velocity = Vector2.down * poundForce;
+            playerAnimation.SetRoll();
+            playerAnimation.PoundTrailEffect();
+        }
         //Debug.Log("right mouse clicked");
     }
 
@@ -150,6 +157,8 @@ public class PlayerController : MonoBehaviour
         playerState = State.IDLE;
         rb.velocity = Vector2.zero;
         playerAnimation.SetIdle();
+        playerAnimation.ToggleTrailRenderer(false);
+        playerAnimation.ResetTrailEffect();
     }
     
     public Vector2 GetPosition(Vector2 vel,float t)

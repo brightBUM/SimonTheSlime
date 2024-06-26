@@ -30,5 +30,10 @@ public class PlayerCollision : MonoBehaviour
            playerController.SetToIdle();
 
         }
+        else if(playerController.playerState == State.POUND)
+        {
+            playerController.SetToIdle();
+
+        }
     }
 }
