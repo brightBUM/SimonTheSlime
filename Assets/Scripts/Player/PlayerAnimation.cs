@@ -21,6 +21,14 @@ public class PlayerAnimation : MonoBehaviour
 
     public void SetAim()
     {
-        animator.SetBool("aim", true);
+        animator.SetTrigger("aim");
+    }
+    public void SetRoll()
+    {
+        animator.SetTrigger("roll");
+    }
+    public void SetIdle()
+    {
+        animator.SetTrigger("idle");
     }
 }

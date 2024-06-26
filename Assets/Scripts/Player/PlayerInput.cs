@@ -6,13 +6,15 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     public Action rightClicked;  
-    public Action mouseClicked;
+    public Action<Vector2> mouseClicked;
     public Action mouseReleased;
     public Action<Vector2> mouseDragging;
+    Camera camRef;
+    Vector2 mousePos;
     // Start is called before the first frame update
     void Start()
     {
-        
+        camRef = Camera.main;
     }
 
     // Update is called once per frame
@@ -20,12 +22,13 @@ public class PlayerInput : MonoBehaviour
     {
         if(Input.GetMouseButton(0))
         {
-            Vector2 mousePos = Input.mousePosition;
+            mousePos = camRef.ScreenToWorldPoint(Input.mousePosition);
             mouseDragging.Invoke(mousePos);
         }
         if (Input.GetMouseButtonDown(0))
         {
-            mouseClicked.Invoke();
+            mousePos = camRef.ScreenToWorldPoint(Input.mousePosition);
+            mouseClicked.Invoke(mousePos);
         }
         if (Input.GetMouseButtonUp(0))
         {
