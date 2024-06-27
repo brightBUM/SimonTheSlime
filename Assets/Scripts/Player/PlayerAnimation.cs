@@ -71,6 +71,10 @@ public class PlayerAnimation : MonoBehaviour
         //animator.ResetTrigger("roll");
         animator.SetTrigger("idle");
     }
+    public void ResetVelocity()
+    {
+        animator.SetFloat("velocity", 0f);
+    }
     public void ToggleLineRenderer(bool value)
     {
         //for(int i = 0; i<lineRenderer.positionCount;i++)
@@ -93,4 +97,5 @@ public class PlayerAnimation : MonoBehaviour
         trailRenderer.startWidth = 1.5f;
         trailRenderer.colorGradient = normalTrail;
     }
+    
 }

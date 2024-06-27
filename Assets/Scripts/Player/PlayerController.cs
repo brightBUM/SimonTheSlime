@@ -158,9 +158,14 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector2.zero;
         playerAnimation.SetIdle();
         playerAnimation.ToggleTrailRenderer(false);
+        playerAnimation.ResetVelocity();
+    }
+    public void ResetPound()
+    {
+        SetToIdle();
         playerAnimation.ResetTrailEffect();
     }
-    
+
     public Vector2 GetPosition(Vector2 vel,float t)
     {
         var pos = (Vector2)transform.position + vel * t+0.5f*Physics2D.gravity*t*t;
