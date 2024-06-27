@@ -6,6 +6,7 @@ using UnityEngine.Playables;
 public class PlayerCollision : MonoBehaviour
 {
     PlayerController playerController;
+    [SerializeField] CameraController cameraController;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +33,7 @@ public class PlayerCollision : MonoBehaviour
         }
         else if(playerController.playerState == State.POUND)
         {
+            cameraController.CameraPoundEffect();
             playerController.ResetPound();
 
         }

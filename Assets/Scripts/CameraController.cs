@@ -6,6 +6,9 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] Transform target;
     [SerializeField] float followSpeed = 2f;
+    //[Header("pound effect")]
+    [SerializeField] float poundShakeStrength;
+    [SerializeField] float poundShakeDuration;
     public Transform lastCheckPoint;
     Vector3 offset;
     Vector3 followPosition;
@@ -28,5 +31,11 @@ public class CameraController : MonoBehaviour
     }
     private void LateUpdate()
     {
+    }
+
+    public void CameraPoundEffect()
+    {
+        //camera shake while pound
+        transform.DOShakePosition(poundShakeDuration, poundShakeStrength, 10, Random.Range(10,90), false);
     }
 }

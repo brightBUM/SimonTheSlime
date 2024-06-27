@@ -42,7 +42,7 @@ public class PlayerAnimation : MonoBehaviour
         //draw line renderer points
         for(int i = 0;i<lineRenderer.positionCount;i++)
         {
-            var pos = playerController.GetPosition(vel, i / (float)lineRenderer.positionCount);
+            var pos = playerController.GetPosition(vel, i*2 / (float)lineRenderer.positionCount);
             lineRenderer.SetPosition(i, pos);
         }
 

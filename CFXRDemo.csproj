@@ -10,10 +10,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{667EBA10-2BE3-DF22-E3BB-818BCA58F57C}</ProjectGuid>
+    <ProjectGuid>{64C68200-E7EF-44DE-7854-61313427F712}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary</AssemblyName>
+    <AssemblyName>CFXRDemo</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -59,21 +59,12 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2023.1.18f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Library\PackageCache\com.unity.shadergraph@15.0.7\ShaderGraphLibrary\DummyShaderGraphLibrary.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX Remaster\Demo Assets\CFXR_Demo_Rotate.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX Remaster\Demo Assets\CFXR_Demo.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX Remaster\Demo Assets\CFXR_Demo_Translate.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Library\PackageCache\com.unity.shadergraph@15.0.7\ShaderGraphLibrary\ShaderVariablesFunctions.hlsl" />
-    <None Include="Library\PackageCache\com.unity.shadergraph@15.0.7\ShaderGraphLibrary\LODDitheringTransition.hlsl" />
-    <None Include="Library\PackageCache\com.unity.shadergraph@15.0.7\ShaderGraphLibrary\Nature\SpeedTreeCommon.hlsl" />
-    <None Include="Library\PackageCache\com.unity.shadergraph@15.0.7\ShaderGraphLibrary\PreviewVaryings.hlsl" />
-    <None Include="Library\PackageCache\com.unity.shadergraph@15.0.7\ShaderGraphLibrary\Functions.hlsl" />
-    <None Include="Library\PackageCache\com.unity.shadergraph@15.0.7\ShaderGraphLibrary\GeometricTools.hlsl" />
-    <None Include="Library\PackageCache\com.unity.shadergraph@15.0.7\ShaderGraphLibrary\ShaderVariables.hlsl" />
-    <None Include="Library\PackageCache\com.unity.shadergraph@15.0.7\ShaderGraphLibrary\Nature\SpeedTree8Wind.hlsl" />
-    <None Include="Library\PackageCache\com.unity.shadergraph@15.0.7\ShaderGraphLibrary\ShaderConfig.cs.hlsl" />
-    <None Include="Library\PackageCache\com.unity.shadergraph@15.0.7\ShaderGraphLibrary\ShaderVariablesMatrixDefsLegacyUnity.hlsl" />
-    <None Include="Library\PackageCache\com.unity.shadergraph@15.0.7\ShaderGraphLibrary\PreviewPass.hlsl" />
-    <None Include="Library\PackageCache\com.unity.shadergraph@15.0.7\ShaderGraphLibrary\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.asmdef" />
+    <None Include="Assets\JMO Assets\Cartoon FX Remaster\Demo Assets\CFXR Demo.asmdef" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -753,6 +744,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="CFXRRuntime.csproj">
+      <Project>{24CE54B8-E789-075E-7412-950955379C93}</Project>
+      <Name>CFXRRuntime</Name>
+    </ProjectReference>
     <ProjectReference Include="UnityEditor.UI.csproj">
       <Project>{16E29AE5-84FF-A677-BE5D-608B0D1B2F1B}</Project>
       <Name>UnityEditor.UI</Name>
