@@ -207,8 +207,8 @@ public class PlayerController : MonoBehaviour
         var dir1 = D - Amid;
         var dir2 = D - Dmid;
 
-        B = Amid + Vector2.Perpendicular(dir1.normalized) * UnityEngine.Random.Range(3, 7);
-        C = Dmid + (Vector2.Perpendicular(dir2.normalized) * -1f * UnityEngine.Random.Range(3, 7));
+        B = Amid + Vector2.Perpendicular(dir1.normalized) * UnityEngine.Random.Range(5, 10);
+        C = Dmid + (Vector2.Perpendicular(dir2.normalized) * -1f * UnityEngine.Random.Range(5, 10));
 
         //var distance = Vector2.Distance(A, D);
         //var duration = distance / 3.0f; // camera follow speed = 3
@@ -231,8 +231,8 @@ public class PlayerController : MonoBehaviour
         {
             //reset to idle
             SetToIdle();
+            playerAnimation.DisableGhostParticle();
             collider.enabled = true;
-            
         });
 
     }

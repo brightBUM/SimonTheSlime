@@ -56,6 +56,6 @@ public class CameraController : MonoBehaviour
     public void CameraHitEffect()
     {
         //camera shake while pound
-        transform.DOShakePosition(poundShakeDuration, poundShakeStrength, 10, Random.Range(10, 90), false);
+        transform.DOShakePosition(hitShakeDuration, hitShakeStrength, 10, Random.Range(10, 90), false);
     }
 }

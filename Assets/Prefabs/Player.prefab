@@ -235,8 +235,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 5532958498033354962}
+  ghostParticleVFX: {fileID: 0}
   lineMaterial: {fileID: 2100000, guid: f73aaeb588c7a484b9dc73edef4d18b5, type: 2}
   trailRenderer: {fileID: 375398109342251901}
+  hitMaterial: {fileID: 2100000, guid: 25d4b4bea3120e84d84ba5c3c925cdd2, type: 2}
   normalTrail:
     serializedVersion: 2
     key0: {r: 0.5372549, g: 0.94117653, b: 0.54509807, a: 1}
@@ -298,6 +300,7 @@ MonoBehaviour:
     m_NumColorKeys: 3
     m_NumAlphaKeys: 3
   trajectorySpeed: 5
+  hitResetTime: 0.5
 --- !u!96 &375398109342251901
 TrailRenderer:
   serializedVersion: 3
@@ -306,7 +309,7 @@ TrailRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 649538119607842463}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -484,6 +487,7 @@ MonoBehaviour:
   maxForce: 25
   forceLength: 0
   gravity: -20
+  onHitUpForce: 3
 --- !u!114 &1011181353208027375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -496,6 +500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92138428ba934d8409eb07084a203d66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraController: {fileID: 0}
 --- !u!58 &6167956995119360268
 CircleCollider2D:
   m_ObjectHideFlags: 0

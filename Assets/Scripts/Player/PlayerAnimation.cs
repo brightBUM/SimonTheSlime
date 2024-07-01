@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerAnimation : MonoBehaviour
 {
     [SerializeField] PlayerController playerController;
+    [SerializeField] GameObject ghostParticleVFX;
     [SerializeField] Material lineMaterial;
     [SerializeField] TrailRenderer trailRenderer;
     [SerializeField] Material hitMaterial;
@@ -47,7 +48,7 @@ public class PlayerAnimation : MonoBehaviour
         //draw line renderer points
         for(int i = 0;i<lineRenderer.positionCount;i++)
         {
-            var pos = playerController.GetPosition(vel, i*2 / (float)lineRenderer.positionCount);
+            var pos = playerController.GetPosition(vel, i / (float)lineRenderer.positionCount);
             lineRenderer.SetPosition(i, pos);
         }
 
@@ -103,18 +104,36 @@ public class PlayerAnimation : MonoBehaviour
         trailRenderer.colorGradient = normalTrail;
     }
 
+    public void DisableGhostParticle()
+    {
+        ghostParticleVFX.SetActive(false);
+    }
     public void HitEffect(Action respawnPlayer)
     {
         ToggleTrailRenderer(false);
         //spriteRenderer.material = hitMaterial;
-        StartCoroutine(ResetHitEffect(respawnPlayer));
+        StartCoroutine(GhostEffect(respawnPlayer));
     }
-    IEnumerator ResetHitEffect(Action respawnPlayer)
+    IEnumerator GhostEffect(Action respawnPlayer)
     {
         //change to original material after some delay
         yield return new WaitForSeconds(hitResetTime);
         //spriteRenderer.material = originalMaterial;
         animator.SetTrigger("ghost");
+
+        //ghost particle orientation
+        ghostParticleVFX.SetActive(true);
+        Transform trans = ghostParticleVFX.transform;
+        if (!spriteRenderer.flipX)
+        {
+            trans.localPosition = new Vector3(10, trans.localPosition.y, trans.localPosition.z);
+            trans.localScale = Vector3.one;
+        }
+        else
+        {
+            trans.localPosition = new Vector3(-10, trans.localPosition.y, trans.localPosition.z);
+            trans.localScale = new Vector3(-1, 1, 1);
+        }
 
         //then respawn to last checkpoint;
         respawnPlayer();
