@@ -32,6 +32,7 @@ public class CameraController : MonoBehaviour
     {
         if(playerController.playerState != State.GHOST)
         {
+            followSpeed = 3f;
             FollowPlayer();
         }
     }
@@ -39,6 +40,7 @@ public class CameraController : MonoBehaviour
     {
         if (playerController.playerState == State.GHOST)
         {
+            followSpeed = 6f;
             FollowPlayer();
         }
     }

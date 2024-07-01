@@ -3,18 +3,23 @@ using System.Collections;
 using System.Drawing;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerAnimation : MonoBehaviour
 {
     [SerializeField] PlayerController playerController;
     [SerializeField] GameObject ghostParticleVFX;
     [SerializeField] Material lineMaterial;
+    [SerializeField] Volume volume;
     [SerializeField] TrailRenderer trailRenderer;
     [SerializeField] Material hitMaterial;
     [SerializeField] Gradient normalTrail;
     [SerializeField] Gradient poundTrail;
     [SerializeField] float trajectorySpeed = 5f;
     [SerializeField] float hitResetTime = 1.5f;
+    [SerializeField] float blendValue = 6f;
+    [SerializeField] float newBlendValue = 12f;
     LineRenderer lineRenderer;
     Animator animator;
     SpriteRenderer spriteRenderer;
@@ -106,6 +111,7 @@ public class PlayerAnimation : MonoBehaviour
 
     public void DisableGhostParticle()
     {
+        volume.blendDistance = blendValue;
         ghostParticleVFX.SetActive(false);
     }
     public void HitEffect(Action respawnPlayer)
@@ -120,6 +126,7 @@ public class PlayerAnimation : MonoBehaviour
         yield return new WaitForSeconds(hitResetTime);
         //spriteRenderer.material = originalMaterial;
         animator.SetTrigger("ghost");
+        volume.blendDistance = newBlendValue;
 
         //ghost particle orientation
         ghostParticleVFX.SetActive(true);
