@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Drawing;
 using UnityEditor;
 using UnityEngine;
@@ -7,13 +9,15 @@ public class PlayerAnimation : MonoBehaviour
     [SerializeField] PlayerController playerController;
     [SerializeField] Material lineMaterial;
     [SerializeField] TrailRenderer trailRenderer;
+    [SerializeField] Material hitMaterial;
     [SerializeField] Gradient normalTrail;
     [SerializeField] Gradient poundTrail;
     [SerializeField] float trajectorySpeed = 5f;
+    [SerializeField] float hitResetTime = 1.5f;
     LineRenderer lineRenderer;
     Animator animator;
     SpriteRenderer spriteRenderer;
-
+    Material originalMaterial;
     
     float timer = 1f;
     // Start is called before the first frame update
@@ -22,6 +26,7 @@ public class PlayerAnimation : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         lineRenderer = GetComponent<LineRenderer>();
+        originalMaterial = spriteRenderer.material;
     }
 
     // Update is called once per frame
@@ -97,5 +102,21 @@ public class PlayerAnimation : MonoBehaviour
         trailRenderer.startWidth = 1.5f;
         trailRenderer.colorGradient = normalTrail;
     }
-    
+
+    public void HitEffect(Action respawnPlayer)
+    {
+        ToggleTrailRenderer(false);
+        //spriteRenderer.material = hitMaterial;
+        StartCoroutine(ResetHitEffect(respawnPlayer));
+    }
+    IEnumerator ResetHitEffect(Action respawnPlayer)
+    {
+        //change to original material after some delay
+        yield return new WaitForSeconds(hitResetTime);
+        //spriteRenderer.material = originalMaterial;
+        animator.SetTrigger("ghost");
+
+        //then respawn to last checkpoint;
+        respawnPlayer();
+    }
 }

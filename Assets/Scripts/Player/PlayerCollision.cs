@@ -7,6 +7,7 @@ public class PlayerCollision : MonoBehaviour
 {
     PlayerController playerController;
     [SerializeField] CameraController cameraController;
+    const int ObstacleLayer = 6;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +37,15 @@ public class PlayerCollision : MonoBehaviour
             cameraController.CameraPoundEffect();
             playerController.ResetPound();
 
+        }
+
+        //Debug.Log("object layer :  " + collision.gameObject.layer+" , Mask layer : "+(int)obstacleLayerMask);
+
+        if(collision.collider.gameObject.layer == ObstacleLayer && playerController.playerState!=State.GHOST)
+        {
+            //hit with obstacle , respawn to last checkpoint
+            cameraController.CameraHitEffect();
+            playerController.PlayerHitEffect();
         }
     }
 }

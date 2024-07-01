@@ -6,6 +6,7 @@ public class FlagCheckpoint : MonoBehaviour
 {
     [SerializeField] GameObject checkPointUnlockVFX;
     [SerializeField] Animator animator;
+    bool unlocked = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,11 +20,12 @@ public class FlagCheckpoint : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (unlocked) return;
         if(collision.TryGetComponent<PlayerController>(out PlayerController playerController))
         {
-            //
+            unlocked = true;
             animator.SetTrigger("unlock");
-            LevelManager.Instance.SetCheckPoint(this.transform);
+            LevelManager.Instance.LastCheckpointpos = this.transform.position;
         }
     }
 }

@@ -1,3 +1,5 @@
+using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +11,8 @@ public enum State
     AIMING,
     LAUNCHED,
     FIRSTBOUNCE,
-    POUND
+    POUND,
+    GHOST
 }
 public class PlayerController : MonoBehaviour
 {
@@ -33,8 +36,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float maxForce;
     [SerializeField] float forceLength;
     [SerializeField] float gravity = -20f;
+    [SerializeField] float onHitUpForce = 3f;
     //[SerializeField] float reticleRange;
-
+    Action respawnPlayer;
+    CircleCollider2D collider;
+    float lerpAmount = 0f;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -45,6 +51,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         playerState = State.IDLE;
+        collider = GetComponent<CircleCollider2D>();
     }
     private void OnEnable()
     {
@@ -52,6 +59,7 @@ public class PlayerController : MonoBehaviour
         playerInput.mouseReleased += LeftReleased;
         playerInput.mouseDragging += LeftDragging;
         playerInput.rightClicked += RightClicked;
+        respawnPlayer += RespawnPlayer;
     }
     // Update is called once per frame
     void Update()
@@ -171,12 +179,72 @@ public class PlayerController : MonoBehaviour
         var pos = (Vector2)transform.position + vel * t+0.5f*Physics2D.gravity*t*t;
         return pos;
     }
+    public void PlayerHitEffect()
+    {
+        lerpAmount = 0;
+        playerState = State.GHOST;
+        playerAnimation.HitEffect(respawnPlayer);
+        rb.velocity = new Vector2(0, rb.velocity.y);
+        rb.AddForce(Vector2.up * onHitUpForce, ForceMode2D.Impulse);
+    }
+    private void RespawnPlayer()
+    {
+        //Debug.Log("Player controller Respawn Player");
+
+        //move to last checkpoint with ghost effect
+
+        //disable colliders and change to ghost sprite
+        collider.enabled = false;
+
+        //ghost curve path via tweening
+        //generates random curve between player position and last checkpoint
+        Vector2 A, B, C, D;
+        A = transform.position;
+        D = LevelManager.Instance.LastCheckpointpos;
+        var mid = A + D / 2;
+        var Amid = A + mid / UnityEngine.Random.Range(2, 6);
+        var Dmid = D + mid / UnityEngine.Random.Range(2, 6);
+        var dir1 = D - Amid;
+        var dir2 = D - Dmid;
+
+        B = Amid + Vector2.Perpendicular(dir1.normalized) * UnityEngine.Random.Range(3, 7);
+        C = Dmid + (Vector2.Perpendicular(dir2.normalized) * -1f * UnityEngine.Random.Range(3, 7));
+
+        //var distance = Vector2.Distance(A, D);
+        //var duration = distance / 3.0f; // camera follow speed = 3
+
+        //Debug.Log(string.Format($"distance : {distance} , duration : {duration}"));
+
+        DOTween.To(() => lerpAmount, x => lerpAmount = x, 1, 1.5f).SetEase(Ease.Linear).OnUpdate(() =>
+        {
+            var AB = Vector2.Lerp(A, B, lerpAmount);
+            var BC = Vector2.Lerp(B, C, lerpAmount);
+            var CD = Vector2.Lerp(C, D, lerpAmount);
+            var ABC = Vector2.Lerp(AB, BC, lerpAmount);
+            var BCD = Vector2.Lerp(BC, CD, lerpAmount);
+
+            var ABCD = Vector2.Lerp(ABC, BCD, lerpAmount);
+
+            this.transform.position = ABCD;
+
+        }).OnComplete(() =>
+        {
+            //reset to idle
+            SetToIdle();
+            collider.enabled = true;
+            
+        });
+
+    }
+
+
     private void OnDisable()
     {
         playerInput.mouseClicked -= LeftClicked;
         playerInput.mouseReleased -= LeftReleased;
         playerInput.mouseDragging -= LeftDragging;
         playerInput.rightClicked -= RightClicked;
+        respawnPlayer += RespawnPlayer;
     }
-    
+
 }
