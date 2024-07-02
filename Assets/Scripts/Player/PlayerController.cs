@@ -12,6 +12,7 @@ public enum State
     LAUNCHED,
     FIRSTBOUNCE,
     POUND,
+    SQUISHED,
     GHOST
 }
 public class PlayerController : MonoBehaviour
@@ -168,6 +169,22 @@ public class PlayerController : MonoBehaviour
         playerAnimation.ToggleTrailRenderer(false);
         playerAnimation.ResetVelocity();
     }
+    public void SetToSquishState()
+    {
+        playerAnimation.ToggleTrailRenderer(false);
+        playerState = State.SQUISHED;
+        rb.velocity = Vector2.zero;
+        playerAnimation.SetSquish();
+        StartCoroutine(DelayedRespawn());
+    }
+
+    IEnumerator DelayedRespawn()
+    {
+        yield return new WaitForSeconds(2f);
+        lerpAmount = 0;
+        playerState = State.GHOST;
+        playerAnimation.HitEffect(respawnPlayer);
+    }
     public void ResetPound()
     {
         SetToIdle();
@@ -236,8 +253,6 @@ public class PlayerController : MonoBehaviour
         });
 
     }
-
-
     private void OnDisable()
     {
         playerInput.mouseClicked -= LeftClicked;

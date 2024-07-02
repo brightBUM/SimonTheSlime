@@ -23,7 +23,7 @@ public class PlayerAnimation : MonoBehaviour
     LineRenderer lineRenderer;
     Animator animator;
     SpriteRenderer spriteRenderer;
-    Material originalMaterial;
+    [SerializeField] Material originalMaterial;
     
     float timer = 1f;
     // Start is called before the first frame update
@@ -32,7 +32,7 @@ public class PlayerAnimation : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         lineRenderer = GetComponent<LineRenderer>();
-        originalMaterial = spriteRenderer.material;
+        //originalMaterial = spriteRenderer.material;
     }
 
     // Update is called once per frame
@@ -81,6 +81,11 @@ public class PlayerAnimation : MonoBehaviour
     {
         //animator.ResetTrigger("roll");
         animator.SetTrigger("idle");
+    }
+
+    public void SetSquish()
+    {
+        animator.SetTrigger("squish");
     }
     public void ResetVelocity()
     {
