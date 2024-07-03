@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -38,6 +39,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float forceLength;
     [SerializeField] float gravity = -20f;
     [SerializeField] float onHitUpForce = 3f;
+    [SerializeField] Transform A;
+    [SerializeField] Transform B;
+    [SerializeField] Transform C;
+    [SerializeField] Transform D;
     //[SerializeField] float reticleRange;
     Action respawnPlayer;
     CircleCollider2D collider;
@@ -206,7 +211,7 @@ public class PlayerController : MonoBehaviour
     }
     private void RespawnPlayer()
     {
-        Debug.Log("Player controller Respawn Player");
+        //Debug.Log("Player controller Respawn Player");
 
         //move to last checkpoint with ghost effect
 
@@ -218,19 +223,24 @@ public class PlayerController : MonoBehaviour
         Vector2 A, B, C, D;
         A = transform.position;
         D = LevelManager.Instance.LastCheckpointpos;
-        var mid = A + D / 2;
-        var Amid = (A + mid )/ 2;
-        var Dmid = (D + mid )/ 2;
+        var distance = Vector2.Distance(A, D);
+        var mid = (A + D) / 2;
+        var Amid = (A + mid )/2;
+        var Dmid = (D + mid )/2;
         var dir1 = D - Amid;
         var dir2 = D - Dmid;
 
-        B = Amid + Vector2.Perpendicular(dir1.normalized) * UnityEngine.Random.Range(5, 10);
-        C = Dmid + (Vector2.Perpendicular(dir2.normalized) * -1f * UnityEngine.Random.Range(5, 10));
+        B = Amid + (Vector2.Perpendicular(dir1.normalized) * distance/2);
+        C = Dmid + (Vector2.Perpendicular(dir2.normalized) *-1f* distance/2);
 
         //var distance = Vector2.Distance(A, D);
         //var duration = distance / 3.0f; // camera follow speed = 3
 
         //Debug.Log(string.Format($"distance : {distance} , duration : {duration}"));
+        this.A.position = A;
+        this.B.position = B;
+        this.C.position = C;
+        this.D.position = D;
 
         DOTween.To(() => lerpAmount, x => lerpAmount = x, 1, 1.5f).SetEase(Ease.Linear).OnUpdate(() =>
         {
