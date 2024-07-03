@@ -206,7 +206,7 @@ public class PlayerController : MonoBehaviour
     }
     private void RespawnPlayer()
     {
-        //Debug.Log("Player controller Respawn Player");
+        Debug.Log("Player controller Respawn Player");
 
         //move to last checkpoint with ghost effect
 
@@ -219,8 +219,8 @@ public class PlayerController : MonoBehaviour
         A = transform.position;
         D = LevelManager.Instance.LastCheckpointpos;
         var mid = A + D / 2;
-        var Amid = A + mid / UnityEngine.Random.Range(2, 6);
-        var Dmid = D + mid / UnityEngine.Random.Range(2, 6);
+        var Amid = (A + mid )/ 2;
+        var Dmid = (D + mid )/ 2;
         var dir1 = D - Amid;
         var dir2 = D - Dmid;
 
