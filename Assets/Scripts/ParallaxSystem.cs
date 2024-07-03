@@ -8,25 +8,25 @@ public class ParallaxSystem : MonoBehaviour
     [SerializeField] ParallaxLayer foreGroundLayer;
     [SerializeField] CameraController cameraController;
     // Start is called before the first frame update
-    void Start()
+   
+    private void OnEnable()
     {
         cameraController.camMovement += MoveLayers;
     }
 
     private void MoveLayers(float delta)
     {
-        foreach(var item in backGroundLayers)
+        foreach(var background in backGroundLayers)
         {
-            Vector3 newPos = item.layer.localPosition;
-            newPos.x -= delta * item.parallaxFactor;
+            Vector3 newPos = background.layer.position;
+            newPos.x -= delta * background.parallaxFactor;
 
-            item.layer.localPosition = newPos;
+            background.layer.position = newPos;
         }
     }
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        cameraController.camMovement -= MoveLayers;
     }
 }
 

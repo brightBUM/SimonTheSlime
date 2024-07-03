@@ -20,6 +20,7 @@ public class PlayerCollision : MonoBehaviour
     void Start()
     {
         playerController = GetComponent<PlayerController>();
+        playerController.SquishEffect += SquishSplatterEffect;
     }
 
     // Update is called once per frame
@@ -45,7 +46,7 @@ public class PlayerCollision : MonoBehaviour
             cameraController.CameraPoundEffect();
             playerController.ResetPound();
             //splatter effect
-            SplatterEffect();
+            SplatterEffect(new Vector3(0, -1, -1) * maskRange);
         }
 
         //Debug.Log("object layer :  " + collision.gameObject.layer+" , Mask layer : "+(int)obstacleLayerMask);
@@ -58,10 +59,18 @@ public class PlayerCollision : MonoBehaviour
         }
     }
 
-    private void SplatterEffect()
+    private void SquishSplatterEffect()
+    {
+        for(int i=0;i<3;i++)
+        {
+            var offsetPos = new Vector3(Random.Range(-maskRange, maskRange), -Random.Range(maskRange,maskRange+1), -1);
+            SplatterEffect(offsetPos);
+        }
+    }
+    private void SplatterEffect(Vector3 offset)
     {
         var rotRange = Random.Range(165f, 185f);
-        var poundObject = Instantiate(poundEffect, transform.position + new Vector3(0,-1,-1) * maskRange, Quaternion.Euler(0f, 0f, rotRange));
+        var poundObject = Instantiate(poundEffect, transform.position + offset, Quaternion.Euler(0f, 0f, rotRange));
         var poundSprite = poundObject.GetComponent<SpriteRenderer>();
         poundSprite.sprite = poundSprites[Random.Range(0, poundSprites.Length)];
 
@@ -81,5 +90,9 @@ public class PlayerCollision : MonoBehaviour
         {
             Destroy(sprite.gameObject);
         });
+    }
+    private void OnDestroy()
+    {
+        playerController.SquishEffect -= SquishSplatterEffect;
     }
 }

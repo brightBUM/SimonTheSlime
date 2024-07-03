@@ -45,7 +45,7 @@ public class Thumper : MonoBehaviour
         RaycastHit2D hitinfo = Physics2D.BoxCast(boxRef.position, Vector2.one * boxSize, 0, Vector2.down, 0f, playerLayer);
         if (hitinfo.collider!=null)
         {
-            hit = true;
+            //hit = true;
             var playerController = hitinfo.collider.GetComponent<PlayerController>();
             if (playerController.playerState != State.SQUISHED && playerController.playerState != State.GHOST)
             {
@@ -55,15 +55,15 @@ public class Thumper : MonoBehaviour
         }
         else
         {
-            hit = false;
+            //hit = false;
         }
     }
 
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = hit ? Color.green : Color.red;
-        Gizmos.DrawCube(boxRef.position, Vector3.one * boxSize);
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = hit ? Color.green : Color.red;
+    //    Gizmos.DrawCube(boxRef.position, Vector3.one * boxSize);
 
-    }
+    //}
 }

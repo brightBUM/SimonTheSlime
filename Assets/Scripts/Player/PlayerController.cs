@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform B;
     [SerializeField] Transform C;
     [SerializeField] Transform D;
+    public Action SquishEffect;
     //[SerializeField] float reticleRange;
     Action respawnPlayer;
     CircleCollider2D collider;
@@ -120,12 +121,14 @@ public class PlayerController : MonoBehaviour
         }
         if (forceLength < 0.1)
         {
+            //cancel single tap/low force
             SetToIdle();
             return;
         }
         //launch
         if (playerState == State.AIMING)
         {
+            //check if player is aiming toward the platform
             var dotValue = Vector2.Dot(Vector2.up, forceDir.normalized);
             if (dotValue < 0.1)
             {
@@ -178,6 +181,7 @@ public class PlayerController : MonoBehaviour
     {
         playerAnimation.ToggleTrailRenderer(false);
         playerState = State.SQUISHED;
+        SquishEffect.Invoke();
         rb.velocity = Vector2.zero;
         playerAnimation.SetSquish();
         StartCoroutine(DelayedRespawn());

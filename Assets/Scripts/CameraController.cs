@@ -23,7 +23,7 @@ public class CameraController : MonoBehaviour
     {
         target = playerController.transform;
         offset = target.position-this.transform.position;
-        oldPosition = transform.position.x;
+        //oldPosition = transform.position.x;
     }
 
     // Update is called once per frame
