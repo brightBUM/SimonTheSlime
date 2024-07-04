@@ -73,16 +73,16 @@ public class PlayerAnimation : MonoBehaviour
     {
         animator.SetTrigger("roll");
     }
-    public void ResetAim()
-    {
-        animator.ResetTrigger("aim");
-    }
     public void SetIdle()
     {
         //animator.ResetTrigger("roll");
         animator.SetTrigger("idle");
     }
 
+    public void SetRelaunch()
+    {
+        animator.SetTrigger("relaunch");
+    }
     public void SetSquish()
     {
         animator.SetTrigger("squish");

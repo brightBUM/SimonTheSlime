@@ -35,7 +35,7 @@ public class PlayerCollision : MonoBehaviour
             //checking for firstbounce
            playerController.SetToFirstBounce();
         }
-        else if(playerController.playerState == State.FIRSTBOUNCE)
+        else if(playerController.playerState == State.BOUNCE)
         {
             //checking after firstbounce , bring it to rest
            playerController.SetToIdle();
@@ -69,7 +69,7 @@ public class PlayerCollision : MonoBehaviour
     }
     private void SplatterEffect(Vector3 offset)
     {
-        var rotRange = Random.Range(165f, 185f);
+        var rotRange = Random.Range(0f, 180f);
         var poundObject = Instantiate(poundEffect, transform.position + offset, Quaternion.Euler(0f, 0f, rotRange));
         var poundSprite = poundObject.GetComponent<SpriteRenderer>();
         poundSprite.sprite = poundSprites[Random.Range(0, poundSprites.Length)];

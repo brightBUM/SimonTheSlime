@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    [SerializeField] Transform trans;
-    [SerializeField] float size = 3f;
-    [SerializeField] LayerMask playerLayer;
-    bool hit;
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,20 +13,14 @@ public class Test : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        RaycastHit2D hitinfo = Physics2D.BoxCast(trans.position, Vector2.one * size, 0, Vector2.down, 1f, playerLayer);
-        if (hitinfo.collider != null)
-        {
-            hit = true;
-            Debug.Log("hit info name : " + hitinfo.collider.name);
-        }
-        else { hit = false; }
     }
 
-    private void OnDrawGizmos()
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        Gizmos.color = hit?Color.green:Color.red;
-        Gizmos.DrawCube(trans.position, Vector3.one*size);
+        Debug.Log("entered collidere , my  name : "+this.gameObject.name+" object name : "+collision.gameObject.name);
+
     }
+
 }

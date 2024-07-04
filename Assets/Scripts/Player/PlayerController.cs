@@ -11,7 +11,7 @@ public enum State
     IDLE,
     AIMING,
     LAUNCHED,
-    FIRSTBOUNCE,
+    BOUNCE,
     POUND,
     SQUISHED,
     GHOST
@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 startPos;
     private Vector2 dragPos;
+    private Vector2 dir;
     private Vector2 aimDir;
     private Vector2 forceDir;
     private Rigidbody2D rb;
@@ -32,22 +33,24 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject start;
     [SerializeField] GameObject dragger;
     [SerializeField] GameObject aimer;
-    [SerializeField] bool debugVectors;
     [SerializeField] float dragSensitivity;
     [SerializeField] float poundForce = 10f;
     [SerializeField] float maxForce;
     [SerializeField] float forceLength;
     [SerializeField] float gravity = -20f;
     [SerializeField] float onHitUpForce = 3f;
-    [SerializeField] Transform A;
-    [SerializeField] Transform B;
-    [SerializeField] Transform C;
-    [SerializeField] Transform D;
+    [SerializeField] float midAirJumpCooldown = 1f;
+    [SerializeField] bool debugVectors;
+    //[SerializeField] Transform A;
+    //[SerializeField] Transform B;
+    //[SerializeField] Transform C;
+    //[SerializeField] Transform D;
     public Action SquishEffect;
     //[SerializeField] float reticleRange;
     Action respawnPlayer;
     CircleCollider2D collider;
     float lerpAmount = 0f;
+    float jumpTimer = 1f;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -71,11 +74,16 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(jumpTimer > 0f)
+        {
+            GamePlayScreenUI.instance.UpdateMidAirJumpUI((midAirJumpCooldown - jumpTimer)/midAirJumpCooldown);
+            jumpTimer -= Time.deltaTime;
+        }
     }
 
     private void LeftClicked(Vector2 mousePos)
     {
+       
         if(playerState == State.IDLE)
         {
             aimDir = Vector2.zero;
@@ -89,21 +97,31 @@ public class PlayerController : MonoBehaviour
                 start.transform.position = startPos;
             }
         }
+        else if (playerState == State.BOUNCE)
+        {
+            if(jumpTimer <= 0f)
+            {
+                //can jump in mid air 
+                aimDir = Vector2.zero;
+                playerAnimation.ToggleLineRenderer(true);
+                startPos = mousePos;
+            }
+        }
     }
     private void LeftDragging(Vector2 mousePos)
     {
         // calculate aim force and sprite flip direction
-        if (playerState == State.AIMING)
+        if (playerState == State.AIMING || playerState == State.BOUNCE)
         {
             dragPos = mousePos;
-            var dir = dragPos - startPos;
+            dir = dragPos - startPos;
             aimDir = (Vector2)transform.position + (-dir);
             forceDir = aimDir - (Vector2)transform.position;
             forceDir *= dragSensitivity;
             forceLength = forceDir.magnitude;
+            //Debug.Log("forcelength : "+forceLength);
             playerAnimation.FlipSprite(forceDir.normalized);
             playerAnimation.DrawTrajectory(Vector2.ClampMagnitude(forceDir, maxForce));
-            //aimer.transform.position = Vector2.ClampMagnitude(aimDir, launchForce);
             if (debugVectors)
             {
                 dragger.transform.position = mousePos;
@@ -114,12 +132,13 @@ public class PlayerController : MonoBehaviour
     }
     private void LeftReleased()
     {
+        
         playerAnimation.ToggleLineRenderer(false);
         if (debugVectors)
         {
             ToggleDebug(false);
         }
-        if (forceLength < 0.1)
+        if (forceLength < 1)
         {
             //cancel single tap/low force
             SetToIdle();
@@ -142,6 +161,19 @@ public class PlayerController : MonoBehaviour
             rb.velocity = forceDir;
             playerAnimation.ToggleTrailRenderer(true);
 
+        }
+        else if (playerState == State.BOUNCE)
+        {
+            if (jumpTimer <= 0f)
+            {
+                //can jump in mid air 
+                playerState = State.LAUNCHED;
+                forceDir = Vector2.ClampMagnitude(forceDir, maxForce);
+                rb.velocity = forceDir;
+                playerAnimation.SetRelaunch();
+                playerAnimation.ToggleTrailRenderer(true);
+                jumpTimer = midAirJumpCooldown;
+            }
         }
 
     }
@@ -166,7 +198,7 @@ public class PlayerController : MonoBehaviour
     }
     public void SetToFirstBounce()
     {
-        playerState = State.FIRSTBOUNCE;
+        playerState = State.BOUNCE;
         playerAnimation.SetRoll();
     }
     public void SetToIdle()
@@ -241,10 +273,10 @@ public class PlayerController : MonoBehaviour
         //var duration = distance / 3.0f; // camera follow speed = 3
 
         //Debug.Log(string.Format($"distance : {distance} , duration : {duration}"));
-        this.A.position = A;
-        this.B.position = B;
-        this.C.position = C;
-        this.D.position = D;
+        //this.A.position = A;
+        //this.B.position = B;
+        //this.C.position = C;
+        //this.D.position = D;
 
         DOTween.To(() => lerpAmount, x => lerpAmount = x, 1, 1.5f).SetEase(Ease.Linear).OnUpdate(() =>
         {

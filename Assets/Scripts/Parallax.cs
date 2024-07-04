@@ -1,3 +1,5 @@
+using System;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class ParallaxBackground : MonoBehaviour
@@ -21,8 +23,7 @@ public class ParallaxBackground : MonoBehaviour
         // Store the initial camera position
         previousCameraPosition = cameraTransform.position;
     }
-
-    void LateUpdate()
+    private void FixedUpdate()
     {
         // Calculate the camera movement since the last frame
         Vector3 cameraMovement = cameraTransform.position - previousCameraPosition;
@@ -31,13 +32,18 @@ public class ParallaxBackground : MonoBehaviour
         foreach (ParallaxLayer layer in layers)
         {
             // Calculate the parallax movement for this layer
-            Vector3 parallaxMovement = cameraMovement * layer.parallaxFactor*Time.deltaTime;
+            Vector3 parallaxMovement = cameraMovement * layer.parallaxFactor * Time.fixedDeltaTime;
 
+           
             // Move the background by the calculated amount
-            layer.material.mainTextureOffset += new Vector2(parallaxMovement.x,0);
+            layer.material.mainTextureOffset += new Vector2(parallaxMovement.x, 0);
         }
 
         // Store the current camera position for the next frame
         previousCameraPosition = cameraTransform.position;
+    }
+    void LateUpdate()
+    {
+        
     }
 }
