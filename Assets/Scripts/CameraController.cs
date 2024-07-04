@@ -12,7 +12,6 @@ public class CameraController : MonoBehaviour
     [Header("hit effect")]
     [SerializeField] float hitShakeStrength = 2f;
     [SerializeField] float hitShakeDuration = 0.2f;
-    public Transform lastCheckPoint;
     Transform target;
     Vector3 offset;
     Vector3 followPosition;

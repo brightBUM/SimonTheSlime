@@ -6,7 +6,6 @@ public class Thumper : MonoBehaviour
     int state;
     [SerializeField] Animator animator;
     [SerializeField] float poundInterval = 0.3f;
-    [SerializeField] float retractInterval = 0.5f;
     [SerializeField] Transform boxRef;
     [SerializeField] float boxSize = 3f;
     [SerializeField] LayerMask playerLayer;
@@ -22,18 +21,18 @@ public class Thumper : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(retractInterval);
+            yield return new WaitForSeconds(poundInterval);
 
             //pound
             state = 1;
             animator.SetInteger("state",state);
 
-            yield return new WaitForSeconds(retractInterval);
+            yield return new WaitForSeconds(poundInterval);
             //retract
             state = 2;
             animator.SetInteger("state", state);
 
-            yield return new WaitForSeconds(retractInterval);
+            yield return new WaitForSeconds(poundInterval);
             //idle
             state = 0;
             animator.SetInteger("state", state);

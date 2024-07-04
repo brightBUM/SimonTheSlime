@@ -8,7 +8,6 @@ using UnityEngine.Playables;
 public class PlayerCollision : MonoBehaviour
 {
     PlayerController playerController;
-    [SerializeField] CameraController cameraController;
     [Header("pound Effect")]
     [SerializeField] GameObject poundEffect;
     [SerializeField] Sprite[] poundSprites;
@@ -43,7 +42,7 @@ public class PlayerCollision : MonoBehaviour
         }
         else if(playerController.playerState == State.POUND)
         {
-            cameraController.CameraPoundEffect();
+            LevelManager.Instance.LevelCamera.CameraPoundEffect();
             playerController.ResetPound();
             //splatter effect
             SplatterEffect(new Vector3(0, -1, -1) * maskRange);
@@ -54,7 +53,7 @@ public class PlayerCollision : MonoBehaviour
         if(collision.collider.gameObject.layer == ObstacleLayer && playerController.playerState!=State.GHOST)
         {
             //hit with obstacle , respawn to last checkpoint
-            cameraController.CameraHitEffect();
+            LevelManager.Instance.LevelCamera.CameraHitEffect();
             playerController.PlayerHitEffect();
         }
     }
