@@ -12,7 +12,11 @@ public class LevelManager : MonoBehaviour
     public CameraController LevelCamera => cameraController;
     private void Awake()
     {
-        Instance = this;
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        
     }
 
 

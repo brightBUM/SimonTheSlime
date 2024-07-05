@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
 {
     public float Velocity => rb.velocity.y;
     public State playerState;
+    public Action SquishEffect;
 
     private Vector2 startPos;
     private Vector2 dragPos;
@@ -28,11 +29,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 forceDir;
     private Rigidbody2D rb;
     private PlayerInput playerInput;
-
     [SerializeField] PlayerAnimation playerAnimation;
-    [SerializeField] GameObject start;
-    [SerializeField] GameObject dragger;
-    [SerializeField] GameObject aimer;
     [SerializeField] float dragSensitivity;
     [SerializeField] float poundForce = 10f;
     [SerializeField] float maxForce;
@@ -41,16 +38,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float onHitUpForce = 3f;
     [SerializeField] float midAirJumpCooldown = 1f;
     [SerializeField] bool debugVectors;
-    //[SerializeField] Transform A;
-    //[SerializeField] Transform B;
-    //[SerializeField] Transform C;
-    //[SerializeField] Transform D;
-    public Action SquishEffect;
-    //[SerializeField] float reticleRange;
-    Action respawnPlayer;
-    CircleCollider2D collider;
-    float lerpAmount = 0f;
-    float jumpTimer = 1f;
+   
+    private Action respawnPlayer;
+    private CircleCollider2D collider;
+    private float lerpAmount = 0f;
+    private float jumpTimer = 1f;
+    private int bulletTimeAbility = 0;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -62,6 +55,7 @@ public class PlayerController : MonoBehaviour
     {
         playerState = State.IDLE;
         collider = GetComponent<CircleCollider2D>();
+        GamePlayScreenUI.instance.UpdateBulletTimeUI(bulletTimeAbility);
     }
     private void OnEnable()
     {
@@ -91,11 +85,7 @@ public class PlayerController : MonoBehaviour
             playerAnimation.SetAim();
             playerAnimation.ToggleLineRenderer(true);
             startPos = mousePos;
-            if (debugVectors)
-            {
-                ToggleDebug(true);
-                start.transform.position = startPos;
-            }
+            
         }
         else if (playerState == State.BOUNCE)
         {
@@ -122,11 +112,7 @@ public class PlayerController : MonoBehaviour
             //Debug.Log("forcelength : "+forceLength);
             playerAnimation.FlipSprite(forceDir.normalized);
             playerAnimation.DrawTrajectory(Vector2.ClampMagnitude(forceDir, maxForce));
-            if (debugVectors)
-            {
-                dragger.transform.position = mousePos;
-                aimer.transform.position = aimDir;
-            }
+           
         }
 
     }
@@ -134,10 +120,7 @@ public class PlayerController : MonoBehaviour
     {
         
         playerAnimation.ToggleLineRenderer(false);
-        if (debugVectors)
-        {
-            ToggleDebug(false);
-        }
+        
         if (forceLength < 1)
         {
             //cancel single tap/low force
@@ -190,12 +173,7 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("right mouse clicked");
     }
 
-    public void ToggleDebug(bool value)
-    {
-        start.gameObject.SetActive(value);
-        dragger.gameObject.SetActive(value);
-        aimer.gameObject.SetActive(value);
-    }
+    
     public void SetToFirstBounce()
     {
         playerState = State.BOUNCE;
@@ -298,6 +276,12 @@ public class PlayerController : MonoBehaviour
             collider.enabled = true;
         });
 
+    }
+
+    public void RefillBulletTime()
+    {
+        bulletTimeAbility = 2;
+        GamePlayScreenUI.instance.UpdateBulletTimeUI(bulletTimeAbility);
     }
     private void OnDisable()
     {

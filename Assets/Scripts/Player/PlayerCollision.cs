@@ -42,8 +42,8 @@ public class PlayerCollision : MonoBehaviour
         }
         else if(playerController.playerState == State.POUND)
         {
-            LevelManager.Instance.LevelCamera.CameraPoundEffect();
             playerController.ResetPound();
+            LevelManager.Instance.LevelCamera.CameraPoundEffect();
             //splatter effect
             SplatterEffect(new Vector3(0, -1, -1) * maskRange);
         }

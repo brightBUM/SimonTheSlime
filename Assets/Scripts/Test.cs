@@ -19,7 +19,6 @@ public class Test : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        Debug.Log("entered collidere , my  name : "+this.gameObject.name+" object name : "+collision.gameObject.name);
 
     }
 
