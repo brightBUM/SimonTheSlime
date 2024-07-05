@@ -28,7 +28,6 @@ public class TimeOrb : MonoBehaviour
     {
         if(collision.TryGetComponent<PlayerController>(out PlayerController playerController))
         {
-            Debug.Log("player entered time orb");
             //refill bullet time consumable
             playerController.RefillBulletTime();
             //play audio and destroy

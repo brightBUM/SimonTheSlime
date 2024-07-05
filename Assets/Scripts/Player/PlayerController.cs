@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float gravity = -20f;
     [SerializeField] float onHitUpForce = 3f;
     [SerializeField] float midAirJumpCooldown = 1f;
+    [SerializeField] float bulletTimeScale = 0.5f;
     [SerializeField] bool debugVectors;
    
     private Action respawnPlayer;
@@ -63,6 +64,7 @@ public class PlayerController : MonoBehaviour
         playerInput.mouseReleased += LeftReleased;
         playerInput.mouseDragging += LeftDragging;
         playerInput.rightClicked += RightClicked;
+        playerInput.QkeyPressed += ActivateBulletTime;
         respawnPlayer += RespawnPlayer;
     }
     // Update is called once per frame
@@ -158,6 +160,12 @@ public class PlayerController : MonoBehaviour
                 jumpTimer = midAirJumpCooldown;
             }
         }
+        if (GamePlayScreenUI.instance.BulletTimeActive)
+        {
+            Debug.Log(" bullet time active");
+
+            GamePlayScreenUI.instance.EndBulletTime(bulletTimeAbility);
+        }
 
     }
     private void RightClicked()
@@ -173,7 +181,25 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("right mouse clicked");
     }
 
-    
+    private void ActivateBulletTime()
+    {
+        if (playerState == State.IDLE || playerState == State.AIMING)
+            return;
+        if(bulletTimeAbility>0)
+        {
+            bulletTimeAbility--;
+
+            Time.timeScale = bulletTimeScale;
+            //to avoid physics lag during SloMo
+            Time.fixedDeltaTime = Time.timeScale * 0.02f;
+            //start a bullet timer 
+            GamePlayScreenUI.instance.StartTimer(bulletTimeAbility);
+        }
+        else
+        {
+            GamePlayScreenUI.instance.NoBulletTimeAbilityFeedback();
+        }
+    }
     public void SetToFirstBounce()
     {
         playerState = State.BOUNCE;
@@ -289,6 +315,7 @@ public class PlayerController : MonoBehaviour
         playerInput.mouseReleased -= LeftReleased;
         playerInput.mouseDragging -= LeftDragging;
         playerInput.rightClicked -= RightClicked;
+        playerInput.QkeyPressed += ActivateBulletTime;
         respawnPlayer += RespawnPlayer;
     }
 

@@ -436,7 +436,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6670217074086541803
 Transform:
   m_ObjectHideFlags: 0
@@ -682,16 +682,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerState: 0
   playerAnimation: {fileID: 352851727381692046}
-  start: {fileID: 0}
-  dragger: {fileID: 0}
-  aimer: {fileID: 0}
   dragSensitivity: 3.5
   poundForce: 15
   maxForce: 25
   forceLength: 0
   gravity: -20
   onHitUpForce: 3
-  midAirJumpTimer: 1
+  midAirJumpCooldown: 1
   debugVectors: 0
 --- !u!114 &1011181353208027375
 MonoBehaviour:
@@ -705,7 +702,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92138428ba934d8409eb07084a203d66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraController: {fileID: 0}
   poundEffect: {fileID: 2475190179056352609, guid: c79f124b23667654cb64d6ef1d2ec850, type: 3}
   poundSprites:
   - {fileID: -1320826963748240007, guid: 99d9e6ab424c5f64686cd30e2bf0ec7c, type: 3}

@@ -6,9 +6,11 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     public Action rightClicked;  
+    public Action QkeyPressed;  
     public Action<Vector2> mouseClicked;
     public Action mouseReleased;
     public Action<Vector2> mouseDragging;
+
     Camera camRef;
     Vector2 mousePos;
     // Start is called before the first frame update
@@ -37,6 +39,10 @@ public class PlayerInput : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             rightClicked.Invoke();
+        }
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            QkeyPressed.Invoke();
         }
     }
 }
