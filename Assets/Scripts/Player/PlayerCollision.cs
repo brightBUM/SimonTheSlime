@@ -44,8 +44,17 @@ public class PlayerCollision : MonoBehaviour
         {
             playerController.ResetPound();
             LevelManager.Instance.LevelCamera.CameraPoundEffect();
-            //splatter effect
-            SplatterEffect(new Vector3(0, -1, -1) * maskRange);
+
+            //check if collided with breakables
+            if(collision.gameObject.TryGetComponent<BreakablePT>(out BreakablePT breakablePT))
+            {
+                breakablePT.OnCollisionPounded();
+            }
+            else
+            {
+                //splatter effect
+                SplatterEffect(new Vector3(0, -1, -1) * maskRange);
+            }
         }
 
         //Debug.Log("object layer :  " + collision.gameObject.layer+" , Mask layer : "+(int)obstacleLayerMask);

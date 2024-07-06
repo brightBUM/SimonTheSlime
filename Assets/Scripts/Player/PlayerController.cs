@@ -183,7 +183,7 @@ public class PlayerController : MonoBehaviour
 
     private void ActivateBulletTime()
     {
-        if (playerState == State.IDLE || playerState == State.AIMING)
+        if (playerState != State.BOUNCE)
             return;
         if(bulletTimeAbility>0)
         {
