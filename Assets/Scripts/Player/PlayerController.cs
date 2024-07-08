@@ -162,8 +162,6 @@ public class PlayerController : MonoBehaviour
         }
         if (GamePlayScreenUI.instance.BulletTimeActive)
         {
-            Debug.Log(" bullet time active");
-
             GamePlayScreenUI.instance.EndBulletTime(bulletTimeAbility);
         }
 
