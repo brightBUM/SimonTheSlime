@@ -15,7 +15,7 @@ public class PlayerCollision : MonoBehaviour
     [SerializeField] float fadeDelay = 0.5f;
     [SerializeField] float fadeDuration = 1f;
     const int ObstacleLayer = 6;
-    const int StickableLayer = 9;
+    const int StickableLayer = 10;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,18 +30,21 @@ public class PlayerCollision : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (playerController.playerState == State.LAUNCHED)
+        if (playerController.playerState == State.LAUNCHED && collision.gameObject.layer != StickableLayer) 
         {
+            /// checking for firstbounce
+            playerController.SetToFirstBounce();
+
             //if collided with stickable 
-            if(collision.gameObject.layer == StickableLayer)
-            {
-                playerController.SetToStickState(collision.transform);
-            }
-            else
-            {
-                //checking for firstbounce
-                playerController.SetToFirstBounce();
-            }
+            //if (collision.gameObject.layer == StickableLayer)
+            //{
+            //    Debug.Log("hit with stickable object ");
+            //    playerController.SetToStickState();
+            //}
+            //else
+            //{
+            //    /
+            //}
         }
         else if(playerController.playerState == State.BOUNCE)
         {

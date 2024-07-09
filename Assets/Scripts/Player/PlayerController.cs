@@ -77,28 +77,33 @@ public class PlayerController : MonoBehaviour
             jumpTimer -= Time.deltaTime;
         }
     }
+    private void StartPosConfig(Vector2 mousePos)
+    {
+        aimDir = Vector2.zero;
+        playerAnimation.ToggleLineRenderer(true);
+        startPos = mousePos;
 
+    }
     private void LeftClicked(Vector2 mousePos)
     {
        
         if(playerState == State.IDLE)
         {
-            aimDir = Vector2.zero;
             playerState = State.AIMING;
             playerAnimation.SetAim();
-            playerAnimation.ToggleLineRenderer(true);
-            startPos = mousePos;
-            
+            StartPosConfig(mousePos);
         }
         else if (playerState == State.BOUNCE)
         {
             if(jumpTimer <= 0f)
             {
                 //can jump in mid air 
-                aimDir = Vector2.zero;
-                playerAnimation.ToggleLineRenderer(true);
-                startPos = mousePos;
+                StartPosConfig(mousePos);
             }
+        }
+        else if(playerState == State.STICK)
+        {
+            StartPosConfig(mousePos);
         }
     }
     private void LeftDragging(Vector2 mousePos)
@@ -115,7 +120,20 @@ public class PlayerController : MonoBehaviour
             //Debug.Log("forcelength : "+forceLength);
             playerAnimation.FlipSprite(forceDir.normalized);
             playerAnimation.DrawTrajectory(Vector2.ClampMagnitude(forceDir, maxForce));
-           
+        }
+        else if(playerState == State.STICK)
+        {
+            //aim only to the opp side of the conveyor/sticky platform
+            dragPos = mousePos;
+            dir = dragPos - startPos;
+            aimDir = (Vector2)transform.position + (-dir);
+            forceDir = aimDir - (Vector2)transform.position;
+            //Debug.Log("dot value :" + Vector2.Dot(Vector2.left, forceDir.normalized));
+
+            forceDir *= dragSensitivity;
+            forceLength = forceDir.magnitude;
+            playerAnimation.DrawTrajectory(Vector2.ClampMagnitude(forceDir, maxForce));
+
         }
 
     }
@@ -153,13 +171,17 @@ public class PlayerController : MonoBehaviour
             if (jumpTimer <= 0f)
             {
                 //can jump in mid air 
-                playerState = State.LAUNCHED;
-                forceDir = Vector2.ClampMagnitude(forceDir, maxForce);
-                rb.velocity = forceDir;
-                playerAnimation.SetRelaunch();
-                playerAnimation.ToggleTrailRenderer(true);
+                RelaunchPlayer();
                 jumpTimer = midAirJumpCooldown;
             }
+        }
+        else if(playerState == State.STICK)
+        {
+            RelaunchPlayer();
+            //rb.isKinematic = false;
+            //collider.enabled = true;
+            Physics2D.gravity = Vector2.up * gravity;
+            playerAnimation.FlipSprite(forceDir.normalized);
         }
         if (GamePlayScreenUI.instance.BulletTimeActive)
         {
@@ -179,7 +201,14 @@ public class PlayerController : MonoBehaviour
         }
         //Debug.Log("right mouse clicked");
     }
-
+    private void RelaunchPlayer()
+    {
+        playerState = State.LAUNCHED;
+        forceDir = Vector2.ClampMagnitude(forceDir, maxForce);
+        rb.velocity = forceDir;
+        playerAnimation.SetRelaunch();
+        playerAnimation.ToggleTrailRenderer(true);
+    }
     private void ActivateBulletTime()
     {
         if (playerState != State.BOUNCE)
@@ -229,12 +258,17 @@ public class PlayerController : MonoBehaviour
         playerState = State.GHOST;
         playerAnimation.HitEffect(respawnPlayer);
     }
-    public void SetToStickState(Transform transform)
+    public void SetToStickState()
     {
         playerState = State.STICK;
+        rb.velocity = Vector2.zero;
         playerAnimation.SetStick();
-        //parent player to platform
-        this.transform.parent = transform;
+        playerAnimation.ToggleTrailRenderer(false);
+        //disable rb to avoid gravity
+        //rb.isKinematic = true;
+        //collider.enabled = false;
+        Physics2D.gravity = Vector2.zero;
+        
     }
     public void ResetPound()
     {
@@ -244,7 +278,7 @@ public class PlayerController : MonoBehaviour
 
     public Vector2 GetPosition(Vector2 vel,float t)
     {
-        var pos = (Vector2)transform.position + vel * t+0.5f*Physics2D.gravity*t*t;
+        var pos = (Vector2)transform.position + vel * t+0.5f*Vector2.up*gravity*t*t;
         return pos;
     }
     public void PlayerHitEffect()
