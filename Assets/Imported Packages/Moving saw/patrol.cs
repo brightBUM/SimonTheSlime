@@ -15,7 +15,7 @@ public class patrol : MonoBehaviour
     {
         spr = GetComponent<SpriteRenderer>();
         direction = Vector2.up;
-        target = ptA.position;
+        target = GetTarget();
     }
 
     void Update()

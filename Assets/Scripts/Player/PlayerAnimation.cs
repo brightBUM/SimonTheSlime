@@ -83,6 +83,10 @@ public class PlayerAnimation : MonoBehaviour
     {
         animator.SetTrigger("relaunch");
     }
+    public void SetStick()
+    {
+        animator.SetTrigger("stick");
+    }
     public void SetSquish()
     {
         animator.SetTrigger("squish");

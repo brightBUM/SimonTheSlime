@@ -11,6 +11,7 @@ public enum State
     IDLE,
     AIMING,
     LAUNCHED,
+    STICK,
     BOUNCE,
     POUND,
     SQUISHED,
@@ -220,13 +221,20 @@ public class PlayerController : MonoBehaviour
         playerAnimation.SetSquish();
         StartCoroutine(DelayedRespawn());
     }
-
+    
     IEnumerator DelayedRespawn()
     {
         yield return new WaitForSeconds(2f);
         lerpAmount = 0;
         playerState = State.GHOST;
         playerAnimation.HitEffect(respawnPlayer);
+    }
+    public void SetToStickState(Transform transform)
+    {
+        playerState = State.STICK;
+        playerAnimation.SetStick();
+        //parent player to platform
+        this.transform.parent = transform;
     }
     public void ResetPound()
     {
