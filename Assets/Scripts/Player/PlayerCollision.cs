@@ -34,17 +34,7 @@ public class PlayerCollision : MonoBehaviour
         {
             /// checking for firstbounce
             playerController.SetToFirstBounce();
-
-            //if collided with stickable 
-            //if (collision.gameObject.layer == StickableLayer)
-            //{
-            //    Debug.Log("hit with stickable object ");
-            //    playerController.SetToStickState();
-            //}
-            //else
-            //{
-            //    /
-            //}
+           
         }
         else if(playerController.playerState == State.BOUNCE)
         {

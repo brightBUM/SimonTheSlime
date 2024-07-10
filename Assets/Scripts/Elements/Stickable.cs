@@ -13,18 +13,23 @@ public class Stickable : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(playerController != null)
+
+
+        if (playerController != null)
         {
             pos = playerController.transform.position;
             var distance = Vector2.Distance(pos, fallOffPoint.position);
-            
-            if (distance>1.5f)
+            if (playerController.playerState != State.STICK)
+            {
+                playerController = null;
+            }
+            else if (distance > 1.5f)
             {
                 //Debug.Log("distance : " + distance);
                 pos.y += yValue * Time.deltaTime;
@@ -39,9 +44,10 @@ public class Stickable : MonoBehaviour
                 playerController.ResetGravity();
                 playerController = null;
             }
+
         }
     }
-    
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.TryGetComponent<PlayerController>(out PlayerController playerController))
@@ -53,5 +59,5 @@ public class Stickable : MonoBehaviour
             this.playerController = playerController;
         }
     }
-    
+
 }
