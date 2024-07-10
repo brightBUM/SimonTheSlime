@@ -1,10 +1,7 @@
 using DG.Tweening;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public enum State
 {
@@ -23,13 +20,6 @@ public class PlayerController : MonoBehaviour
     public State playerState;
     public Action SquishEffect;
 
-    private Vector2 startPos;
-    private Vector2 dragPos;
-    private Vector2 dir;
-    private Vector2 aimDir;
-    private Vector2 forceDir;
-    private Rigidbody2D rb;
-    private PlayerInput playerInput;
     [SerializeField] PlayerAnimation playerAnimation;
     [SerializeField] float dragSensitivity;
     [SerializeField] float poundForce = 10f;
@@ -40,7 +30,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float midAirJumpCooldown = 1f;
     [SerializeField] float bulletTimeScale = 0.5f;
     [SerializeField] bool debugVectors;
-   
+    
+    private Vector2 startPos;
+    private Vector2 dragPos;
+    private Vector2 dir;
+    private Vector2 aimDir;
+    private Vector2 forceDir;
+    private Rigidbody2D rb;
+    private PlayerInput playerInput;
     private Action respawnPlayer;
     private CircleCollider2D collider;
     private float lerpAmount = 0f;
@@ -180,7 +177,7 @@ public class PlayerController : MonoBehaviour
             RelaunchPlayer();
             //rb.isKinematic = false;
             //collider.enabled = true;
-            Physics2D.gravity = Vector2.up * gravity;
+            ResetGravity();
             playerAnimation.FlipSprite(forceDir.normalized);
         }
         if (GamePlayScreenUI.instance.BulletTimeActive)
@@ -348,6 +345,11 @@ public class PlayerController : MonoBehaviour
     {
         bulletTimeAbility = 2;
         GamePlayScreenUI.instance.UpdateBulletTimeUI(bulletTimeAbility);
+    }
+    public void ResetGravity()
+    {
+        Physics2D.gravity = Vector2.up * gravity;
+
     }
     private void OnDisable()
     {
