@@ -6,7 +6,10 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] AudioClip levelMusic;
     [SerializeField] CameraController cameraController;
-    Transform lastCheckpoint;
+    [Header("collectibles")]
+    [SerializeField] int targetbananas;
+    private int collectedBananas;
+    private Transform lastCheckpoint;
     public Vector3 LastCheckpointpos { get; set; }
     public static LevelManager Instance;
     public CameraController LevelCamera => cameraController;
@@ -19,5 +22,14 @@ public class LevelManager : MonoBehaviour
         
     }
 
+    public string GetLevelBananasCount()
+    {
+        return collectedBananas.ToString() + "/" + targetbananas.ToString();
+    }
+    public void CollectBanana()
+    {
+        collectedBananas++;
+        GamePlayScreenUI.instance.UpdateBananaCount(GetLevelBananasCount());
+    }
 
 }

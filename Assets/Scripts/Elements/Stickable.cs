@@ -38,7 +38,7 @@ public class Stickable : MonoBehaviour
             }
             else
             {
-                Debug.Log("player made null,reached distance : " + distance);
+                //Debug.Log("player made null,reached distance : " + distance);
                 //change player state from stick to idle
                 playerController.SetToIdle();
                 playerController.ResetGravity();
@@ -54,9 +54,11 @@ public class Stickable : MonoBehaviour
         {
             //if its a stickable platform make it slide after delay 
             //if its conveyor stick and move players position with you
-            //Debug.Log("enter conveyor");
-            playerController.SetToStickState();
-            this.playerController = playerController;
+            if(playerController.playerState == State.LAUNCHED)
+            {
+                playerController.SetToStickState();
+                this.playerController = playerController;
+            }
         }
     }
 
