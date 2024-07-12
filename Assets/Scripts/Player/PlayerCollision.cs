@@ -55,7 +55,7 @@ public class PlayerCollision : MonoBehaviour
             else
             {
                 //splatter effect
-                SplatterEffect(new Vector3(0, -1, -1) * maskRange);
+                SplatterEffect(transform.position+new Vector3(0, -1, -1) * maskRange);
             }
         }
 
@@ -77,10 +77,10 @@ public class PlayerCollision : MonoBehaviour
             SplatterEffect(offsetPos);
         }
     }
-    private void SplatterEffect(Vector3 offset)
+    private void SplatterEffect(Vector3 position)
     {
         var rotRange = Random.Range(0f, 180f);
-        var poundObject = Instantiate(poundEffect, transform.position + offset, Quaternion.Euler(0f, 0f, rotRange));
+        var poundObject = Instantiate(poundEffect, position, Quaternion.Euler(0f, 0f, rotRange));
         var poundSprite = poundObject.GetComponent<SpriteRenderer>();
         poundSprite.sprite = poundSprites[Random.Range(0, poundSprites.Length)];
 

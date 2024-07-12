@@ -7,8 +7,9 @@ public class PlayerInput : MonoBehaviour
 {
     public Action rightClicked;  
     public Action QkeyPressed;  
-    public Action<Vector2> mouseClicked;
+    public Action SpacePressed;  
     public Action mouseReleased;
+    public Action<Vector2> mouseClicked;
     public Action<Vector2> mouseDragging;
 
     Camera camRef;
@@ -43,6 +44,10 @@ public class PlayerInput : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Q))
         {
             QkeyPressed.Invoke();
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            SpacePressed.Invoke();
         }
     }
 }

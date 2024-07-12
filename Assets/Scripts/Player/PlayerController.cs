@@ -22,11 +22,18 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] PlayerAnimation playerAnimation;
     [SerializeField] GameObject playerSquishDummy;
+    [Header("cam")]
+    [SerializeField] Transform camLookAhead;
+    [SerializeField] float camLookAheadDistance = 5f;
+    [SerializeField] float camReleaseTime = 1f;
+    [Header("Aim")]
     [SerializeField] float dragSensitivity;
     [SerializeField] float poundForce = 10f;
     [SerializeField] float maxForce;
     [SerializeField] float forceLength;
     [SerializeField] float gravity = -20f;
+    [Header("Ability")]
+    [SerializeField] float dashAmount = 2f;
     [SerializeField] float onHitUpForce = 3f;
     [SerializeField] float midAirJumpCooldown = 1f;
     [SerializeField] float bulletTimeScale = 0.5f;
@@ -65,6 +72,7 @@ public class PlayerController : MonoBehaviour
         playerInput.mouseDragging += LeftDragging;
         playerInput.rightClicked += RightClicked;
         playerInput.QkeyPressed += ActivateBulletTime;
+        playerInput.SpacePressed += ActivateDashTime;
         respawnPlayer += RespawnPlayer;
     }
     // Update is called once per frame
@@ -74,6 +82,11 @@ public class PlayerController : MonoBehaviour
         {
             GamePlayScreenUI.instance.UpdateMidAirJumpUI((midAirJumpCooldown - jumpTimer)/midAirJumpCooldown);
             jumpTimer -= Time.deltaTime;
+        }
+
+        if(playerState!=State.AIMING)
+        {
+            camLookAhead.position = Vector3.Lerp(camLookAhead.position, transform.position, camReleaseTime);
         }
     }
     private void StartPosConfig(Vector2 mousePos)
@@ -113,7 +126,13 @@ public class PlayerController : MonoBehaviour
             dragPos = mousePos;
             dir = dragPos - startPos;
             aimDir = (Vector2)transform.position + (-dir);
+
+            //cam look ahead
+            
+            camLookAhead.position = aimDir;
+
             forceDir = aimDir - (Vector2)transform.position;
+
             forceDir *= dragSensitivity;
             forceLength = forceDir.magnitude;
             //Debug.Log("forcelength : "+forceLength);
@@ -186,7 +205,6 @@ public class PlayerController : MonoBehaviour
         {
             GamePlayScreenUI.instance.EndBulletTime(bulletTimeAbility);
         }
-
     }
     private void RightClicked()
     {
@@ -246,7 +264,8 @@ public class PlayerController : MonoBehaviour
         playerAnimation.ToggleSpriteRenderer(false);
         playerSquishDummy.SetActive(true);
         playerSquishDummy.transform.position = stickPos;
-        Vector2 offset;
+        Vector3 offset;
+        Vector3 pos = playerSquishDummy.transform.position;
         //dummy orientation
         switch(hitDirection)
         {
@@ -254,27 +273,27 @@ public class PlayerController : MonoBehaviour
                 playerSquishDummy.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
                 playerSquishDummy.GetComponent<SpriteRenderer>().flipY = true;
                 offset = new Vector2(-UnityEngine.Random.Range(squishOffset, squishOffset + 1), UnityEngine.Random.Range(-squishOffset, squishOffset));
-                SquishEffect.Invoke(offset);
+                SquishEffect.Invoke(pos+offset);
                 break;
             case HitDirection.Right:
                 playerSquishDummy.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
                 offset = new Vector2(UnityEngine.Random.Range(squishOffset, squishOffset + 1), UnityEngine.Random.Range(-squishOffset, squishOffset));
-                SquishEffect.Invoke(offset);
+                SquishEffect.Invoke(pos + offset);
                 break;
             case HitDirection.Up:
                 //direction
                 playerSquishDummy.transform.rotation = Quaternion.Euler(Vector3.zero);
                 playerSquishDummy.GetComponent<SpriteRenderer>().flipY = true;
                 //offset
-                offset = new Vector2(UnityEngine.Random.Range(-squishOffset, squishOffset), UnityEngine.Random.Range(squishOffset, squishOffset + 1));
-                SquishEffect.Invoke(offset);
+                offset = new Vector2(UnityEngine.Random.Range(-squishOffset, squishOffset), UnityEngine.Random.Range(squishOffset-1, squishOffset));
+                SquishEffect.Invoke(pos + offset);
                 break;
             case HitDirection.Down:
                 //direction
                 playerSquishDummy.transform.rotation = Quaternion.Euler(Vector3.zero);
                 //offset
                 offset = new Vector2(UnityEngine.Random.Range(-squishOffset, squishOffset), -UnityEngine.Random.Range(squishOffset, squishOffset + 1));
-                SquishEffect.Invoke(offset);
+                SquishEffect.Invoke(pos + offset);
                 break;
             
         }
@@ -390,14 +409,26 @@ public class PlayerController : MonoBehaviour
         Physics2D.gravity = Vector2.up * gravity;
 
     }
+
+    private void ActivateDashTime()
+    {
+        //Vector2 initialVelocity = rb.velocity;
+       
+        rb.AddForce(rb.velocity.normalized*dashAmount,ForceMode2D.Impulse);
+        //DOVirtual.DelayedCall(0.5f, () => {
+        //    rb.velocity = new Vector2(initialVelocity.x,rb.velocity.y);
+        //});
+    }
     private void OnDisable()
     {
         playerInput.mouseClicked -= LeftClicked;
         playerInput.mouseReleased -= LeftReleased;
         playerInput.mouseDragging -= LeftDragging;
         playerInput.rightClicked -= RightClicked;
-        playerInput.QkeyPressed += ActivateBulletTime;
-        respawnPlayer += RespawnPlayer;
+        playerInput.QkeyPressed -= ActivateBulletTime;
+        playerInput.SpacePressed -= ActivateDashTime;
+
+        respawnPlayer -= RespawnPlayer;
     }
 
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] PlayerController playerController;
+    [SerializeField] Transform lookAhead;
     [SerializeField] float followSpeed = 2f;
     [Header("pound effect")]
     [SerializeField] float poundShakeStrength;
@@ -20,7 +21,7 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        target = playerController.transform;
+        target = lookAhead.transform;
         offset = target.position-this.transform.position;
         //oldPosition = transform.position.x;
     }
