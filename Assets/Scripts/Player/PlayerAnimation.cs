@@ -104,6 +104,10 @@ public class PlayerAnimation : MonoBehaviour
     {
         trailRenderer.enabled = value;
     }
+    public void ToggleSpriteRenderer(bool value)
+    {
+        spriteRenderer.enabled = value;
+    }
     public void PoundTrailEffect()
     {
         trailRenderer.startWidth = 2.5f;
@@ -131,6 +135,7 @@ public class PlayerAnimation : MonoBehaviour
         //change to original material after some delay
         yield return new WaitForSeconds(hitResetTime);
         //spriteRenderer.material = originalMaterial;
+        ToggleSpriteRenderer(true);
         animator.SetTrigger("ghost");
         volume.blendDistance = newBlendValue;
 

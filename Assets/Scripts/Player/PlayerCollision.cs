@@ -69,11 +69,11 @@ public class PlayerCollision : MonoBehaviour
         }
     }
 
-    private void SquishSplatterEffect()
+    private void SquishSplatterEffect(Vector2 offset)
     {
         for(int i=0;i<3;i++)
         {
-            var offsetPos = new Vector3(Random.Range(-maskRange, maskRange), -Random.Range(maskRange,maskRange+1), -1);
+            var offsetPos = new Vector3(offset.x,offset.y, -1);
             SplatterEffect(offsetPos);
         }
     }

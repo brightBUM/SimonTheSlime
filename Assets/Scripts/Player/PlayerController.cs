@@ -18,9 +18,10 @@ public class PlayerController : MonoBehaviour
 {
     public float Velocity => rb.velocity.y;
     public State playerState;
-    public Action SquishEffect;
+    public Action<Vector2> SquishEffect;
 
     [SerializeField] PlayerAnimation playerAnimation;
+    [SerializeField] GameObject playerSquishDummy;
     [SerializeField] float dragSensitivity;
     [SerializeField] float poundForce = 10f;
     [SerializeField] float maxForce;
@@ -43,6 +44,7 @@ public class PlayerController : MonoBehaviour
     private float lerpAmount = 0f;
     private float jumpTimer = 1f;
     private int bulletTimeAbility = 0;
+    private const float squishOffset = 1.5f;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -238,13 +240,48 @@ public class PlayerController : MonoBehaviour
         playerAnimation.ToggleTrailRenderer(false);
         playerAnimation.ResetVelocity();
     }
-    public void SetToSquishState()
+    public void SetToSquishState(Vector3 stickPos,HitDirection hitDirection)
     {
         playerAnimation.ToggleTrailRenderer(false);
+        playerAnimation.ToggleSpriteRenderer(false);
+        playerSquishDummy.SetActive(true);
+        playerSquishDummy.transform.position = stickPos;
+        Vector2 offset;
+        //dummy orientation
+        switch(hitDirection)
+        {
+            case HitDirection.Left:
+                playerSquishDummy.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
+                playerSquishDummy.GetComponent<SpriteRenderer>().flipY = true;
+                offset = new Vector2(-UnityEngine.Random.Range(squishOffset, squishOffset + 1), UnityEngine.Random.Range(-squishOffset, squishOffset));
+                SquishEffect.Invoke(offset);
+                break;
+            case HitDirection.Right:
+                playerSquishDummy.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
+                offset = new Vector2(UnityEngine.Random.Range(squishOffset, squishOffset + 1), UnityEngine.Random.Range(-squishOffset, squishOffset));
+                SquishEffect.Invoke(offset);
+                break;
+            case HitDirection.Up:
+                //direction
+                playerSquishDummy.transform.rotation = Quaternion.Euler(Vector3.zero);
+                playerSquishDummy.GetComponent<SpriteRenderer>().flipY = true;
+                //offset
+                offset = new Vector2(UnityEngine.Random.Range(-squishOffset, squishOffset), UnityEngine.Random.Range(squishOffset, squishOffset + 1));
+                SquishEffect.Invoke(offset);
+                break;
+            case HitDirection.Down:
+                //direction
+                playerSquishDummy.transform.rotation = Quaternion.Euler(Vector3.zero);
+                //offset
+                offset = new Vector2(UnityEngine.Random.Range(-squishOffset, squishOffset), -UnityEngine.Random.Range(squishOffset, squishOffset + 1));
+                SquishEffect.Invoke(offset);
+                break;
+            
+        }
+
         playerState = State.SQUISHED;
-        SquishEffect.Invoke();
         rb.velocity = Vector2.zero;
-        playerAnimation.SetSquish();
+        //playerAnimation.SetSquish();
         StartCoroutine(DelayedRespawn());
     }
     
@@ -252,6 +289,8 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         lerpAmount = 0;
+        playerSquishDummy.SetActive(false);
+
         playerState = State.GHOST;
         playerAnimation.HitEffect(respawnPlayer);
     }
