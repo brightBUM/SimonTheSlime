@@ -6,8 +6,8 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     public Action rightClicked;  
-    public Action QkeyPressed;  
-    public Action SpacePressed;  
+    public Action ZkeyPressed;  
+    public Action XkeyPressed;  
     public Action mouseReleased;
     public Action<Vector2> mouseClicked;
     public Action<Vector2> mouseDragging;
@@ -41,13 +41,13 @@ public class PlayerInput : MonoBehaviour
         {
             rightClicked.Invoke();
         }
-        if(Input.GetKeyDown(KeyCode.Q))
+        if(Input.GetKeyDown(KeyCode.Z))
         {
-            QkeyPressed.Invoke();
+            ZkeyPressed.Invoke();
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.X))
         {
-            SpacePressed.Invoke();
+            XkeyPressed.Invoke();
         }
     }
 }

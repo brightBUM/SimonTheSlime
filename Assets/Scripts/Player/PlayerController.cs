@@ -71,8 +71,8 @@ public class PlayerController : MonoBehaviour
         playerInput.mouseReleased += LeftReleased;
         playerInput.mouseDragging += LeftDragging;
         playerInput.rightClicked += RightClicked;
-        playerInput.QkeyPressed += ActivateBulletTime;
-        playerInput.SpacePressed += ActivateDashTime;
+        playerInput.ZkeyPressed += ActivateBulletTime;
+        playerInput.XkeyPressed += ActivateDashTime;
         respawnPlayer += RespawnPlayer;
     }
     // Update is called once per frame
@@ -413,11 +413,14 @@ public class PlayerController : MonoBehaviour
     private void ActivateDashTime()
     {
         //Vector2 initialVelocity = rb.velocity;
-       
+        playerAnimation.ToggleSpriteTrailRenderer(true);
         rb.AddForce(rb.velocity.normalized*dashAmount,ForceMode2D.Impulse);
-        //DOVirtual.DelayedCall(0.5f, () => {
-        //    rb.velocity = new Vector2(initialVelocity.x,rb.velocity.y);
-        //});
+        LevelManager.Instance.LevelCamera.CameraPoundEffect();
+        DOVirtual.DelayedCall(0.5f, () =>
+        {
+            playerAnimation.ToggleSpriteTrailRenderer(false);
+
+        });
     }
     private void OnDisable()
     {
@@ -425,8 +428,8 @@ public class PlayerController : MonoBehaviour
         playerInput.mouseReleased -= LeftReleased;
         playerInput.mouseDragging -= LeftDragging;
         playerInput.rightClicked -= RightClicked;
-        playerInput.QkeyPressed -= ActivateBulletTime;
-        playerInput.SpacePressed -= ActivateDashTime;
+        playerInput.ZkeyPressed -= ActivateBulletTime;
+        playerInput.XkeyPressed -= ActivateDashTime;
 
         respawnPlayer -= RespawnPlayer;
     }

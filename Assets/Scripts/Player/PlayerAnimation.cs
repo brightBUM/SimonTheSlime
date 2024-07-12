@@ -1,3 +1,4 @@
+using SpriteTrailRenderer;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -20,6 +21,7 @@ public class PlayerAnimation : MonoBehaviour
     LineRenderer lineRenderer;
     Animator animator;
     SpriteRenderer spriteRenderer;
+    SpriteTrailRenderer.SpriteTrailRenderer spriteTrailRenderer;
     [SerializeField] Material originalMaterial;
     
     float timer = 1f;
@@ -29,6 +31,7 @@ public class PlayerAnimation : MonoBehaviour
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         lineRenderer = GetComponent<LineRenderer>();
+        spriteTrailRenderer = GetComponent<SpriteTrailRenderer.SpriteTrailRenderer>();
         //originalMaterial = spriteRenderer.material;
     }
 
@@ -107,6 +110,10 @@ public class PlayerAnimation : MonoBehaviour
     public void ToggleSpriteRenderer(bool value)
     {
         spriteRenderer.enabled = value;
+    }
+    public void ToggleSpriteTrailRenderer(bool value)
+    {
+        spriteTrailRenderer.enabled = value;
     }
     public void PoundTrailEffect()
     {
