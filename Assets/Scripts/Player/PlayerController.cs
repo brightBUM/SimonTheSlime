@@ -10,6 +10,7 @@ public enum State
     LAUNCHED,
     STICK,
     BOUNCE,
+    GRAPPLE,
     POUND,
     SQUISHED,
     GHOST
@@ -19,9 +20,11 @@ public class PlayerController : MonoBehaviour
     public float Velocity => rb.velocity.y;
     public State playerState;
     public Action<Vector2> SquishEffect;
+    public bool grappleReady;
 
     [SerializeField] PlayerAnimation playerAnimation;
     [SerializeField] GameObject playerSquishDummy;
+    [SerializeField] GrappleRope grappleRope;
     [Header("cam")]
     [SerializeField] Transform camLookAhead;
     [SerializeField] float camLookAheadDistance = 5f;
@@ -34,6 +37,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float gravity = -20f;
     [Header("Ability")]
     [SerializeField] float dashAmount = 2f;
+    [SerializeField] float grapplePullSpeed = 6f;
+    [SerializeField] float grappledOffSpeed = 10f;
     [SerializeField] float onHitUpForce = 3f;
     [SerializeField] float midAirJumpCooldown = 1f;
     [SerializeField] float bulletTimeScale = 0.5f;
@@ -44,13 +49,14 @@ public class PlayerController : MonoBehaviour
     private Vector2 dir;
     private Vector2 aimDir;
     private Vector2 forceDir;
+    private Vector2 grapplePoint;
     private Rigidbody2D rb;
     private PlayerInput playerInput;
     private Action respawnPlayer;
     private CircleCollider2D collider;
     private float lerpAmount = 0f;
     private float jumpTimer = 1f;
-    private int bulletTimeAbility = 0;
+    private int bulletTimeAbility = 10;
     private const float squishOffset = 1.5f;
     // Start is called before the first frame update
     private void Awake()
@@ -70,9 +76,10 @@ public class PlayerController : MonoBehaviour
         playerInput.mouseClicked += LeftClicked;
         playerInput.mouseReleased += LeftReleased;
         playerInput.mouseDragging += LeftDragging;
-        playerInput.rightClicked += RightClicked;
-        playerInput.ZkeyPressed += ActivateBulletTime;
-        playerInput.XkeyPressed += ActivateDashTime;
+        playerInput.PoundAbility += RightClicked;
+        playerInput.BulletTimeAbility += ActivateBulletTime;
+        playerInput.DashAbility += ActivateDashTime;
+        playerInput.GrappleAbility += ActivateGrapple;
         respawnPlayer += RespawnPlayer;
     }
     // Update is called once per frame
@@ -87,6 +94,17 @@ public class PlayerController : MonoBehaviour
         if(playerState!=State.AIMING)
         {
             camLookAhead.position = Vector3.Lerp(camLookAhead.position, transform.position, camReleaseTime);
+        }
+
+        if (playerState == State.GRAPPLE)
+        {
+            var distance = Vector2.Distance(transform.position, grapplePoint);
+            if (distance < 1.0f)
+            {
+                //Debug.Log("grapple distance : " + distance);
+                rb.velocity = rb.velocity.normalized * grappledOffSpeed;
+                playerState = State.LAUNCHED;
+            }
         }
     }
     private void StartPosConfig(Vector2 mousePos)
@@ -422,14 +440,43 @@ public class PlayerController : MonoBehaviour
 
         });
     }
+    private void ActivateGrapple()
+    {
+        if(grappleReady)
+        {
+            rb.velocity = Vector2.zero;
+            Physics2D.gravity = Vector2.zero;
+            var grappleDirection = grapplePoint - (Vector2)transform.position;
+            playerAnimation.FlipSprite(grappleDirection.normalized);
+            //activate line renderer
+           
+            StartCoroutine(grappleRope.AnimateRope(grapplePoint, () =>
+            {
+                rb.velocity = grappleDirection.normalized * grapplePullSpeed;
+                ResetGravity();
+                playerState = State.GRAPPLE;
+            }));
+        }
+    }
+    public void SetGrapplePoint(Vector2 point)
+    {
+        this.grapplePoint = point;
+        grappleReady = true;
+    }
+    public void FreeGrapplePoint()
+    {
+        this.grapplePoint = Vector2.zero;
+        grappleReady = false;
+    }
     private void OnDisable()
     {
         playerInput.mouseClicked -= LeftClicked;
         playerInput.mouseReleased -= LeftReleased;
         playerInput.mouseDragging -= LeftDragging;
-        playerInput.rightClicked -= RightClicked;
-        playerInput.ZkeyPressed -= ActivateBulletTime;
-        playerInput.XkeyPressed -= ActivateDashTime;
+        playerInput.PoundAbility -= RightClicked;
+        playerInput.BulletTimeAbility -= ActivateBulletTime;
+        playerInput.DashAbility -= ActivateDashTime;
+        playerInput.GrappleAbility -= ActivateGrapple;
 
         respawnPlayer -= RespawnPlayer;
     }

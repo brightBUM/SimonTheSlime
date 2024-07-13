@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    public Action rightClicked;  
-    public Action ZkeyPressed;  
-    public Action XkeyPressed;  
+    public Action PoundAbility;  
+    public Action BulletTimeAbility;  
+    public Action DashAbility;  
+    public Action GrappleAbility;  
     public Action mouseReleased;
     public Action<Vector2> mouseClicked;
     public Action<Vector2> mouseDragging;
@@ -39,15 +40,19 @@ public class PlayerInput : MonoBehaviour
         }
         if (Input.GetMouseButtonDown(1))
         {
-            rightClicked.Invoke();
+            PoundAbility.Invoke();
         }
         if(Input.GetKeyDown(KeyCode.Z))
         {
-            ZkeyPressed.Invoke();
+            BulletTimeAbility.Invoke();
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
-            XkeyPressed.Invoke();
+            DashAbility.Invoke();
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            GrappleAbility.Invoke();
         }
     }
 }

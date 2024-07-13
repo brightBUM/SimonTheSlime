@@ -16,4 +16,22 @@ public class GrapplePoint : MonoBehaviour
     {
         
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.TryGetComponent<PlayerController>(out PlayerController playerController))
+        {
+            grappleUI.SetActive(true);
+            playerController.SetGrapplePoint(this.transform.position);
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent<PlayerController>(out PlayerController playerController))
+        {
+            grappleUI.SetActive(false);
+            playerController.FreeGrapplePoint();
+
+        }
+    }
 }
