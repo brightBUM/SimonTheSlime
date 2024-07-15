@@ -13,13 +13,17 @@ public class PlayerCollision : MonoBehaviour
     [SerializeField] float fadeDelay = 0.5f;
     [SerializeField] float fadeDuration = 1f;
     [SerializeField] float rayCastLength = 1.3f;
+    [SerializeField] float topStickDuration = 1.15f;
+    [SerializeField] float downStickDuration = 0.5f;
+
     [SerializeField] LayerMask platformLayer;
+    [SerializeField] LayerMask breakableLayer;
+    [SerializeField] LayerMask conveyorLayer;
     const int ObstacleLayer = 6;
     const int StickableLayer = 10;
     bool hit;
     int stickSide = 0;
     float stickTimer = 0f;
-    float stickTimerMax = 0.5f;
     // Start is called before the first frame update
     void Start()
     {
@@ -94,7 +98,7 @@ public class PlayerCollision : MonoBehaviour
                     break;
                 case 3:
                     stickTimer += Time.deltaTime;
-                    if (stickTimer >= stickTimerMax)
+                    if (stickTimer >= topStickDuration)
                     {
                         stickTimer = 0;
                         playerController.ResetGravity();
@@ -103,7 +107,7 @@ public class PlayerCollision : MonoBehaviour
                     break;
                 case 4:
                     stickTimer += Time.deltaTime;
-                    if (stickTimer >= stickTimerMax)
+                    if (stickTimer >= downStickDuration)
                     {
                         stickTimer = 0;
                         playerController.ResetGravity();
@@ -117,7 +121,7 @@ public class PlayerCollision : MonoBehaviour
     }
     private void RaycastCheckDirection(Vector3 direction,Action hitAction = null, Action missAction = null)
     {
-        var rayCastHit2D = Physics2D.Raycast(transform.position, direction, rayCastLength, platformLayer);
+        var rayCastHit2D = Physics2D.Raycast(transform.position, direction, rayCastLength, platformLayer|breakableLayer);
         if (rayCastHit2D.collider != null)
         {
             hit = true;

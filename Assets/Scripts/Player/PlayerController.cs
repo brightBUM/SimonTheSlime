@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour
 
         if(playerState!=State.AIMING)
         {
-            camLookAhead.position = Vector3.Lerp(camLookAhead.position, transform.position, camReleaseTime);
+            camLookAhead.position = Vector3.Lerp(camLookAhead.position, transform.position, camReleaseTime*Time.deltaTime);
         }
 
         if (playerState == State.GRAPPLE)
