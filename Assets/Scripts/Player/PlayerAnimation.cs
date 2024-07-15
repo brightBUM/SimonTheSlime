@@ -83,9 +83,11 @@ public class PlayerAnimation : MonoBehaviour
     {
         animator.SetTrigger("relaunch");
     }
-    public void SetStick()
+    public void SetStick(float sideValue)
     {
         animator.SetTrigger("stick");
+        //Debug.Log("set to stick anim state : "+sideValue);
+        animator.SetFloat("side",sideValue);
     }
     public void SetSquish()
     {

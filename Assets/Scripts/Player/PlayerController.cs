@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float onHitUpForce = 3f;
     [SerializeField] float midAirJumpCooldown = 1f;
     [SerializeField] float bulletTimeScale = 0.5f;
+    [SerializeField] float slideDownValue = 0.5f;
     [SerializeField] bool debugVectors;
     
     private Vector2 startPos;
@@ -57,6 +58,7 @@ public class PlayerController : MonoBehaviour
     private float lerpAmount = 0f;
     private float jumpTimer = 1f;
     private int bulletTimeAbility = 10;
+    private float slideAccelerate;
     private const float squishOffset = 1.5f;
     // Start is called before the first frame update
     private void Awake()
@@ -121,6 +123,7 @@ public class PlayerController : MonoBehaviour
         {
             playerState = State.AIMING;
             playerAnimation.SetAim();
+            //playerAnimation.SetStick(0f); //reset stick blend tree
             StartPosConfig(mousePos);
         }
         else if (playerState == State.BOUNCE)
@@ -133,6 +136,7 @@ public class PlayerController : MonoBehaviour
         }
         else if(playerState == State.STICK)
         {
+            //playerAnimation.SetStick(0f); //reset stick blend tree
             StartPosConfig(mousePos);
         }
     }
@@ -331,17 +335,23 @@ public class PlayerController : MonoBehaviour
         playerState = State.GHOST;
         playerAnimation.HitEffect(respawnPlayer);
     }
-    public void SetToStickState()
+    public void SetToStickState(float sideValue)
     {
         playerState = State.STICK;
         rb.velocity = Vector2.zero;
-        playerAnimation.SetStick();
+        playerAnimation.SetStick(sideValue);
         playerAnimation.ToggleTrailRenderer(false);
         //disable rb to avoid gravity
         //rb.isKinematic = true;
         //collider.enabled = false;
         Physics2D.gravity = Vector2.zero;
         
+    }
+    public void SlideDown()
+    {
+        //Physics2D.gravity = Vector2.down * (slideDownValue);
+        slideAccelerate += slideDownValue*Time.deltaTime;
+        transform.position += Vector3.down*slideAccelerate * Time.deltaTime;
     }
     public void ResetPound()
     {
@@ -425,7 +435,7 @@ public class PlayerController : MonoBehaviour
     public void ResetGravity()
     {
         Physics2D.gravity = Vector2.up * gravity;
-
+        slideAccelerate = 0f;
     }
 
     private void ActivateDashTime()
@@ -442,7 +452,7 @@ public class PlayerController : MonoBehaviour
     }
     private void ActivateGrapple()
     {
-        if(grappleReady)
+        if(grappleReady && playerState == State.LAUNCHED)
         {
             rb.velocity = Vector2.zero;
             Physics2D.gravity = Vector2.zero;

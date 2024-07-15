@@ -54,11 +54,11 @@ public class Stickable : MonoBehaviour
         {
             //if its a stickable platform make it slide after delay 
             //if its conveyor stick and move players position with you
-            if(playerController.playerState == State.LAUNCHED)
-            {
-                playerController.SetToStickState();
-                this.playerController = playerController;
-            }
+            //if(playerController.playerState == State.LAUNCHED)
+            //{
+            //    playerController.SetToStickState();
+            //    this.playerController = playerController;
+            //}
         }
     }
 
