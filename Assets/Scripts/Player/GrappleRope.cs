@@ -1,12 +1,8 @@
 using DG.Tweening;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class GrappleRope : MonoBehaviour
 {
@@ -28,22 +24,6 @@ public class GrappleRope : MonoBehaviour
             lineRenderer.SetPosition(i,this.transform.position);
         }
     }
-    //public void ShootRope(Vector2 grapplePoint,Action grappleCompleted)
-    //{
-    //    lineRenderer.enabled = true;
-    //    //shoot rope action via animation curve - Todo
-    //    Vector2 lastPointPos = transform.position;
-    //    DOTween.To(() => lastPointPos, x => lastPointPos = x, grapplePoint, lerpDuration).OnUpdate(() =>
-    //    {
-    //        lineRenderer.SetPosition(0, transform.position);
-    //        lineRenderer.SetPosition(samplePoints - 1, lastPointPos);
-    //    }).OnComplete(() =>
-    //    {
-    //        grappleCompleted.Invoke();
-    //        lineRenderer.enabled = false;
-
-    //    });
-    //}
 
     public IEnumerator AnimateRope(Vector2 targetPos,Action completed)
     {

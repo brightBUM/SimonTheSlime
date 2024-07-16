@@ -52,35 +52,5 @@ public class Thumper : MonoBehaviour
             playerController.SetToSquishState(this.transform.position,this.hitDirection);
         }
     }
-    // Update is called once per frame
-    void Update()
-    {
-        //box cast and check if player is below the thumper
-        //RaycastHit2D hitinfo = Physics2D.BoxCast(boxRef.position, Vector2.one * boxSize, 0, Vector2.down, 0f, playerLayer);
-        //if (hitinfo.collider!=null)
-        //{
-        //    hit = true;
-        //    var playerController = hitinfo.collider.GetComponent<PlayerController>();
-        //    Debug.Log("hit point : " + hitinfo.point);
-        //    if (playerController.playerState != State.SQUISHED && playerController.playerState != State.GHOST)
-        //    {
-        //        //check the thumper orientation and spawn squish dummy according to the direction
-
-        //        playerController.SetToSquishState();
-        //        //Debug.Log("squish called");
-        //    }
-        //}
-        //else
-        //{
-        //    hit = false;
-        //}
-    }
-
-
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = hit ? Color.green : Color.red;
-    //    Gizmos.DrawCube(boxRef.position, Vector3.one * boxSize);
-
-    //}
+  
 }

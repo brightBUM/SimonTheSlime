@@ -84,6 +84,7 @@ public class PlayerController : MonoBehaviour
         playerInput.GrappleAbility += ActivateGrapple;
         respawnPlayer += RespawnPlayer;
     }
+    
     // Update is called once per frame
     void Update()
     {

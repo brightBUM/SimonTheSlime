@@ -20,6 +20,8 @@ public class PlayerCollision : MonoBehaviour
     [SerializeField] LayerMask breakableLayer;
     [SerializeField] LayerMask conveyorLayer;
     const int ObstacleLayer = 6;
+    const int platformLayerValue = 7;
+    const int breakableLayerValue = 9;
     const int StickableLayer = 10;
     bool hit;
     int stickSide = 0;
@@ -31,45 +33,10 @@ public class PlayerCollision : MonoBehaviour
         playerController.SquishEffect += SquishSplatterEffect;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        if (playerController.playerState==State.LAUNCHED)
-        {
-            rayCastLength = 1.2f;
-
-            //raycast 4 ways to detect platform sides
-            //change to stick state and set sprite based on collision direction
-            RaycastCheckDirection(-transform.right, () =>
-            {
-                playerController.SetToStickState(1f);
-                stickSide = 1;
-            });
-
-            RaycastCheckDirection(transform.right, () =>
-            {
-                //Debug.Break();
-                playerController.SetToStickState(2f);
-                stickSide = 2;
-            });
-
-            RaycastCheckDirection(transform.up, () =>
-            {
-                playerController.SetToStickState(3f);
-                stickSide = 3;
-            });
-
-            RaycastCheckDirection(-transform.up, () =>
-            {
-                //set to idle when thrown down
-
-                playerController.SetToStickState(4f);
-                stickSide = 4;
-            });
-        }
         if (playerController.playerState == State.STICK)
         {
-            rayCastLength = 1.5f;
             switch (stickSide)
             {
                 case 1:
@@ -85,7 +52,7 @@ public class PlayerCollision : MonoBehaviour
                     });
                     break;
                 case 2:
-                    RaycastCheckDirection(transform.right,() =>
+                    RaycastCheckDirection(transform.right, () =>
                     {
                         playerController.SlideDown();
 
@@ -119,9 +86,9 @@ public class PlayerCollision : MonoBehaviour
             }
         }
     }
-    private void RaycastCheckDirection(Vector3 direction,Action hitAction = null, Action missAction = null)
+    private void RaycastCheckDirection(Vector3 direction, Action hitAction = null, Action missAction = null)
     {
-        var rayCastHit2D = Physics2D.Raycast(transform.position, direction, rayCastLength, platformLayer|breakableLayer);
+        var rayCastHit2D = Physics2D.Raycast(transform.position, direction, rayCastLength, platformLayer | breakableLayer);
         if (rayCastHit2D.collider != null)
         {
             hit = true;
@@ -129,44 +96,76 @@ public class PlayerCollision : MonoBehaviour
         }
         else
         {
-            hit = false;    
+            hit = false;
             missAction?.Invoke();
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (playerController.playerState == State.LAUNCHED && collision.gameObject.layer == platformLayer) 
+        if (playerController.playerState == State.LAUNCHED && 
+            (collision.gameObject.layer == platformLayerValue || collision.gameObject.layer == breakableLayerValue))
         {
-            /// checking for firstbounce
-            playerController.SetToFirstBounce();
+            //raycast 4 ways to detect platform sides
+            //change to stick state and set sprite based on collision direction
+            //Debug.Log("collided after launch");
 
+            RaycastCheckDirection(-transform.right, () =>
+            {
+                playerController.SetToStickState(1f);
+                stickSide = 1;
+                return;
+            });
+
+            RaycastCheckDirection(transform.right, () =>
+            {
+                //Debug.Break();
+                playerController.SetToStickState(2f);
+                stickSide = 2;
+                return;
+            });
+
+            RaycastCheckDirection(transform.up, () =>
+            {
+                playerController.SetToStickState(3f);
+                stickSide = 3;
+                return;
+
+            });
+
+            RaycastCheckDirection(-transform.up, () =>
+            {
+                //set to idle when thrown down
+                playerController.SetToStickState(4f);
+                stickSide = 4;
+                return;
+            });
         }
-        else if(playerController.playerState == State.BOUNCE)
+        else if (playerController.playerState == State.BOUNCE)
         {
             //checking after firstbounce , bring it to rest
-           playerController.SetToIdle();
+            playerController.SetToIdle();
 
         }
-        else if(playerController.playerState == State.POUND)
+        else if (playerController.playerState == State.POUND)
         {
             playerController.ResetPound();
             LevelManager.Instance.LevelCamera.CameraPoundEffect();
 
             //check if collided with breakables
-            if(collision.gameObject.TryGetComponent<BreakablePT>(out BreakablePT breakablePT))
+            if (collision.gameObject.TryGetComponent<BreakablePT>(out BreakablePT breakablePT))
             {
                 breakablePT.OnCollisionPounded();
             }
             else
             {
                 //splatter effect
-                SplatterEffect(transform.position+new Vector3(0, -1, -1) * maskRange);
+                SplatterEffect(transform.position + new Vector3(0, -1, -1) * maskRange);
             }
         }
 
         //Debug.Log("object layer :  " + collision.gameObject.layer+" , Mask layer : "+(int)obstacleLayerMask);
 
-        if(collision.collider.gameObject.layer == ObstacleLayer && playerController.playerState!=State.GHOST)
+        if (collision.collider.gameObject.layer == ObstacleLayer && playerController.playerState != State.GHOST)
         {
             //hit with obstacle , respawn to last checkpoint
             LevelManager.Instance.LevelCamera.CameraHitEffect();
