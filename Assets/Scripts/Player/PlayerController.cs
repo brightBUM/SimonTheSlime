@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     [Header("cam")]
     [SerializeField] Transform camLookAhead;
     [SerializeField] float camLookAheadDistance = 5f;
+    [SerializeField] float camDragSensitivity = 2f;
     [SerializeField] float camReleaseTime = 1f;
     [Header("Aim")]
     [SerializeField] float dragSensitivity;
@@ -40,7 +41,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float grapplePullSpeed = 6f;
     [SerializeField] float grappledOffSpeed = 10f;
     [SerializeField] float onHitUpForce = 3f;
-    [SerializeField] float midAirJumpCooldown = 1f;
+    [SerializeField] float dashCooldown = 1f;
     [SerializeField] float bulletTimeScale = 0.5f;
     [SerializeField] float slideDownValue = 0.5f;
     [SerializeField] bool debugVectors;
@@ -56,7 +57,7 @@ public class PlayerController : MonoBehaviour
     private Action respawnPlayer;
     private CircleCollider2D collider;
     private float lerpAmount = 0f;
-    private float jumpTimer = 1f;
+    private float dashTimer = 1f;
     private int bulletTimeAbility = 10;
     private float slideAccelerate;
     private const float squishOffset = 1.5f;
@@ -88,10 +89,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(jumpTimer > 0f)
+        if(dashTimer > 0f)
         {
-            GamePlayScreenUI.instance.UpdateMidAirJumpUI((midAirJumpCooldown - jumpTimer)/midAirJumpCooldown);
-            jumpTimer -= Time.deltaTime;
+            GamePlayScreenUI.instance.UpdateMidAirJumpUI((dashCooldown - dashTimer)/dashCooldown);
+            dashTimer -= Time.deltaTime;
         }
 
         if(playerState!=State.AIMING)
@@ -127,32 +128,30 @@ public class PlayerController : MonoBehaviour
             //playerAnimation.SetStick(0f); //reset stick blend tree
             StartPosConfig(mousePos);
         }
-        else if (playerState == State.BOUNCE)
-        {
-            if(jumpTimer <= 0f)
-            {
-                //can jump in mid air 
-                StartPosConfig(mousePos);
-            }
-        }
         else if(playerState == State.STICK)
         {
             //playerAnimation.SetStick(0f); //reset stick blend tree
             StartPosConfig(mousePos);
         }
+        else if(playerState == State.LAUNCHED)
+        {
+            ActivateBulletTime();
+            StartPosConfig(mousePos);
+        }
     }
     private void LeftDragging(Vector2 mousePos)
     {
+        dragPos = mousePos;
+        dir = dragPos - startPos;
+        if (dir.magnitude < 0.1f)
+            return;
         // calculate aim force and sprite flip direction
-        if (playerState == State.AIMING || playerState == State.BOUNCE)
+        if (playerState == State.AIMING || playerState == State.LAUNCHED)
         {
-            dragPos = mousePos;
-            dir = dragPos - startPos;
             aimDir = (Vector2)transform.position + (-dir);
 
             //cam look ahead
-            
-            camLookAhead.position = aimDir;
+            camLookAhead.position = (Vector2)transform.position + (-dir)*camDragSensitivity;
 
             forceDir = aimDir - (Vector2)transform.position;
 
@@ -162,11 +161,10 @@ public class PlayerController : MonoBehaviour
             playerAnimation.FlipSprite(forceDir.normalized);
             playerAnimation.DrawTrajectory(Vector2.ClampMagnitude(forceDir, maxForce));
         }
-        else if(playerState == State.STICK)
+        else if (playerState == State.STICK)
         {
             //aim only to the opp side of the conveyor/sticky platform
-            dragPos = mousePos;
-            dir = dragPos - startPos;
+           
             aimDir = (Vector2)transform.position + (-dir);
             forceDir = aimDir - (Vector2)transform.position;
             //Debug.Log("dot value :" + Vector2.Dot(Vector2.left, forceDir.normalized));
@@ -176,11 +174,10 @@ public class PlayerController : MonoBehaviour
             playerAnimation.DrawTrajectory(Vector2.ClampMagnitude(forceDir, maxForce));
 
         }
-
+        
     }
     private void LeftReleased()
     {
-        
         playerAnimation.ToggleLineRenderer(false);
         
         if (forceLength < 1)
@@ -207,20 +204,14 @@ public class PlayerController : MonoBehaviour
             playerAnimation.ToggleTrailRenderer(true);
 
         }
-        else if (playerState == State.BOUNCE)
+        else if (playerState == State.LAUNCHED)
         {
-            if (jumpTimer <= 0f)
-            {
-                //can jump in mid air 
-                RelaunchPlayer();
-                jumpTimer = midAirJumpCooldown;
-            }
+            forceDir = Vector2.ClampMagnitude(forceDir, maxForce);
+            rb.velocity = forceDir;
         }
-        else if(playerState == State.STICK)
+        else if (playerState == State.STICK)
         {
             RelaunchPlayer();
-            //rb.isKinematic = false;
-            //collider.enabled = true;
             ResetGravity();
             playerAnimation.FlipSprite(forceDir.normalized);
         }
@@ -251,8 +242,7 @@ public class PlayerController : MonoBehaviour
     }
     private void ActivateBulletTime()
     {
-        if (playerState != State.BOUNCE)
-            return;
+        
         if(bulletTimeAbility>0)
         {
             bulletTimeAbility--;
@@ -442,14 +432,19 @@ public class PlayerController : MonoBehaviour
     private void ActivateDashTime()
     {
         //Vector2 initialVelocity = rb.velocity;
-        playerAnimation.ToggleSpriteTrailRenderer(true);
-        rb.AddForce(rb.velocity.normalized*dashAmount,ForceMode2D.Impulse);
-        LevelManager.Instance.LevelCamera.CameraPoundEffect();
-        DOVirtual.DelayedCall(0.5f, () =>
+        if(dashTimer<=0)
         {
-            playerAnimation.ToggleSpriteTrailRenderer(false);
+            playerAnimation.ToggleSpriteTrailRenderer(true);
+            rb.AddForce(rb.velocity.normalized * dashAmount, ForceMode2D.Impulse);
+            LevelManager.Instance.LevelCamera.CameraPoundEffect();
+            dashTimer = dashCooldown;
+            DOVirtual.DelayedCall(0.5f, () =>
+            {
+                playerAnimation.ToggleSpriteTrailRenderer(false);
 
-        });
+            });
+        }
+       
     }
     private void ActivateGrapple()
     {

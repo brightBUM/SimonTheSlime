@@ -34,7 +34,7 @@ public class GamePlayScreenUI : MonoBehaviour
     public bool BulletTimeActive => timerFillUI.fillAmount < 1f;
     private void OnEnable()
     {
-        UpdateMidAirJumpUI += UpdateMidAirUIAbility;
+        UpdateMidAirJumpUI += UpdateDashAbilityUI;
     }
     private void Awake()
     {
@@ -42,12 +42,11 @@ public class GamePlayScreenUI : MonoBehaviour
     }
     void Start()
     {
-        UpdateMidAirUIAbility(0f);
+        UpdateDashAbilityUI(0f);
         UpdateBananaCount(LevelManager.Instance.GetLevelBananasCount());
         defaultColor = timerFillUI.color;
-
     }
-    private void UpdateMidAirUIAbility(float value)
+    private void UpdateDashAbilityUI(float value)
     {
         midAirJumpFillImage.fillAmount = value;
     }
@@ -106,7 +105,7 @@ public class GamePlayScreenUI : MonoBehaviour
     }
     private void OnDisable()
     {
-        UpdateMidAirJumpUI -= UpdateMidAirUIAbility;
+        UpdateMidAirJumpUI -= UpdateDashAbilityUI;
 
     }
 }
