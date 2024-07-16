@@ -45,7 +45,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float bulletTimeScale = 0.5f;
     [SerializeField] float slideDownValue = 0.5f;
     [SerializeField] bool debugVectors;
-    
+
+    private bool dragging = false;
+    private bool firstClick = false;
     private Vector2 startPos;
     private Vector2 dragPos;
     private Vector2 dir;
@@ -76,7 +78,6 @@ public class PlayerController : MonoBehaviour
     }
     private void OnEnable()
     {
-        playerInput.mouseClicked += LeftClicked;
         playerInput.mouseReleased += LeftReleased;
         playerInput.mouseDragging += LeftDragging;
         playerInput.PoundAbility += RightClicked;
@@ -111,40 +112,37 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    private void StartPosConfig(Vector2 mousePos)
-    {
-        aimDir = Vector2.zero;
-        playerAnimation.ToggleLineRenderer(true);
-        startPos = mousePos;
-
-    }
-    private void LeftClicked(Vector2 mousePos)
-    {
-       
-        if(playerState == State.IDLE)
-        {
-            playerState = State.AIMING;
-            playerAnimation.SetAim();
-            //playerAnimation.SetStick(0f); //reset stick blend tree
-            StartPosConfig(mousePos);
-        }
-        else if(playerState == State.STICK)
-        {
-            //playerAnimation.SetStick(0f); //reset stick blend tree
-            StartPosConfig(mousePos);
-        }
-        else if(playerState == State.LAUNCHED)
-        {
-            ActivateBulletTime();
-            StartPosConfig(mousePos);
-        }
-    }
+  
     private void LeftDragging(Vector2 mousePos)
     {
+        if(!firstClick)
+        {
+            aimDir = Vector2.zero;
+            startPos = mousePos;
+            firstClick = true;
+        }
+
         dragPos = mousePos;
         dir = dragPos - startPos;
-        if (dir.magnitude < 0.1f)
+        Debug.Log("dir value : " + dir.magnitude);
+
+        if (dir.magnitude < 0.1f) //single click rejection
             return;
+
+        if(!dragging) //set visual elements only once when dragging
+        {
+            playerAnimation.ToggleLineRenderer(true);
+            if (playerState == State.IDLE)
+            {
+                playerState = State.AIMING;
+                playerAnimation.SetAim();
+            }
+            if(playerState == State.LAUNCHED)
+            {
+                ActivateBulletTime();
+            }
+            dragging = true;
+        }
         // calculate aim force and sprite flip direction
         if (playerState == State.AIMING || playerState == State.LAUNCHED)
         {
@@ -178,27 +176,18 @@ public class PlayerController : MonoBehaviour
     }
     private void LeftReleased()
     {
-        playerAnimation.ToggleLineRenderer(false);
         
-        if (forceLength < 1)
+        if (dir.magnitude < 0.1f)
         {
-            //cancel single tap/low force
-            SetToIdle();
             return;
         }
+
+        playerAnimation.ToggleLineRenderer(false);
+
         //launch
         if (playerState == State.AIMING)
         {
-            //check if player is aiming toward the platform
-            var dotValue = Vector2.Dot(Vector2.up, forceDir.normalized);
-            if (dotValue < 0.1)
-            {
-                SetToFirstBounce();
-            }
-            else
-            {
-                playerState = State.LAUNCHED;
-            }
+            playerState = State.LAUNCHED;
             forceDir = Vector2.ClampMagnitude(forceDir, maxForce);
             rb.velocity = forceDir;
             playerAnimation.ToggleTrailRenderer(true);
@@ -219,6 +208,8 @@ public class PlayerController : MonoBehaviour
         {
             GamePlayScreenUI.instance.EndBulletTime(bulletTimeAbility);
         }
+        dragging = false;
+        firstClick = false;
     }
     private void RightClicked()
     {
@@ -476,7 +467,6 @@ public class PlayerController : MonoBehaviour
     }
     private void OnDisable()
     {
-        playerInput.mouseClicked -= LeftClicked;
         playerInput.mouseReleased -= LeftReleased;
         playerInput.mouseDragging -= LeftDragging;
         playerInput.PoundAbility -= RightClicked;

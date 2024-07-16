@@ -10,7 +10,7 @@ public class PlayerInput : MonoBehaviour
     public Action DashAbility;  
     public Action GrappleAbility;  
     public Action mouseReleased;
-    public Action<Vector2> mouseClicked;
+    //public Action<Vector2> mouseClicked;
     public Action<Vector2> mouseDragging;
 
     Camera camRef;
@@ -29,11 +29,11 @@ public class PlayerInput : MonoBehaviour
             mousePos = camRef.ScreenToWorldPoint(Input.mousePosition);
             mouseDragging.Invoke(mousePos);
         }
-        if (Input.GetMouseButtonDown(0))
-        {
-            mousePos = camRef.ScreenToWorldPoint(Input.mousePosition);
-            mouseClicked.Invoke(mousePos);
-        }
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    mousePos = camRef.ScreenToWorldPoint(Input.mousePosition);
+        //    mouseClicked.Invoke(mousePos);
+        //}
         if (Input.GetMouseButtonUp(0))
         {
             mouseReleased.Invoke();
