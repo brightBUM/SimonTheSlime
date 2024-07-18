@@ -69,7 +69,7 @@ public class GamePlayScreenUI : MonoBehaviour
     {
         bananaUI.text = text;
     }
-    public void StartTimer(int value)
+    public void StartTimer(int value,Action timerComplete)
     {
         //SoundManager.instance.PlaySloMoTimer();
 
@@ -81,6 +81,7 @@ public class GamePlayScreenUI : MonoBehaviour
         tween = DOTween.To(() => timerFillUI.fillAmount, x => timerFillUI.fillAmount = x, 0, duration).SetUpdate(true).OnComplete(() =>
         {
             EndBulletTime(value);
+            timerComplete();
             
         });
 

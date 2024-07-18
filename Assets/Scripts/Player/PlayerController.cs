@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System;
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 
 public enum State
@@ -8,6 +9,7 @@ public enum State
     IDLE,
     AIMING,
     LAUNCHED,
+    TIMEDILATION,
     STICK,
     BOUNCE,
     GRAPPLE,
@@ -48,6 +50,7 @@ public class PlayerController : MonoBehaviour
 
     private bool dragging = false;
     private bool firstClick = false;
+    private bool aimCancel = false;
     private Vector2 startPos;
     private Vector2 dragPos;
     private Vector2 dir;
@@ -60,7 +63,7 @@ public class PlayerController : MonoBehaviour
     private CircleCollider2D collider;
     private float lerpAmount = 0f;
     private float dashTimer = 1f;
-    private int bulletTimeAbility = 10;
+    private int bulletTimeAbility = 2;
     private float slideAccelerate;
     private const float squishOffset = 1.5f;
     // Start is called before the first frame update
@@ -120,13 +123,14 @@ public class PlayerController : MonoBehaviour
             aimDir = Vector2.zero;
             startPos = mousePos;
             firstClick = true;
+            aimCancel = false;
         }
 
         dragPos = mousePos;
         dir = dragPos - startPos;
-        Debug.Log("dir value : " + dir.magnitude);
+        //Debug.Log("dir value : " + dir.magnitude);
 
-        if (dir.magnitude < 0.1f) //single click rejection
+        if (dir.magnitude < 0.1f || aimCancel) //single click rejection
             return;
 
         if(!dragging) //set visual elements only once when dragging
@@ -137,14 +141,26 @@ public class PlayerController : MonoBehaviour
                 playerState = State.AIMING;
                 playerAnimation.SetAim();
             }
-            if(playerState == State.LAUNCHED)
+            else if(playerState == State.LAUNCHED)
             {
-                ActivateBulletTime();
+                if (bulletTimeAbility > 0)
+                {
+                    ActivateBulletTime();
+                    playerState = State.TIMEDILATION;
+                }
+                else
+                {
+                    GamePlayScreenUI.instance.NoBulletTimeAbilityFeedback();
+                    playerAnimation.ToggleLineRenderer(false);
+                    dragging = true;
+                    return;
+                }
+               
             }
             dragging = true;
         }
         // calculate aim force and sprite flip direction
-        if (playerState == State.AIMING || playerState == State.LAUNCHED)
+        if (playerState == State.AIMING || playerState == State.TIMEDILATION)
         {
             aimDir = (Vector2)transform.position + (-dir);
 
@@ -177,8 +193,10 @@ public class PlayerController : MonoBehaviour
     private void LeftReleased()
     {
         
-        if (dir.magnitude < 0.1f)
+        if (dir.magnitude < 0.1f || !dragging)
         {
+            firstClick = false;
+            aimCancel = false;
             return;
         }
 
@@ -193,8 +211,9 @@ public class PlayerController : MonoBehaviour
             playerAnimation.ToggleTrailRenderer(true);
 
         }
-        else if (playerState == State.LAUNCHED)
+        else if (playerState == State.TIMEDILATION)
         {
+            playerState = State.LAUNCHED;
             forceDir = Vector2.ClampMagnitude(forceDir, maxForce);
             rb.velocity = forceDir;
         }
@@ -210,12 +229,33 @@ public class PlayerController : MonoBehaviour
         }
         dragging = false;
         firstClick = false;
+        aimCancel = false;
     }
     private void RightClicked()
     {
-        //pound only when in mid air
-        if(playerState == State.LAUNCHED)
+        if(playerState == State.AIMING)
         {
+            //cancel aim 
+            aimCancel = true;
+            playerAnimation.ToggleLineRenderer(false);
+            SetToIdle();
+        }
+        else if(playerState == State.TIMEDILATION)
+        {
+            //cancel aim 
+            aimCancel = true;
+            GamePlayScreenUI.instance.EndBulletTime(bulletTimeAbility);
+            playerAnimation.ToggleLineRenderer(false);
+            playerState = State.LAUNCHED;
+        }
+        else if(playerState == State.STICK)
+        {
+            aimCancel = true;
+            playerAnimation.ToggleLineRenderer(false);
+        }
+        else if(playerState == State.LAUNCHED)
+        {
+            //pound only when in mid air
             playerState = State.POUND;
             rb.velocity = Vector2.down * poundForce;
             playerAnimation.SetRoll();
@@ -223,6 +263,7 @@ public class PlayerController : MonoBehaviour
         }
         //Debug.Log("right mouse clicked");
     }
+
     private void RelaunchPlayer()
     {
         playerState = State.LAUNCHED;
@@ -233,21 +274,19 @@ public class PlayerController : MonoBehaviour
     }
     private void ActivateBulletTime()
     {
+        bulletTimeAbility--;
+        playerState = State.TIMEDILATION;
+        Time.timeScale = bulletTimeScale;
+        //to avoid physics lag during SloMo
+        Time.fixedDeltaTime = Time.timeScale * 0.02f;
+        //start a bullet timer 
+        GamePlayScreenUI.instance.StartTimer(bulletTimeAbility, () =>
+        {
+            aimCancel = true;
+            playerState = State.LAUNCHED;
+            playerAnimation.ToggleLineRenderer(false);
+        });
         
-        if(bulletTimeAbility>0)
-        {
-            bulletTimeAbility--;
-
-            Time.timeScale = bulletTimeScale;
-            //to avoid physics lag during SloMo
-            Time.fixedDeltaTime = Time.timeScale * 0.02f;
-            //start a bullet timer 
-            GamePlayScreenUI.instance.StartTimer(bulletTimeAbility);
-        }
-        else
-        {
-            GamePlayScreenUI.instance.NoBulletTimeAbilityFeedback();
-        }
     }
     public void SetToFirstBounce()
     {
