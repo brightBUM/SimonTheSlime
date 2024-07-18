@@ -13,7 +13,7 @@ public class CameraController : MonoBehaviour
     [Header("hit effect")]
     [SerializeField] float hitShakeStrength = 2f;
     [SerializeField] float hitShakeDuration = 0.2f;
-    Transform target;
+    public Transform target;
     Vector3 offset;
     Vector3 followPosition;
     public Action<float> camMovement;
@@ -45,6 +45,7 @@ public class CameraController : MonoBehaviour
             FollowPlayer();
         }
     }
+   
     private void FollowPlayer()
     {
         //var delta = oldPosition - transform.position.x;

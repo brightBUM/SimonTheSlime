@@ -9,7 +9,7 @@ public class LevelManager : MonoBehaviour
     [Header("collectibles")]
     [SerializeField] int targetbananas;
     private int collectedBananas;
-    private Transform lastCheckpoint;
+    [SerializeField] Transform lastCheckpoint;
     public Vector3 LastCheckpointpos { get; set; }
     public static LevelManager Instance;
     public CameraController LevelCamera => cameraController;
@@ -19,7 +19,7 @@ public class LevelManager : MonoBehaviour
         {
             Instance = this;
         }
-        
+        LastCheckpointpos = lastCheckpoint.position;
     }
 
     public string GetLevelBananasCount()
