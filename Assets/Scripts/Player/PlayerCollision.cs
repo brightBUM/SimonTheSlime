@@ -15,7 +15,7 @@ public class PlayerCollision : MonoBehaviour
     [SerializeField] float fadeDelay = 0.5f;
     [SerializeField] float fadeDuration = 1f;
     const int ObstacleLayer = 6;
-    const int StickableLayer = 9;
+    const int StickableLayer = 10;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,18 +30,11 @@ public class PlayerCollision : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (playerController.playerState == State.LAUNCHED)
+        if (playerController.playerState == State.LAUNCHED && collision.gameObject.layer != StickableLayer) 
         {
-            //if collided with stickable 
-            if(collision.gameObject.layer == StickableLayer)
-            {
-                playerController.SetToStickState(collision.transform);
-            }
-            else
-            {
-                //checking for firstbounce
-                playerController.SetToFirstBounce();
-            }
+            /// checking for firstbounce
+            playerController.SetToFirstBounce();
+           
         }
         else if(playerController.playerState == State.BOUNCE)
         {
@@ -76,11 +69,11 @@ public class PlayerCollision : MonoBehaviour
         }
     }
 
-    private void SquishSplatterEffect()
+    private void SquishSplatterEffect(Vector2 offset)
     {
         for(int i=0;i<3;i++)
         {
-            var offsetPos = new Vector3(Random.Range(-maskRange, maskRange), -Random.Range(maskRange,maskRange+1), -1);
+            var offsetPos = new Vector3(offset.x,offset.y, -1);
             SplatterEffect(offsetPos);
         }
     }

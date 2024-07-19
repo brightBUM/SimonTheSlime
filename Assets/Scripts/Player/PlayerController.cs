@@ -1,10 +1,7 @@
 using DG.Tweening;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public enum State
 {
@@ -21,16 +18,10 @@ public class PlayerController : MonoBehaviour
 {
     public float Velocity => rb.velocity.y;
     public State playerState;
-    public Action SquishEffect;
+    public Action<Vector2> SquishEffect;
 
-    private Vector2 startPos;
-    private Vector2 dragPos;
-    private Vector2 dir;
-    private Vector2 aimDir;
-    private Vector2 forceDir;
-    private Rigidbody2D rb;
-    private PlayerInput playerInput;
     [SerializeField] PlayerAnimation playerAnimation;
+    [SerializeField] GameObject playerSquishDummy;
     [SerializeField] float dragSensitivity;
     [SerializeField] float poundForce = 10f;
     [SerializeField] float maxForce;
@@ -40,12 +31,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float midAirJumpCooldown = 1f;
     [SerializeField] float bulletTimeScale = 0.5f;
     [SerializeField] bool debugVectors;
-   
+    
+    private Vector2 startPos;
+    private Vector2 dragPos;
+    private Vector2 dir;
+    private Vector2 aimDir;
+    private Vector2 forceDir;
+    private Rigidbody2D rb;
+    private PlayerInput playerInput;
     private Action respawnPlayer;
     private CircleCollider2D collider;
     private float lerpAmount = 0f;
     private float jumpTimer = 1f;
     private int bulletTimeAbility = 0;
+    private const float squishOffset = 1.5f;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -77,28 +76,33 @@ public class PlayerController : MonoBehaviour
             jumpTimer -= Time.deltaTime;
         }
     }
+    private void StartPosConfig(Vector2 mousePos)
+    {
+        aimDir = Vector2.zero;
+        playerAnimation.ToggleLineRenderer(true);
+        startPos = mousePos;
 
+    }
     private void LeftClicked(Vector2 mousePos)
     {
        
         if(playerState == State.IDLE)
         {
-            aimDir = Vector2.zero;
             playerState = State.AIMING;
             playerAnimation.SetAim();
-            playerAnimation.ToggleLineRenderer(true);
-            startPos = mousePos;
-            
+            StartPosConfig(mousePos);
         }
         else if (playerState == State.BOUNCE)
         {
             if(jumpTimer <= 0f)
             {
                 //can jump in mid air 
-                aimDir = Vector2.zero;
-                playerAnimation.ToggleLineRenderer(true);
-                startPos = mousePos;
+                StartPosConfig(mousePos);
             }
+        }
+        else if(playerState == State.STICK)
+        {
+            StartPosConfig(mousePos);
         }
     }
     private void LeftDragging(Vector2 mousePos)
@@ -115,7 +119,20 @@ public class PlayerController : MonoBehaviour
             //Debug.Log("forcelength : "+forceLength);
             playerAnimation.FlipSprite(forceDir.normalized);
             playerAnimation.DrawTrajectory(Vector2.ClampMagnitude(forceDir, maxForce));
-           
+        }
+        else if(playerState == State.STICK)
+        {
+            //aim only to the opp side of the conveyor/sticky platform
+            dragPos = mousePos;
+            dir = dragPos - startPos;
+            aimDir = (Vector2)transform.position + (-dir);
+            forceDir = aimDir - (Vector2)transform.position;
+            //Debug.Log("dot value :" + Vector2.Dot(Vector2.left, forceDir.normalized));
+
+            forceDir *= dragSensitivity;
+            forceLength = forceDir.magnitude;
+            playerAnimation.DrawTrajectory(Vector2.ClampMagnitude(forceDir, maxForce));
+
         }
 
     }
@@ -153,13 +170,17 @@ public class PlayerController : MonoBehaviour
             if (jumpTimer <= 0f)
             {
                 //can jump in mid air 
-                playerState = State.LAUNCHED;
-                forceDir = Vector2.ClampMagnitude(forceDir, maxForce);
-                rb.velocity = forceDir;
-                playerAnimation.SetRelaunch();
-                playerAnimation.ToggleTrailRenderer(true);
+                RelaunchPlayer();
                 jumpTimer = midAirJumpCooldown;
             }
+        }
+        else if(playerState == State.STICK)
+        {
+            RelaunchPlayer();
+            //rb.isKinematic = false;
+            //collider.enabled = true;
+            ResetGravity();
+            playerAnimation.FlipSprite(forceDir.normalized);
         }
         if (GamePlayScreenUI.instance.BulletTimeActive)
         {
@@ -179,7 +200,14 @@ public class PlayerController : MonoBehaviour
         }
         //Debug.Log("right mouse clicked");
     }
-
+    private void RelaunchPlayer()
+    {
+        playerState = State.LAUNCHED;
+        forceDir = Vector2.ClampMagnitude(forceDir, maxForce);
+        rb.velocity = forceDir;
+        playerAnimation.SetRelaunch();
+        playerAnimation.ToggleTrailRenderer(true);
+    }
     private void ActivateBulletTime()
     {
         if (playerState != State.BOUNCE)
@@ -212,13 +240,48 @@ public class PlayerController : MonoBehaviour
         playerAnimation.ToggleTrailRenderer(false);
         playerAnimation.ResetVelocity();
     }
-    public void SetToSquishState()
+    public void SetToSquishState(Vector3 stickPos,HitDirection hitDirection)
     {
         playerAnimation.ToggleTrailRenderer(false);
+        playerAnimation.ToggleSpriteRenderer(false);
+        playerSquishDummy.SetActive(true);
+        playerSquishDummy.transform.position = stickPos;
+        Vector2 offset;
+        //dummy orientation
+        switch(hitDirection)
+        {
+            case HitDirection.Left:
+                playerSquishDummy.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
+                playerSquishDummy.GetComponent<SpriteRenderer>().flipY = true;
+                offset = new Vector2(-UnityEngine.Random.Range(squishOffset, squishOffset + 1), UnityEngine.Random.Range(-squishOffset, squishOffset));
+                SquishEffect.Invoke(offset);
+                break;
+            case HitDirection.Right:
+                playerSquishDummy.transform.rotation = Quaternion.Euler(0f, 0f, 90f);
+                offset = new Vector2(UnityEngine.Random.Range(squishOffset, squishOffset + 1), UnityEngine.Random.Range(-squishOffset, squishOffset));
+                SquishEffect.Invoke(offset);
+                break;
+            case HitDirection.Up:
+                //direction
+                playerSquishDummy.transform.rotation = Quaternion.Euler(Vector3.zero);
+                playerSquishDummy.GetComponent<SpriteRenderer>().flipY = true;
+                //offset
+                offset = new Vector2(UnityEngine.Random.Range(-squishOffset, squishOffset), UnityEngine.Random.Range(squishOffset, squishOffset + 1));
+                SquishEffect.Invoke(offset);
+                break;
+            case HitDirection.Down:
+                //direction
+                playerSquishDummy.transform.rotation = Quaternion.Euler(Vector3.zero);
+                //offset
+                offset = new Vector2(UnityEngine.Random.Range(-squishOffset, squishOffset), -UnityEngine.Random.Range(squishOffset, squishOffset + 1));
+                SquishEffect.Invoke(offset);
+                break;
+            
+        }
+
         playerState = State.SQUISHED;
-        SquishEffect.Invoke();
         rb.velocity = Vector2.zero;
-        playerAnimation.SetSquish();
+        //playerAnimation.SetSquish();
         StartCoroutine(DelayedRespawn());
     }
     
@@ -226,15 +289,22 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         lerpAmount = 0;
+        playerSquishDummy.SetActive(false);
+
         playerState = State.GHOST;
         playerAnimation.HitEffect(respawnPlayer);
     }
-    public void SetToStickState(Transform transform)
+    public void SetToStickState()
     {
         playerState = State.STICK;
+        rb.velocity = Vector2.zero;
         playerAnimation.SetStick();
-        //parent player to platform
-        this.transform.parent = transform;
+        playerAnimation.ToggleTrailRenderer(false);
+        //disable rb to avoid gravity
+        //rb.isKinematic = true;
+        //collider.enabled = false;
+        Physics2D.gravity = Vector2.zero;
+        
     }
     public void ResetPound()
     {
@@ -244,7 +314,7 @@ public class PlayerController : MonoBehaviour
 
     public Vector2 GetPosition(Vector2 vel,float t)
     {
-        var pos = (Vector2)transform.position + vel * t+0.5f*Physics2D.gravity*t*t;
+        var pos = (Vector2)transform.position + vel * t+0.5f*Vector2.up*gravity*t*t;
         return pos;
     }
     public void PlayerHitEffect()
@@ -314,6 +384,11 @@ public class PlayerController : MonoBehaviour
     {
         bulletTimeAbility = 2;
         GamePlayScreenUI.instance.UpdateBulletTimeUI(bulletTimeAbility);
+    }
+    public void ResetGravity()
+    {
+        Physics2D.gravity = Vector2.up * gravity;
+
     }
     private void OnDisable()
     {

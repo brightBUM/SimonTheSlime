@@ -24,6 +24,8 @@ public class GamePlayScreenUI : MonoBehaviour
     [SerializeField] GameObject aimReticleObject;
     [SerializeField] Color timeOverColor;
     [SerializeField] float duration = 0.5f;
+    [Header("Collectibles")]
+    [SerializeField] TextMeshProUGUI bananaUI;
     Color defaultColor;
     public static GamePlayScreenUI instance;
     public Action<float> UpdateMidAirJumpUI;
@@ -38,7 +40,13 @@ public class GamePlayScreenUI : MonoBehaviour
     {
         instance = this;
     }
+    void Start()
+    {
+        UpdateMidAirUIAbility(0f);
+        UpdateBananaCount(LevelManager.Instance.GetLevelBananasCount());
+        defaultColor = timerFillUI.color;
 
+    }
     private void UpdateMidAirUIAbility(float value)
     {
         midAirJumpFillImage.fillAmount = value;
@@ -57,13 +65,11 @@ public class GamePlayScreenUI : MonoBehaviour
         //bulletTimeIcon.transform.DOMoveX(bulletTimeIcon.rectTransform.position.x+2f,0.5f).SetEase(Ease.InSine);
         bulletTimeIcon.rectTransform.DOShakeAnchorPos(0.3f,20);
     }
-    void Start()
+    
+    public void UpdateBananaCount(string text)
     {
-        UpdateMidAirUIAbility(0f);
-        defaultColor = timerFillUI.color;
-
+        bananaUI.text = text;
     }
-
     public void StartTimer(int value)
     {
         //SoundManager.instance.PlaySloMoTimer();
