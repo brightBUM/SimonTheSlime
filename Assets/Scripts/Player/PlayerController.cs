@@ -450,7 +450,7 @@ public class PlayerController : MonoBehaviour
 
     public void RefillBulletTime()
     {
-        bulletTimeAbility = 2;
+        bulletTimeAbility += 2;
         GamePlayScreenUI.instance.UpdateBulletTimeUI(bulletTimeAbility);
     }
     public void ResetGravity()
@@ -493,6 +493,12 @@ public class PlayerController : MonoBehaviour
                 playerState = State.GRAPPLE;
             }));
         }
+    }
+    public void ExplodeOnContact(float force)
+    {
+        //add exploding force 
+        rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+        //respawn on landing again
     }
     public void SetGrapplePoint(Vector2 point)
     {

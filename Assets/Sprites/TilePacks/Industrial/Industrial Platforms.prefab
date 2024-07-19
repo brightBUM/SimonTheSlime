@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8841552618647958878
+--- !u!1 &1858456142440216641
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,52 +8,44 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2856165701898382289}
-  - component: {fileID: 2815193017457055707}
+  - component: {fileID: 9052139220164021474}
+  - component: {fileID: 6793059921177902904}
   m_Layer: 0
-<<<<<<<< HEAD:Assets/Sprites/TilePacks/Industrial/Industrial Tiles.prefab
-  m_Name: Industrial Tiles
-========
-  m_Name: Industrial Platforms
->>>>>>>> master:Assets/Sprites/TilePacks/Industrial/Industrial Platforms.prefab
+  m_Name: Industrial platforms
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2856165701898382289
+--- !u!4 &9052139220164021474
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8841552618647958878}
+  m_GameObject: {fileID: 1858456142440216641}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7112940056519372809}
+  - {fileID: 2371575486250747340}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!156049354 &2815193017457055707
+--- !u!156049354 &6793059921177902904
 Grid:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8841552618647958878}
+  m_GameObject: {fileID: 1858456142440216641}
   m_Enabled: 1
-<<<<<<<< HEAD:Assets/Sprites/TilePacks/Industrial/Industrial Tiles.prefab
-  m_CellSize: {x: 4, y: 2.125, z: 0}
-========
   m_CellSize: {x: 4, y: 2.0833333, z: 0}
->>>>>>>> master:Assets/Sprites/TilePacks/Industrial/Industrial Platforms.prefab
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
---- !u!1 &9021013023998160856
+--- !u!1 &6024231945175329924
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -61,9 +53,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7112940056519372809}
-  - component: {fileID: 6062754227936572522}
-  - component: {fileID: 7432922704851915908}
+  - component: {fileID: 2371575486250747340}
+  - component: {fileID: 8206524797485118502}
+  - component: {fileID: 3330139341638424185}
   m_Layer: 0
   m_Name: Layer1
   m_TagString: Untagged
@@ -71,101 +63,41 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7112940056519372809
+--- !u!4 &2371575486250747340
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9021013023998160856}
+  m_GameObject: {fileID: 6024231945175329924}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2856165701898382289}
+  m_Father: {fileID: 9052139220164021474}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1839735485 &6062754227936572522
+--- !u!1839735485 &8206524797485118502
 Tilemap:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9021013023998160856}
+  m_GameObject: {fileID: 6024231945175329924}
   m_Enabled: 1
   m_Tiles:
-  - first: {x: -1, y: 0, z: 0}
+  - first: {x: -3, y: -1, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 1
       m_TileSpriteIndex: 1
       m_TileMatrixIndex: 0
-      m_TileColorIndex: 1
+      m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741826
-  - first: {x: 1, y: 0, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 5
-      m_TileSpriteIndex: 5
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 1
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 0
-  - first: {x: 2, y: 0, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 4
-      m_TileSpriteIndex: 4
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 1
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 0
-  - first: {x: 3, y: 0, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 3
-      m_TileSpriteIndex: 3
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 1
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 0
-  - first: {x: 5, y: 0, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 6
-      m_TileSpriteIndex: 6
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 1
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
-  - first: {x: -1, y: 1, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 7
-      m_TileSpriteIndex: 7
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 1
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741825
-  - first: {x: 0, y: 1, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 2
-      m_TileSpriteIndex: 2
-      m_TileMatrixIndex: 0
-      m_TileColorIndex: 1
-      m_TileObjectToInstantiateIndex: 65535
-      dummyAlignment: 0
-      m_AllTileFlags: 1073741826
-  - first: {x: -1, y: 2, z: 0}
+  - first: {x: -1, y: -1, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 0
@@ -174,27 +106,49 @@ Tilemap:
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
-      m_AllTileFlags: 1073741827
-<<<<<<<< HEAD:Assets/Sprites/TilePacks/Industrial/Industrial Tiles.prefab
-  - first: {x: 1, y: 2, z: 0}
+      m_AllTileFlags: 1073741826
+  - first: {x: 0, y: 0, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 6
-      m_TileSpriteIndex: 6
-========
-  - first: {x: 2, y: 2, z: 0}
-    second:
-      serializedVersion: 2
-      m_TileIndex: 8
-      m_TileSpriteIndex: 8
->>>>>>>> master:Assets/Sprites/TilePacks/Industrial/Industrial Platforms.prefab
+      m_TileIndex: 5
+      m_TileSpriteIndex: 5
       m_TileMatrixIndex: 0
-      m_TileColorIndex: 1
+      m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
+  - first: {x: -3, y: 1, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 2
+      m_TileSpriteIndex: 2
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 0
+  - first: {x: -2, y: 1, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 3
+      m_TileSpriteIndex: 3
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 0
+  - first: {x: -1, y: 1, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 4
+      m_TileSpriteIndex: 4
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 0
   m_AnimatedTiles:
-  - first: {x: 1, y: 0, z: 0}
+  - first: {x: -3, y: 1, z: 0}
     second:
       serializedVersion: 2
       m_AnimatedSprites:
@@ -205,7 +159,7 @@ Tilemap:
       m_AnimationSpeed: 10
       m_AnimationTimeOffset: 0
       m_Flags: 0
-  - first: {x: 2, y: 0, z: 0}
+  - first: {x: -2, y: 1, z: 0}
     second:
       serializedVersion: 2
       m_AnimatedSprites:
@@ -216,7 +170,7 @@ Tilemap:
       m_AnimationSpeed: 10
       m_AnimationTimeOffset: 0
       m_Flags: 0
-  - first: {x: 3, y: 0, z: 0}
+  - first: {x: -1, y: 1, z: 0}
     second:
       serializedVersion: 2
       m_AnimatedSprites:
@@ -229,54 +183,32 @@ Tilemap:
       m_Flags: 0
   m_TileAssetArray:
   - m_RefCount: 1
-    m_Data: {fileID: 0}
-  - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 679e4cba85b227148a59f0bdd7b67940, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: cb14c86368cee674d9158b53f1bef5c8, type: 2}
   - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: d6d40ac11cd54ab4c81e0acddce953c2, type: 2}
+    m_Data: {fileID: 11400000, guid: cfe0583a7beb3be499bacb95cbf02cac, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 8e88e6ecbc2e0564eb8055433307675d, type: 2}
   - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: cfe0583a7beb3be499bacb95cbf02cac, type: 2}
-  - m_RefCount: 1
-<<<<<<<< HEAD:Assets/Sprites/TilePacks/Industrial/Industrial Tiles.prefab
-    m_Data: {fileID: 11400000, guid: f32344d8bdbee944a979c432cc00c99d, type: 2}
-========
-    m_Data: {fileID: 11400000, guid: 804ef49ce002dac4185d6da089ed0cf5, type: 2}
-  - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: b4985a71174f32143a33691ec6d72aa8, type: 2}
+    m_Data: {fileID: 11400000, guid: d6d40ac11cd54ab4c81e0acddce953c2, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 9e8029d00408cc64185c39cafa6ae5fe, type: 2}
->>>>>>>> master:Assets/Sprites/TilePacks/Industrial/Industrial Platforms.prefab
   m_TileSpriteArray:
-  - m_RefCount: 1
-    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: -6804801703303173124, guid: 9b5e708efe31d58468bdc52ba839532c, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: -3466840473393399165, guid: 53c643c5196d2d44590ba396117dc081, type: 3}
   - m_RefCount: 1
-    m_Data: {fileID: 1223729149, guid: 1cdf500635dca684b8ce0619b6224180, type: 3}
+    m_Data: {fileID: -1631285724, guid: 734ebbaf4b420324280dae5e3b521467, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: -1505383330, guid: 07e8269909d4a4f4498988dd5b62f836, type: 3}
   - m_RefCount: 1
-    m_Data: {fileID: -1631285724, guid: 734ebbaf4b420324280dae5e3b521467, type: 3}
-  - m_RefCount: 1
-<<<<<<<< HEAD:Assets/Sprites/TilePacks/Industrial/Industrial Tiles.prefab
-    m_Data: {fileID: -5633411777164145891, guid: 586c6d872e9641d4c97104bf70582a82, type: 3}
-  m_TileMatrixArray:
-  - m_RefCount: 7
-========
-    m_Data: {fileID: 3956505180328292532, guid: c4085fdb65c97184486e8aaa335bfee8, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 6351806780624379098, guid: bb57309a065c67541a94a5e8d8343ed2, type: 3}
+    m_Data: {fileID: 1223729149, guid: 1cdf500635dca684b8ce0619b6224180, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: -5633411777164145891, guid: 586c6d872e9641d4c97104bf70582a82, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 9
->>>>>>>> master:Assets/Sprites/TilePacks/Industrial/Industrial Platforms.prefab
+  - m_RefCount: 6
     m_Data:
       e00: 1
       e01: 0
@@ -295,20 +227,13 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 1
-<<<<<<<< HEAD:Assets/Sprites/TilePacks/Industrial/Industrial Tiles.prefab
-    m_Data: {r: 0.9491529, g: 0.4461991, b: 0.5773809, a: 1}
   - m_RefCount: 6
-========
-    m_Data: {r: 0.7261541, g: 0.3007063, b: 0.32146224, a: 1}
-  - m_RefCount: 8
->>>>>>>> master:Assets/Sprites/TilePacks/Industrial/Industrial Platforms.prefab
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Origin: {x: -1, y: 0, z: 0}
-  m_Size: {x: 7, y: 3, z: 1}
+  m_Origin: {x: -3, y: -1, z: 0}
+  m_Size: {x: 4, y: 3, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -328,13 +253,13 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!483693784 &7432922704851915908
+--- !u!483693784 &3330139341638424185
 TilemapRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9021013023998160856}
+  m_GameObject: {fileID: 6024231945175329924}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -377,11 +302,7 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
-<<<<<<<< HEAD:Assets/Sprites/TilePacks/Industrial/Industrial Tiles.prefab
---- !u!114 &8483116653000300209
-========
---- !u!114 &8213910653457333045
->>>>>>>> master:Assets/Sprites/TilePacks/Industrial/Industrial Platforms.prefab
+--- !u!114 &4776932865383443464
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
