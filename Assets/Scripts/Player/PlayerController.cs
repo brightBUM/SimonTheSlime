@@ -13,6 +13,7 @@ public enum State
     STICK,
     BOUNCE,
     GRAPPLE,
+    GRAPPLEHANG,
     POUND,
     SQUISHED,
     GHOST
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public float Velocity => rb.velocity.y;
     public State playerState;
     public Action<Vector2> SquishEffect;
+    public Action GrappleRangeShrink;
     public bool grappleReady;
 
     [SerializeField] PlayerAnimation playerAnimation;
@@ -41,6 +43,7 @@ public class PlayerController : MonoBehaviour
     [Header("Ability")]
     [SerializeField] float dashAmount = 2f;
     [SerializeField] float grapplePullSpeed = 6f;
+    [SerializeField] float grappleGrabHangTimer = 5f;
     [SerializeField] float grappledOffSpeed = 10f;
     [SerializeField] float onHitUpForce = 3f;
     [SerializeField] float dashCooldown = 1f;
@@ -63,6 +66,7 @@ public class PlayerController : MonoBehaviour
     private CircleCollider2D collider;
     private float lerpAmount = 0f;
     private float dashTimer = 1f;
+    private float grappleTimer = 0f;
     private int bulletTimeAbility = 2;
     private float slideAccelerate;
     private const float squishOffset = 1.5f;
@@ -107,13 +111,33 @@ public class PlayerController : MonoBehaviour
         if (playerState == State.GRAPPLE)
         {
             var distance = Vector2.Distance(transform.position, grapplePoint);
+            Debug.Log("distance : " + distance);
             if (distance < 1.0f)
             {
                 //Debug.Log("grapple distance : " + distance);
-                rb.velocity = rb.velocity.normalized * grappledOffSpeed;
-                playerState = State.LAUNCHED;
+                //rb.velocity = rb.velocity.normalized * grappledOffSpeed;
+                GrappleRangeShrink.Invoke();
+                rb.velocity = Vector2.zero;
+                Physics2D.gravity = Vector2.zero;
+                playerAnimation.SetGrappleGrab();
+                playerState = State.GRAPPLEHANG;
+                //playerState = State.LAUNCHED;
+                
             }
         }
+
+        if (playerState == State.GRAPPLEHANG)
+        {
+            grappleTimer += Time.deltaTime;
+            if (grappleTimer >= grappleGrabHangTimer)
+            {
+                grappleTimer = 0f;
+                playerAnimation.SetRelaunch();
+                playerState = State.LAUNCHED;
+                ResetGravity();
+            }
+        }
+        
     }
   
     private void LeftDragging(Vector2 mousePos)
@@ -175,7 +199,7 @@ public class PlayerController : MonoBehaviour
             playerAnimation.FlipSprite(forceDir.normalized);
             playerAnimation.DrawTrajectory(Vector2.ClampMagnitude(forceDir, maxForce));
         }
-        else if (playerState == State.STICK)
+        else if (playerState == State.STICK || playerState == State.GRAPPLEHANG)
         {
             //aim only to the opp side of the conveyor/sticky platform
            
@@ -217,11 +241,12 @@ public class PlayerController : MonoBehaviour
             forceDir = Vector2.ClampMagnitude(forceDir, maxForce);
             rb.velocity = forceDir;
         }
-        else if (playerState == State.STICK)
+        else if (playerState == State.STICK || playerState == State.GRAPPLEHANG)
         {
             RelaunchPlayer();
             ResetGravity();
             playerAnimation.FlipSprite(forceDir.normalized);
+            grappleTimer = 0f;
         }
         if (GamePlayScreenUI.instance.BulletTimeActive)
         {
@@ -482,8 +507,10 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
             Physics2D.gravity = Vector2.zero;
+
             var grappleDirection = grapplePoint - (Vector2)transform.position;
             playerAnimation.FlipSprite(grappleDirection.normalized);
+            playerAnimation.SetGrapplePose();
             //activate line renderer
            
             StartCoroutine(grappleRope.AnimateRope(grapplePoint, () =>

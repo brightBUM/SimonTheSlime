@@ -97,6 +97,14 @@ public class PlayerAnimation : MonoBehaviour
     {
         animator.SetFloat("velocity", 0f);
     }
+    public void SetGrapplePose()
+    {
+        animator.SetTrigger("grapplePose");
+    }
+    public void SetGrappleGrab()
+    {
+        animator.SetTrigger("grappleGrab");
+    }
     public void ToggleLineRenderer(bool value)
     {
         //for(int i = 0; i<lineRenderer.positionCount;i++)
