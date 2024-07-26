@@ -149,7 +149,7 @@ public class PlayerCollision : MonoBehaviour
         else if (playerController.playerState == State.POUND)
         {
             playerController.ResetPound();
-            LevelManager.Instance.LevelCamera.CameraPoundEffect();
+            LevelManager.Instance.ShakeCamera.OnPound();
 
             //check if collided with breakables
             if (collision.gameObject.TryGetComponent<BreakablePT>(out BreakablePT breakablePT))
@@ -168,7 +168,7 @@ public class PlayerCollision : MonoBehaviour
         if (collision.collider.gameObject.layer == ObstacleLayer && playerController.playerState != State.GHOST)
         {
             //hit with obstacle , respawn to last checkpoint
-            LevelManager.Instance.LevelCamera.CameraHitEffect();
+            LevelManager.Instance.ShakeCamera.OnHit();
             playerController.PlayerHitEffect();
         }
     }

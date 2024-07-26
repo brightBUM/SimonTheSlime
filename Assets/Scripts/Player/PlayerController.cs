@@ -491,7 +491,7 @@ public class PlayerController : MonoBehaviour
         {
             playerAnimation.ToggleSpriteTrailRenderer(true);
             rb.AddForce(rb.velocity.normalized * dashAmount, ForceMode2D.Impulse);
-            LevelManager.Instance.LevelCamera.CameraPoundEffect();
+            LevelManager.Instance.ShakeCamera.OnDash();
             dashTimer = dashCooldown;
             DOVirtual.DelayedCall(0.5f, () =>
             {
@@ -518,6 +518,7 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = grappleDirection.normalized * grapplePullSpeed;
                 ResetGravity();
                 playerState = State.GRAPPLE;
+                LevelManager.Instance.ShakeCamera.OnGrapple();
             }));
         }
     }

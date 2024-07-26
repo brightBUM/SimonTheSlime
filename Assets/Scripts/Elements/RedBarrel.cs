@@ -32,7 +32,7 @@ public class RedBarrel : MonoBehaviour
             //add rb force
             playerController.ExplodeOnContact(explodeForce);
             //cam shake 
-            LevelManager.Instance.LevelCamera.CameraHitEffect();
+            LevelManager.Instance.ShakeCamera.OnExplosion();
             //particles , SFX
             smokeVFX.SetActive(true);
             smokeVFX.GetComponent<Animator>().SetInteger("smoke", Random.Range(1, 3));

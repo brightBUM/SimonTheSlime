@@ -1,38 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class ParallaxSystem : MonoBehaviour
 {
-    [SerializeField] ParallaxLayer[] backGroundLayers;
-    [SerializeField] ParallaxLayer foreGroundLayer;
-    [SerializeField] CameraController cameraController;
-    // Start is called before the first frame update
-   
-    private void OnEnable()
+    [System.Serializable]
+    public class ParallaxLayer
     {
-        cameraController.camMovement += MoveLayers;
+        public Transform layerTransform;  // Reference to the background transform
+        public float parallaxFactor;  // The parallax effect multiplier for this layer
     }
 
-    private void MoveLayers(float delta)
-    {
-        foreach(var background in backGroundLayers)
-        {
-            Vector3 newPos = background.layer.position;
-            newPos.x -= delta * background.parallaxFactor;
+    private float length, startPos;
+    public GameObject cam;
+    public float parallaxEffect;
 
-            background.layer.position = newPos;
-        }
-    }
-    private void OnDisable()
+    void Start()
     {
-        cameraController.camMovement -= MoveLayers;
+        startPos = transform.position.x;
+        length = GetComponent<SpriteRenderer>().bounds.size.x;
     }
-}
+    private void FixedUpdate()
+    {
+        float temp = (cam.transform.position.x * (1 - parallaxEffect));
+        float dist = (cam.transform.position.x * parallaxEffect);
 
-[System.Serializable]
-class ParallaxLayer
-{
-    public Transform layer;
-    public float parallaxFactor;
+        transform.position = new Vector3(startPos + dist, transform.position.y, transform.position.z);
+
+        if (temp > startPos + length) startPos += length;
+        else if (temp < startPos - length) startPos -= length;
+    }
+    void LateUpdate()
+    {
+
+    }
 }

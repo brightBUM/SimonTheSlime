@@ -13,8 +13,7 @@ using static UnityEngine.Rendering.DebugUI;
 public class GamePlayScreenUI : MonoBehaviour
 {
     [Header("Ability UI")]
-    [SerializeField] Image midAirJumpFillImage;
-    [SerializeField] Image midAirJumpIcon;
+    [SerializeField] Image dashFillImage;
     [SerializeField] Image bulletTimeIcon;
     [SerializeField] TextMeshProUGUI bulletTimeText;
     [SerializeField] TextMeshProUGUI bananaText;
@@ -48,7 +47,7 @@ public class GamePlayScreenUI : MonoBehaviour
     }
     private void UpdateDashAbilityUI(float value)
     {
-        midAirJumpFillImage.fillAmount = value;
+        dashFillImage.fillAmount = value;
     }
     public void UpdateBulletTimeUI(int num)
     {
