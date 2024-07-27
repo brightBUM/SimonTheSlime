@@ -250,6 +250,7 @@ public class PlayerController : MonoBehaviour
         }
         if (GamePlayScreenUI.instance.BulletTimeActive)
         {
+            ResetGravity();
             GamePlayScreenUI.instance.EndBulletTime(bulletTimeAbility);
         }
         dragging = false;
@@ -270,6 +271,7 @@ public class PlayerController : MonoBehaviour
             //cancel aim 
             aimCancel = true;
             GamePlayScreenUI.instance.EndBulletTime(bulletTimeAbility);
+            ResetGravity();
             playerAnimation.ToggleLineRenderer(false);
             playerState = State.LAUNCHED;
         }
@@ -301,6 +303,8 @@ public class PlayerController : MonoBehaviour
     {
         bulletTimeAbility--;
         playerState = State.TIMEDILATION;
+        Physics2D.gravity = Vector2.zero;
+        rb.velocity = Vector2.zero;
         Time.timeScale = bulletTimeScale;
         //to avoid physics lag during SloMo
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
@@ -310,6 +314,7 @@ public class PlayerController : MonoBehaviour
             aimCancel = true;
             playerState = State.LAUNCHED;
             playerAnimation.ToggleLineRenderer(false);
+            ResetGravity();
         });
         
     }

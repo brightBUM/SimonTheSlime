@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,39 +8,50 @@ public class BreakablePT : MonoBehaviour
 {
     [SerializeField] GameObject breakablePTVFX;
     [SerializeField] Rigidbody2D[] rigidbodies;
+    [SerializeField] GameObject bananaPrefab;
     [SerializeField] Transform blastPoint;
+    [SerializeField] SpriteRenderer originalSprite;
+    [SerializeField] Color breakColor;
+    [SerializeField] float coinForce = 5f;
     [SerializeField] float radius = 5.0F;
     [SerializeField] float power = 10.0F;
+    [SerializeField] int HitCount = 0;
     private void Start()
     {
+
     }
-    //private void OnCollisionEnter2D(Collision2D other)
-    //{
-    //    if(other.collider.TryGetComponent<PlayerInput>(out PlayerInput playerInput))
-    //    {
-    //        Debug.Log("state  - "+ playerInput.playerState);
-    //        if (playerInput.playerState == PlayerInput.PlayerState.POUND)
-    //        {
-                
-    //            //Destroy(this.gameObject);
-    //            //var rb = GetComponent<Rigidbody2D>();
-    //            //rb.bodyType = RigidbodyType2D.Dynamic;
-    //            //rb.gravityScale = 1.0f;
-    //        }
-    //    }
-    //    else
-    //    {
-    //        Debug.Log("no playerInput component");
-    //    }
-    //}
+    
     public void OnCollisionPounded()
     {
-        //SoundManager.instance.PlayBrickBreakSFx();
-        var effect = Instantiate(breakablePTVFX, transform.position, Quaternion.identity);
-        rigidbodies = effect.GetComponentsInChildren<Rigidbody2D>();
-        //breakablePTVFX.SetActive(true);
-        ExplodePlatform();
-        Destroy(this.gameObject);
+        if(HitCount>0)
+        {
+            //spawn coins on hit
+            GetComponentInChildren<BouncyDeform>().HitDeform();
+            var coin = Instantiate(bananaPrefab, transform.position, Quaternion.identity);
+            coin.AddComponent<Rigidbody2D>().AddForce(Vector2.up*coinForce,ForceMode2D.Impulse);
+            coin.GetComponent<BoxCollider2D>().enabled = false;
+            DOVirtual.DelayedCall(0.5f, () =>
+            {
+                coin.GetComponent<BoxCollider2D>().enabled = true;
+            });
+            HitCount--;
+            Destroy(coin, 2f);
+            if(HitCount==0)
+            {
+                originalSprite.color = breakColor;
+            }
+            //block hit feedback (squeeze effects)
+        }
+        else
+        {
+            //SoundManager.instance.PlayBrickBreakSFx();
+            var effect = Instantiate(breakablePTVFX, transform.position, Quaternion.identity);
+            rigidbodies = effect.GetComponentsInChildren<Rigidbody2D>();
+            //breakablePTVFX.SetActive(true);
+            ExplodePlatform();
+            Destroy(this.gameObject);
+        }
+        
     }
 
     void ExplodePlatform()

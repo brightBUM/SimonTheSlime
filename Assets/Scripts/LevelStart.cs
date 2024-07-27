@@ -9,7 +9,6 @@ public class LevelStart : MonoBehaviour
     [SerializeField] Transform entryPoint;
     [SerializeField] Transform sleepingPlayerTransform;
     [SerializeField] GameObject playerPrefab;
-    [SerializeField] Transform camTracker;
     [SerializeField] float liquidRiseDuration = 2.5f;
     [SerializeField] float liquidfallDuration = 0.5f;
     [SerializeField] float sleepingPlayerRiseDuration = 1.5f;
