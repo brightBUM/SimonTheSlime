@@ -7,6 +7,7 @@ public class patrol : MonoBehaviour
 
     [SerializeField] Transform ptA;
     [SerializeField] Transform ptB;
+    [SerializeField] Transform firstTarget;
     SpriteRenderer spr;
     Vector3 target;
     Vector3 direction;
@@ -15,7 +16,7 @@ public class patrol : MonoBehaviour
     {
         spr = GetComponent<SpriteRenderer>();
         direction = Vector2.up;
-        target = GetTarget();
+        target = firstTarget.position;
     }
 
     void Update()
@@ -39,20 +40,10 @@ public class patrol : MonoBehaviour
         var dis2 = Vector2.Distance(transform.position, ptB.position);
         if (dis1 > 1f)
         {
-            if (spr != null && flip)
-            {
-                //spr.flipX = false;
-                transform.localScale = new Vector3(1f, 1f, 1f);
-            }
             return ptA.position;
         }
         else if (dis2 > 1f)
         {
-            if (spr != null && flip)
-            {
-                //spr.flipX = true;
-                transform.localScale = new Vector3(-1f, 1f, 1f);
-            }
             return ptB.position;
         }
         return Vector3.zero;

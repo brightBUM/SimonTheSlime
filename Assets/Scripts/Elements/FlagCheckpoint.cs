@@ -30,6 +30,7 @@ public class FlagCheckpoint : MonoBehaviour
             unlocked = true;
             animator.SetTrigger("unlock");
             LevelManager.Instance.LastCheckpointpos = this.transform.position;
+            SoundManager.instance.PlayFlagCheckPointSFx();
         }
     }
 }

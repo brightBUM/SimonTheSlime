@@ -6,10 +6,11 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] AudioClip levelMusic;
     [SerializeField] CameraShake camShake;
-    [Header("collectibles")]
-    [SerializeField] int targetbananas;
-    private int collectedBananas;
     [SerializeField] Transform lastCheckpoint;
+    [SerializeField] Transform collectiblesParent;
+    //[Header("collectibles")]
+    private int targetbananas;
+    private int collectedBananas;
     public Vector3 LastCheckpointpos { get; set; }
     public static LevelManager Instance;
     public CameraShake ShakeCamera => camShake;
@@ -20,8 +21,11 @@ public class LevelManager : MonoBehaviour
             Instance = this;
         }
         LastCheckpointpos = lastCheckpoint.position;
+        targetbananas = collectiblesParent.childCount;
     }
-
+    private void Start()
+    {
+    }
     public string GetLevelBananasCount()
     {
         return collectedBananas.ToString() + "/" + targetbananas.ToString();

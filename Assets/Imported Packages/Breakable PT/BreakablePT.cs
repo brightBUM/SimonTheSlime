@@ -27,6 +27,7 @@ public class BreakablePT : MonoBehaviour
         {
             //spawn coins on hit
             GetComponentInChildren<BouncyDeform>().HitDeform();
+            SoundManager.instance.PlayCoinBangSFX();
             var coin = Instantiate(bananaPrefab, transform.position, Quaternion.identity);
             coin.AddComponent<Rigidbody2D>().AddForce(Vector2.up*coinForce,ForceMode2D.Impulse);
             coin.GetComponent<BoxCollider2D>().enabled = false;
@@ -44,7 +45,7 @@ public class BreakablePT : MonoBehaviour
         }
         else
         {
-            //SoundManager.instance.PlayBrickBreakSFx();
+            SoundManager.instance.PlayBrickBreakSFx();
             var effect = Instantiate(breakablePTVFX, transform.position, Quaternion.identity);
             rigidbodies = effect.GetComponentsInChildren<Rigidbody2D>();
             //breakablePTVFX.SetActive(true);

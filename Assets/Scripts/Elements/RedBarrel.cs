@@ -23,6 +23,8 @@ public class RedBarrel : MonoBehaviour
         if (collision.gameObject.TryGetComponent<PlayerController>(out PlayerController playerController))
         {
             //flash material
+            SoundManager.instance.PlayExplosionSFX();
+            LevelManager.Instance.ShakeCamera.OnExplosion();
             explosionVFX.Play();
             spriteRenderer.material = flashMaterial;
             DOVirtual.DelayedCall(0.5f, () =>

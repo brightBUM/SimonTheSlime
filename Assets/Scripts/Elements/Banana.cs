@@ -25,6 +25,7 @@ public class Banana : MonoBehaviour
             effect.transform.localScale = Vector3.one * effectScale;
             //SoundManager.instance.PlayCollectibleSFx();
             LevelManager.Instance.CollectBanana();
+            SoundManager.instance.PlayCollectibleSFx();
             Destroy(this.gameObject);
         }
     }

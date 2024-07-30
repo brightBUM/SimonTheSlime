@@ -60,8 +60,8 @@ public class GamePlayScreenUI : MonoBehaviour
     }
     public void NoBulletTimeAbilityFeedback()
     {
-        //bulletTimeIcon.transform.DOMoveX(bulletTimeIcon.rectTransform.position.x+2f,0.5f).SetEase(Ease.InSine);
         bulletTimeIcon.rectTransform.DOShakeAnchorPos(0.3f,20);
+        SoundManager.instance.PlayOutofBulletTimeSFX();
     }
     
     public void UpdateBananaCount(string text)

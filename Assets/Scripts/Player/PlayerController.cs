@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
     private float lerpAmount = 0f;
     private float dashTimer = 1f;
     private float grappleTimer = 0f;
-    private int bulletTimeAbility = 2;
+    private int bulletTimeAbility = 0;
     private float slideAccelerate;
     private const float squishOffset = 1.5f;
     // Start is called before the first frame update
@@ -111,7 +111,7 @@ public class PlayerController : MonoBehaviour
         if (playerState == State.GRAPPLE)
         {
             var distance = Vector2.Distance(transform.position, grapplePoint);
-            Debug.Log("distance : " + distance);
+            //Debug.Log("distance : " + distance);
             if (distance < 1.0f)
             {
                 //Debug.Log("grapple distance : " + distance);
@@ -239,6 +239,7 @@ public class PlayerController : MonoBehaviour
         {
             playerState = State.LAUNCHED;
             forceDir = Vector2.ClampMagnitude(forceDir, maxForce);
+
             rb.velocity = forceDir;
         }
         else if (playerState == State.STICK || playerState == State.GRAPPLEHANG)
@@ -246,6 +247,7 @@ public class PlayerController : MonoBehaviour
             RelaunchPlayer();
             ResetGravity();
             playerAnimation.FlipSprite(forceDir.normalized);
+
             grappleTimer = 0f;
         }
         if (GamePlayScreenUI.instance.BulletTimeActive)
@@ -309,6 +311,7 @@ public class PlayerController : MonoBehaviour
         //to avoid physics lag during SloMo
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
         //start a bullet timer 
+        SoundManager.instance.PlaySloMoTimer();
         GamePlayScreenUI.instance.StartTimer(bulletTimeAbility, () =>
         {
             aimCancel = true;
@@ -392,6 +395,7 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector2.zero;
         playerAnimation.SetStick(sideValue);
         playerAnimation.ToggleTrailRenderer(false);
+        SoundManager.instance.PlayStickSFx();
         //disable rb to avoid gravity
         //rb.isKinematic = true;
         //collider.enabled = false;
@@ -425,7 +429,6 @@ public class PlayerController : MonoBehaviour
     }
     private void RespawnPlayer()
     {
-        //Debug.Log("Player controller Respawn Player");
 
         //move to last checkpoint with ghost effect
 
@@ -447,15 +450,6 @@ public class PlayerController : MonoBehaviour
         B = Amid + (Vector2.Perpendicular(dir1.normalized) * distance/2);
         C = Dmid + (Vector2.Perpendicular(dir2.normalized) *-1f* distance/2);
 
-        //var distance = Vector2.Distance(A, D);
-        //var duration = distance / 3.0f; // camera follow speed = 3
-
-        //Debug.Log(string.Format($"distance : {distance} , duration : {duration}"));
-        //this.A.position = A;
-        //this.B.position = B;
-        //this.C.position = C;
-        //this.D.position = D;
-
         DOTween.To(() => lerpAmount, x => lerpAmount = x, 1, 1.5f).SetEase(Ease.Linear).OnUpdate(() =>
         {
             var AB = Vector2.Lerp(A, B, lerpAmount);
@@ -472,7 +466,9 @@ public class PlayerController : MonoBehaviour
         {
             //reset to idle
             SetToIdle();
+            ResetGravity();
             playerAnimation.DisableGhostParticle();
+            SoundManager.instance.PlayGhostRespawnSFx(false);
             collider.enabled = true;
         });
 
@@ -516,14 +512,17 @@ public class PlayerController : MonoBehaviour
             var grappleDirection = grapplePoint - (Vector2)transform.position;
             playerAnimation.FlipSprite(grappleDirection.normalized);
             playerAnimation.SetGrapplePose();
+            SoundManager.instance.PlayGrappleRopeSFX();
+
             //activate line renderer
-           
             StartCoroutine(grappleRope.AnimateRope(grapplePoint, () =>
             {
                 rb.velocity = grappleDirection.normalized * grapplePullSpeed;
                 ResetGravity();
                 playerState = State.GRAPPLE;
                 LevelManager.Instance.ShakeCamera.OnGrapple();
+                SoundManager.instance.PlayGrapplePullSFX();
+
             }));
         }
     }
@@ -531,7 +530,10 @@ public class PlayerController : MonoBehaviour
     {
         //add exploding force 
         rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
-        //respawn on landing again
+        DOVirtual.DelayedCall(0.5f, () =>
+        {
+            PlayerHitEffect();
+        });
     }
     public void SetGrapplePoint(Vector2 point)
     {
