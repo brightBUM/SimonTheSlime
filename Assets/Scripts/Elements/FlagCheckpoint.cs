@@ -7,6 +7,7 @@ public class FlagCheckpoint : MonoBehaviour
     [SerializeField] GameObject checkPointUnlockVFX;
     [SerializeField] Animator animator;
     [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] Transform checkpointPos;
     bool unlocked = false;
     Material originalMaterial;
     // Start is called before the first frame update
@@ -30,6 +31,7 @@ public class FlagCheckpoint : MonoBehaviour
             unlocked = true;
             animator.SetTrigger("unlock");
             LevelManager.Instance.LastCheckpointpos = this.transform.position;
+            Instantiate(checkPointUnlockVFX, checkpointPos.position, checkPointUnlockVFX.transform.rotation);
             SoundManager.instance.PlayFlagCheckPointSFx();
         }
     }

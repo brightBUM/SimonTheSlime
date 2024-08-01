@@ -6,10 +6,11 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     public Action PoundAbility;  
-    public Action BulletTimeAbility;  
+    //public Action BulletTimeAbility;  
     public Action DashAbility;  
     public Action GrappleAbility;  
     public Action mouseReleased;
+    public Action RespawnToCheckPoint;
     //public Action<Vector2> mouseClicked;
     public Action<Vector2> mouseDragging;
 
@@ -42,10 +43,10 @@ public class PlayerInput : MonoBehaviour
         {
             PoundAbility.Invoke();
         }
-        if(Input.GetKeyDown(KeyCode.Z))
-        {
-            BulletTimeAbility.Invoke();
-        }
+        //if(Input.GetKeyDown(KeyCode.Z))
+        //{
+        //    BulletTimeAbility.Invoke();
+        //}
         if (Input.GetKeyDown(KeyCode.X))
         {
             DashAbility.Invoke();
@@ -53,6 +54,10 @@ public class PlayerInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C))
         {
             GrappleAbility.Invoke();
+        }
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            RespawnToCheckPoint.Invoke();
         }
     }
 }

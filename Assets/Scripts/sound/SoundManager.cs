@@ -17,6 +17,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip grappleRopeSFx;
     [SerializeField] private AudioClip grapplePullSFx;
     [SerializeField] private AudioClip coinBangSFx;
+    [SerializeField] private AudioClip timeOrbCollectSFx;
     [SerializeField] AudioSource ghostSource;
     [SerializeField] private AudioClip[] slimeStickSFX;
     [SerializeField] private AudioClip[] aimStretchSfx;
@@ -62,6 +63,10 @@ public class SoundManager : MonoBehaviour
     public void PlayGrappleRopeSFX()
     {
         PlayClip(grappleRopeSFx);
+    }
+    public void PlayTimeOrbCollectSFX()
+    {
+        PlayClip(timeOrbCollectSFx);
     }
     public void PlayOutofBulletTimeSFX()
     {
@@ -112,13 +117,11 @@ public class SoundManager : MonoBehaviour
     }
     public void PlayLevelCompleteSFx()
     {
-        //audioSource.clip = levelCompleteSFx;
-        //audioSource.Play();
+        PlayClip(levelCompleteSFx);
     }
     public void PlayAcidSplashSFx()
     {
-        //audioSource.clip = acidSplashSFx;
-        //audioSource.Play();
+        PlayClip(acidSplashSFx);
     }
     public void PlayGhostRespawnSFx(bool value)
     {

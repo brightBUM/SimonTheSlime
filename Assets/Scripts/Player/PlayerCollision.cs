@@ -169,7 +169,6 @@ public class PlayerCollision : MonoBehaviour
         if (collision.collider.gameObject.layer == ObstacleLayer && playerController.playerState != State.GHOST)
         {
             //hit with obstacle , respawn to last checkpoint
-            SoundManager.instance.PlayGhostRespawnSFx(true);
             LevelManager.Instance.ShakeCamera.OnHit();
             playerController.PlayerHitEffect();
         }

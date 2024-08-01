@@ -88,9 +88,10 @@ public class PlayerController : MonoBehaviour
         playerInput.mouseReleased += LeftReleased;
         playerInput.mouseDragging += LeftDragging;
         playerInput.PoundAbility += RightClicked;
-        playerInput.BulletTimeAbility += ActivateBulletTime;
+        //playerInput.BulletTimeAbility += ActivateBulletTime;
         playerInput.DashAbility += ActivateDashTime;
         playerInput.GrappleAbility += ActivateGrapple;
+        playerInput.RespawnToCheckPoint += ResetStates;
         respawnPlayer += RespawnPlayer;
     }
     
@@ -323,7 +324,9 @@ public class PlayerController : MonoBehaviour
     }
     public void SetToFirstBounce()
     {
-        playerState = State.BOUNCE;
+        //playerState = State.BOUNCE;
+        rb.velocity = Vector2.zero;
+        Physics2D.gravity = Vector2.down*3f;
         playerAnimation.SetRoll();
     }
     public void SetToIdle()
@@ -423,6 +426,7 @@ public class PlayerController : MonoBehaviour
     {
         lerpAmount = 0;
         playerState = State.GHOST;
+        SoundManager.instance.PlayGhostRespawnSFx(true);
         playerAnimation.HitEffect(respawnPlayer);
         rb.velocity = new Vector2(0, rb.velocity.y);
         rb.AddForce(Vector2.up * onHitUpForce, ForceMode2D.Impulse);
@@ -526,6 +530,11 @@ public class PlayerController : MonoBehaviour
             }));
         }
     }
+    public void ResetStates()
+    {
+        PlayerHitEffect();
+        playerAnimation.ResetAll();
+    }
     public void ExplodeOnContact(float force)
     {
         //add exploding force 
@@ -550,9 +559,10 @@ public class PlayerController : MonoBehaviour
         playerInput.mouseReleased -= LeftReleased;
         playerInput.mouseDragging -= LeftDragging;
         playerInput.PoundAbility -= RightClicked;
-        playerInput.BulletTimeAbility -= ActivateBulletTime;
+        //playerInput.BulletTimeAbility -= ActivateBulletTime;
         playerInput.DashAbility -= ActivateDashTime;
         playerInput.GrappleAbility -= ActivateGrapple;
+        playerInput.RespawnToCheckPoint -= ResetStates;
 
         respawnPlayer -= RespawnPlayer;
     }

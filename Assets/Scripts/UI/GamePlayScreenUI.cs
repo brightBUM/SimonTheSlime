@@ -17,6 +17,7 @@ public class GamePlayScreenUI : MonoBehaviour
     [SerializeField] Image bulletTimeIcon;
     [SerializeField] TextMeshProUGUI bulletTimeText;
     [SerializeField] TextMeshProUGUI bananaText;
+    [SerializeField] TextMeshProUGUI bananasLevelCompleteUI;
     [Header("Bullet time")]
     [SerializeField] Image timerFillUI;
     [SerializeField] Transform greenWheelUI;
@@ -67,6 +68,10 @@ public class GamePlayScreenUI : MonoBehaviour
     public void UpdateBananaCount(string text)
     {
         bananaUI.text = text;
+    }
+    public void UpdateBananasLevelComplete()
+    {
+        bananasLevelCompleteUI.text = LevelManager.Instance.GetLevelBananasCount();
     }
     public void StartTimer(int value,Action timerComplete)
     {

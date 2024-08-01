@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &362910054058863023
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 661971192169229467}
+  m_Layer: 0
+  m_Name: vfxpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &661971192169229467
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 362910054058863023}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.317, y: -1.974, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3094496362878485204}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &884216217005633427
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,6 +170,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 318022262701118798}
+  - {fileID: 661971192169229467}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &558603151202830330
@@ -153,10 +185,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b85f1a2cb5819a840a9e2190605ec4b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  checkPointUnlockVFX: {fileID: 0}
+  checkPointUnlockVFX: {fileID: 9093461630844437168, guid: 776c45fd065025c44818841fb0a0a319, type: 3}
   animator: {fileID: 621643742429445327}
   spriteRenderer: {fileID: 4069865980224806688}
-  flashMaterial: {fileID: 2100000, guid: 25d4b4bea3120e84d84ba5c3c925cdd2, type: 2}
+  checkpointPos: {fileID: 661971192169229467}
 --- !u!61 &1868525238924525253
 BoxCollider2D:
   m_ObjectHideFlags: 0

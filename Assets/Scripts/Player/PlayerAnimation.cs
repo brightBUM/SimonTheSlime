@@ -78,7 +78,13 @@ public class PlayerAnimation : MonoBehaviour
         //animator.ResetTrigger("roll");
         animator.SetTrigger("idle");
     }
-
+    public void ResetAll()
+    {
+        ResetVelocity();
+        animator.ResetTrigger("stick");
+        animator.ResetTrigger("roll");
+        animator.ResetTrigger("aim");
+    }
     public void SetRelaunch()
     {
         animator.SetTrigger("relaunch");
