@@ -84,6 +84,8 @@ public class PlayerAnimation : MonoBehaviour
         animator.ResetTrigger("stick");
         animator.ResetTrigger("roll");
         animator.ResetTrigger("aim");
+        animator.ResetTrigger("idle");
+        animator.ResetTrigger("relaunch");
     }
     public void SetRelaunch()
     {
