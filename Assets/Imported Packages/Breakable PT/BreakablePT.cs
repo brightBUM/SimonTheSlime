@@ -15,7 +15,7 @@ public class BreakablePT : MonoBehaviour
     [SerializeField] float coinForce = 5f;
     [SerializeField] float radius = 5.0F;
     [SerializeField] float power = 10.0F;
-    [SerializeField] int HitCount = 0;
+    public int HitCount = 0;
     private void Start()
     {
 

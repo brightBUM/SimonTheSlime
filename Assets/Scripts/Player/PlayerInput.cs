@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     public Action PoundAbility;  
+    public Action PoundReleased;  
     //public Action BulletTimeAbility;  
     public Action DashAbility;  
     public Action GrappleAbility;  
@@ -42,6 +43,10 @@ public class PlayerInput : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             PoundAbility.Invoke();
+        }
+        if (Input.GetMouseButtonUp(1))
+        {
+            PoundReleased.Invoke();
         }
         //if(Input.GetKeyDown(KeyCode.Z))
         //{

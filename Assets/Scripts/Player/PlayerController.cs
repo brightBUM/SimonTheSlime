@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public enum State
 {
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour
     public Action<Vector2> SquishEffect;
     public Action GrappleRangeShrink;
     public bool grappleReady;
+    public bool poundHeld = false;
 
     [SerializeField] PlayerAnimation playerAnimation;
     [SerializeField] GameObject playerSquishDummy;
@@ -88,6 +90,7 @@ public class PlayerController : MonoBehaviour
         playerInput.mouseReleased += LeftReleased;
         playerInput.mouseDragging += LeftDragging;
         playerInput.PoundAbility += RightClicked;
+        playerInput.PoundReleased += RightClickReleased;
         //playerInput.BulletTimeAbility += ActivateBulletTime;
         playerInput.DashAbility += ActivateDashTime;
         playerInput.GrappleAbility += ActivateGrapple;
@@ -262,6 +265,7 @@ public class PlayerController : MonoBehaviour
     }
     private void RightClicked()
     {
+        poundHeld = true;
         if(playerState == State.AIMING)
         {
             //cancel aim 
@@ -294,6 +298,10 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("right mouse clicked");
     }
 
+    private void RightClickReleased()
+    {
+        poundHeld = false;
+    }
     private void RelaunchPlayer()
     {
         playerState = State.LAUNCHED;
@@ -416,7 +424,10 @@ public class PlayerController : MonoBehaviour
         SetToIdle();
         playerAnimation.ResetTrailEffect();
     }
-
+    public void PushPound()
+    {
+        rb.velocity += Vector2.down * 20f;
+    }
     public Vector2 GetPosition(Vector2 vel,float t)
     {
         var pos = (Vector2)transform.position + vel * t+0.5f*Vector2.up*gravity*t*t;

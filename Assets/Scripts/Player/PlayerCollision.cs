@@ -148,19 +148,40 @@ public class PlayerCollision : MonoBehaviour
         }
         else if (playerController.playerState == State.POUND)
         {
-            playerController.ResetPound();
-            LevelManager.Instance.ShakeCamera.OnPound();
-
             //check if collided with breakables
             if (collision.gameObject.TryGetComponent<BreakablePT>(out BreakablePT breakablePT))
             {
-                breakablePT.OnCollisionPounded();
+                if(breakablePT.HitCount>0)
+                {
+                    breakablePT.OnCollisionPounded();
+                    playerController.ResetPound();
+                    LevelManager.Instance.ShakeCamera.OnPound();
+
+                }
+                else
+                {
+                    if(playerController.poundHeld)
+                    {
+                        breakablePT.OnCollisionPounded();
+                        playerController.PushPound();
+                    }
+                    else
+                    {
+                        breakablePT.OnCollisionPounded();
+                        playerController.ResetPound();
+                        LevelManager.Instance.ShakeCamera.OnPound();
+                    }
+                    
+                }
             }
             else
             {
                 //splatter effect
                 SoundManager.instance.PlayPoundSFx();
                 SplatterEffect(transform.position + new Vector3(0, -1, -1) * maskRange);
+                playerController.ResetPound();
+                LevelManager.Instance.ShakeCamera.OnPound();
+
             }
         }
 
