@@ -41,16 +41,13 @@ public class SoundManager : MonoBehaviour
         activeSource = GetIdleSource();
         activeSource.clip = clip;
         activeSource.Play();
+        ObjectPoolManager.Instance.Despawn(activeSource.gameObject, activeSource.clip.length);
     }
     private AudioSource GetIdleSource()
     {
         //returns the audioSource that isnt playing
-        foreach (var source in allSources)
-        {
-            if (!source.isPlaying)
-                return source;
-        }
-        return null;
+        var audioGameObject = ObjectPoolManager.Instance.Spawn(1, Vector3.zero, Quaternion.identity);
+        return audioGameObject.GetComponent<AudioSource>();
     }
     public void PlayAimSFx()
     {

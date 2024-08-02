@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Banana : MonoBehaviour
 {
-    [SerializeField] GameObject collectionVFX;
     [SerializeField] private float effectScale = 3f;
     // Start is called before the first frame update
     void Start()
@@ -21,7 +20,7 @@ public class Banana : MonoBehaviour
     {
         if (collision.gameObject.layer == 8)
         {
-            var effect = Instantiate(collectionVFX, transform.position, Quaternion.identity);
+            var effect = ObjectPoolManager.Instance.Spawn(2, transform.position, Quaternion.identity);
             effect.transform.localScale = Vector3.one * effectScale;
             //SoundManager.instance.PlayCollectibleSFx();
             LevelManager.Instance.CollectBanana();

@@ -74,13 +74,14 @@ MonoBehaviour:
   camLookAheadDistance: 5
   camDragSensitivity: 0.5
   camReleaseTime: 5
-  dragSensitivity: 3.5
+  dragSensitivity: 3
   poundForce: 28
-  maxForce: 25
+  maxForce: 40
   forceLength: 0
-  gravity: -20
+  gravity: -40
   dashAmount: 12
-  grapplePullSpeed: 30
+  grapplePullSpeed: 40
+  grappleGrabHangTimer: 5
   grappledOffSpeed: 15
   onHitUpForce: 3
   dashCooldown: 2
@@ -422,7 +423,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerController: {fileID: 5200570245638971935}
-  ghostParticleVFX: {fileID: 7757575115495713225, guid: 719a0a0e1e841184493c4b30bb9fc816, type: 3}
+  ghostParticleVFX: {fileID: 0}
   lineMaterial: {fileID: 2100000, guid: f73aaeb588c7a484b9dc73edef4d18b5, type: 2}
   volume: {fileID: 4509374806368999373}
   trailRenderer: {fileID: 2881329772496489922}
@@ -819,7 +820,7 @@ MonoBehaviour:
   waveCount: 8
   wobbleCount: 4
   waveSize: 2
-  animSpeed: 2
+  animSpeed: 4
   ropeAnimationCurve:
     serializedVersion: 2
     m_Curve: []
