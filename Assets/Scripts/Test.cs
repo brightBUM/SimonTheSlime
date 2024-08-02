@@ -6,37 +6,20 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    [SerializeField] PlayerInput input;
+    [SerializeField] GameObject prefab;
     // Start is called before the first frame update
-    private void OnEnable()
+
+
+    private void Update()
     {
-        //input.mouseClicked += LeftClicked;
-        input.mouseReleased += LeftReleased;
-        input.mouseDragging += LeftDragging;
-    }
-
-    private void LeftDragging(Vector2 vector)
-    {
-        Debug.Log("dragging");
-
-    }
-
-    private void LeftReleased()
-    {
-        Debug.Log("end");
-
-    }
-
-    private void LeftClicked(Vector2 vector)
-    {
-        Debug.Log("click");
-
-    }
-    private void OnDisable()
-    {
-        //input.mouseClicked  -= LeftClicked;
-        input.mouseReleased -= LeftReleased;
-        input.mouseDragging -= LeftDragging;
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            ObjectPoolManager.Instance.Spawn(0, Vector3.zero, Quaternion.identity);
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            ObjectPoolManager.Instance.Despawn(this.gameObject,0f);
+        }
     }
 
 }

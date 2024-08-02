@@ -185,9 +185,10 @@ public class PlayerCollision : MonoBehaviour
     private void SplatterEffect(Vector3 position)
     {
         var rotRange = UnityEngine.Random.Range(0f, 180f);
-        var poundObject = Instantiate(poundEffect, position, Quaternion.Euler(0f, 0f, rotRange));
+        var poundObject = ObjectPoolManager.Instance.Spawn(0, position, Quaternion.Euler(0f, 0f, rotRange));
         var poundSprite = poundObject.GetComponent<SpriteRenderer>();
         poundSprite.sprite = poundSprites[UnityEngine.Random.Range(0, poundSprites.Length)];
+        poundSprite.color = new Color(poundSprite.color.r, poundSprite.color.g, poundSprite.color.b, 1f);
 
         StartCoroutine(DelayedFade(poundSprite));
     }
@@ -203,7 +204,7 @@ public class PlayerCollision : MonoBehaviour
 
         }).OnComplete(() =>
         {
-            Destroy(sprite.gameObject);
+            ObjectPoolManager.Instance.Despawn(sprite.gameObject, 0);
         });
     }
     private void OnDestroy()
