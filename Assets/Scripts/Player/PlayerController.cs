@@ -237,6 +237,7 @@ public class PlayerController : MonoBehaviour
             forceDir = Vector2.ClampMagnitude(forceDir, maxForce);
             rb.velocity = forceDir;
             playerAnimation.ToggleTrailRenderer(true);
+            playerAnimation.SpawnJumpTrail();
 
         }
         else if (playerState == State.TIMEDILATION)

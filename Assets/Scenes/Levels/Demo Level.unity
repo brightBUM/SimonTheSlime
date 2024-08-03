@@ -7439,6 +7439,10 @@ PrefabInstance:
       value: 4286313894
       objectReference: {fileID: 0}
     - target: {fileID: 2126227026460189563, guid: 3602f854b6ca3aa43b9f4388a6c921ff, type: 3}
+      propertyPath: jumpTrailVFX
+      value: 
+      objectReference: {fileID: 6903121778833170128, guid: 6e289b4bffed3b14a9c2b05111286278, type: 3}
+    - target: {fileID: 2126227026460189563, guid: 3602f854b6ca3aa43b9f4388a6c921ff, type: 3}
       propertyPath: ghostParticleVFX
       value: 
       objectReference: {fileID: 7060528042995085291}
@@ -33499,6 +33503,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: ObjectPoolManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6021245300820214886, guid: 0ee956aef053e4843a18a3f1f5df06ec, type: 3}
+      propertyPath: objectsToPool.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6021245300820214886, guid: 0ee956aef053e4843a18a3f1f5df06ec, type: 3}
+      propertyPath: 'objectsToPool.Array.data[3]'
+      value: 
+      objectReference: {fileID: 6903121778833170128, guid: 6e289b4bffed3b14a9c2b05111286278, type: 3}
+    - target: {fileID: 6021245300820214886, guid: 0ee956aef053e4843a18a3f1f5df06ec, type: 3}
+      propertyPath: 'objectsToPool.Array.data[4]'
+      value: 
+      objectReference: {fileID: 7629571671330080830, guid: a7eb6d84adac01d4eb9d04045653cd25, type: 3}
     - target: {fileID: 8768014156198879276, guid: 0ee956aef053e4843a18a3f1f5df06ec, type: 3}
       propertyPath: m_LocalPosition.x
       value: 163.86241
@@ -33562,6 +33578,63 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1001 &3265486979809198562
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2042549861708918960, guid: a7eb6d84adac01d4eb9d04045653cd25, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 82.92482
+      objectReference: {fileID: 0}
+    - target: {fileID: 2042549861708918960, guid: a7eb6d84adac01d4eb9d04045653cd25, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 73.707344
+      objectReference: {fileID: 0}
+    - target: {fileID: 2042549861708918960, guid: a7eb6d84adac01d4eb9d04045653cd25, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2042549861708918960, guid: a7eb6d84adac01d4eb9d04045653cd25, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2042549861708918960, guid: a7eb6d84adac01d4eb9d04045653cd25, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 2042549861708918960, guid: a7eb6d84adac01d4eb9d04045653cd25, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2042549861708918960, guid: a7eb6d84adac01d4eb9d04045653cd25, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2042549861708918960, guid: a7eb6d84adac01d4eb9d04045653cd25, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2042549861708918960, guid: a7eb6d84adac01d4eb9d04045653cd25, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2042549861708918960, guid: a7eb6d84adac01d4eb9d04045653cd25, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7629571671330080830, guid: a7eb6d84adac01d4eb9d04045653cd25, type: 3}
+      propertyPath: m_Name
+      value: Slam Particle VFX
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a7eb6d84adac01d4eb9d04045653cd25, type: 3}
 --- !u!1 &3301113971449572186
 GameObject:
   m_ObjectHideFlags: 0
@@ -39350,3 +39423,4 @@ SceneRoots:
   - {fileID: 1291573833}
   - {fileID: 2941849644972734317}
   - {fileID: 1092972192}
+  - {fileID: 3265486979809198562}

@@ -96,6 +96,11 @@ public class PlayerAnimation : MonoBehaviour
         animator.SetTrigger("stick");
         //Debug.Log("set to stick anim state : "+sideValue);
         animator.SetFloat("side",sideValue);
+
+        //if(sideValue==4f)
+        //{
+        //    ObjectPoolManager.Instance.Spawn(4, transform.position + Vector3.down, Quaternion.Euler(-90f,0f,0f));
+        //}
     }
     public void SetSquish()
     {
@@ -143,7 +148,10 @@ public class PlayerAnimation : MonoBehaviour
         trailRenderer.startWidth = 1.5f;
         trailRenderer.colorGradient = normalTrail;
     }
-
+    public void SpawnJumpTrail()
+    {
+        //ObjectPoolManager.Instance.Spawn(3,transform.position+Vector3.down*0.5f,Quaternion.identity);
+    }
     public void DisableGhostParticle()
     {
         volume.blendDistance = blendValue;
