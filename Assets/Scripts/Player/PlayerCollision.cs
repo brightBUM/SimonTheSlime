@@ -24,7 +24,7 @@ public class PlayerCollision : MonoBehaviour
     const int breakableLayerValue = 9;
     const int StickableLayer = 10;
     bool hit;
-    int stickSide = 0;
+    //int stickSide = 0;
     float stickTimer = 0f;
     // Start is called before the first frame update
     void Start()
@@ -37,12 +37,12 @@ public class PlayerCollision : MonoBehaviour
     {
         if (playerController.playerState == State.STICK)
         {
-            switch (stickSide)
+            switch (playerController.stickSide)
             {
-                case 1:
+                case StickSide.LEFT:
                     RaycastCheckDirection(-transform.right, () =>
                     {
-                        playerController.SlideDown();
+                        //playerController.SlideDown();
 
                     }, () =>
                     {
@@ -51,10 +51,10 @@ public class PlayerCollision : MonoBehaviour
                         playerController.SetToIdle();
                     });
                     break;
-                case 2:
+                case StickSide.RIGHT:
                     RaycastCheckDirection(transform.right, () =>
                     {
-                        playerController.SlideDown();
+                        //playerController.SlideDown();
 
                     }, () =>
                     {
@@ -63,8 +63,8 @@ public class PlayerCollision : MonoBehaviour
 
                     });
                     break;
-                case 3:
-                    stickTimer += Time.deltaTime;
+                case StickSide.TOP:
+                    stickTimer += Time.fixedDeltaTime;
                     if (stickTimer >= topStickDuration)
                     {
                         stickTimer = 0;
@@ -72,8 +72,8 @@ public class PlayerCollision : MonoBehaviour
                         playerController.SetToIdle();
                     }
                     break;
-                case 4:
-                    stickTimer += Time.deltaTime;
+                case StickSide.BOTTOM:
+                    stickTimer += Time.fixedDeltaTime;
                     if (stickTimer >= downStickDuration)
                     {
                         stickTimer = 0;
@@ -111,32 +111,25 @@ public class PlayerCollision : MonoBehaviour
 
             RaycastCheckDirection(-transform.right, () =>
             {
-                playerController.SetToStickState(1f);
-                stickSide = 1;
+                playerController.SetToStickState(StickSide.LEFT);
                 return;
             });
-
             RaycastCheckDirection(transform.right, () =>
             {
                 //Debug.Break();
-                playerController.SetToStickState(2f);
-                stickSide = 2;
+                playerController.SetToStickState(StickSide.RIGHT);
                 return;
             });
-
             RaycastCheckDirection(transform.up, () =>
             {
-                playerController.SetToStickState(3f);
-                stickSide = 3;
+                playerController.SetToStickState(StickSide.TOP);
                 return;
 
             });
-
             RaycastCheckDirection(-transform.up, () =>
             {
                 //set to idle when thrown down
-                playerController.SetToStickState(4f);
-                stickSide = 4;
+                playerController.SetToStickState(StickSide.BOTTOM);
                 return;
             });
         }
@@ -239,4 +232,11 @@ public class PlayerCollision : MonoBehaviour
         Gizmos.DrawRay(transform.position, rayCastLength * transform.right);
         //Gizmos.DrawRay(transform.position, 5f * transform.right);
     }
+}
+public enum StickSide
+{
+    LEFT,
+    RIGHT,
+    TOP,
+    BOTTOM
 }

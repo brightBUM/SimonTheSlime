@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
 {
     public float Velocity => rb.velocity.y;
     public State playerState;
+    public StickSide stickSide;
     public Action<Vector2> SquishEffect;
     public Action GrappleRangeShrink;
     public bool grappleReady;
@@ -237,7 +238,7 @@ public class PlayerController : MonoBehaviour
             forceDir = Vector2.ClampMagnitude(forceDir, maxForce);
             rb.velocity = forceDir;
             playerAnimation.ToggleTrailRenderer(true);
-            playerAnimation.SpawnJumpTrail();
+            //playerAnimation.SpawnJumpTrail();
 
         }
         else if (playerState == State.TIMEDILATION)
@@ -401,11 +402,12 @@ public class PlayerController : MonoBehaviour
         playerState = State.GHOST;
         playerAnimation.HitEffect(respawnPlayer);
     }
-    public void SetToStickState(float sideValue)
+    public void SetToStickState(StickSide stickSide)
     {
         playerState = State.STICK;
+        this.stickSide = stickSide;
         rb.velocity = Vector2.zero;
-        playerAnimation.SetStick(sideValue);
+        playerAnimation.SetStick((int)stickSide+1);
         playerAnimation.ToggleTrailRenderer(false);
         SoundManager.instance.PlayStickSFx();
         //disable rb to avoid gravity
