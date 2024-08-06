@@ -10,7 +10,7 @@ public class GrapplePoint : MonoBehaviour
     [SerializeField] Transform rangeVisual;
     [SerializeField] float rangeShrinkScale = 0.15f;
     [SerializeField] float rangeNormalScale = 2.2f;
-
+    [SerializeField] GameObject playerDummy;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +29,7 @@ public class GrapplePoint : MonoBehaviour
             grappleUIKey.SetActive(true);
             playerController.SetGrapplePoint(this.transform.position);
             playerController.GrappleRangeShrink += GrapplePointShrink;
+            playerController.GrappleRelaunch += GrappleRelaunched;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -38,6 +39,7 @@ public class GrapplePoint : MonoBehaviour
             grappleUIKey.SetActive(false);
             playerController.FreeGrapplePoint();
             playerController.GrappleRangeShrink -= GrapplePointShrink;
+            playerController.GrappleRelaunch -= GrappleRelaunched;
             rangeVisual.DOScale(rangeNormalScale, 0.2f).SetEase(Ease.OutBounce);
         }
     }
@@ -45,7 +47,12 @@ public class GrapplePoint : MonoBehaviour
     private void GrapplePointShrink()
     {
         rangeVisual.DOScale(rangeShrinkScale, 0.2f).SetEase(Ease.OutBounce);
+        playerDummy.SetActive(true);
     }
-    
-    
+    private void GrappleRelaunched()
+    {
+        playerDummy.SetActive(false);
+
+    }
+
 }

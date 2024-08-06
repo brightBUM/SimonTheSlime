@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     public StickSide stickSide;
     public Action<Vector2> SquishEffect;
     public Action GrappleRangeShrink;
+    public Action GrappleRelaunch;
     public bool grappleReady;
     public bool poundHeld = false;
 
@@ -147,7 +148,18 @@ public class PlayerController : MonoBehaviour
   
     private void LeftDragging(Vector2 mousePos)
     {
-        if(!firstClick)
+        if (playerState == State.STICK)
+        {
+            if (stickSide == StickSide.TOP || stickSide == StickSide.BOTTOM)
+            {
+                return;
+            }
+        }
+
+        if (playerState == State.POUND)
+            return;
+
+        if (!firstClick)
         {
             aimDir = Vector2.zero;
             startPos = mousePos;
@@ -161,6 +173,8 @@ public class PlayerController : MonoBehaviour
 
         if (dir.magnitude < 0.1f || aimCancel) //single click rejection
             return;
+
+        
 
         if(!dragging) //set visual elements only once when dragging
         {
@@ -207,7 +221,8 @@ public class PlayerController : MonoBehaviour
         else if (playerState == State.STICK || playerState == State.GRAPPLEHANG)
         {
             //aim only to the opp side of the conveyor/sticky platform
-           
+            
+
             aimDir = (Vector2)transform.position + (-dir);
             forceDir = aimDir - (Vector2)transform.position;
             //Debug.Log("dot value :" + Vector2.Dot(Vector2.left, forceDir.normalized));
@@ -221,7 +236,15 @@ public class PlayerController : MonoBehaviour
     }
     private void LeftReleased()
     {
-        
+        if (playerState == State.STICK)
+        {
+            if (stickSide == StickSide.TOP || stickSide == StickSide.BOTTOM)
+            {
+                return;
+            }
+        }
+        if (playerState == State.POUND)
+            return;
         if (dir.magnitude < 0.1f || !dragging)
         {
             firstClick = false;
@@ -229,6 +252,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        
         playerAnimation.ToggleLineRenderer(false);
 
         //launch
@@ -250,6 +274,10 @@ public class PlayerController : MonoBehaviour
         }
         else if (playerState == State.STICK || playerState == State.GRAPPLEHANG)
         {
+            if(playerState == State.GRAPPLEHANG)
+            {
+                GrappleRelaunch.Invoke();
+            }
             RelaunchPlayer();
             ResetGravity();
             playerAnimation.FlipSprite(forceDir.normalized);
@@ -536,8 +564,9 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(grappleRope.AnimateRope(grapplePoint, () =>
             {
                 rb.velocity = grappleDirection.normalized * grapplePullSpeed;
-                ResetGravity();
+                //ResetGravity();
                 playerState = State.GRAPPLE;
+                playerAnimation.ToggleTrailRenderer(false);   
                 LevelManager.Instance.ShakeCamera.OnGrapple();
                 SoundManager.instance.PlayGrapplePullSFX();
 
