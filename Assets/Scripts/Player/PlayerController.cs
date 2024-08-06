@@ -506,7 +506,7 @@ public class PlayerController : MonoBehaviour
     private void ActivateDashTime()
     {
         //Vector2 initialVelocity = rb.velocity;
-        if(dashTimer<=0)
+        if(dashTimer<=0 && playerState == State.LAUNCHED)
         {
             playerAnimation.ToggleSpriteTrailRenderer(true);
             rb.AddForce(rb.velocity.normalized * dashAmount, ForceMode2D.Impulse);
