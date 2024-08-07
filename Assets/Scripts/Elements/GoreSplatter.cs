@@ -29,7 +29,9 @@ public class GoreSplatter : MonoBehaviour
         int count = collisionEvents.Count;
         for (int i = 0; i < count; i++)
         {
-            var poundSprite = Instantiate(poundMask, collisionEvents[i].intersection, Quaternion.Euler(0f, 0f, UnityEngine.Random.Range(0f, 360f)));
+            var pos = collisionEvents[i].intersection;
+            pos.z = 0f;
+            var poundSprite = Instantiate(poundMask, pos, Quaternion.Euler(0f, 0f, UnityEngine.Random.Range(0f, 360f)));
             poundSprite.GetComponent<SpriteRenderer>().sprite = poundSprites[UnityEngine.Random.Range(0, poundSprites.Length)];
             Destroy(poundSprite,UnityEngine.Random.Range(0.5f,2f));
         }
