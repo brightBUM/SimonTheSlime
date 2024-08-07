@@ -1557,12 +1557,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47ac54fa74e3d034da379afe535e6152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
-  start: {fileID: 0}
-  drag: {fileID: 0}
-  result: {fileID: 0}
-  dotValText: {fileID: 0}
-  maxForce: 5
+  gorePrefab: {fileID: 0}
 --- !u!19719996 &155746609
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -3946,7 +3941,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 475814287298054560, guid: b828b483dd59fd544be441b1fb9eeafc, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 789333706374293477, guid: b828b483dd59fd544be441b1fb9eeafc, type: 3}
       propertyPath: playerPrefab
@@ -7783,7 +7778,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 976255675401089588, guid: 3602f854b6ca3aa43b9f4388a6c921ff, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1223789291687397887, guid: 3602f854b6ca3aa43b9f4388a6c921ff, type: 3}
       propertyPath: _userSelectedColorPalette.Array.size
@@ -7811,11 +7806,11 @@ PrefabInstance:
       objectReference: {fileID: 7060528042995085291}
     - target: {fileID: 3035558552578603613, guid: 3602f854b6ca3aa43b9f4388a6c921ff, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 401.5
+      value: -6.42
       objectReference: {fileID: 0}
     - target: {fileID: 3035558552578603613, guid: 3602f854b6ca3aa43b9f4388a6c921ff, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11.4
+      value: -6.7141967
       objectReference: {fileID: 0}
     - target: {fileID: 3035558552578603613, guid: 3602f854b6ca3aa43b9f4388a6c921ff, type: 3}
       propertyPath: m_LocalPosition.z
@@ -9909,7 +9904,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1092972191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9922,12 +9917,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47ac54fa74e3d034da379afe535e6152, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 452591284801514041, guid: bf2ac7384b340134ca882e7d941c3630, type: 3}
-  start: {fileID: 0}
-  drag: {fileID: 0}
-  result: {fileID: 0}
-  dotValText: {fileID: 0}
-  maxForce: 5
+  gorePrefab: {fileID: 0}
 --- !u!4 &1092972192
 Transform:
   m_ObjectHideFlags: 0
@@ -9937,7 +9927,7 @@ Transform:
   m_GameObject: {fileID: 1092972190}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 385.85, y: 11.96, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10400,10 +10390,6 @@ PrefabInstance:
     - target: {fileID: 6702673105661569879, guid: 7b91cb744a3f9814bbc5d7e9a4008de5, type: 3}
       propertyPath: m_Name
       value: Grapple Point
-      objectReference: {fileID: 0}
-    - target: {fileID: 8848963287966113650, guid: 7b91cb744a3f9814bbc5d7e9a4008de5, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -32976,7 +32962,7 @@ Transform:
   m_GameObject: {fileID: 1951473654}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 401.5, y: 11.4, z: -10}
+  m_LocalPosition: {x: -6.42, y: -6.7141967, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -42767,7 +42753,7 @@ Transform:
   m_GameObject: {fileID: 5755652306569604687}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 401.5, y: 11.4, z: -10}
+  m_LocalPosition: {x: -6.42, y: -6.7141967, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

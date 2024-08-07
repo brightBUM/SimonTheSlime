@@ -42,7 +42,7 @@ public class PlayerCollision : MonoBehaviour
                 case StickSide.LEFT:
                     RaycastCheckDirection(-transform.right, () =>
                     {
-                        //playerController.SlideDown();
+                        playerController.SlideDown();
 
                     }, () =>
                     {
@@ -54,7 +54,7 @@ public class PlayerCollision : MonoBehaviour
                 case StickSide.RIGHT:
                     RaycastCheckDirection(transform.right, () =>
                     {
-                        //playerController.SlideDown();
+                        playerController.SlideDown();
 
                     }, () =>
                     {

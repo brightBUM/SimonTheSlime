@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
     private float grappleTimer = 0f;
     private int bulletTimeAbility = 0;
     private float slideAccelerate;
-    private const float squishOffset = 1.5f;
+    private const float squishOffset = 0.5f;
     // Start is called before the first frame update
     private void Awake()
     {

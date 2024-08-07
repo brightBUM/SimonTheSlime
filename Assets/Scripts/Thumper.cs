@@ -15,6 +15,7 @@ public class Thumper : MonoBehaviour
     [SerializeField] float poundInterval = 0.4f;
     [SerializeField] float retractInterval = 0.6f;
     [SerializeField] Transform boxRef;
+    [SerializeField] Transform hitPos;
     [SerializeField] float boxSize = 3f;
     bool hit;
 
@@ -45,12 +46,34 @@ public class Thumper : MonoBehaviour
             yield return new WaitForSeconds(idleInterval);
         }
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+
+    private void Update()
     {
-        if(collision.TryGetComponent<PlayerController>(out PlayerController playerController))
+        RaycastHit2D hitinfo = Physics2D.BoxCast(boxRef.position, Vector2.one * boxSize, 0, Vector2.down, 0f, playerLayer);
+        if (hitinfo.collider != null)
         {
-            playerController.SetToSquishState(this.transform.position,this.hitDirection);
+            hit = true;
+            var playerController = hitinfo.collider.GetComponent<PlayerController>();
+            //Debug.Log("hit point : " + hitinfo.point);
+            if (playerController.playerState != State.SQUISHED && playerController.playerState != State.GHOST)
+            {
+                //check the thumper orientation and spawn squish dummy according to the direction
+
+                playerController.SetToSquishState(hitPos.position,this.hitDirection);
+                //Debug.Log("squish called");
+            }
+        }
+        else
+        {
+            hit = false;
         }
     }
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if(collision.TryGetComponent<PlayerController>(out PlayerController playerController))
+    //    {
+    //        playerController.SetToSquishState(this.transform.position,this.hitDirection);
+    //    }
+    //}
   
 }
