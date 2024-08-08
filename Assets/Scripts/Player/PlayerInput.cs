@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    public Action PoundAbility;  
-    public Action PoundReleased;  
+    public Action PoundAbility;
+    public Action PoundReleased;
     //public Action BulletTimeAbility;  
-    public Action DashAbility;  
-    public Action GrappleAbility;  
+    public Action DashAbility;
+    public Action GrappleAbility;
     public Action mouseReleased;
     public Action RespawnToCheckPoint;
     //public Action<Vector2> mouseClicked;
@@ -26,7 +26,11 @@ public class PlayerInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButton(0))
+
+        if (GamePlayScreenUI.instance.paused)
+            return;
+
+        if (Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space))
         {
             mousePos = camRef.ScreenToWorldPoint(Input.mousePosition);
             mouseDragging.Invoke(mousePos);
@@ -36,7 +40,7 @@ public class PlayerInput : MonoBehaviour
         //    mousePos = camRef.ScreenToWorldPoint(Input.mousePosition);
         //    mouseClicked.Invoke(mousePos);
         //}
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0)|| (Input.GetKeyUp(KeyCode.Space)))
         {
             mouseReleased.Invoke();
         }
@@ -64,5 +68,6 @@ public class PlayerInput : MonoBehaviour
         {
             RespawnToCheckPoint.Invoke();
         }
+        
     }
 }

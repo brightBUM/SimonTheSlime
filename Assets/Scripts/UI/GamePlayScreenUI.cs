@@ -26,11 +26,17 @@ public class GamePlayScreenUI : MonoBehaviour
     [SerializeField] float duration = 0.5f;
     [Header("Collectibles")]
     [SerializeField] TextMeshProUGUI bananaUI;
+    [Header("Pause/Setting Menu")]
+
+    [SerializeField] GameObject pauseScreen;
+    [SerializeField] GameObject gameplayScreen;
+    [SerializeField] GameObject levelCompleteScreen;
+
     Color defaultColor;
     public static GamePlayScreenUI instance;
     public Action<float> UpdateMidAirJumpUI;
     private TweenerCore<float, float, FloatOptions> tween;
-
+    [HideInInspector] public bool paused;
     public bool BulletTimeActive => timerFillUI.fillAmount < 1f;
     private void OnEnable()
     {
@@ -46,6 +52,49 @@ public class GamePlayScreenUI : MonoBehaviour
         UpdateBananaCount(LevelManager.Instance.GetLevelBananasCount());
         defaultColor = timerFillUI.color;
     }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            paused = !paused;
+            TogglePauseMenu(paused);
+        }
+    }
+    private void TogglePauseMenu(bool paused)
+    {
+        if(paused)
+        {
+            gameplayScreen.SetActive(false);
+            pauseScreen.SetActive(true);
+            pauseScreen.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBounce).SetUpdate(true);
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            pauseScreen.transform.localScale = Vector3.zero;
+            pauseScreen.SetActive(false);
+            gameplayScreen.SetActive(true);
+            Time.timeScale = 1f;
+        }
+    }
+
+    public void ToggleGamePlayScreen(bool value)
+    {
+        gameplayScreen.SetActive(value);
+    }
+    public void ToggleLevelCompleteScreen(bool value)
+    {
+        if(value)
+        {
+            levelCompleteScreen.SetActive(value);
+            levelCompleteScreen.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBounce);
+        }
+        else
+        {
+            levelCompleteScreen.transform.localScale = Vector3.zero;
+            levelCompleteScreen.SetActive(false);
+        }
+    }
     private void UpdateDashAbilityUI(float value)
     {
         dashFillImage.fillAmount = value;
@@ -57,7 +106,6 @@ public class GamePlayScreenUI : MonoBehaviour
         float alpha = 1f;
         alpha = num > 0 ? 1f : 0.2f;
         bulletTimeIcon.color = new Color(bulletTimeIcon.color.r, bulletTimeIcon.color.g, bulletTimeIcon.color.b,alpha);
-        
     }
     public void NoBulletTimeAbilityFeedback()
     {

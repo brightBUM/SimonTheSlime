@@ -31,11 +31,10 @@ public class LevelEnd : MonoBehaviour
             //spawn scoreboard menu
             DOVirtual.DelayedCall(2f, () =>
             {
-                GamePlayScreenUI.instance.UpdateBananasLevelComplete();
-                GamePlayScreenUI.instance.gameObject.SetActive(false);
-                levelCompletePanel.SetActive(true);
-                levelCompletePanel.transform.DOScale(Vector3.one,0.5f)/*.SetEase(Ease.InBounce)*/;
                 SoundManager.instance.PlayLevelCompleteSFx();
+                GamePlayScreenUI.instance.UpdateBananasLevelComplete();
+                GamePlayScreenUI.instance.ToggleGamePlayScreen(false);
+                GamePlayScreenUI.instance.ToggleLevelCompleteScreen(true);
             });
         }
     }
