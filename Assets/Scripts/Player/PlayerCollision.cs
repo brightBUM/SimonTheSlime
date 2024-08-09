@@ -40,6 +40,16 @@ public class PlayerCollision : MonoBehaviour
     {
         if (playerController.playerState == State.STICK)
         {
+            //additional raycast check for left-right/bottom conditions (i.e player in a corner)
+            RaycastCheckDirection(-transform.up, () =>
+            {
+                if(playerController.stickSide == StickSide.LEFT || playerController.stickSide == StickSide.RIGHT)
+                {
+                    playerController.ResetGravity();
+                    playerController.SetToIdle();
+                }
+            });
+
             switch (playerController.stickSide)
             {
                 case StickSide.LEFT:
