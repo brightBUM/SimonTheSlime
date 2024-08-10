@@ -16,18 +16,40 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     public const string SFX_VOLUME_TOGGLE = "SfxVolumeToggle";
     public const string SFX_VOLUME_VALUE = "SfxVolumeValue";
     public const string PLAYER_PROGRESS = "PlayerProgress";
+
+    public PlayerProfile playerProfile;
     private void Awake()
     {
         
+    }
+
+    public void InitFileSystem()
+    {
         filePath = Application.persistentDataPath + "/" + fileName;
         //Directory.CreateDirectory(filePath);
-        if(File.Exists(filePath))
+        if (File.Exists(filePath))
         {
-            //get data 
+            //get data
+            LoadFromFile();
         }
         else
         {
             //create a new save file with default values;
+            playerProfile = new PlayerProfile
+            {
+                profileName = "default",
+                levelStats = new List<LevelStats>(6),
+                volumeControls = new List<VolumeControl>(3)
+
+            };
+
+            for(int i=0;i<3;i++)
+            {
+                playerProfile.volumeControls.Add(new VolumeControl());
+            }
+
+            SaveGame();
+            Debug.Log("New save file created @" + filePath);
         }
     }
 
@@ -36,15 +58,17 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
         return File.Exists(filePath);
     }
 
-    public void SaveData(Dictionary<int, string> leaderBoardData)
+    
+    public void LoadFromFile()
     {
-        string fileData = " ";
-        foreach (var item in leaderBoardData)
-        {
-            fileData += item.Key + "," + item.Value + "\n";
-        }
-        Debug.Log("Saved Data @" + filePath);
-        File.WriteAllText(filePath, fileData);
+        string data = File.ReadAllText(filePath);
+        playerProfile = JsonUtility.FromJson<PlayerProfile>(data);
+    }
+    public void SaveGame() 
+    {
+        string data = JsonUtility.ToJson(playerProfile);
+        File.WriteAllText(filePath, data);
+        Debug.Log("Game saved");
     }
     public Dictionary<int, string> GetData()
     {
@@ -59,12 +83,42 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
         }
         return dictionaryData;
     }
-    public void SetKey(string key,bool value)
+    
+    public void ToggleVolumeState(int index)
     {
-
+        playerProfile.volumeControls[index].volumeState = !playerProfile.volumeControls[index].volumeState;
     }
-    public void GetValue(string key)
+    public VolumeControl GetVolumeControls(int index)
     {
-
+        return playerProfile.volumeControls[index];
     }
+    public void SetVolumeValue(int index, float volume)
+    {
+        playerProfile.volumeControls[index].volumeValue = volume;
+    }
+    public void SetVolumeState(int index, bool state)
+    {
+        playerProfile.volumeControls[index].volumeState = state;
+    }
+}
+[System.Serializable]
+public class PlayerProfile
+{
+    public string profileName;
+    public List<LevelStats> levelStats;
+    public List<VolumeControl> volumeControls;
+}
+[System.Serializable]
+public class LevelStats
+{
+    public int levelIndex = 0;
+    public int coinsCollected = 0;
+    public float bestTime = 0.0f;
+    public float styleScore = 0.0f;
+}
+[System.Serializable]
+public class VolumeControl
+{
+    public float volumeValue = 0f;
+    public bool volumeState = true;
 }

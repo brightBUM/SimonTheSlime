@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SoundManager : MonoBehaviour
 {
@@ -23,7 +24,6 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip[] aimStretchSfx;
     [SerializeField] private AudioClip[] firstBounceSfx;
     [SerializeField] private AudioClip[] coinCollectSfx;
-    [SerializeField] AudioSource[] allSources;
     private AudioSource activeSource;
 
     public static SoundManager instance;
@@ -36,6 +36,7 @@ public class SoundManager : MonoBehaviour
     {
         ghostSource.clip = ghostRespawnSFx;
     }
+    
     private void PlayClip(AudioClip clip)
     {
         activeSource = GetIdleSource();

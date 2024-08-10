@@ -170,7 +170,6 @@ public class PlayerController : MonoBehaviour
 
         dragPos = mousePos;
         dir = dragPos - startPos;
-        Debug.Log("dir value : " + dir.magnitude);
 
         if (dir.magnitude < 1.0f || aimCancel) //single click rejection
             return;
@@ -483,8 +482,7 @@ public class PlayerController : MonoBehaviour
         playerAnimation.ToggleTrailRenderer(false);
         SoundManager.instance.PlayStickSFx();
         //disable rb to avoid gravity
-        //rb.isKinematic = true;
-        //collider.enabled = false;
+        
         Physics2D.gravity = Vector2.zero;
         
     }
