@@ -119,9 +119,7 @@ public class PlayerCollision : MonoBehaviour
             (collision.gameObject.layer == platformLayerValue || collision.gameObject.layer == breakableLayerValue))
         {
             //raycast 4 ways to detect platform sides
-            //change to stick state and set sprite based on collision direction
-            //Debug.Log("collided after launch");
-
+           
             RaycastCheckDirection(-transform.right, () =>
             {
                 playerController.SetToStickState(StickSide.LEFT);
@@ -130,7 +128,7 @@ public class PlayerCollision : MonoBehaviour
             RaycastCheckDirection(transform.right, () =>
             {
                 //Debug.Break();
-                playerController.SetToStickState(StickSide.RIGHT);
+                playerController.SetToStickState(StickSide. RIGHT);
                 return;
             });
             RaycastCheckDirection(transform.up, () =>
@@ -191,7 +189,6 @@ public class PlayerCollision : MonoBehaviour
             }
         }
 
-        //Debug.Log("object layer :  " + collision.gameObject.layer+" , Mask layer : "+(int)obstacleLayerMask);
 
         if (collision.collider.gameObject.layer == ObstacleLayer && playerController.playerState != State.GHOST)
         {
@@ -255,12 +252,12 @@ public class PlayerCollision : MonoBehaviour
         playerController.SquishEffect -= SquishSplatterEffect;
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = hit ? Color.blue : Color.red;
-        Gizmos.DrawRay(transform.position, rayCastLength * transform.right);
-        //Gizmos.DrawRay(transform.position, 5f * transform.right);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = hit ? Color.blue : Color.red;
+    //    Gizmos.DrawRay(transform.position, rayCastLength * transform.right);
+    //    //Gizmos.DrawRay(transform.position, 5f * transform.right);
+    //}
 }
 public enum StickSide
 {

@@ -41,6 +41,7 @@ public class PlayerAnimation : MonoBehaviour
         if(playerController.playerState == State.LAUNCHED)
         {
             animator.SetFloat("velocity", playerController.Velocity);
+            //normalTrail.keys
         }
     }
     public void FlipSprite(Vector2 aimDirection)
@@ -48,13 +49,24 @@ public class PlayerAnimation : MonoBehaviour
         spriteRenderer.flipX = Vector2.Dot(Vector2.right, aimDirection) < 0 ? true : false;
     }
 
-    public void DrawTrajectory(Vector2 vel)
+    public void DrawTrajectory(Vector2 vel,bool aiminLimit)
     {
         //draw line renderer points
         for(int i = 0;i<lineRenderer.positionCount;i++)
         {
             var pos = playerController.GetPosition(vel, i / (float)lineRenderer.positionCount);
             lineRenderer.SetPosition(i, pos);
+
+            //
+            //for(int _i=0, j=0;_i<10;_i++,j+=5 )
+            //{
+            //    //
+            //    //draw white
+            //    //racyast from getpos(j) to getpos (j+5).
+            //    //if you get wall. // draw remaing index red
+            //    // else draw breakl.
+
+            //}
         }
 
         //animate line renderer material
@@ -63,6 +75,8 @@ public class PlayerAnimation : MonoBehaviour
         if(result <= 0)
             timer = 1;
         lineMaterial.mainTextureOffset = Vector2.right * result*trajectorySpeed;
+
+        lineMaterial.color = !aiminLimit? new Color(0.9f, 0.3f, 0.23f) : Color.white;
     }
     public void SetAim()
     {
@@ -87,6 +101,10 @@ public class PlayerAnimation : MonoBehaviour
         animator.ResetTrigger("idle");
         animator.ResetTrigger("relaunch");
     }
+    public void SetLaunch()
+    {
+        animator.SetTrigger("launch");
+    }
     public void SetRelaunch()
     {
         animator.SetTrigger("relaunch");
@@ -97,10 +115,7 @@ public class PlayerAnimation : MonoBehaviour
         //Debug.Log("set to stick anim state : "+sideValue);
         animator.SetFloat("side",sideValue);
     }
-    public void SetSquish()
-    {
-        animator.SetTrigger("squish");
-    }
+    
     public void ResetVelocity()
     {
         animator.SetFloat("velocity", 0f);

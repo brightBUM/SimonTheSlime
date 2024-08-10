@@ -58,6 +58,7 @@ public class PlayerController : MonoBehaviour
     private bool dragging = false;
     private bool firstClick = false;
     private bool aimCancel = false;
+    private bool aiminLimit = false;
     private Vector2 startPos;
     private Vector2 dragPos;
     private Vector2 dir;
@@ -169,12 +170,11 @@ public class PlayerController : MonoBehaviour
 
         dragPos = mousePos;
         dir = dragPos - startPos;
-        //Debug.Log("dir value : " + dir.magnitude);
+        Debug.Log("dir value : " + dir.magnitude);
 
-        if (dir.magnitude < 0.1f || aimCancel) //single click rejection
+        if (dir.magnitude < 1.0f || aimCancel) //single click rejection
             return;
 
-        
 
         if(!dragging) //set visual elements only once when dragging
         {
@@ -203,7 +203,7 @@ public class PlayerController : MonoBehaviour
             dragging = true;
         }
         // calculate aim force and sprite flip direction
-        if (playerState == State.AIMING || playerState == State.TIMEDILATION)
+        if (playerState == State.AIMING)
         {
             aimDir = (Vector2)transform.position + (-dir);
 
@@ -212,30 +212,72 @@ public class PlayerController : MonoBehaviour
 
             forceDir = aimDir - (Vector2)transform.position;
 
+            //Vector3 clampedForce = transform.position + Vector3.ClampMagnitude(forceDir, maxForce);
+           
+            float dotvalueUp = Vector2.Dot(((transform.position+Vector3.up) - transform.position).normalized, forceDir.normalized);
+            //Debug.Log("dot value : " + dotvalueUp);
+            aiminLimit = dotvalueUp > 0.1f ? true : false; 
+
             forceDir *= dragSensitivity;
             forceLength = forceDir.magnitude;
-            //Debug.Log("forcelength : "+forceLength);
             playerAnimation.FlipSprite(forceDir.normalized);
-            playerAnimation.DrawTrajectory(Vector2.ClampMagnitude(forceDir, maxForce));
+            playerAnimation.DrawTrajectory(Vector2.ClampMagnitude(forceDir, maxForce),aiminLimit);
         }
-        else if (playerState == State.STICK || playerState == State.GRAPPLEHANG)
+        else if (playerState == State.STICK)
         {
             //aim only to the opp side of the conveyor/sticky platform
             
-
             aimDir = (Vector2)transform.position + (-dir);
             forceDir = aimDir - (Vector2)transform.position;
             //Debug.Log("dot value :" + Vector2.Dot(Vector2.left, forceDir.normalized));
 
+            if(stickSide == StickSide.LEFT)
+            {
+                //Vector3 clampedForce = transform.position + Vector3.ClampMagnitude(forceDir, maxForce);
+                float dotvalueLeft = Vector2.Dot(((transform.position + Vector3.right) - transform.position).normalized, forceDir.normalized);
+                aiminLimit = dotvalueLeft > 0.1f ? true : false;
+
+            }
+            else if(stickSide == StickSide.RIGHT)
+            {
+                //Vector3 clampedForce = transform.position + Vector3.ClampMagnitude(forceDir, maxForce);
+                var dotvalueRight = Vector2.Dot(((transform.position + Vector3.left) - transform.position).normalized, forceDir.normalized);
+                aiminLimit = dotvalueRight > 0.1f ? true : false;
+            }
+
             forceDir *= dragSensitivity;
             forceLength = forceDir.magnitude;
-            playerAnimation.DrawTrajectory(Vector2.ClampMagnitude(forceDir, maxForce));
+            playerAnimation.DrawTrajectory(Vector2.ClampMagnitude(forceDir, maxForce),aiminLimit);
 
         }
-        
+        else if (playerState == State.TIMEDILATION || playerState == State.GRAPPLEHANG)
+        {
+            // aim 360 in mid air
+            aimDir = (Vector2)transform.position + (-dir);
+            forceDir = aimDir - (Vector2)transform.position;
+
+            forceDir *= dragSensitivity;
+            forceLength = forceDir.magnitude;
+            aiminLimit = true;
+            playerAnimation.FlipSprite(forceDir.normalized);
+            playerAnimation.DrawTrajectory(Vector2.ClampMagnitude(forceDir, maxForce), aiminLimit);
+        }
+
     }
     private void LeftReleased()
     {
+        if(!aiminLimit)
+        {
+            if(playerState==State.AIMING)
+            {
+                SetToIdle();
+            }
+            playerAnimation.ToggleLineRenderer(false);
+            dragging = false;
+            firstClick = false;
+            aimCancel = false;
+            return;
+        }
         if (playerState == State.STICK)
         {
             if (stickSide == StickSide.TOP || stickSide == StickSide.BOTTOM)
@@ -245,7 +287,7 @@ public class PlayerController : MonoBehaviour
         }
         if (playerState == State.POUND)
             return;
-        if (dir.magnitude < 0.1f || !dragging)
+        if (dir.magnitude < 1.0f || !dragging)
         {
             firstClick = false;
             aimCancel = false;
@@ -262,6 +304,7 @@ public class PlayerController : MonoBehaviour
             forceDir = Vector2.ClampMagnitude(forceDir, maxForce);
             rb.velocity = forceDir;
             playerAnimation.ToggleTrailRenderer(true);
+            playerAnimation.SetLaunch();
             //playerAnimation.SpawnJumpTrail();
 
         }
@@ -289,6 +332,7 @@ public class PlayerController : MonoBehaviour
             ResetGravity();
             GamePlayScreenUI.instance.EndBulletTime(bulletTimeAbility);
         }
+
         dragging = false;
         firstClick = false;
         aimCancel = false;
@@ -312,7 +356,7 @@ public class PlayerController : MonoBehaviour
             playerAnimation.ToggleLineRenderer(false);
             playerState = State.LAUNCHED;
         }
-        else if(playerState == State.STICK)
+        else if(playerState == State.STICK || playerState == State.GRAPPLEHANG)
         {
             aimCancel = true;
             playerAnimation.ToggleLineRenderer(false);
@@ -475,7 +519,6 @@ public class PlayerController : MonoBehaviour
     }
     private void RespawnPlayer()
     {
-
         //move to last checkpoint with ghost effect
 
         //disable colliders and change to ghost sprite
