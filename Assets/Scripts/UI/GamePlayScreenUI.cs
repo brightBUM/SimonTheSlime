@@ -60,7 +60,7 @@ public class GamePlayScreenUI : MonoBehaviour
             TogglePauseMenu(paused);
         }
     }
-    private void TogglePauseMenu(bool paused)
+    public void TogglePauseMenu(bool paused)
     {
         if(paused)
         {

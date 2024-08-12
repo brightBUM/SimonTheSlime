@@ -336,6 +336,11 @@ public class PlayerController : MonoBehaviour
         firstClick = false;
         aimCancel = false;
     }
+    public void PoundButton()
+    {
+        RightClicked();
+    }
+    
     private void RightClicked()
     {
         poundHeld = true;
@@ -572,7 +577,7 @@ public class PlayerController : MonoBehaviour
         slideAccelerate = 0f;
     }
 
-    private void ActivateDashTime()
+    public void ActivateDashTime()
     {
         //Vector2 initialVelocity = rb.velocity;
         if(dashTimer<=0 && playerState == State.LAUNCHED)
@@ -589,7 +594,7 @@ public class PlayerController : MonoBehaviour
         }
        
     }
-    private void ActivateGrapple()
+    public void ActivateGrapple()
     {
         if(grappleReady && playerState == State.LAUNCHED)
         {
