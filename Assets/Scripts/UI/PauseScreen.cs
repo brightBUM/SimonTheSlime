@@ -16,26 +16,32 @@ public class PauseScreen : MonoBehaviour
     // Start is called before the first frame update
     private void OnEnable()
     {
-        
+        LoadSettings();
+        Debug.Log("loading audio prefs");
+    }
+    
+    public void LoadSettings()
+    {
         for (int i = 0; i < volumeStateUI.Length; i++)
-        { 
-            volumeStateUI[i].sprite = SaveLoadManager.Instance.GetVolumeControls(i).volumeState?toggleOnUI:toggleOffUI; 
+        {
+            volumeStateUI[i].sprite = SaveLoadManager.Instance.GetVolumeControls(i).volumeState ? toggleOnUI : toggleOffUI;
             volumeValueUI[i].value = SaveLoadManager.Instance.GetVolumeControls(i).volumeValue;
-            switch(i)
+            switch (i)
             {
                 case 0:
-                    audioMixer.SetFloat("MasterVolume", Mathf.Log10(volumeValueUI[i].value) * 20f);
+                    //Debug.Log("master log value : " + Mathf.Log10(volumeValueUI[i].value)*20f);
+                    audioMixer.SetFloat("MasterVolume", volumeValueUI[i].value);
                     break;
                 case 1:
-                    audioMixer.SetFloat("MusicVolume", Mathf.Log10(volumeValueUI[i].value) * 20f);
+                    audioMixer.SetFloat("MusicVolume", volumeValueUI[i].value);
                     break;
                 case 2:
-                    audioMixer.SetFloat("SFXVolume", Mathf.Log10(volumeValueUI[i].value) * 20f);
-                break;
+                    audioMixer.SetFloat("SFXVolume", volumeValueUI[i].value);
+                    break;
             }
         }
     }
-    
+
     public void SetVolumeToggle(int index)
     {
         SaveLoadManager.Instance.ToggleVolumeState(index);
@@ -44,6 +50,7 @@ public class PauseScreen : MonoBehaviour
 
     public void SetMasterVolume(float value)
     {
+        //Debug.Log("master log value : " + Mathf.Log10(value) * 20f);
         audioMixer.SetFloat("MasterVolume", /*Mathf.Log10(value) * 20f*/value);
         SaveLoadManager.Instance.SetVolumeValue(0, value);
     }

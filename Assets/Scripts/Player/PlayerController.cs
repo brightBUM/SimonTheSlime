@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -141,6 +142,7 @@ public class PlayerController : MonoBehaviour
                 grappleTimer = 0f;
                 playerAnimation.SetRelaunch();
                 playerState = State.LAUNCHED;
+                GrappleRelaunch.Invoke();
                 ResetGravity();
             }
         }
