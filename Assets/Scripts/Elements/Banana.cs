@@ -20,13 +20,18 @@ public class Banana : MonoBehaviour
     {
         if (collision.gameObject.layer == 8)
         {
-            var effect = ObjectPoolManager.Instance.Spawn(2, transform.position, Quaternion.identity);
-            effect.transform.localScale = Vector3.one * effectScale;
-            //SoundManager.instance.PlayCollectibleSFx();
-            LevelManager.Instance.CollectBanana();
-            SoundManager.instance.PlayCollectibleSFx();
-            Destroy(this.gameObject);
+            CollectEffect();
         }
+    }
+
+    public void CollectEffect()
+    {
+        var effect = ObjectPoolManager.Instance.Spawn(2, transform.position, Quaternion.identity);
+        effect.transform.localScale = Vector3.one * effectScale;
+        //SoundManager.instance.PlayCollectibleSFx();
+        LevelManager.Instance.CollectBanana();
+        SoundManager.instance.PlayCollectibleSFx();
+        Destroy(this.gameObject);
     }
 
 

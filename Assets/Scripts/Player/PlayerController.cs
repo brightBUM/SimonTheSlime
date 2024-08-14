@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     public Action<Vector2> SquishEffect;
     public Action GrappleRangeShrink;
     public Action GrappleRelaunch;
+    public Action<IPoundable> ContinuePound;
     public bool grappleReady;
     public bool poundHeld = false;
 
@@ -100,6 +101,7 @@ public class PlayerController : MonoBehaviour
         playerInput.GrappleAbility += ActivateGrapple;
         playerInput.RespawnToCheckPoint += ResetStates;
         respawnPlayer += RespawnPlayer;
+        ContinuePound += ContinuePounding;
     }
     
     // Update is called once per frame
@@ -494,12 +496,30 @@ public class PlayerController : MonoBehaviour
         slideAccelerate += slideDownValue*Time.deltaTime;
         transform.position += Vector3.down*slideAccelerate * Time.deltaTime;
     }
+    private void ContinuePounding(IPoundable poundable)
+    {
+        if(poundable is BangablePlatform || poundable is ActuatorPlatform)
+        {
+            ResetPound();
+        }
+        else if(poundable is BreakablePlatform)
+        {
+            if (poundHeld)
+            {
+                PushPound();
+            }
+            else
+            {
+                ResetPound();
+            }
+        }
+    }
     public void ResetPound()
     {
         SetToIdle();
         playerAnimation.ResetTrailEffect();
     }
-    public void PushPound()
+    private void PushPound()
     {
         rb.velocity += Vector2.down * 20f;
     }
@@ -651,6 +671,8 @@ public class PlayerController : MonoBehaviour
         playerInput.RespawnToCheckPoint -= ResetStates;
 
         respawnPlayer -= RespawnPlayer;
+        ContinuePound -= ContinuePounding;
+
     }
 
 }
