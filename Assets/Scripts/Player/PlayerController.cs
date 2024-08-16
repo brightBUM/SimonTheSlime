@@ -136,18 +136,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (playerState == State.GRAPPLEHANG)
-        {
-            grappleTimer += Time.deltaTime;
-            if (grappleTimer >= grappleGrabHangTimer)
-            {
-                grappleTimer = 0f;
-                playerAnimation.SetRelaunch();
-                playerState = State.LAUNCHED;
-                GrappleRelaunch.Invoke();
-                ResetGravity();
-            }
-        }
+        
         
     }
   
@@ -650,15 +639,28 @@ public class PlayerController : MonoBehaviour
             PlayerHitEffect();
         });
     }
-    public void SetGrapplePoint(Vector2 point)
+    public void SetGrapplePoint(Vector2 point,ref Action playerDropped)
     {
         this.grapplePoint = point;
         grappleReady = true;
+        playerDropped += DetachPlayerFromDrone;
     }
-    public void FreeGrapplePoint()
+    public void FreeGrapplePoint(ref Action playerDropped)
     {
         this.grapplePoint = Vector2.zero;
         grappleReady = false;
+        playerDropped -= DetachPlayerFromDrone;
+    }
+    private void DetachPlayerFromDrone()
+    {
+        if (playerState == State.GRAPPLEHANG)
+        {
+            grappleTimer = 0f;
+            playerAnimation.SetRelaunch();
+            playerState = State.LAUNCHED;
+            GrappleRelaunch.Invoke();
+            ResetGravity();
+        }
     }
     private void OnDisable()
     {
