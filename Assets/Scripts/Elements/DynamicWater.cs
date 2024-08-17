@@ -161,7 +161,9 @@ public class DynamicWater : MonoBehaviour
 
         //GameObject splashGO = Instantiate(splash, new Vector3(center.x, center.y, 0), Quaternion.Euler(0, 0, 60));
         //Destroy(splashGO, 2f);
+        splashVFX.transform.localScale = collision.gameObject.layer == 8 ? Vector3.one * 2f : Vector3.one;
         var splashObject = Instantiate(splashVFX, center+Vector2.down*3f, splashVFX.transform.rotation);
+        
 
         for (int i = 0; i < quality; i++)
         {
