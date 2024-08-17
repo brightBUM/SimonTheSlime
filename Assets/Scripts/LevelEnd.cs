@@ -6,11 +6,9 @@ using UnityEngine;
 public class LevelEnd : MonoBehaviour
 {
     [SerializeField] GameObject splashVFX;
-    [SerializeField] GameObject levelCompletePanel;
     // Start is called before the first frame update
     void Start()
     {
-        levelCompletePanel.transform.localScale = Vector3.zero;
 
     }
 

@@ -51,6 +51,7 @@ public class GamePlayScreenUI : MonoBehaviour
         UpdateDashAbilityUI(0f);
         UpdateBananaCount(LevelManager.Instance.GetLevelBananasCount());
         defaultColor = timerFillUI.color;
+        levelCompleteScreen.transform.localScale = Vector3.zero;
     }
     private void Update()
     {
@@ -155,6 +156,19 @@ public class GamePlayScreenUI : MonoBehaviour
         Time.fixedDeltaTime = 0.02f;
         timerFillUI.fillAmount = 1f;
         timerFillUI.color = defaultColor;
+    }
+
+    public void GotoLevelSelectionScreen()
+    {
+        SceneLoader.Instance.LoadScene(1);
+    }
+    public void GotoNextLevel()
+    {
+        SceneLoader.Instance.LoadNextScene();
+    }
+    public void ReplayScene()
+    {
+        SceneLoader.Instance.ReloadCurrentScreen();
     }
     private void OnDisable()
     {
