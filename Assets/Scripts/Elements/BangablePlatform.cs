@@ -33,7 +33,7 @@ public class BangablePlatform : MonoBehaviour, IPoundable
             //UpdateHitCount();
             originalSprite.color = Color.Lerp(originalSprite.color, breakColor, 1 - (float)HitCount / 5.0f);
             ContinuePound(this);
-            if(HitCount==0)
+            if(HitCount==1)
             {
                 breakablePlatform.SetSize(originalSprite.size);
                 Instantiate(breakablePlatform, transform.position, Quaternion.identity);

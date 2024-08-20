@@ -357,16 +357,27 @@ public class PlayerController : MonoBehaviour
         {
             //pound only when in mid air
             playerState = State.POUND;
-            rb.velocity = Vector2.down * poundForce;
-            playerAnimation.SetRoll();
-            playerAnimation.PoundTrailEffect();
+
+            StartCoroutine(DelayedPound());
         }
-        //Debug.Log("right mouse clicked");
     }
 
     private void RightClickReleased()
     {
         poundHeld = false;
+    }
+    IEnumerator DelayedPound()
+    {
+        //slam transit animation in mid air
+        Physics2D.gravity = Vector2.zero;
+        rb.velocity = Vector2.zero;
+        playerAnimation.SetRoll();
+        
+        yield return new WaitForSeconds(0.1f);
+
+        rb.velocity = Vector2.down * poundForce;
+        ResetGravity();
+        playerAnimation.PoundTrailEffect();
     }
     private void RelaunchPlayer()
     {
@@ -376,6 +387,7 @@ public class PlayerController : MonoBehaviour
         playerAnimation.SetRelaunch();
         playerAnimation.ToggleTrailRenderer(true);
     }
+
     private void ActivateBulletTime()
     {
         bulletTimeAbility--;
