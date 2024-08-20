@@ -18,6 +18,7 @@ public class PlayerAnimation : MonoBehaviour
     [SerializeField] float hitResetTime = 1.5f;
     [SerializeField] float blendValue = 6f;
     [SerializeField] float newBlendValue = 12f;
+    [SerializeField] float poundTrailTime = 0.15f;
     LineRenderer lineRenderer;
     Animator animator;
     SpriteRenderer spriteRenderer;
@@ -150,11 +151,13 @@ public class PlayerAnimation : MonoBehaviour
     }
     public void PoundTrailEffect()
     {
+        trailRenderer.time = poundTrailTime;
         trailRenderer.startWidth = 2.5f;
         trailRenderer.colorGradient = poundTrail;
     }
     public void ResetTrailEffect()
     {
+        trailRenderer.time = 0.3f;
         trailRenderer.startWidth = 1.5f;
         trailRenderer.colorGradient = normalTrail;
     }
