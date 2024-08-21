@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] PlayerAnimation playerAnimation;
     [SerializeField] GameObject playerSquishDummy;
     [SerializeField] GrappleRope grappleRope;
+    [SerializeField] PlayerKillHandler playerKillHandler;
     [Header("cam")]
     [SerializeField] Transform camLookAhead;
     [SerializeField] float camLookAheadDistance = 5f;
@@ -641,6 +642,7 @@ public class PlayerController : MonoBehaviour
     {
         PlayerHitEffect();
         playerAnimation.ResetAll();
+        playerKillHandler.Reset();
     }
     public void ExplodeOnContact(float force)
     {
@@ -673,6 +675,29 @@ public class PlayerController : MonoBehaviour
             GrappleRelaunch.Invoke();
             ResetGravity();
         }
+    }
+
+    public void HandleKillAndRespawn(IkillPlayer ikillPlayer,Vector2 direction)
+    {
+        if(ikillPlayer is Obstacle)
+        {
+            PlayerHitEffect();
+
+        }
+        else if(ikillPlayer is SawKillPlayer)
+        {
+            playerAnimation.ToggleSpriteRenderer(false);
+            playerAnimation.ToggleTrailRenderer(false);
+            playerKillHandler.SawGore(direction, () =>
+            {
+                PlayerHitEffect();
+            });
+        }
+        else if(ikillPlayer is ExplosionKillPlayer)
+        {
+
+        }
+
     }
     private void OnDisable()
     {

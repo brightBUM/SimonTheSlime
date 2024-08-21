@@ -27,13 +27,11 @@ public class PlayerCollision : MonoBehaviour
     bool hit;
     //int stickSide = 0;
     float stickTimer = 0f;
-    ParticleSystem goreFx;
     // Start is called before the first frame update
     void Start()
     {
         playerController = GetComponent<PlayerController>();
         playerController.SquishEffect += SquishSplatterEffect;
-        goreFx = gorePrefab.GetComponentInChildren<ParticleSystem>();
     }
 
     private void FixedUpdate()
@@ -169,27 +167,12 @@ public class PlayerCollision : MonoBehaviour
             }
         }
 
-
-        if (collision.collider.gameObject.layer == ObstacleLayer && playerController.playerState != State.GHOST)
+        if (collision.collider.TryGetComponent<IkillPlayer>(out IkillPlayer ikillPlayer) && playerController.playerState != State.GHOST)
         {
             //hit with obstacle , respawn to last checkpoint
-
-            if(collision.gameObject.GetComponent<patrol>())
-            {
-                //LevelManager.Instance.ShakeCamera.OnHit();
-                var dir = this.transform.position- collision.transform.position;
-                var rot = Quaternion.Euler(0, 0, MathF.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
-                gorePrefab.transform.position = transform.position;
-                gorePrefab.transform.rotation = rot;
-                goreFx.Play();
-                //Debug.Break();
-                playerController.PlayerHitEffect();
-            }
-            else
-            {
-                LevelManager.Instance.ShakeCamera.OnHit();
-                playerController.PlayerHitEffect();
-            }
+            var dir = this.transform.position - collision.transform.position;
+            playerController.HandleKillAndRespawn(ikillPlayer, dir);
+            LevelManager.Instance.ShakeCamera.OnHit();
             
         }
     }

@@ -291,6 +291,7 @@ GameObject:
   - component: {fileID: 3058277558573846593}
   - component: {fileID: 3058277558573846598}
   - component: {fileID: 8868714367502098634}
+  - component: {fileID: 1845223804389140301}
   m_Layer: 6
   m_Name: PatrolParent
   m_TagString: Spike
@@ -331,6 +332,7 @@ MonoBehaviour:
   flip: 0
   ptA: {fileID: 3058277557750188717}
   ptB: {fileID: 3058277557728089730}
+  firstTarget: {fileID: 0}
 --- !u!61 &8868714367502098634
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -377,6 +379,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.541977, y: 5.1442146}
   m_EdgeRadius: 0
+--- !u!114 &1845223804389140301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3058277558573846592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47f828f0298e0994798efabdbee46522, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gorePrefab: {fileID: 0}
 --- !u!1001 &3058277558068871871
 PrefabInstance:
   m_ObjectHideFlags: 0

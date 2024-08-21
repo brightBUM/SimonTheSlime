@@ -66,7 +66,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerState: 0
+  stickSide: 0
   grappleReady: 0
+  poundHeld: 0
   playerAnimation: {fileID: 2126227026460189563}
   playerSquishDummy: {fileID: 0}
   grappleRope: {fileID: 8088903959092502349}
@@ -101,6 +103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poundEffect: {fileID: 2475190179056352609, guid: c79f124b23667654cb64d6ef1d2ec850, type: 3}
+  gorePrefab: {fileID: 0}
   poundSprites:
   - {fileID: -1320826963748240007, guid: 99d9e6ab424c5f64686cd30e2bf0ec7c, type: 3}
   - {fileID: 2821599554758783953, guid: 99d9e6ab424c5f64686cd30e2bf0ec7c, type: 3}
@@ -492,6 +495,7 @@ MonoBehaviour:
   hitResetTime: 0
   blendValue: 6
   newBlendValue: 12
+  poundTrailTime: 0.15
   originalMaterial: {fileID: 2100000, guid: 724b118fa12e16a42a90c7875174d6d2, type: 2}
 --- !u!96 &2881329772496489922
 TrailRenderer:
@@ -1031,7 +1035,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 20, y: 20}
+  m_Size: {x: 5, y: 5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
