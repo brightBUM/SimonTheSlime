@@ -356,7 +356,6 @@ public class PlayerController : MonoBehaviour
         else if(playerState == State.LAUNCHED)
         {
             //pound only when in mid air
-            playerState = State.POUND;
 
             StartCoroutine(DelayedPound());
         }
@@ -375,6 +374,7 @@ public class PlayerController : MonoBehaviour
         
         yield return new WaitForSeconds(0.2f);
 
+        playerState = State.POUND;
         rb.velocity = Vector2.down * poundForce;
         ResetGravity();
         playerAnimation.PoundTrailEffect();
