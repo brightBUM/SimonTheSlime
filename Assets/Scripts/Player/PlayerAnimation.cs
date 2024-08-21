@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerAnimation : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class PlayerAnimation : MonoBehaviour
     [SerializeField] Material hitMaterial;
     [SerializeField] Gradient normalTrail;
     [SerializeField] Gradient poundTrail;
+    [SerializeField] Light2D spotlight2D;
     [SerializeField] float trajectorySpeed = 5f;
     [SerializeField] float hitResetTime = 1.5f;
     [SerializeField] float blendValue = 6f;
@@ -154,12 +156,16 @@ public class PlayerAnimation : MonoBehaviour
         trailRenderer.time = poundTrailTime;
         trailRenderer.startWidth = 2.5f;
         trailRenderer.colorGradient = poundTrail;
+        spotlight2D.intensity = 30f;
+        spotlight2D.color = new Color(0.94f, 0.28f, 0.07f);
     }
     public void ResetTrailEffect()
     {
         trailRenderer.time = 0.3f;
         trailRenderer.startWidth = 1.5f;
         trailRenderer.colorGradient = normalTrail;
+        spotlight2D.intensity = 13f;
+        spotlight2D.color = new Color(0.65f, 0.96f, 0.48f);
     }
     public void SpawnJumpTrail()
     {
