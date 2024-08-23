@@ -8,6 +8,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip noBulletTImeSfx;
     [SerializeField] private AudioClip explosionSFX;
     [SerializeField] private AudioClip poundSFx;
+    [SerializeField] private AudioClip dashSFx;
     [SerializeField] private AudioClip ghostRespawnSFx;
     [SerializeField] private AudioClip sloMoTimerSFx;
     [SerializeField] private AudioClip flagCheckPointSFx;
@@ -18,6 +19,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip grappleRopeSFx;
     [SerializeField] private AudioClip grapplePullSFx;
     [SerializeField] private AudioClip coinBangSFx;
+    [SerializeField] private AudioClip erectPlatformSFx;
     [SerializeField] private AudioClip timeOrbCollectSFx;
     [SerializeField] AudioSource ghostSource;
     [SerializeField] private AudioClip[] slimeStickSFX;
@@ -62,6 +64,10 @@ public class SoundManager : MonoBehaviour
     {
         PlayClip(grappleRopeSFx);
     }
+    public void PlayDashSFX()
+    {
+        PlayClip(dashSFx);
+    }
     public void PlayTimeOrbCollectSFX()
     {
         PlayClip(timeOrbCollectSFx);
@@ -78,7 +84,10 @@ public class SoundManager : MonoBehaviour
     {
         PlayClip(coinCollectSfx[Random.Range(0,coinCollectSfx.Length)]);
     }
-
+    public void PlayErectPlatformSFx()
+    {
+        PlayClip(erectPlatformSFx);
+    }
     public void PlaySloMoTimer()
     {
         PlayClip(sloMoTimerSFx);

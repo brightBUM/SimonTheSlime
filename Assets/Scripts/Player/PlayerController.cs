@@ -603,6 +603,7 @@ public class PlayerController : MonoBehaviour
             playerAnimation.ToggleSpriteTrailRenderer(true);
             rb.AddForce(rb.velocity.normalized * dashAmount, ForceMode2D.Impulse);
             LevelManager.Instance.ShakeCamera.OnDash();
+            SoundManager.instance.PlayDashSFX();
             dashTimer = dashCooldown;
             DOVirtual.DelayedCall(0.5f, () =>
             {

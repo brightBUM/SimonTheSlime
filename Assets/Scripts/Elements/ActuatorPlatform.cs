@@ -28,7 +28,7 @@ public class ActuatorPlatform : MonoBehaviour,IPoundable
         hitCount--;
         StepIncrease(stepAmount);
         GetComponentInChildren<BouncyDeform>().HitDeform();
-        
+        SoundManager.instance.PlayErectPlatformSFx();
 
         var currentEulerAngle = gears[0].rotation.eulerAngles;
         currentEulerAngle += Vector3.forward * gearRotateAmount;
