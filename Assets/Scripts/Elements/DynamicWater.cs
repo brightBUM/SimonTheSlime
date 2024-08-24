@@ -23,7 +23,6 @@ public class DynamicWater : MonoBehaviour
     private Vector3[] vertices;
     private Mesh mesh;
 
-    public ParticleSystem splashVFX;
 
     [Header("Phisics Settings")]
     public float sprigConstant = .02f;
@@ -159,10 +158,8 @@ public class DynamicWater : MonoBehaviour
         Vector2 center = new Vector2(collision.bounds.center.x, bound.top);
         //Debug.Log("old -- center = " + center + " / radius = " + radius);
 
-        //GameObject splashGO = Instantiate(splash, new Vector3(center.x, center.y, 0), Quaternion.Euler(0, 0, 60));
-        //Destroy(splashGO, 2f);
+        var splashVFX = ObjectPoolManager.Instance.Spawn(4, center + Vector2.down * 3f, Quaternion.Euler(90,0,0));
         splashVFX.transform.localScale = collision.gameObject.layer == 8 ? Vector3.one * 2f : Vector3.one;
-        var splashObject = Instantiate(splashVFX, center+Vector2.down*3f, splashVFX.transform.rotation);
         
 
         for (int i = 0; i < quality; i++)
@@ -171,7 +168,7 @@ public class DynamicWater : MonoBehaviour
             if (PointInsideCircle(vertices[i], center, radius))
             {
                 velocities[i] = force;
-                Debug.Log("old -- boom");
+                //Debug.Log("old -- boom");
             }
         }
     }

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class AcidDrip : MonoBehaviour
 {
-    [SerializeField] float interval;
+    [SerializeField] float minTime = 3f;
+    [SerializeField] float maxTime = 6f;
     [SerializeField] Transform spawnPoint;
     // Start is called before the first frame update
     void Start()
@@ -15,9 +16,11 @@ public class AcidDrip : MonoBehaviour
     {
         while (true)
         {
+            var randNum = Random.Range(minTime, maxTime);
+            yield return new WaitForSeconds(randNum);
+
             var acidDrop = ObjectPoolManager.Instance.Spawn(3,spawnPoint.position,Quaternion.identity);
             ObjectPoolManager.Instance.Despawn(acidDrop, 2f);
-            yield return new WaitForSeconds(interval);
         }
        
     }

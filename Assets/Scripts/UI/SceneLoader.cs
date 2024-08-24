@@ -18,11 +18,22 @@ public class SceneLoader : Singleton<SceneLoader>
     }
     public void LoadNextScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
+        var nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+
+        if (nextSceneIndex == 6) //to prevent infinite loading screens temporarily
+            return;
+        SceneViaLoadingScreen(nextSceneIndex);
+
     }
     public void LoadScene(int index)
     {
         SceneManager.LoadScene(index);
+    }
+
+    public void SceneViaLoadingScreen(int index)
+    {
+        GameManger.Instance.selectedIndex = index;
+        SceneManager.LoadScene(GameManger.Instance.LOADINGSCENE);
     }
     public void ReloadCurrentScreen()
     {
