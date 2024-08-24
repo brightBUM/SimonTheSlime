@@ -9,6 +9,7 @@ public class PlayerAnimation : MonoBehaviour
     [SerializeField] PlayerController playerController;
     [SerializeField] GameObject ghostParticleVFX;
     [SerializeField] Material lineMaterial;
+    [SerializeField] Transform arrowHead;
     [SerializeField] Volume volume;
     [SerializeField] TrailRenderer trailRenderer;
     [SerializeField] Material hitMaterial;
@@ -58,7 +59,11 @@ public class PlayerAnimation : MonoBehaviour
             var pos = playerController.GetPosition(vel, i / (float)lineRenderer.positionCount);
             lineRenderer.SetPosition(i, pos);
 
-            //
+            arrowHead.position = lineRenderer.GetPosition(lineRenderer.positionCount-1);
+            var dir = lineRenderer.GetPosition(lineRenderer.positionCount - 1) - lineRenderer.GetPosition(lineRenderer.positionCount - 2);
+            var rot = Mathf.Atan2(dir.y , dir.x) * Mathf.Rad2Deg;
+            arrowHead.rotation = Quaternion.Euler(0f,0f,rot);
+
             //for(int _i=0, j=0;_i<10;_i++,j+=5 )
             //{
             //    //
@@ -135,6 +140,7 @@ public class PlayerAnimation : MonoBehaviour
         //{
         //    lineRenderer.SetPosition(i, Vector3.zero);
         //}
+        arrowHead.gameObject.SetActive(value);
         lineRenderer.enabled = value;
     }
     public void ToggleTrailRenderer(bool value)
