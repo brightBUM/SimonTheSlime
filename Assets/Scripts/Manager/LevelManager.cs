@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] CameraShake camShake;
     [SerializeField] Transform lastCheckpoint;
     [SerializeField] Transform collectiblesParent;
+    [SerializeField] PlayerController playerController;
     //[Header("collectibles")]
     private int targetbananas;
     private int collectedBananas;
@@ -36,4 +37,12 @@ public class LevelManager : MonoBehaviour
         GamePlayScreenUI.instance.UpdateBananaCount(GetLevelBananasCount());
     }
 
+    public void PlayerInputToggle(bool value)
+    {
+        if(playerController!=null)
+        {
+            //setting to pound state while block player input 
+            playerController.playerState = !value ? State.POUND : State.IDLE;
+        }
+    }
 }
