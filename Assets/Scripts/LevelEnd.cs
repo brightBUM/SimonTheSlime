@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class LevelEnd : MonoBehaviour
 {
-    [SerializeField] GameObject splashVFX;
+    [SerializeField] Transform sleepingPlayer;
+    [SerializeField] float yValue;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,9 +23,11 @@ public class LevelEnd : MonoBehaviour
         if (collision.TryGetComponent<PlayerController>(out PlayerController playerController))
         {
             SoundManager.instance.PlayAcidSplashSFx();
-            Instantiate(splashVFX,playerController.transform.position,splashVFX.transform.rotation);
+            //ObjectPoolManager.Instance.Spawn(4,transform.position,Quaternion.Euler(90, 0, 0));
             //change player to roll/sleep state 
-            playerController.SetToFirstBounce();
+            playerController.gameObject.SetActive(false);
+            sleepingPlayer.gameObject.SetActive(true);
+            sleepingPlayer.DOLocalMoveY(yValue, 1f).SetEase(Ease.OutCubic);
             //play level complete music 
             //spawn scoreboard menu
             DOVirtual.DelayedCall(2f, () =>
