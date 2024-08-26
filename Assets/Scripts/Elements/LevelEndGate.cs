@@ -135,7 +135,7 @@ public class LevelEndGate : MonoBehaviour
                 button.Reset();
             }
 
-            gateTransform.DOMoveY(gateTransform.position.y + 15f, 2f);
+            gateTransform.DOMoveY(15f, 2f);
             gateLocked = false;
         }
     }
