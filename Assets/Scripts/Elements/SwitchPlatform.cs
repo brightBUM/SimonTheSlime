@@ -1,9 +1,10 @@
+using DG.Tweening;
 using System;
 using UnityEngine;
 
 public class SwitchPlatform : MonoBehaviour,IPoundable
 {
-    [SerializeField] Color unlockedColor;
+    [SerializeField] Sprite unlockedSprite;
     [SerializeField] GameObject sparkVFX;
     [SerializeField] DrawGateUnlock DrawGateUnlock;
     SpriteRenderer spriteRenderer;
@@ -25,8 +26,9 @@ public class SwitchPlatform : MonoBehaviour,IPoundable
         sparkVFX.SetActive(false);
         var unlockVFX = ObjectPoolManager.Instance.Spawn(1,transform.position,Quaternion.identity);
         unlockVFX.transform.localScale = Vector3.one*5f;
-        spriteRenderer.color = unlockedColor;
+        spriteRenderer.sprite = unlockedSprite;
 
+        transform.DOScale(1.2f,0.1f).SetLoops(2, LoopType.Yoyo);
         //pan camera to gear turning and door opening
         DrawGateUnlock.TriggerUnlock();
 

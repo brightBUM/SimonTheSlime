@@ -34,7 +34,7 @@ public class ButtonPlatform : MonoBehaviour,IPoundable
 
         spriteRenderer.sprite = activeSprite;
 
-        this.transform.DOScaleX(0.6f, 0.1f).SetLoops(2, LoopType.Yoyo);
+        this.transform.DOScaleX(1.1f, 0.1f).SetLoops(2, LoopType.Yoyo);
         ButtonPress.Invoke(buttonValue);
     }
 
