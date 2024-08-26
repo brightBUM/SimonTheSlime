@@ -499,21 +499,15 @@ public class PlayerController : MonoBehaviour
     }
     private void ContinuePounding(IPoundable poundable)
     {
-        if(poundable is BangablePlatform || poundable is ActuatorPlatform || poundable is SwitchPlatform)
-        {
-            ResetPound();
-        }
-        else if(poundable is BreakablePlatform)
+        if(poundable is BreakablePlatform)
         {
             if (poundHeld)
             {
                 PushPound();
-            }
-            else
-            {
-                ResetPound();
+                return;
             }
         }
+        ResetPound();
     }
     public void ResetPound()
     {
