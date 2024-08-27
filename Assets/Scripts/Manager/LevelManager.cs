@@ -22,10 +22,14 @@ public class LevelManager : MonoBehaviour
             Instance = this;
         }
         LastCheckpointpos = lastCheckpoint.position;
-        targetbananas = collectiblesParent.childCount+11;
+        targetbananas = collectiblesParent.childCount;
     }
     private void Start()
     {
+    }
+    public void BangablePlatformSpawn()
+    {
+        targetbananas += 4;
     }
     public string GetLevelBananasCount()
     {
