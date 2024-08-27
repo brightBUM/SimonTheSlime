@@ -7,7 +7,7 @@ public class ButtonHightlight : MonoBehaviour,IPointerEnterHandler,IPointerExitH
     [SerializeField] Transform uiImage;
     public void OnPointerEnter(PointerEventData eventData)
     {
-        uiImage.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic);
+        uiImage.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic).SetUpdate(true);
         SoundManager.instance.PlayStickSFx();
     }
 
@@ -17,7 +17,7 @@ public class ButtonHightlight : MonoBehaviour,IPointerEnterHandler,IPointerExitH
         {
             DOTween.Kill(uiImage);
         }
-        uiImage.DOScale(Vector3.zero, 0.1f).SetEase(Ease.OutFlash);
+        uiImage.DOScale(Vector3.zero, 0.1f).SetEase(Ease.OutFlash).SetUpdate(true);
 
     }
 

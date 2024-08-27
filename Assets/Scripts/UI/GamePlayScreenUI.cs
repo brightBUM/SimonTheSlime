@@ -78,7 +78,7 @@ public class GamePlayScreenUI : MonoBehaviour
             Time.timeScale = 1f;
         }
     }
-
+    
     public void ToggleGamePlayScreen(bool value)
     {
         gameplayScreen.SetActive(value);
@@ -150,14 +150,14 @@ public class GamePlayScreenUI : MonoBehaviour
         ResetScales();
         UpdateBulletTimeUI(value);
     }
-    private void ResetScales()
+    public void ResetScales()
     {
         Time.timeScale = 1f;
         Time.fixedDeltaTime = 0.02f;
         timerFillUI.fillAmount = 1f;
         timerFillUI.color = defaultColor;
     }
-
+    
     public void GotoLevelSelectionScreen()
     {
         SceneLoader.Instance.LoadScene(1);
@@ -169,6 +169,14 @@ public class GamePlayScreenUI : MonoBehaviour
     public void ReplayScene()
     {
         SceneLoader.Instance.ReloadCurrentScreen();
+    }
+    public void LoadMenu()
+    {
+        SceneLoader.Instance.LoadScene(0);
+    }
+    public void QuitGame()
+    {
+        SceneLoader.Instance.QuitGame();
     }
     private void OnDisable()
     {

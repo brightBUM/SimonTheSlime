@@ -902,7 +902,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 5755652306569604687}
-  parallaxEffect: 0.6
+  xFactor: 0
+  yFactor: 0
 --- !u!1 &52274357
 GameObject:
   m_ObjectHideFlags: 0
@@ -6067,7 +6068,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 5755652306569604687}
-  parallaxEffect: 0.5
+  xFactor: 0
+  yFactor: 0
 --- !u!212 &355547139
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -12226,7 +12228,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 5755652306569604687}
-  parallaxEffect: 0
+  xFactor: 0
+  yFactor: 0
 --- !u!1001 &711612705
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12730,8 +12733,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1344b83d5a7e354d94f2d17272284ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  splashVFX: {fileID: 1215228760057999144, guid: 2b9737ce6ea8bd94dbb20a7cea23f095, type: 3}
-  levelCompletePanel: {fileID: 1831969864}
+  sleepingPlayer: {fileID: 0}
+  yValue: 0
 --- !u!61 &725866886
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -16238,7 +16241,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 5755652306569604687}
-  parallaxEffect: 0.2
+  xFactor: 0
+  yFactor: 0
 --- !u!1001 &952501728
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16471,6 +16475,7 @@ MonoBehaviour:
   noBulletTImeSfx: {fileID: 8300000, guid: 7fa830b6044cd5e4e9061ac3017cfa4a, type: 3}
   explosionSFX: {fileID: 8300000, guid: f2ad4c777a081ce4cbf2f22078edba58, type: 3}
   poundSFx: {fileID: 8300000, guid: bc17e307d63f0c34f82b33ad59669067, type: 3}
+  dashSFx: {fileID: 0}
   ghostRespawnSFx: {fileID: 8300000, guid: 77ecf2db0e489b746b9994002f0608cf, type: 3}
   sloMoTimerSFx: {fileID: 8300000, guid: d69b875400ff1f245ae306d7b50c894f, type: 3}
   flagCheckPointSFx: {fileID: 8300000, guid: 32c772245915f5b45a8ef05d9be91530, type: 3}
@@ -16481,6 +16486,7 @@ MonoBehaviour:
   grappleRopeSFx: {fileID: 8300000, guid: fd719dbaab0f177459725bf0f9ebe5e8, type: 3}
   grapplePullSFx: {fileID: 8300000, guid: 95f085d5795224c469f9116ba676989d, type: 3}
   coinBangSFx: {fileID: 8300000, guid: 88a666f0900ff9247ad2e2ae282682b7, type: 3}
+  erectPlatformSFx: {fileID: 0}
   timeOrbCollectSFx: {fileID: 8300000, guid: f57c58dc681e7694d837a3fbf9355cf9, type: 3}
   ghostSource: {fileID: 601872786}
   slimeStickSFX:
@@ -18691,7 +18697,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 5755652306569604687}
-  parallaxEffect: 0.4
+  xFactor: 0
+  yFactor: 0
 --- !u!1001 &1079018752
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29070,11 +29077,11 @@ Tilemap:
       serializedVersion: 2
       m_TileIndex: 12
       m_TileSpriteIndex: 9
-      m_TileMatrixIndex: 0
+      m_TileMatrixIndex: 6
       m_TileColorIndex: 1
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
-      m_AllTileFlags: 1073741825
+      m_AllTileFlags: 1073741826
   - first: {x: 67, y: 2, z: 0}
     second:
       serializedVersion: 2
@@ -29160,21 +29167,21 @@ Tilemap:
       serializedVersion: 2
       m_TileIndex: 12
       m_TileSpriteIndex: 9
-      m_TileMatrixIndex: 0
+      m_TileMatrixIndex: 6
       m_TileColorIndex: 1
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
-      m_AllTileFlags: 1073741825
+      m_AllTileFlags: 1073741826
   - first: {x: 59, y: 9, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 12
       m_TileSpriteIndex: 9
-      m_TileMatrixIndex: 0
+      m_TileMatrixIndex: 6
       m_TileColorIndex: 1
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
-      m_AllTileFlags: 1073741825
+      m_AllTileFlags: 1073741826
   - first: {x: 148, y: 13, z: 0}
     second:
       serializedVersion: 2
@@ -29530,21 +29537,21 @@ Tilemap:
       serializedVersion: 2
       m_TileIndex: 12
       m_TileSpriteIndex: 9
-      m_TileMatrixIndex: 0
+      m_TileMatrixIndex: 6
       m_TileColorIndex: 1
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
-      m_AllTileFlags: 1073741825
+      m_AllTileFlags: 1073741826
   - first: {x: 221, y: 64, z: 0}
     second:
       serializedVersion: 2
       m_TileIndex: 12
       m_TileSpriteIndex: 9
-      m_TileMatrixIndex: 0
+      m_TileMatrixIndex: 6
       m_TileColorIndex: 1
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
-      m_AllTileFlags: 1073741825
+      m_AllTileFlags: 1073741826
   - first: {x: 207, y: 65, z: 0}
     second:
       serializedVersion: 2
@@ -29761,7 +29768,7 @@ Tilemap:
   - m_RefCount: 1
     m_Data: {fileID: 7348298585952072841, guid: a655ec95905b8ea438fd9e8319f75292, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 97
+  - m_RefCount: 92
     m_Data:
       e00: 1
       e01: 0
@@ -29869,24 +29876,24 @@ Tilemap:
       e31: 7.33e-43
       e32: 7.3e-43
       e33: 7.33e-43
-  - m_RefCount: 0
+  - m_RefCount: 5
     m_Data:
-      e00: 0
+      e00: 1
       e01: 0
-      e02: 1.0285598e-38
-      e03: 1.0285598e-38
+      e02: 0
+      e03: -0.14
       e10: 0
-      e11: 0
-      e12: 7.3e-43
-      e13: 7.3e-43
-      e20: -3.507611e-13
-      e21: -1.7558771e+29
-      e22: -4.663507e-29
-      e23: -1.7558771e+29
-      e30: 4.5908e-41
-      e31: 7.33e-43
-      e32: 7.3e-43
-      e33: 7.33e-43
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
   - m_RefCount: 2
     m_Data:
       e00: 1
@@ -32162,7 +32169,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 5755652306569604687}
-  parallaxEffect: 0.7
+  xFactor: 0
+  yFactor: 0
 --- !u!212 &1566754336
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -77701,11 +77709,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1831969864 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1740849700618633797, guid: 9e74fc8a4855f384da8d2e5b00524f90, type: 3}
-  m_PrefabInstance: {fileID: 716871268}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1836696069 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3924863411412394178, guid: b450bb7535540be4388b98c22352a187, type: 3}
@@ -78049,7 +78052,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 5755652306569604687}
-  parallaxEffect: 0.8
+  xFactor: 0
+  yFactor: 0
 --- !u!1 &1853139063
 GameObject:
   m_ObjectHideFlags: 0
@@ -88087,7 +88091,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 5755652306569604687}
-  parallaxEffect: 0.3
+  xFactor: 0
+  yFactor: 0
 --- !u!1 &5755652306569604687
 GameObject:
   m_ObjectHideFlags: 0
@@ -88289,7 +88294,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
-  parallaxEffect: 1
+  xFactor: 0
+  yFactor: 0
 --- !u!212 &7015440026562499508
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -88355,7 +88361,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 5755652306569604687}
-  parallaxEffect: 0
+  xFactor: 0
+  yFactor: 0
 --- !u!1 &7060528042995085291
 GameObject:
   m_ObjectHideFlags: 0
@@ -88602,7 +88609,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 5755652306569604687}
-  parallaxEffect: 0.7
+  xFactor: 0
+  yFactor: 0
 --- !u!1 &7877290213214046853
 GameObject:
   m_ObjectHideFlags: 0
@@ -88634,7 +88642,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 5755652306569604687}
-  parallaxEffect: 0.5
+  xFactor: 0
+  yFactor: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
