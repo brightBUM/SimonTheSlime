@@ -371,10 +371,10 @@ public class PlayerController : MonoBehaviour
         Physics2D.gravity = Vector2.zero;
         rb.velocity = Vector2.zero;
         playerAnimation.SetRoll();
+        playerState = State.POUND;
         
         yield return new WaitForSeconds(0.2f);
 
-        playerState = State.POUND;
         rb.velocity = Vector2.down * poundForce;
         ResetGravity();
         playerAnimation.PoundTrailEffect();
