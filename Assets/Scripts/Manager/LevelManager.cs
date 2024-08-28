@@ -18,7 +18,7 @@ public class LevelManager : MonoBehaviour
     private int targetbananas;
     private int collectedBananas;
     private int stars;
-    public bool levelComplete = false;
+    public bool startLevelTimer = false;
     public Vector3 LastCheckpointpos { get; set; }
     public static LevelManager Instance;
     public CameraShake ShakeCamera => camShake;
@@ -38,7 +38,7 @@ public class LevelManager : MonoBehaviour
     }
     private void Update()
     {
-        if(!levelComplete)
+        if(startLevelTimer)
         {
             levelTimer += Time.deltaTime;
 

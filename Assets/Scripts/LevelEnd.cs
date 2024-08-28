@@ -29,7 +29,7 @@ public class LevelEnd : MonoBehaviour
             sleepingPlayer.gameObject.SetActive(true);
             sleepingPlayer.DOLocalMoveY(yValue, 1f).SetEase(Ease.OutCubic);
 
-            LevelManager.Instance.levelComplete = true;
+            LevelManager.Instance.startLevelTimer = true;
             //play level complete music 
             //spawn scoreboard menu
             DOVirtual.DelayedCall(2f, () =>

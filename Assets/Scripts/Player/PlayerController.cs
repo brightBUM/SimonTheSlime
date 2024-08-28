@@ -83,12 +83,14 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerInput = GetComponent<PlayerInput>();
         Physics2D.gravity = Vector2.up * gravity;
+        LevelManager.Instance.startLevelTimer = true;
     }
     void Start()
     {
         playerState = State.IDLE;
         collider = GetComponent<CircleCollider2D>();
         GamePlayScreenUI.instance.UpdateBulletTimeUI(bulletTimeAbility);
+        
     }
     private void OnEnable()
     {
@@ -686,7 +688,11 @@ public class PlayerController : MonoBehaviour
 
         respawnPlayer -= RespawnPlayer;
         ContinuePound -= ContinuePounding;
+        LevelManager.Instance.startLevelTimer = false;
 
+    }
+    private void OnDestroy()
+    {
     }
 
 }
