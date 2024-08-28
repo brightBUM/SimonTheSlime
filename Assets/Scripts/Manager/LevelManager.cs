@@ -31,6 +31,7 @@ public class LevelManager : MonoBehaviour
         LastCheckpointpos = lastCheckpoint.position;
         targetbananas = collectiblesParent.childCount;
         levelTimer = 0f;
+
     }
     private void Start()
     {

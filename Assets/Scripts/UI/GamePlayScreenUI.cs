@@ -140,12 +140,20 @@ public class GamePlayScreenUI : MonoBehaviour
         for(int i=0;i<currentStars;i++)
         {
             starItem[i].SetActive(true);
+            StartCoroutine(DelayedStarScale(0.2f+(0.2f*i),starItem[i].gameObject.transform));
         }
 
         if (currentStars > SaveLoadManager.Instance.GetLevelStarData(levelManager.levelIndex))
         {
             SaveLoadManager.Instance.SetLevelStats(levelManager.levelIndex, currentStars);
         }
+    }
+
+    IEnumerator DelayedStarScale(float delayTime,Transform transform)
+    {
+        yield return new WaitForSeconds(delayTime);
+
+        transform.DOScale(1f, 0.3f).SetEase(Ease.OutBounce);
     }
     public void StartTimer(int value,Action timerComplete)
     {
