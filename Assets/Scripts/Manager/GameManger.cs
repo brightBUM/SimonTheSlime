@@ -30,18 +30,23 @@ public class GameManger : MonoBehaviour
     void Start()
     {
         SaveLoadManager.Instance.InitFileSystem();
-        SetMixervalue();
+        SetMixervalueFromFile();
 
     }
 
-    public void SetMixervalue()
+    public void SetMixervalueFromFile()
     {
         var saveLoadManager = SaveLoadManager.Instance;
 
-        audioMixer.SetFloat("MasterVolume", saveLoadManager.GetVolumeControls(0).volumeValue);
-        audioMixer.SetFloat("MusicVolume", saveLoadManager.GetVolumeControls(1).volumeValue);
-        audioMixer.SetFloat("SFXVolume", saveLoadManager.GetVolumeControls(2).volumeValue);
+        var masterVolumeControl = saveLoadManager.GetVolumeControls(0);
+        audioMixer.SetFloat("MasterVolume", masterVolumeControl.volumeState ? masterVolumeControl.volumeValue : -80f);
 
+        var musicVolumeControl = saveLoadManager.GetVolumeControls(1);
+        audioMixer.SetFloat("MusicVolume", musicVolumeControl.volumeState ? musicVolumeControl.volumeValue : -80f);
+
+        var sfxVolumeControl = saveLoadManager.GetVolumeControls(2);
+        audioMixer.SetFloat("SFXVolume", sfxVolumeControl.volumeState ? sfxVolumeControl.volumeValue : -80f);
+        
     }
 
     public void SwapCursor(bool value)
