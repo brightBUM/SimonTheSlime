@@ -10,7 +10,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] Transform collectiblesParent;
     [SerializeField] PlayerController playerController;
     [SerializeField] float targetTime;
-    [SerializeField] int maxLaunches;
+    [SerializeField] int maxLaunchTries = 100;
     public int levelIndex = 0;
     private int currentLaunches;
     private float levelTimer;
@@ -18,6 +18,7 @@ public class LevelManager : MonoBehaviour
     private int targetbananas;
     private int collectedBananas;
     private int stars;
+    public bool levelComplete = false;
     public Vector3 LastCheckpointpos { get; set; }
     public static LevelManager Instance;
     public CameraShake ShakeCamera => camShake;
@@ -36,11 +37,20 @@ public class LevelManager : MonoBehaviour
     }
     private void Update()
     {
-        levelTimer += Time.deltaTime;
-        var seconds = levelTimer % 60;
-        var minutes = levelTimer / 60;
-        string time = Mathf.FloorToInt(minutes) + ":" + Mathf.FloorToInt(seconds);
-        GamePlayScreenUI.instance.UpdateTimerText(time);
+        if(!levelComplete)
+        {
+            levelTimer += Time.deltaTime;
+
+            GamePlayScreenUI.instance.UpdateTimerText(TimeFormatConversion(levelTimer));
+        }
+        
+    }
+    private string TimeFormatConversion(float time)
+    {
+        var seconds = time % 60;
+        var minutes = time / 60;
+        string timeFormat = Mathf.FloorToInt(minutes) + ":" + Mathf.FloorToInt(seconds);
+        return timeFormat;
     }
     public void BangablePlatformSpawn()
     {
@@ -56,13 +66,13 @@ public class LevelManager : MonoBehaviour
     {
         if (levelTimer <= targetTime)
             stars++;
-        return levelTimer.ToString() + "/" + targetTime.ToString();
+        return TimeFormatConversion(levelTimer) + "/" + TimeFormatConversion(targetTime);
     }
     public string GetLevelLaunches()
     {
-        if (currentLaunches <= maxLaunches)
+        if (currentLaunches <= maxLaunchTries)
             stars++;
-        return currentLaunches.ToString() + "/" + maxLaunches.ToString();
+        return currentLaunches.ToString() + "/" + maxLaunchTries.ToString();
     }
     public int GetWonStars()
     {
