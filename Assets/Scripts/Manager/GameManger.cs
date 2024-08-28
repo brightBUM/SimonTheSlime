@@ -10,7 +10,9 @@ public class GameManger : MonoBehaviour
     public readonly string LOADINGSCENE = "SceneTrans";
     public static GameManger Instance;
     [SerializeField] AudioMixer audioMixer;
-
+    public Texture2D hoverCursor;
+    CursorMode cursorMode = CursorMode.Auto;
+    Vector2 hotSpot = Vector2.zero;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -42,10 +44,16 @@ public class GameManger : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SwapCursor(bool value)
     {
-        
+        if (value)
+        {
+            Cursor.SetCursor(hoverCursor, hotSpot, cursorMode);
+        }
+        else
+        {
+            Cursor.SetCursor(null, hotSpot, cursorMode);
+        }
     }
 
     
