@@ -7,27 +7,31 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 
 public class GamePlayScreenUI : MonoBehaviour
 {
-    [Header("Ability UI")]
+    [Header("GamePlayScreen")]
     [SerializeField] Image dashFillImage;
     [SerializeField] Image bulletTimeIcon;
     [SerializeField] TextMeshProUGUI bulletTimeText;
-    [SerializeField] TextMeshProUGUI bananaText;
-    [SerializeField] TextMeshProUGUI bananasLevelCompleteUI;
-    [Header("Bullet time")]
+    [SerializeField] TextMeshProUGUI levelTimerText;
+    [SerializeField] TextMeshProUGUI bananaUI;
     [SerializeField] Image timerFillUI;
     [SerializeField] Transform greenWheelUI;
     [SerializeField] GameObject aimReticleObject;
     [SerializeField] Color timeOverColor;
     [SerializeField] float duration = 0.5f;
-    [Header("Collectibles")]
-    [SerializeField] TextMeshProUGUI bananaUI;
-    [Header("Pause/Setting Menu")]
 
+    [Header("Level Complete")]
+    [SerializeField] TextMeshProUGUI bananasLevelCompleteUI;
+    [SerializeField] TextMeshProUGUI levelTimerCompleteUI;
+    [SerializeField] TextMeshProUGUI launchesUI;
+    [SerializeField] List<GameObject> starItem;
+
+    [Header("Panel")]
     [SerializeField] GameObject pauseScreen;
     [SerializeField] GameObject gameplayScreen;
     [SerializeField] GameObject levelCompleteScreen;
@@ -118,9 +122,30 @@ public class GamePlayScreenUI : MonoBehaviour
     {
         bananaUI.text = text;
     }
-    public void UpdateBananasLevelComplete()
+    public void UpdateTimerText(string time)
     {
-        bananasLevelCompleteUI.text = LevelManager.Instance.GetLevelBananasCount();
+        levelTimerText.text = time;
+    }
+    public void UpdateLevelCompleteUI()
+    {
+        LevelManager levelManager = LevelManager.Instance;
+
+        bananasLevelCompleteUI.text = levelManager.GetLevelBananasCount();
+        levelTimerCompleteUI.text   = levelManager.GetLevelTimerText();
+        launchesUI.text             = levelManager.GetLevelLaunches();
+                                      
+        //spawn stars and store if best score achieved      
+        var currentStars            = levelManager.GetWonStars();
+
+        for(int i=0;i<currentStars;i++)
+        {
+            starItem[i].SetActive(true);
+        }
+
+        if (currentStars > SaveLoadManager.Instance.GetLevelStarData(levelManager.levelIndex))
+        {
+            SaveLoadManager.Instance.SetLevelStats(levelManager.levelIndex, currentStars);
+        }
     }
     public void StartTimer(int value,Action timerComplete)
     {

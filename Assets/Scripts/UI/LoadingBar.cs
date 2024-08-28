@@ -80,7 +80,6 @@ public class LoadingBar : MonoBehaviour
     public void UpdateLoadingProgress(int progress)
     {
 
-
         loadingHandle.position = lineRenderer.GetPosition((samplePoints) - progress);
 
         if (progress < 19)

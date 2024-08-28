@@ -33,7 +33,7 @@ public class LevelEnd : MonoBehaviour
             DOVirtual.DelayedCall(2f, () =>
             {
                 SoundManager.instance.PlayLevelCompleteSFx();
-                GamePlayScreenUI.instance.UpdateBananasLevelComplete();
+                GamePlayScreenUI.instance.UpdateLevelCompleteUI();
                 GamePlayScreenUI.instance.ToggleGamePlayScreen(false);
                 GamePlayScreenUI.instance.ToggleLevelCompleteScreen(true);
             });
