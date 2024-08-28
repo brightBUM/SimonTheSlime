@@ -588,6 +588,7 @@ public class PlayerController : MonoBehaviour
     public void RefillBulletTime()
     {
         bulletTimeAbility += 2;
+        bulletTimeAbility = Mathf.Clamp(bulletTimeAbility, 0, 2);
         GamePlayScreenUI.instance.UpdateBulletTimeUI(bulletTimeAbility);
     }
     public void ResetGravity()
