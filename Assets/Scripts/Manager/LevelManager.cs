@@ -35,6 +35,7 @@ public class LevelManager : MonoBehaviour
     }
     private void Start()
     {
+        GameManger.Instance.ToggleMenuMusic(false);
     }
     private void Update()
     {
