@@ -27,7 +27,7 @@ public class SwitchPlatform : MonoBehaviour,IPoundable
         var unlockVFX = ObjectPoolManager.Instance.Spawn(1,transform.position,Quaternion.identity);
         unlockVFX.transform.localScale = Vector3.one*5f;
         spriteRenderer.sprite = unlockedSprite;
-
+        SoundManager.instance.PlaySwitchPlatformSFX();
         transform.DOScale(1.2f,0.1f).SetLoops(2, LoopType.Yoyo);
         //pan camera to gear turning and door opening
         DrawGateUnlock.TriggerUnlock();

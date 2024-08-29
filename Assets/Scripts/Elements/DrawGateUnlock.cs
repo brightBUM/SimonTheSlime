@@ -23,8 +23,9 @@ public class DrawGateUnlock : MonoBehaviour
         DOVirtual.DelayedCall(1f, () =>
         {
             //pan camera to target
-            
+
             //move draw bridge 
+            SoundManager.instance.PlayGateUnlockSFx(true);
             drawGate.DOLocalMoveX(gateXValue, gateUnlockDuration).OnUpdate(() =>
             {
                 //turn gears as door opens
@@ -40,6 +41,7 @@ public class DrawGateUnlock : MonoBehaviour
 
                 //re enable input
                 LevelManager.Instance.PlayerInputToggle(true);
+                SoundManager.instance.PlayGateUnlockSFx(false);
 
             });
 

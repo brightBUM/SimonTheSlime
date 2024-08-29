@@ -33,6 +33,7 @@ public class ButtonPlatform : MonoBehaviour,IPoundable
         ContinuePound(this);
 
         spriteRenderer.sprite = activeSprite;
+        SoundManager.instance.PlaySwitchPlatformSFX();
 
         this.transform.DOScaleX(1.1f, 0.1f).SetLoops(2, LoopType.Yoyo);
         ButtonPress.Invoke(buttonValue);

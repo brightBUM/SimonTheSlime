@@ -10,6 +10,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip poundSFx;
     [SerializeField] private AudioClip dashSFx;
     [SerializeField] private AudioClip ghostRespawnSFx;
+    [SerializeField] private AudioClip gateUnlockLoopSFx;
     [SerializeField] private AudioClip sloMoTimerSFx;
     [SerializeField] private AudioClip flagCheckPointSFx;
     [SerializeField] private AudioClip acidSplashSFx;
@@ -20,8 +21,12 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip grapplePullSFx;
     [SerializeField] private AudioClip coinBangSFx;
     [SerializeField] private AudioClip erectPlatformSFx;
+    [SerializeField] private AudioClip switchPlatformSFx;
     [SerializeField] private AudioClip timeOrbCollectSFx;
+    [SerializeField] private AudioClip resetPuzzleSFx;
+    [SerializeField] private AudioClip lightBlinkSFx;
     [SerializeField] AudioSource ghostSource;
+    [SerializeField] AudioSource gateUnlockSource;
     [SerializeField] private AudioClip[] slimeStickSFX;
     [SerializeField] private AudioClip[] aimStretchSfx;
     [SerializeField] private AudioClip[] firstBounceSfx;
@@ -37,6 +42,7 @@ public class SoundManager : MonoBehaviour
     void Start()
     {
         ghostSource.clip = ghostRespawnSFx;
+        gateUnlockSource.clip = gateUnlockLoopSFx;
     }
     
     private void PlayClip(AudioClip clip)
@@ -64,6 +70,14 @@ public class SoundManager : MonoBehaviour
     {
         PlayClip(grappleRopeSFx);
     }
+    public void PlaylightBlinkSFX()
+    {
+        PlayClip(lightBlinkSFx);
+    }
+    public void PlayResetPuzzleSFX()
+    {
+        PlayClip(resetPuzzleSFx);
+    }
     public void PlayDashSFX()
     {
         PlayClip(dashSFx);
@@ -83,6 +97,14 @@ public class SoundManager : MonoBehaviour
     public void PlayCollectibleSFx()
     {
         PlayClip(coinCollectSfx[Random.Range(0,coinCollectSfx.Length)]);
+    }
+    public void PlaySwitchPlatformSFX()
+    {
+        PlayClip(switchPlatformSFx);
+    }
+    public void PlayGearUnlockLoopSFX()
+    {
+
     }
     public void PlayErectPlatformSFx()
     {
@@ -141,6 +163,16 @@ public class SoundManager : MonoBehaviour
             ghostSource.Stop();
         }
     }
-    
+    public void PlayGateUnlockSFx(bool value)
+    {
+        if (value)
+        {
+            gateUnlockSource.Play();
+        }
+        else
+        {
+            gateUnlockSource.Stop();
+        }
+    }
 
 }
