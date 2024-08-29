@@ -94,7 +94,7 @@ public class LevelManager : MonoBehaviour
         if(playerController!=null)
         {
             //setting to pound state while block player input 
-            playerController.playerState = !value ? State.POUND : State.IDLE;
+            //playerController.playerState = !value ? State.POUND : State.IDLE;
         }
     }
 }
