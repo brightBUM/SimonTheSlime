@@ -9,6 +9,7 @@ public class MainMenuPath : MonoBehaviour
     [SerializeField] float duration = 0.5f;
     [SerializeField] Ease easeType;
     [SerializeField] RectTransform rectTransform;
+    [SerializeField] Transform title;
 
     private Vector3[] positions = new Vector3[]
         {
@@ -17,6 +18,8 @@ public class MainMenuPath : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        title.DOScale(1.1f, 0.3f).SetLoops(-1, LoopType.Yoyo);
+
         for (int i = 0; i < wayPoints.Length; i++)
         {
             positions[i] = wayPoints[i].position;
