@@ -26,7 +26,7 @@ public class LevelEndGate : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        puzzleCoroutine = StartCoroutine(StartLightBlinkOrder());
+        
     }
     void Update()
     {
@@ -147,7 +147,13 @@ public class LevelEndGate : MonoBehaviour
     }
 
     // Update is called once per frame
-
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.layer == 8)
+        {
+           puzzleCoroutine = StartCoroutine(StartLightBlinkOrder());
+        }
+    }
 
     private void OnDisable()
     {

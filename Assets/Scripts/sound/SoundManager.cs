@@ -14,6 +14,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip sloMoTimerSFx;
     [SerializeField] private AudioClip flagCheckPointSFx;
     [SerializeField] private AudioClip acidSplashSFx;
+    [SerializeField] private AudioClip slimeSplashSFx;
     [SerializeField] private AudioClip brickBreakSFx;
     [SerializeField] private AudioClip playerOnHitSFx;
     [SerializeField] private AudioClip levelCompleteSFx;
@@ -42,7 +43,7 @@ public class SoundManager : MonoBehaviour
     void Start()
     {
         ghostSource.clip = ghostRespawnSFx;
-        gateUnlockSource.clip = gateUnlockLoopSFx;
+        //gateUnlockSource.clip = gateUnlockLoopSFx;
     }
     
     private void PlayClip(AudioClip clip)
@@ -73,6 +74,10 @@ public class SoundManager : MonoBehaviour
     public void PlaylightBlinkSFX()
     {
         PlayClip(lightBlinkSFx);
+    }
+    public void PlaySlimeSplashSFX()
+    {
+        PlayClip(slimeSplashSFx);
     }
     public void PlayResetPuzzleSFX()
     {

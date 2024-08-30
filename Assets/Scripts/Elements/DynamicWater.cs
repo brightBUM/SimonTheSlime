@@ -19,7 +19,7 @@ public class DynamicWater : MonoBehaviour
 
     public Material waterMaterial;
     public GameObject splash;
-
+    public float splashScale = 1f;
     private Vector3[] vertices;
     private Mesh mesh;
 
@@ -149,6 +149,10 @@ public class DynamicWater : MonoBehaviour
     {
         Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
         Splash(collision, rb.velocity.y * collisionVelocityFactor);
+        if(collision.gameObject.layer==8)
+        {
+            SoundManager.instance.PlayAcidSplashSFx();
+        }
     }
 
     private void Splash(Collider2D collision, float force)
@@ -159,8 +163,7 @@ public class DynamicWater : MonoBehaviour
         //Debug.Log("old -- center = " + center + " / radius = " + radius);
 
         var splashVFX = ObjectPoolManager.Instance.Spawn(4, center + Vector2.down * 3f, Quaternion.Euler(90,0,0));
-        splashVFX.transform.localScale = collision.gameObject.layer == 8 ? Vector3.one * 2f : Vector3.one;
-        
+        splashVFX.transform.localScale = Vector3.one*splashScale;
 
         for (int i = 0; i < quality; i++)
         {

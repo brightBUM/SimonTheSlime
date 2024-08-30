@@ -926,6 +926,7 @@ GameObject:
   m_Component:
   - component: {fileID: 31272465}
   - component: {fileID: 31272466}
+  - component: {fileID: 31272467}
   m_Layer: 0
   m_Name: Level end unlock
   m_TagString: Untagged
@@ -975,6 +976,52 @@ MonoBehaviour:
   - {fileID: 69835642}
   duration: 1
   gateTransform: {fileID: 363209097}
+--- !u!61 &31272467
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 31272464}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -32.17, y: 11.34}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 17.62, y: 2}
+  m_EdgeRadius: 0
 --- !u!1 &33065742
 GameObject:
   m_ObjectHideFlags: 0
@@ -4893,6 +4940,10 @@ PrefabInstance:
     - target: {fileID: 2192908382145267925, guid: d118cdbb68490ba478e360eca7e4402b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6489207372461169136, guid: d118cdbb68490ba478e360eca7e4402b, type: 3}
+      propertyPath: splashScale
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6720902731502573371, guid: d118cdbb68490ba478e360eca7e4402b, type: 3}
       propertyPath: m_Size.x
@@ -10844,6 +10895,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6489207372461169136, guid: d118cdbb68490ba478e360eca7e4402b, type: 3}
+      propertyPath: splashScale
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6720902731502573371, guid: d118cdbb68490ba478e360eca7e4402b, type: 3}
       propertyPath: m_Size.x
       value: 30
@@ -13855,7 +13910,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -1739409578224692243, guid: 6ef2a9c5d2471a64a9cecbfa05a23a54, type: 2}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 24800f3ea4b568f4db9a9fe2157acba7, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -95789,6 +95844,10 @@ PrefabInstance:
     - target: {fileID: 2192908382145267925, guid: d118cdbb68490ba478e360eca7e4402b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6489207372461169136, guid: d118cdbb68490ba478e360eca7e4402b, type: 3}
+      propertyPath: splashScale
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6720902731502573371, guid: d118cdbb68490ba478e360eca7e4402b, type: 3}
       propertyPath: m_Size.x

@@ -22,7 +22,7 @@ public class LevelEnd : MonoBehaviour
     {
         if (collision.TryGetComponent<PlayerController>(out PlayerController playerController))
         {
-            SoundManager.instance.PlayAcidSplashSFx();
+            SoundManager.instance.PlaySlimeSplashSFX();
             //ObjectPoolManager.Instance.Spawn(4,transform.position,Quaternion.Euler(90, 0, 0));
             //change player to roll/sleep state 
             playerController.gameObject.SetActive(false);
