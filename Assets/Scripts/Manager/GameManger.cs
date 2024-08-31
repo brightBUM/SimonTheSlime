@@ -63,6 +63,7 @@ public class GameManger : MonoBehaviour
 
     public void SwapCursor(bool value)
     {
+#if UNITY_ANDROID
         if (value)
         {
             Cursor.SetCursor(hoverCursor, hotSpot, cursorMode);
@@ -72,6 +73,6 @@ public class GameManger : MonoBehaviour
             Cursor.SetCursor(null, hotSpot, cursorMode);
         }
     }
+#endif
 
-    
 }

@@ -104,6 +104,12 @@ public class PlayerController : MonoBehaviour
         playerInput.RespawnToCheckPoint += ResetStates;
         respawnPlayer += RespawnPlayer;
         ContinuePound += ContinuePounding;
+
+#if UNITY_ANDROID
+        GamePlayScreenUI.instance.slamButtonAction += RightClicked;
+        GamePlayScreenUI.instance.dashButtonAction += ActivateDashTime;
+        GamePlayScreenUI.instance.grappleButtonAction += ActivateGrapple;
+#endif
     }
     
     // Update is called once per frame
@@ -695,6 +701,12 @@ public class PlayerController : MonoBehaviour
         respawnPlayer -= RespawnPlayer;
         ContinuePound -= ContinuePounding;
         LevelManager.Instance.startLevelTimer = false;
+
+#if UNITY_ANDROID
+        GamePlayScreenUI.instance.slamButtonAction    -= RightClicked;
+        GamePlayScreenUI.instance.dashButtonAction    -= ActivateDashTime;
+        GamePlayScreenUI.instance.grappleButtonAction -= ActivateGrapple;
+#endif
 
     }
     private void OnDestroy()

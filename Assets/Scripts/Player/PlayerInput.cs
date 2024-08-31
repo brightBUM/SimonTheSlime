@@ -69,10 +69,10 @@ public class PlayerInput : MonoBehaviour
 
                     lastTapTime = Time.time;
 
-                    if (tapCount == 2)
-                    {
-                        OnDoubleTap();
-                    }
+                    //if (tapCount == 2)
+                    //{
+                    //    OnDoubleTap();
+                    //}
                     break;
 
                 case TouchPhase.Moved:
@@ -85,10 +85,11 @@ public class PlayerInput : MonoBehaviour
                     endTouchPosition = touch.position;
 
                     // Swipe Down Detection
-                    if (IsSwipeDown(startTouchPosition, endTouchPosition))
-                    {
-                        OnSwipeDown();
-                    }
+                    //if (IsSwipeDown(startTouchPosition, endTouchPosition))
+                    //{
+                    //    OnSwipeDown();
+                    //}
+
                     mouseReleased.Invoke();
                     break;
             }

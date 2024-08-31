@@ -39,6 +39,9 @@ public class GamePlayScreenUI : MonoBehaviour
     Color defaultColor;
     public static GamePlayScreenUI instance;
     public Action<float> UpdateMidAirJumpUI;
+    public Action slamButtonAction;
+    public Action dashButtonAction;
+    public Action grappleButtonAction;
     private TweenerCore<float, float, FloatOptions> tween;
     [HideInInspector] public bool paused;
     public bool BulletTimeActive => timerFillUI.fillAmount < 1f;
@@ -212,6 +215,19 @@ public class GamePlayScreenUI : MonoBehaviour
     public void QuitGame()
     {
         SceneLoader.Instance.QuitGame();
+    }
+
+    public void SlamViaButton()
+    {
+        slamButtonAction.Invoke();
+    }
+    public void DashViaButton()
+    {
+        dashButtonAction.Invoke();    
+    }
+    public void GrappleViaButton()
+    {
+        grappleButtonAction.Invoke();
     }
     private void OnDisable()
     {
