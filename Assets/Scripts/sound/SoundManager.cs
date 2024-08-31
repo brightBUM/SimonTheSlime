@@ -8,18 +8,26 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip noBulletTImeSfx;
     [SerializeField] private AudioClip explosionSFX;
     [SerializeField] private AudioClip poundSFx;
+    [SerializeField] private AudioClip dashSFx;
     [SerializeField] private AudioClip ghostRespawnSFx;
+    [SerializeField] private AudioClip gateUnlockLoopSFx;
     [SerializeField] private AudioClip sloMoTimerSFx;
     [SerializeField] private AudioClip flagCheckPointSFx;
     [SerializeField] private AudioClip acidSplashSFx;
+    [SerializeField] private AudioClip slimeSplashSFx;
     [SerializeField] private AudioClip brickBreakSFx;
     [SerializeField] private AudioClip playerOnHitSFx;
     [SerializeField] private AudioClip levelCompleteSFx;
     [SerializeField] private AudioClip grappleRopeSFx;
     [SerializeField] private AudioClip grapplePullSFx;
     [SerializeField] private AudioClip coinBangSFx;
+    [SerializeField] private AudioClip erectPlatformSFx;
+    [SerializeField] private AudioClip switchPlatformSFx;
     [SerializeField] private AudioClip timeOrbCollectSFx;
+    [SerializeField] private AudioClip resetPuzzleSFx;
+    [SerializeField] private AudioClip lightBlinkSFx;
     [SerializeField] AudioSource ghostSource;
+    [SerializeField] AudioSource gateUnlockSource;
     [SerializeField] private AudioClip[] slimeStickSFX;
     [SerializeField] private AudioClip[] aimStretchSfx;
     [SerializeField] private AudioClip[] firstBounceSfx;
@@ -35,6 +43,7 @@ public class SoundManager : MonoBehaviour
     void Start()
     {
         ghostSource.clip = ghostRespawnSFx;
+        //gateUnlockSource.clip = gateUnlockLoopSFx;
     }
     
     private void PlayClip(AudioClip clip)
@@ -62,6 +71,22 @@ public class SoundManager : MonoBehaviour
     {
         PlayClip(grappleRopeSFx);
     }
+    public void PlaylightBlinkSFX()
+    {
+        PlayClip(lightBlinkSFx);
+    }
+    public void PlaySlimeSplashSFX()
+    {
+        PlayClip(slimeSplashSFx);
+    }
+    public void PlayResetPuzzleSFX()
+    {
+        PlayClip(resetPuzzleSFx);
+    }
+    public void PlayDashSFX()
+    {
+        PlayClip(dashSFx);
+    }
     public void PlayTimeOrbCollectSFX()
     {
         PlayClip(timeOrbCollectSFx);
@@ -78,7 +103,18 @@ public class SoundManager : MonoBehaviour
     {
         PlayClip(coinCollectSfx[Random.Range(0,coinCollectSfx.Length)]);
     }
+    public void PlaySwitchPlatformSFX()
+    {
+        PlayClip(switchPlatformSFx);
+    }
+    public void PlayGearUnlockLoopSFX()
+    {
 
+    }
+    public void PlayErectPlatformSFx()
+    {
+        PlayClip(erectPlatformSFx);
+    }
     public void PlaySloMoTimer()
     {
         PlayClip(sloMoTimerSFx);
@@ -132,6 +168,16 @@ public class SoundManager : MonoBehaviour
             ghostSource.Stop();
         }
     }
-    
+    public void PlayGateUnlockSFx(bool value)
+    {
+        if (value)
+        {
+            gateUnlockSource.Play();
+        }
+        else
+        {
+            gateUnlockSource.Stop();
+        }
+    }
 
 }

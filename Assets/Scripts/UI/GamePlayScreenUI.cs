@@ -7,27 +7,31 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
 
 public class GamePlayScreenUI : MonoBehaviour
 {
-    [Header("Ability UI")]
+    [Header("GamePlayScreen")]
     [SerializeField] Image dashFillImage;
     [SerializeField] Image bulletTimeIcon;
     [SerializeField] TextMeshProUGUI bulletTimeText;
-    [SerializeField] TextMeshProUGUI bananaText;
-    [SerializeField] TextMeshProUGUI bananasLevelCompleteUI;
-    [Header("Bullet time")]
+    [SerializeField] TextMeshProUGUI levelTimerText;
+    [SerializeField] TextMeshProUGUI bananaUI;
     [SerializeField] Image timerFillUI;
     [SerializeField] Transform greenWheelUI;
     [SerializeField] GameObject aimReticleObject;
     [SerializeField] Color timeOverColor;
     [SerializeField] float duration = 0.5f;
-    [Header("Collectibles")]
-    [SerializeField] TextMeshProUGUI bananaUI;
-    [Header("Pause/Setting Menu")]
 
+    [Header("Level Complete")]
+    [SerializeField] TextMeshProUGUI bananasLevelCompleteUI;
+    [SerializeField] TextMeshProUGUI levelTimerCompleteUI;
+    [SerializeField] TextMeshProUGUI launchesUI;
+    [SerializeField] List<GameObject> starItem;
+
+    [Header("Panel")]
     [SerializeField] GameObject pauseScreen;
     [SerializeField] GameObject gameplayScreen;
     [SerializeField] GameObject levelCompleteScreen;
@@ -51,6 +55,7 @@ public class GamePlayScreenUI : MonoBehaviour
         UpdateDashAbilityUI(0f);
         UpdateBananaCount(LevelManager.Instance.GetLevelBananasCount());
         defaultColor = timerFillUI.color;
+        levelCompleteScreen.transform.localScale = Vector3.zero;
     }
     private void Update()
     {
@@ -77,7 +82,7 @@ public class GamePlayScreenUI : MonoBehaviour
             Time.timeScale = 1f;
         }
     }
-
+    
     public void ToggleGamePlayScreen(bool value)
     {
         gameplayScreen.SetActive(value);
@@ -117,9 +122,38 @@ public class GamePlayScreenUI : MonoBehaviour
     {
         bananaUI.text = text;
     }
-    public void UpdateBananasLevelComplete()
+    public void UpdateTimerText(string time)
     {
-        bananasLevelCompleteUI.text = LevelManager.Instance.GetLevelBananasCount();
+        levelTimerText.text = time;
+    }
+    public void UpdateLevelCompleteUI()
+    {
+        LevelManager levelManager = LevelManager.Instance;
+
+        bananasLevelCompleteUI.text = levelManager.GetLevelBananasCount();
+        levelTimerCompleteUI.text   = levelManager.GetLevelTimerText();
+        launchesUI.text             = levelManager.GetLevelLaunches();
+                                      
+        //spawn stars and store if best score achieved      
+        var currentStars            = levelManager.GetWonStars();
+
+        for(int i=0;i<currentStars;i++)
+        {
+            starItem[i].SetActive(true);
+            StartCoroutine(DelayedStarScale(0.2f+(0.2f*i),starItem[i].gameObject.transform));
+        }
+
+        if (currentStars > SaveLoadManager.Instance.GetLevelStarData(levelManager.levelIndex))
+        {
+            SaveLoadManager.Instance.SetLevelStats(levelManager.levelIndex, currentStars);
+        }
+    }
+
+    IEnumerator DelayedStarScale(float delayTime,Transform transform)
+    {
+        yield return new WaitForSeconds(delayTime);
+
+        transform.DOScale(1f, 0.3f).SetEase(Ease.OutBounce);
     }
     public void StartTimer(int value,Action timerComplete)
     {
@@ -149,12 +183,35 @@ public class GamePlayScreenUI : MonoBehaviour
         ResetScales();
         UpdateBulletTimeUI(value);
     }
-    private void ResetScales()
+    public void ResetScales()
     {
         Time.timeScale = 1f;
         Time.fixedDeltaTime = 0.02f;
         timerFillUI.fillAmount = 1f;
         timerFillUI.color = defaultColor;
+    }
+    
+    public void GotoLevelSelectionScreen()
+    {
+        SceneLoader.Instance.LoadScene(1);
+        GameManger.Instance.ToggleMenuMusic(true);
+    }
+    public void GotoNextLevel()
+    {
+        SceneLoader.Instance.LoadNextScene();
+    }
+    public void ReplayScene()
+    {
+        SceneLoader.Instance.ReloadCurrentScreen();
+    }
+    public void LoadMenu()
+    {
+        SceneLoader.Instance.LoadScene(0);
+        GameManger.Instance.ToggleMenuMusic(true);
+    }
+    public void QuitGame()
+    {
+        SceneLoader.Instance.QuitGame();
     }
     private void OnDisable()
     {

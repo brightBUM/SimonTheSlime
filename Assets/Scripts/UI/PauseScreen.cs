@@ -16,45 +16,58 @@ public class PauseScreen : MonoBehaviour
     // Start is called before the first frame update
     private void OnEnable()
     {
-        
-        for (int i = 0; i < volumeStateUI.Length; i++)
-        { 
-            volumeStateUI[i].sprite = SaveLoadManager.Instance.GetVolumeControls(i).volumeState?toggleOnUI:toggleOffUI; 
-            volumeValueUI[i].value = SaveLoadManager.Instance.GetVolumeControls(i).volumeValue;
-            switch(i)
-            {
-                case 0:
-                    audioMixer.SetFloat("MasterVolume", Mathf.Log10(volumeValueUI[i].value) * 20f);
-                    break;
-                case 1:
-                    audioMixer.SetFloat("MusicVolume", Mathf.Log10(volumeValueUI[i].value) * 20f);
-                    break;
-                case 2:
-                    audioMixer.SetFloat("SFXVolume", Mathf.Log10(volumeValueUI[i].value) * 20f);
-                break;
-            }
-        }
+        LoadSettings();
+        Debug.Log("loading audio prefs");
     }
     
+    public void LoadSettings()
+    {
+        for (int i = 0; i < volumeStateUI.Length; i++)
+        {
+            volumeStateUI[i].sprite = SaveLoadManager.Instance.GetVolumeControls(i).volumeState ? toggleOnUI : toggleOffUI;
+            volumeValueUI[i].value = SaveLoadManager.Instance.GetVolumeControls(i).volumeValue;
+            //audioMixer.SetFloat("MasterVolume", Mathf.Log10(volumeValueUI[0].value) * 20f);
+            //audioMixer.SetFloat("MusicVolume", Mathf.Log10(volumeValueUI[1].value) * 20f);
+            //audioMixer.SetFloat("SFXVolume", Mathf.Log10(volumeValueUI[2].value) * 20f);
+
+        }
+    }
+
     public void SetVolumeToggle(int index)
     {
-        SaveLoadManager.Instance.ToggleVolumeState(index);
-        volumeStateUI[index].sprite = SaveLoadManager.Instance.GetVolumeControls(index).volumeState ? toggleOnUI : toggleOffUI;
+        var volumeControl = SaveLoadManager.Instance.GetVolumeControls(index);
+        volumeControl.volumeState = !volumeControl.volumeState;
+        volumeStateUI[index].sprite = volumeControl.volumeState ? toggleOnUI : toggleOffUI;
+
+        switch (index)
+        {
+            case 0:
+                audioMixer.SetFloat("MasterVolume", volumeControl.volumeState? Mathf.Log10(volumeControl.volumeValue) * 20f : -80f);
+                break;
+            case 1:
+                audioMixer.SetFloat("MusicVolume", volumeControl.volumeState ? Mathf.Log10(volumeControl.volumeValue) * 20f : -80f);
+                break;
+            case 2:
+                audioMixer.SetFloat("SFXVolume", volumeControl.volumeState ? Mathf.Log10(volumeControl.volumeValue) * 20f : -80f);
+                break;
+        }
+
+        SaveLoadManager.Instance.SetVolumeState(index,volumeControl.volumeState);
     }
 
     public void SetMasterVolume(float value)
     {
-        audioMixer.SetFloat("MasterVolume", /*Mathf.Log10(value) * 20f*/value);
+        audioMixer.SetFloat("MasterVolume", Mathf.Log10(value) * 20f); //since mixer ranges from 0 to -80
         SaveLoadManager.Instance.SetVolumeValue(0, value);
     }
     public void SetMusicVolume(float value)
     {
-        audioMixer.SetFloat("MusicVolume",/*Mathf.Log10(value) * 20f*/value);
+        audioMixer.SetFloat("MusicVolume", Mathf.Log10(value) * 20f);
         SaveLoadManager.Instance.SetVolumeValue(1, value);
     }
     public void SetSFXVolume(float value)
     {
-        audioMixer.SetFloat("SFXVolume", /*Mathf.Log10(value) * 20f*/value);
+        audioMixer.SetFloat("SFXVolume", Mathf.Log10(value) * 20f);
         SaveLoadManager.Instance.SetVolumeValue(2, value);
     }
     public void SaveSettings()

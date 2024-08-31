@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SaveLoadManager : Singleton<SaveLoadManager>
 {
@@ -10,12 +11,12 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     private string filePath;
 
     public const string MASTER_VOLUME_TOGGLE = "MasterVolumeToggle";
-    public const string MASTER_VOLUME_VALUE = "MasterVolumeValue";
-    public const string MUSIC_VOLUME_TOGGLE = "MusicVolumeToggle";
-    public const string MUSIC_VOLUME_VALUE = "MusicVolumeValue";
-    public const string SFX_VOLUME_TOGGLE = "SfxVolumeToggle";
-    public const string SFX_VOLUME_VALUE = "SfxVolumeValue";
-    public const string PLAYER_PROGRESS = "PlayerProgress";
+    public const string MASTER_VOLUME_VALUE  = "MasterVolumeValue";
+    public const string MUSIC_VOLUME_TOGGLE  = "MusicVolumeToggle";
+    public const string MUSIC_VOLUME_VALUE   = "MusicVolumeValue";
+    public const string SFX_VOLUME_TOGGLE    = "SfxVolumeToggle";
+    public const string SFX_VOLUME_VALUE     = "SfxVolumeValue";
+    public const string PLAYER_PROGRESS      = "PlayerProgress";
 
     public PlayerProfile playerProfile;
     private void Awake()
@@ -47,6 +48,13 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
             {
                 playerProfile.volumeControls.Add(new VolumeControl());
             }
+            for (int i = 0; i < 6; i++)
+            {
+                playerProfile.levelStats.Add(new LevelStats
+                {
+                    levelIndex = i
+                });
+            }
 
             SaveGame();
             Debug.Log("New save file created @" + filePath);
@@ -63,6 +71,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     {
         string data = File.ReadAllText(filePath);
         playerProfile = JsonUtility.FromJson<PlayerProfile>(data);
+        Debug.Log("Game loaded from file");
     }
     public void SaveGame() 
     {
@@ -70,20 +79,16 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
         File.WriteAllText(filePath, data);
         Debug.Log("Game saved");
     }
-    public Dictionary<int, string> GetData()
-    {
-        string[] fileContent = File.ReadAllLines(filePath);
-        Dictionary<int, string> dictionaryData = new Dictionary<int, string>();
-
-        foreach (string line in fileContent)
-        {
-            string[] temp = line.Split(',');
-            if (temp.Length == 2)
-                dictionaryData.Add(Convert.ToInt32(temp[0]), temp[1]);
-        }
-        return dictionaryData;
-    }
     
+    public int GetLevelStarData(int index)
+    {
+        return playerProfile.levelStats[index].stars;
+    }
+    public void SetLevelStats(int index,int stars)
+    {
+        playerProfile.levelStats[index].stars = stars;
+        SaveGame();
+    }
     public void ToggleVolumeState(int index)
     {
         playerProfile.volumeControls[index].volumeState = !playerProfile.volumeControls[index].volumeState;
@@ -100,6 +105,8 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     {
         playerProfile.volumeControls[index].volumeState = state;
     }
+
+    
 }
 [System.Serializable]
 public class PlayerProfile
@@ -114,7 +121,8 @@ public class LevelStats
     public int levelIndex = 0;
     public int coinsCollected = 0;
     public float bestTime = 0.0f;
-    public float styleScore = 0.0f;
+    public int minLaunches = 0;
+    public int stars;
 }
 [System.Serializable]
 public class VolumeControl

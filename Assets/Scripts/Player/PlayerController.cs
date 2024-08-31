@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour
     public Action<Vector2> SquishEffect;
     public Action GrappleRangeShrink;
     public Action GrappleRelaunch;
+    public Action<IPoundable> ContinuePound;
     public bool grappleReady;
     public bool poundHeld = false;
 
@@ -81,12 +83,14 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerInput = GetComponent<PlayerInput>();
         Physics2D.gravity = Vector2.up * gravity;
+        LevelManager.Instance.startLevelTimer = true;
     }
     void Start()
     {
         playerState = State.IDLE;
         collider = GetComponent<CircleCollider2D>();
         GamePlayScreenUI.instance.UpdateBulletTimeUI(bulletTimeAbility);
+        
     }
     private void OnEnable()
     {
@@ -99,6 +103,7 @@ public class PlayerController : MonoBehaviour
         playerInput.GrappleAbility += ActivateGrapple;
         playerInput.RespawnToCheckPoint += ResetStates;
         respawnPlayer += RespawnPlayer;
+        ContinuePound += ContinuePounding;
     }
     
     // Update is called once per frame
@@ -133,17 +138,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (playerState == State.GRAPPLEHANG)
-        {
-            grappleTimer += Time.deltaTime;
-            if (grappleTimer >= grappleGrabHangTimer)
-            {
-                grappleTimer = 0f;
-                playerAnimation.SetRelaunch();
-                playerState = State.LAUNCHED;
-                ResetGravity();
-            }
-        }
+        
         
     }
   
@@ -305,6 +300,7 @@ public class PlayerController : MonoBehaviour
             playerAnimation.ToggleTrailRenderer(true);
             playerAnimation.SetLaunch();
             //playerAnimation.SpawnJumpTrail();
+            LevelManager.Instance.IncrementLaunches();
 
         }
         else if (playerState == State.TIMEDILATION)
@@ -313,6 +309,8 @@ public class PlayerController : MonoBehaviour
             forceDir = Vector2.ClampMagnitude(forceDir, maxForce);
 
             rb.velocity = forceDir;
+            LevelManager.Instance.IncrementLaunches();
+
         }
         else if (playerState == State.STICK || playerState == State.GRAPPLEHANG)
         {
@@ -368,17 +366,28 @@ public class PlayerController : MonoBehaviour
         else if(playerState == State.LAUNCHED)
         {
             //pound only when in mid air
-            playerState = State.POUND;
-            rb.velocity = Vector2.down * poundForce;
-            playerAnimation.SetRoll();
-            playerAnimation.PoundTrailEffect();
+
+            StartCoroutine(DelayedPound());
         }
-        //Debug.Log("right mouse clicked");
     }
 
     private void RightClickReleased()
     {
         poundHeld = false;
+    }
+    IEnumerator DelayedPound()
+    {
+        //slam transit animation in mid air
+        Physics2D.gravity = Vector2.zero;
+        rb.velocity = Vector2.zero;
+        playerAnimation.SetRoll();
+        playerState = State.POUND;
+        
+        yield return new WaitForSeconds(0.2f);
+
+        rb.velocity = Vector2.down * poundForce;
+        ResetGravity();
+        playerAnimation.PoundTrailEffect();
     }
     private void RelaunchPlayer()
     {
@@ -387,7 +396,10 @@ public class PlayerController : MonoBehaviour
         rb.velocity = forceDir;
         playerAnimation.SetRelaunch();
         playerAnimation.ToggleTrailRenderer(true);
+        LevelManager.Instance.IncrementLaunches();
+
     }
+
     private void ActivateBulletTime()
     {
         bulletTimeAbility--;
@@ -497,12 +509,24 @@ public class PlayerController : MonoBehaviour
         slideAccelerate += slideDownValue*Time.deltaTime;
         transform.position += Vector3.down*slideAccelerate * Time.deltaTime;
     }
+    private void ContinuePounding(IPoundable poundable)
+    {
+        if(poundable is BreakablePlatform)
+        {
+            if (poundHeld)
+            {
+                PushPound();
+                return;
+            }
+        }
+        ResetPound();
+    }
     public void ResetPound()
     {
         SetToIdle();
         playerAnimation.ResetTrailEffect();
     }
-    public void PushPound()
+    private void PushPound()
     {
         rb.velocity += Vector2.down * 20f;
     }
@@ -569,6 +593,7 @@ public class PlayerController : MonoBehaviour
     public void RefillBulletTime()
     {
         bulletTimeAbility += 2;
+        bulletTimeAbility = Mathf.Clamp(bulletTimeAbility, 0, 2);
         GamePlayScreenUI.instance.UpdateBulletTimeUI(bulletTimeAbility);
     }
     public void ResetGravity()
@@ -585,6 +610,7 @@ public class PlayerController : MonoBehaviour
             playerAnimation.ToggleSpriteTrailRenderer(true);
             rb.AddForce(rb.velocity.normalized * dashAmount, ForceMode2D.Impulse);
             LevelManager.Instance.ShakeCamera.OnDash();
+            SoundManager.instance.PlayDashSFX();
             dashTimer = dashCooldown;
             DOVirtual.DelayedCall(0.5f, () =>
             {
@@ -633,15 +659,28 @@ public class PlayerController : MonoBehaviour
             PlayerHitEffect();
         });
     }
-    public void SetGrapplePoint(Vector2 point)
+    public void SetGrapplePoint(Vector2 point,ref Action playerDropped)
     {
         this.grapplePoint = point;
         grappleReady = true;
+        playerDropped += DetachPlayerFromDrone;
     }
-    public void FreeGrapplePoint()
+    public void FreeGrapplePoint(ref Action playerDropped)
     {
         this.grapplePoint = Vector2.zero;
         grappleReady = false;
+        playerDropped -= DetachPlayerFromDrone;
+    }
+    private void DetachPlayerFromDrone()
+    {
+        if (playerState == State.GRAPPLEHANG)
+        {
+            grappleTimer = 0f;
+            playerAnimation.SetRelaunch();
+            playerState = State.LAUNCHED;
+            GrappleRelaunch.Invoke();
+            ResetGravity();
+        }
     }
     private void OnDisable()
     {
@@ -654,6 +693,12 @@ public class PlayerController : MonoBehaviour
         playerInput.RespawnToCheckPoint -= ResetStates;
 
         respawnPlayer -= RespawnPlayer;
+        ContinuePound -= ContinuePounding;
+        LevelManager.Instance.startLevelTimer = false;
+
+    }
+    private void OnDestroy()
+    {
     }
 
 }

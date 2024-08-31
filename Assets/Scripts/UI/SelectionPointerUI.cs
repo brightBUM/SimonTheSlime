@@ -12,7 +12,7 @@ public class SelectionPointerUI : MonoBehaviour,IPointerEnterHandler,IPointerCli
     public void OnPointerClick(PointerEventData eventData)
     {
         SoundManager.instance.PlayPoundSFx();
-        sceneLoader.LoadScene(sceneToLoad);
+        sceneLoader.SceneViaLoadingScreen(sceneToLoad);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

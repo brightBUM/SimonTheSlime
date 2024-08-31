@@ -153,30 +153,10 @@ public class PlayerCollision : MonoBehaviour
         else if (playerController.playerState == State.POUND)
         {
             //check if collided with breakables
-            if (collision.gameObject.TryGetComponent<BreakablePT>(out BreakablePT breakablePT))
+            if (collision.gameObject.TryGetComponent<IPoundable>(out IPoundable IPoundable))
             {
-                if(breakablePT.HitCount>0)
-                {
-                    breakablePT.OnCollisionPounded();
-                    playerController.ResetPound();
-                    LevelManager.Instance.ShakeCamera.OnPound();
-
-                }
-                else
-                {
-                    if(playerController.poundHeld)
-                    {
-                        breakablePT.OnCollisionPounded();
-                        playerController.PushPound();
-                    }
-                    else
-                    {
-                        breakablePT.OnCollisionPounded();
-                        playerController.ResetPound();
-                        LevelManager.Instance.ShakeCamera.OnPound();
-                    }
-                    
-                }
+                IPoundable.OnPlayerPounded(playerController.ContinuePound);
+                LevelManager.Instance.ShakeCamera.OnPound();
             }
             else
             {

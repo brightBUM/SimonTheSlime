@@ -4,31 +4,36 @@ using UnityEngine;
 
 public class ParallaxSystem : MonoBehaviour
 {
-    [System.Serializable]
-    public class ParallaxLayer
-    {
-        public Transform layerTransform;  // Reference to the background transform
-        public float parallaxFactor;  // The parallax effect multiplier for this layer
-    }
 
-    private float length, startPos;
+    private float length;
     public GameObject cam;
-    public float parallaxEffect;
+    public float xFactor;
+    public float yFactor;
+    private Vector2 startPos;
+    private float lastYpos;
 
     void Start()
     {
-        startPos = transform.position.x;
+        startPos = (Vector2)transform.position;
         length = GetComponent<SpriteRenderer>().bounds.size.x;
+        lastYpos = cam.transform.position.y;
+
+        
     }
     private void FixedUpdate()
     {
-        float temp = (cam.transform.position.x * (1 - parallaxEffect));
-        float dist = (cam.transform.position.x * parallaxEffect);
+        float temp = (cam.transform.position.x * (1 - xFactor));
+        float dist = (cam.transform.position.x * xFactor);
 
-        transform.position = new Vector3(startPos + dist, transform.position.y, transform.position.z);
+        float yShift = cam.transform.position.y - lastYpos;
+        lastYpos = cam.transform.position.y;
 
-        if (temp > startPos + length) startPos += length;
-        else if (temp < startPos - length) startPos -= length;
+        transform.position = new Vector3(startPos.x + dist, transform.position.y+(yShift*yFactor), transform.position.z);
+
+        if (temp > startPos.x + length) startPos.x += length;
+        else if (temp < startPos.x - length) startPos.x -= length;
+
+
     }
     void LateUpdate()
     {

@@ -5,12 +5,11 @@ using UnityEngine;
 
 public class LevelEnd : MonoBehaviour
 {
-    [SerializeField] GameObject splashVFX;
-    [SerializeField] GameObject levelCompletePanel;
+    [SerializeField] Transform sleepingPlayer;
+    [SerializeField] float yValue;
     // Start is called before the first frame update
     void Start()
     {
-        levelCompletePanel.transform.localScale = Vector3.zero;
 
     }
 
@@ -23,16 +22,20 @@ public class LevelEnd : MonoBehaviour
     {
         if (collision.TryGetComponent<PlayerController>(out PlayerController playerController))
         {
-            SoundManager.instance.PlayAcidSplashSFx();
-            Instantiate(splashVFX,playerController.transform.position,splashVFX.transform.rotation);
+            SoundManager.instance.PlaySlimeSplashSFX();
+            //ObjectPoolManager.Instance.Spawn(4,transform.position,Quaternion.Euler(90, 0, 0));
             //change player to roll/sleep state 
-            playerController.SetToFirstBounce();
+            playerController.gameObject.SetActive(false);
+            sleepingPlayer.gameObject.SetActive(true);
+            sleepingPlayer.DOLocalMoveY(yValue, 1f).SetEase(Ease.OutCubic);
+
+            LevelManager.Instance.startLevelTimer = true;
             //play level complete music 
             //spawn scoreboard menu
             DOVirtual.DelayedCall(2f, () =>
             {
                 SoundManager.instance.PlayLevelCompleteSFx();
-                GamePlayScreenUI.instance.UpdateBananasLevelComplete();
+                GamePlayScreenUI.instance.UpdateLevelCompleteUI();
                 GamePlayScreenUI.instance.ToggleGamePlayScreen(false);
                 GamePlayScreenUI.instance.ToggleLevelCompleteScreen(true);
             });

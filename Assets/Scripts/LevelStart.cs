@@ -16,7 +16,7 @@ public class LevelStart : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        liquidTransform.DOScaleY(1.92f, liquidRiseDuration).OnComplete(() =>
+        liquidTransform.DOScaleY(1.1f, liquidRiseDuration).OnComplete(() =>
         {
             //tween sleeping player 
             sleepingPlayerTransform.DOMoveY(entryPoint.position.y, sleepingPlayerRiseDuration).OnComplete(() =>

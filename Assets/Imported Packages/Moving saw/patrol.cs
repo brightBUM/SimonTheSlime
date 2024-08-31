@@ -14,6 +14,8 @@ public class patrol : MonoBehaviour
    
     void Start()
     {
+        if (_PlatSpeed <= 0)
+            return;
         spr = GetComponent<SpriteRenderer>();
         direction = Vector2.up;
         target = firstTarget.position;
@@ -21,6 +23,9 @@ public class patrol : MonoBehaviour
 
     void Update()
     {
+
+        if (_PlatSpeed <= 0)
+            return;
 
         if (Vector2.Distance(transform.position, target) > 0.5f)
         {

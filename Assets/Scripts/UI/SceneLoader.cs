@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public class SceneLoader : MonoBehaviour
+public class SceneLoader : Singleton<SceneLoader>
 {
     // Start is called before the first frame update
     void Start()
@@ -18,11 +18,22 @@ public class SceneLoader : MonoBehaviour
     }
     public void LoadNextScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
+        var nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+
+        if (nextSceneIndex == 8) //to prevent infinite loading screens temporarily
+            return;
+        SceneViaLoadingScreen(nextSceneIndex);
+
     }
     public void LoadScene(int index)
     {
         SceneManager.LoadScene(index);
+    }
+
+    public void SceneViaLoadingScreen(int index)
+    {
+        GameManger.Instance.selectedIndex = index;
+        SceneManager.LoadScene(GameManger.Instance.LOADINGSCENE);
     }
     public void ReloadCurrentScreen()
     {
