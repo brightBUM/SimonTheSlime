@@ -53,11 +53,11 @@ public class GameManger : MonoBehaviour
     {
         if(value)
         {
-            menuAudioSource.UnPause();
+            menuAudioSource?.UnPause();
         }
         else
         {
-            menuAudioSource.Pause();
+            menuAudioSource?.Pause();
         }
     }
 

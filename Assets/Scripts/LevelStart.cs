@@ -1,9 +1,10 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class LevelStart : MonoBehaviour
+public class LevelStart : BaseRespawn
 {
     [SerializeField] Transform liquidTransform;
     [SerializeField] Transform entryPoint;
@@ -24,14 +25,12 @@ public class LevelStart : MonoBehaviour
                 //spawn player Prefab
                 sleepingPlayerTransform.gameObject.SetActive(false);
                 playerPrefab.gameObject.SetActive(true);
+                LevelManager.Instance.startLevelTimer = true;
                 liquidTransform.DOScaleY(0, liquidfallDuration);
+
+                LevelManager.Instance.SetRespawn(this);
             });
         });
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

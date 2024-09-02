@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public enum State
 {
@@ -77,13 +78,14 @@ public class PlayerController : MonoBehaviour
     private int bulletTimeAbility = 0;
     private float slideAccelerate;
     private const float squishOffset = 0.5f;
+    private bool respawning;
+    private Vector3 lastPos;
     // Start is called before the first frame update
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         playerInput = GetComponent<PlayerInput>();
         Physics2D.gravity = Vector2.up * gravity;
-        LevelManager.Instance.startLevelTimer = true;
     }
     void Start()
     {
@@ -105,7 +107,16 @@ public class PlayerController : MonoBehaviour
         respawnPlayer += RespawnPlayer;
         ContinuePound += ContinuePounding;
     }
-    
+    private void FixedUpdate()
+    {
+        if (respawning)
+        {
+            var dir = playerAnimation.transform.position - lastPos;
+            var rot = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            lastPos = transform.position;
+            playerAnimation.transform.rotation = Quaternion.Euler(0, 0, rot);
+        }
+    }
     // Update is called once per frame
     void Update()
     {
@@ -138,7 +149,6 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        
         
     }
   
@@ -560,7 +570,9 @@ public class PlayerController : MonoBehaviour
 
         B = Amid + (Vector2.Perpendicular(dir1.normalized) * distance/2);
         C = Dmid + (Vector2.Perpendicular(dir2.normalized) *-1f* distance/2);
+       
 
+        respawning = true;
         DOTween.To(() => lerpAmount, x => lerpAmount = x, 1, 1.5f).SetEase(Ease.Linear).OnUpdate(() =>
         {
             var AB = Vector2.Lerp(A, B, lerpAmount);
@@ -571,16 +583,29 @@ public class PlayerController : MonoBehaviour
 
             var ABCD = Vector2.Lerp(ABC, BCD, lerpAmount);
 
-            this.transform.position = ABCD;
+            transform.position = ABCD;
+
+
 
         }).OnComplete(() =>
         {
-            //reset to idle
-            SetToIdle();
-            ResetGravity();
+            respawning = false;
             playerAnimation.DisableGhostParticle();
             SoundManager.instance.PlayGhostRespawnSFx(false);
+            LevelManager.Instance.LastCheckPointEffect();
+            SetToIdle();
+            playerAnimation.transform.rotation = Quaternion.Euler(Vector3.zero);
             collider.enabled = true;
+            playerAnimation.ToggleSpriteRenderer(false);
+
+            DOVirtual.DelayedCall(0.9f, () => {
+
+                //reset to idle
+                ResetGravity();
+                playerAnimation.ToggleSpriteRenderer(true);
+                
+            });
+
         });
 
     }
@@ -689,7 +714,6 @@ public class PlayerController : MonoBehaviour
 
         respawnPlayer -= RespawnPlayer;
         ContinuePound -= ContinuePounding;
-        LevelManager.Instance.startLevelTimer = false;
 
     }
     private void OnDestroy()
