@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
             var dir = playerAnimation.transform.position - lastPos;
             var rot = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             lastPos = transform.position;
-            playerAnimation.transform.rotation = Quaternion.Euler(0, 0, rot);
+            playerAnimation.ghostDummyVisual.transform.rotation = Quaternion.Euler(0, 0, rot);
         }
     }
     // Update is called once per frame
@@ -561,6 +561,7 @@ public class PlayerController : MonoBehaviour
         Vector2 A, B, C, D;
         A = transform.position;
         D = LevelManager.Instance.LastCheckpointpos;
+
         var distance = Vector2.Distance(A, D);
         var mid = (A + D) / 2;
         var Amid = (A + mid )/2;
@@ -573,6 +574,10 @@ public class PlayerController : MonoBehaviour
        
 
         respawning = true;
+        
+        //flip ghost sprite
+        playerAnimation.ghostDummyVisual.flipY = D.x < A.x ? true:false;
+
         DOTween.To(() => lerpAmount, x => lerpAmount = x, 1, 1.5f).SetEase(Ease.Linear).OnUpdate(() =>
         {
             var AB = Vector2.Lerp(A, B, lerpAmount);
@@ -596,7 +601,7 @@ public class PlayerController : MonoBehaviour
             SetToIdle();
             playerAnimation.transform.rotation = Quaternion.Euler(Vector3.zero);
             collider.enabled = true;
-            playerAnimation.ToggleSpriteRenderer(false);
+            playerAnimation.ToggleGhostDummy(false);
 
             DOVirtual.DelayedCall(0.9f, () => {
 
