@@ -162,7 +162,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (playerState == State.POUND)
+        if (playerState == State.POUND || playerState == State.GHOST)
             return;
 
         if (!firstClick)
@@ -289,7 +289,7 @@ public class PlayerController : MonoBehaviour
                 return;
             }
         }
-        if (playerState == State.POUND)
+        if (playerState == State.POUND || playerState == State.GHOST)
             return;
         if (dir.magnitude < 1.0f || !dragging)
         {
@@ -598,7 +598,6 @@ public class PlayerController : MonoBehaviour
             playerAnimation.DisableGhostParticle();
             SoundManager.instance.PlayGhostRespawnSFx(false);
             LevelManager.Instance.LastCheckPointEffect();
-            SetToIdle();
             playerAnimation.transform.rotation = Quaternion.Euler(Vector3.zero);
             collider.enabled = true;
             playerAnimation.ToggleGhostDummy(false);
@@ -606,6 +605,7 @@ public class PlayerController : MonoBehaviour
             DOVirtual.DelayedCall(0.9f, () => {
 
                 //reset to idle
+                SetToIdle();
                 ResetGravity();
                 playerAnimation.ToggleSpriteRenderer(true);
                 
