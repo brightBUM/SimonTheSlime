@@ -36,7 +36,7 @@ namespace CutScene
             if(skip)
             {
                 // goto main menu
-                DOVirtual.DelayedCall(0.5f,() =>
+                DOVirtual.DelayedCall(1f,() =>
                 {
                     LoadMainMenu();
                 });

@@ -1,3 +1,5 @@
+using CutScene;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -61,6 +63,14 @@ public class GameManger : MonoBehaviour
         }
     }
 
+    public void ReloadIntroDelayed()
+    {
+        DOVirtual.DelayedCall(1f, () =>
+        {
+            FindAnyObjectByType<IntroCutScene>()?.CheckForSaveLoad(false);
+            ToggleMenuMusic(false);
+        });
+    }
     public void SwapCursor(bool value)
     {
         if (value)
