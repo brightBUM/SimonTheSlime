@@ -32,6 +32,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
         {
             //get data
             LoadFromFile();
+            
         }
         else
         {
