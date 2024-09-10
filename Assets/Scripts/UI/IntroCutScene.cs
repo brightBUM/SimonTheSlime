@@ -11,20 +11,44 @@ namespace CutScene
     public class IntroCutScene : MonoBehaviour
     {
         [SerializeField] List<Scene> scenes;
-        [SerializeField] Sprite splashScreen;
-        [SerializeField] Image mainScreen;
+        [SerializeField] GameObject splashScreen;
         [SerializeField] Transform camTransform;
         [SerializeField] Ease sceneTrans;
         [SerializeField] float sceneTransDuration = 0.5f;
+        [SerializeField] float splashScreenDelay = 1f;
         int currentTween = 0;
 
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             //check for save file 
+            SaveLoadManager.Instance.skipCutScene += CheckForSaveLoad;
 
-
-            StartCoroutine(StartCutScene());
+        }
+        private void LoadMainMenu()
+        {
+            SceneLoader.Instance.LoadNextScene();
+            GameManger.Instance.ToggleMenuMusic(true);
+        }
+        public void CheckForSaveLoad(bool skip)
+        {
+            if(skip)
+            {
+                // goto main menu
+                DOVirtual.DelayedCall(0.5f,() =>
+                {
+                    LoadMainMenu();
+                });
+            }
+            else
+            {
+                //show cutscene
+                DOVirtual.DelayedCall(splashScreenDelay, () =>
+                {
+                    splashScreen.SetActive(false);
+                    StartCoroutine(StartCutScene());
+                });
+            }
         }
 
         // Update is called once per frame
@@ -36,7 +60,7 @@ namespace CutScene
                 DOTween.KillAll();
 
                 //load to main menu
-
+                LoadMainMenu();
             }
         }
         IEnumerator StartCutScene()
@@ -47,7 +71,7 @@ namespace CutScene
                 //scenes[i].gameObject.SetActive(true);
                 yield return StartCoroutine(ProcessScene(i));
 
-                Debug.Log(string.Format($"scene {i+1} complete"));
+                //Debug.Log(string.Format($"scene {i+1} complete"));
 
                 yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
 
@@ -64,13 +88,15 @@ namespace CutScene
             Debug.Log("all scenes complete");
 
             //load main menu
+            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+            LoadMainMenu();
         }
 
         IEnumerator ProcessScene(int index)
         {
             var tweenObjects = scenes[index].tweenObjects;
             int tweensCount = tweenObjects.Count;
-            Debug.Log("scene tween count -" + tweensCount);
+            //Debug.Log("scene tween count -" + tweensCount);
             currentTween = 0;
 
             while(tweensCount!=currentTween)
@@ -101,8 +127,14 @@ namespace CutScene
                     break;
             }
         }
+        private void OnDisable()
+        {
+            SaveLoadManager.Instance.skipCutScene -= CheckForSaveLoad;
+
+        }
         
     }
+    
 
     public enum TweenType
     {

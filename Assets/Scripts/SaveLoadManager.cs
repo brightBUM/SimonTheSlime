@@ -18,6 +18,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     public const string SFX_VOLUME_VALUE     = "SfxVolumeValue";
     public const string PLAYER_PROGRESS      = "PlayerProgress";
 
+    public Action<bool> skipCutScene;
     public PlayerProfile playerProfile;
     private void Awake()
     {
@@ -32,7 +33,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
         {
             //get data
             LoadFromFile();
-            
+            skipCutScene(true);
         }
         else
         {
@@ -59,6 +60,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
 
             SaveGame();
             Debug.Log("New save file created @" + filePath);
+            skipCutScene(false);
         }
     }
 

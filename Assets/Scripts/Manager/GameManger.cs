@@ -32,7 +32,7 @@ public class GameManger : MonoBehaviour
     {
         SaveLoadManager.Instance.InitFileSystem();
         SetMixervalueFromFile();
-
+        ToggleMenuMusic(false);
     }
 
     public void SetMixervalueFromFile()
