@@ -1,0 +1,29 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CutSceneAudio : MonoBehaviour
+{
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip swooshClip;
+    [SerializeField] AudioClip alarmClip;
+    [SerializeField] AudioClip glassBangClip;
+    [SerializeField] AudioClip[] popSounds;
+    // Start is called before the first frame update
+    public void PlaySwooshSFX()
+    {
+        audioSource.clip = swooshClip;
+        audioSource.Play();
+    }
+    public void PlayPopSounds()
+    {
+        audioSource.clip = popSounds[Random.Range(0, popSounds.Length)];
+        audioSource.Play();
+    }
+
+    public void PlayClip(AudioClip audioClip)
+    {
+        audioSource.clip = audioClip;
+        audioSource.Play();
+    }
+}

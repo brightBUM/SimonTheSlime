@@ -14,6 +14,7 @@ namespace CutScene
         [SerializeField] GameObject splashScreen;
         [SerializeField] Transform camTransform;
         [SerializeField] Ease sceneTrans;
+        [SerializeField] CutSceneAudio cutSceneAudio;
         [SerializeField] float sceneTransDuration = 0.5f;
         [SerializeField] float splashScreenDelay = 1f;
         int currentTween = 0;
@@ -78,12 +79,16 @@ namespace CutScene
                 //move to next slide
                 if(i!=scenes.Count-1)
                 {
+                    cutSceneAudio.PlaySwooshSFX();
                     var newPos = scenes[i + 1].transform.position;
                     newPos.z = -10;
                     var tween = camTransform.DOMove(newPos, sceneTransDuration).SetEase(sceneTrans);
                     yield return tween.WaitForCompletion();
+
+                    if (scenes[i].nextSceneSound != null)
+                        cutSceneAudio.PlayClip(scenes[i].nextSceneSound);
                 }
-                
+
             }
             Debug.Log("all scenes complete");
 
@@ -114,11 +119,13 @@ namespace CutScene
             {
                 case TweenType.MOVING:
                     var tween = tweenObject.transform.DOLocalMove(tweenObject.endValue, tweenObject.duration).SetEase(tweenObject.easeType);
+                    cutSceneAudio.PlayPopSounds();
                     yield return tween.WaitForCompletion();
                     currentTween++;
                     break;
                 case TweenType.SCALING:
                     var tween2 = tweenObject.transform.DOScale(tweenObject.endValue,tweenObject.duration).SetEase(tweenObject.easeType);
+                    cutSceneAudio.PlayPopSounds();
                     yield return tween2.WaitForCompletion();
                     currentTween++;
                     break;

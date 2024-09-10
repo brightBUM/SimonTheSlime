@@ -8,6 +8,7 @@ namespace CutScene
     public class Scene : MonoBehaviour
     {
         public List<TweenObject> tweenObjects;
+        public AudioClip nextSceneSound;
         // Use this for initialization
         void Start()
         {
