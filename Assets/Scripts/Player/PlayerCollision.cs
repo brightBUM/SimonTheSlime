@@ -33,7 +33,8 @@ public class PlayerCollision : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
         playerController.SquishEffect += SquishSplatterEffect;
-        goreFx = gorePrefab.GetComponentInChildren<ParticleSystem>();
+        if(goreFx!=null)
+            goreFx = gorePrefab.GetComponentInChildren<ParticleSystem>();
     }
 
     private void FixedUpdate()
@@ -104,13 +105,27 @@ public class PlayerCollision : MonoBehaviour
         var rayCastHit2D = Physics2D.Raycast(transform.position, direction, rayCastLength, platformLayer | breakableLayer);
         if (rayCastHit2D.collider != null)
         {
-            hit = true;
+            //hit = true;
             hitAction?.Invoke();
         }
         else
         {
-            hit = false;
+            //hit = false;
             missAction?.Invoke();
+        }
+    }
+
+    public bool RaycastCheckDirection(Vector3 dir,StickSide stickSide,float distance = 1.3f)
+    {
+        var rayCastHit2D = Physics2D.Raycast(transform.position, dir, distance, platformLayer | breakableLayer);
+        if(rayCastHit2D.collider!=null)
+        {
+            playerController.SetToStickState(stickSide);
+            return true; 
+        }
+        else
+        {
+            return false;
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
@@ -119,30 +134,26 @@ public class PlayerCollision : MonoBehaviour
             (collision.gameObject.layer == platformLayerValue || collision.gameObject.layer == breakableLayerValue))
         {
             //raycast 4 ways to detect platform sides
-           
-            RaycastCheckDirection(-transform.right, () =>
-            {
-                playerController.SetToStickState(StickSide.LEFT);
+
+            if (RaycastCheckDirection(-transform.right,StickSide.LEFT))
                 return;
-            });
-            RaycastCheckDirection(transform.right, () =>
-            {
-                //Debug.Break();
-                playerController.SetToStickState(StickSide. RIGHT);
+            else if (RaycastCheckDirection(transform.right, StickSide.RIGHT))
                 return;
-            });
-            RaycastCheckDirection(transform.up, () =>
-            {
-                playerController.SetToStickState(StickSide.TOP);
+            else if (RaycastCheckDirection(transform.up, StickSide.TOP))
+                return;
+            else if (RaycastCheckDirection(-transform.up, StickSide.BOTTOM))
+                return;
+            
+            //corner Bug fix - force the player to down stick condition 
+
+            Vector2 rightDownDir = transform.right + (- transform.up);
+            Vector2 leftDownDir = (-transform.right) + (- transform.up);
+            
+            if (RaycastCheckDirection(rightDownDir.normalized, StickSide.BOTTOM,1.8f)) // raycast check - rightDown
+                return;
+            else if (RaycastCheckDirection(leftDownDir.normalized, StickSide.BOTTOM,1.8f)) // raycast check - rightDown
                 return;
 
-            });
-            RaycastCheckDirection(-transform.up, () =>
-            {
-                //set to idle when thrown down
-                playerController.SetToStickState(StickSide.BOTTOM);
-                return;
-            });
         }
         else if (playerController.playerState == State.BOUNCE)
         {
@@ -232,12 +243,13 @@ public class PlayerCollision : MonoBehaviour
         playerController.SquishEffect -= SquishSplatterEffect;
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = hit ? Color.blue : Color.red;
-    //    Gizmos.DrawRay(transform.position, rayCastLength * transform.right);
-    //    //Gizmos.DrawRay(transform.position, 5f * transform.right);
-    //}
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = hit ? Color.blue : Color.red;
+        var dir = transform.right + (-transform.up);
+        Gizmos.DrawRay(transform.position, rayCastLength * dir.normalized);
+        //Gizmos.DrawRay(transform.position, 5f * transform.right);
+    }
 }
 public enum StickSide
 {
