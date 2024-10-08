@@ -94,6 +94,7 @@ public class GamePlayScreenUI : MonoBehaviour
         {
             levelCompleteScreen.SetActive(value);
             levelCompleteScreen.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBounce);
+            GameManger.Instance?.LockCursor(false);
         }
         else
         {

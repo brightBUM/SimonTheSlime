@@ -130,6 +130,6 @@ public class LevelStats
 [System.Serializable]
 public class VolumeControl
 {
-    public float volumeValue = 0f;
+    public float volumeValue = 1.0f;
     public bool volumeState = true;
 }
