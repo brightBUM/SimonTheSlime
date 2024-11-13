@@ -67,6 +67,9 @@ public class GamePlayScreenUI : MonoBehaviour
     }
     private void TogglePauseMenu(bool paused)
     {
+        if (levelCompleteScreen.activeInHierarchy)
+            return;
+
         if(paused)
         {
             gameplayScreen.SetActive(false);
