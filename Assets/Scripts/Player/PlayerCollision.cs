@@ -33,7 +33,7 @@ public class PlayerCollision : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
         playerController.SquishEffect += SquishSplatterEffect;
-        if(goreFx!=null)
+        if(gorePrefab!=null)
             goreFx = gorePrefab.GetComponentInChildren<ParticleSystem>();
     }
 
