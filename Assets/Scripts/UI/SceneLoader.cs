@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class SceneLoader : Singleton<SceneLoader>
@@ -20,7 +18,7 @@ public class SceneLoader : Singleton<SceneLoader>
     {
         var nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
 
-        if (nextSceneIndex == 8) //to prevent infinite loading screens temporarily
+        if (nextSceneIndex == 9) //to prevent infinite loading screens temporarily
             return;
         SceneViaLoadingScreen(nextSceneIndex);
 
@@ -39,6 +37,11 @@ public class SceneLoader : Singleton<SceneLoader>
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
+    }
+    public void ReloadCutScene()
+    {
+        SceneManager.LoadScene(0);
+        GameManger.Instance.ReloadIntroDelayed();
     }
     public void LoadAdditiveScene(int index)
     {

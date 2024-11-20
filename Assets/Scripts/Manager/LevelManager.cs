@@ -6,7 +6,7 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] AudioClip levelMusic;
     [SerializeField] CameraShake camShake;
-    [SerializeField] Transform lastCheckpoint;
+    [SerializeField] LevelStart levelStart;
     [SerializeField] Transform collectiblesParent;
     [SerializeField] PlayerController playerController;
     [SerializeField] float targetTime;
@@ -19,6 +19,7 @@ public class LevelManager : MonoBehaviour
     private int collectedBananas;
     private int stars;
     public bool startLevelTimer = false;
+    private BaseRespawn baseRespawn;
     public Vector3 LastCheckpointpos { get; set; }
     public static LevelManager Instance;
     public CameraShake ShakeCamera => camShake;
@@ -28,7 +29,7 @@ public class LevelManager : MonoBehaviour
         {
             Instance = this;
         }
-        LastCheckpointpos = lastCheckpoint.position;
+        LastCheckpointpos = levelStart.transform.position;
         targetbananas = collectiblesParent.childCount;
         levelTimer = 0f;
 
@@ -36,6 +37,7 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         GameManger.Instance?.ToggleMenuMusic(false);
+        GameManger.Instance?.SwapCursor(false);
     }
     private void Update()
     {
@@ -96,5 +98,14 @@ public class LevelManager : MonoBehaviour
             //setting to pound state while block player input 
             //playerController.playerState = !value ? State.POUND : State.IDLE;
         }
+    }
+    public void SetRespawn(BaseRespawn baseRespawn)
+    {
+        this.baseRespawn = baseRespawn;
+        LastCheckpointpos = this.baseRespawn.CheckPointPosition();
+    }
+    public void LastCheckPointEffect()
+    {
+        this.baseRespawn.RespawnEffect();
     }
 }

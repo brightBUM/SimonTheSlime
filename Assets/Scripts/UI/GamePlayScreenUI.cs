@@ -70,6 +70,9 @@ public class GamePlayScreenUI : MonoBehaviour
     }
     public void TogglePauseMenu(bool paused)
     {
+        if (levelCompleteScreen.activeInHierarchy)
+            return;
+
         if(paused)
         {
             gameplayScreen.SetActive(false);
@@ -82,6 +85,7 @@ public class GamePlayScreenUI : MonoBehaviour
             pauseScreen.transform.localScale = Vector3.zero;
             pauseScreen.SetActive(false);
             gameplayScreen.SetActive(true);
+            GameManger.Instance?.SwapCursor(false);
             Time.timeScale = 1f;
         }
     }
@@ -196,7 +200,7 @@ public class GamePlayScreenUI : MonoBehaviour
     
     public void GotoLevelSelectionScreen()
     {
-        SceneLoader.Instance.LoadScene(1);
+        SceneLoader.Instance.LoadScene(2);
         GameManger.Instance.ToggleMenuMusic(true);
     }
     public void GotoNextLevel()
@@ -209,7 +213,7 @@ public class GamePlayScreenUI : MonoBehaviour
     }
     public void LoadMenu()
     {
-        SceneLoader.Instance.LoadScene(0);
+        SceneLoader.Instance.LoadScene(1);
         GameManger.Instance.ToggleMenuMusic(true);
     }
     public void QuitGame()

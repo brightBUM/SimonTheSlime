@@ -1,3 +1,5 @@
+using CutScene;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,7 +34,7 @@ public class GameManger : MonoBehaviour
     {
         SaveLoadManager.Instance.InitFileSystem();
         SetMixervalueFromFile();
-
+        ToggleMenuMusic(false);
     }
 
     public void SetMixervalueFromFile()
@@ -53,14 +55,22 @@ public class GameManger : MonoBehaviour
     {
         if(value)
         {
-            menuAudioSource.UnPause();
+            menuAudioSource?.UnPause();
         }
         else
         {
-            menuAudioSource.Pause();
+            menuAudioSource?.Pause();
         }
     }
 
+    public void ReloadIntroDelayed()
+    {
+        DOVirtual.DelayedCall(1f, () =>
+        {
+            FindAnyObjectByType<IntroCutScene>()?.CheckForSaveLoad(false);
+            ToggleMenuMusic(false);
+        });
+    }
     public void SwapCursor(bool value)
     {
 #if UNITY_ANDROID

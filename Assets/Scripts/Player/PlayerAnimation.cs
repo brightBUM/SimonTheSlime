@@ -25,8 +25,9 @@ public class PlayerAnimation : MonoBehaviour
     SpriteRenderer spriteRenderer;
     SpriteTrailRenderer.SpriteTrailRenderer spriteTrailRenderer;
     [SerializeField] Material originalMaterial;
-    
     float timer = 1f;
+    
+    public SpriteRenderer ghostDummyVisual;
     // Start is called before the first frame update
     void Start()
     {
@@ -155,6 +156,10 @@ public class PlayerAnimation : MonoBehaviour
     {
         spriteTrailRenderer.enabled = value;
     }
+    public void ToggleGhostDummy(bool value)
+    {
+        ghostDummyVisual.enabled = value;  
+    }
     public void PoundTrailEffect()
     {
         trailRenderer.time = poundTrailTime;
@@ -173,7 +178,7 @@ public class PlayerAnimation : MonoBehaviour
     }
     public void DisableGhostParticle()
     {
-        volume.blendDistance = blendValue;
+        //volume.blendDistance = blendValue;
         ghostParticleVFX.SetActive(false);
     }
     public void HitEffect(Action respawnPlayer)
@@ -187,14 +192,15 @@ public class PlayerAnimation : MonoBehaviour
         //change to original material after some delay
         yield return new WaitForSeconds(hitResetTime);
         //spriteRenderer.material = originalMaterial;
-        ToggleSpriteRenderer(true);
+        ToggleSpriteRenderer(false);
         animator.SetTrigger("ghost");
-        volume.blendDistance = newBlendValue;
+        ToggleGhostDummy(true);
+        //volume.blendDistance = newBlendValue;
 
         //ghost particle orientation
         ghostParticleVFX.SetActive(true);
         Transform trans = ghostParticleVFX.transform;
-        if (!spriteRenderer.flipX)
+        if (spriteRenderer.flipX)
         {
             trans.localPosition = new Vector3(10, trans.localPosition.y, trans.localPosition.z);
             trans.localScale = Vector3.one;

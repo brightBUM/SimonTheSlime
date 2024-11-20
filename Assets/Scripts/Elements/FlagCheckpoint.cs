@@ -2,26 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlagCheckpoint : MonoBehaviour
+public class FlagCheckpoint : BaseRespawn
 {
     [SerializeField] GameObject checkPointUnlockVFX;
-    [SerializeField] Animator animator;
-    [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] GameObject unlockedPod;
+    [SerializeField] GameObject defaultPod;
     [SerializeField] Transform checkpointPos;
     bool unlocked = false;
-    Material originalMaterial;
-    // Start is called before the first frame update
-    void Start()
-    {
-        originalMaterial = spriteRenderer.material;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -29,10 +16,12 @@ public class FlagCheckpoint : MonoBehaviour
         if(collision.TryGetComponent<PlayerController>(out PlayerController playerController))
         {
             unlocked = true;
-            animator.SetTrigger("unlock");
-            LevelManager.Instance.LastCheckpointpos = this.transform.position;
+            LevelManager.Instance.SetRespawn(this);
+            defaultPod.SetActive(false);
+            unlockedPod.SetActive(true);
             Instantiate(checkPointUnlockVFX, checkpointPos.position, checkPointUnlockVFX.transform.rotation);
             SoundManager.instance.PlayFlagCheckPointSFx();
         }
     }
+
 }

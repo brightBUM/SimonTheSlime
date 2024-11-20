@@ -17,7 +17,9 @@ public class LoadingBar : MonoBehaviour
     [Range(0,1)] public float normRange;
     float angleStep;
 
-    
+    //bool ready = false;
+    //bool loaded = false;
+    AsyncOperation AsyncOp;
     private void Awake()
     {
 
@@ -32,25 +34,39 @@ public class LoadingBar : MonoBehaviour
 
     }
 
-    
+    void SmoothLoading()
+    {
+        //lerp loading screen
+        DOTween.To(() => progress, x => progress = x, 20, 1f).OnUpdate(() =>
+        {
+            UpdateLoadingProgress(progress);
+
+        }).OnComplete(() =>
+        {
+            AsyncOp.allowSceneActivation = true;
+        });
+        //allow screen activation
+    }
 
     public IEnumerator ShowLoadingProgress()
     {
         UpdateLoadingProgress(0);
 
-        var AsyncOp = SceneManager.LoadSceneAsync(GameManger.Instance.selectedIndex);
+        AsyncOp = SceneManager.LoadSceneAsync(GameManger.Instance.selectedIndex);
 
         AsyncOp.allowSceneActivation = false;
 
 
         while (!AsyncOp.isDone)
         {
-            UpdateLoadingProgress((int)(AsyncOp.progress * 20.0f));
+            //UpdateLoadingProgress((int)(AsyncOp.progress * 20.0f));
 
             if (AsyncOp.progress >= 0.9f)
             {
-                AsyncOp.allowSceneActivation = true;
+                SmoothLoading();
+                yield break;
             }
+            
 
             yield return null;
         }

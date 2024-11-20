@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using static UnityEngine.Rendering.DebugUI.Table;
 
 public enum State
 {
@@ -77,13 +78,14 @@ public class PlayerController : MonoBehaviour
     private int bulletTimeAbility = 0;
     private float slideAccelerate;
     private const float squishOffset = 0.5f;
+    private bool respawning;
+    private Vector3 lastPos;
     // Start is called before the first frame update
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         playerInput = GetComponent<PlayerInput>();
         Physics2D.gravity = Vector2.up * gravity;
-        LevelManager.Instance.startLevelTimer = true;
     }
     void Start()
     {
@@ -111,7 +113,16 @@ public class PlayerController : MonoBehaviour
         GamePlayScreenUI.instance.grappleButtonAction += ActivateGrapple;
 #endif
     }
-    
+    private void FixedUpdate()
+    {
+        if (respawning)
+        {
+            var dir = playerAnimation.transform.position - lastPos;
+            var rot = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            lastPos = transform.position;
+            playerAnimation.ghostDummyVisual.transform.rotation = Quaternion.Euler(0, 0, rot);
+        }
+    }
     // Update is called once per frame
     void Update()
     {
@@ -145,7 +156,6 @@ public class PlayerController : MonoBehaviour
         }
 
         
-        
     }
   
     private void LeftDragging(Vector2 mousePos)
@@ -158,7 +168,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (playerState == State.POUND)
+        if (playerState == State.POUND || playerState == State.GHOST)
             return;
 
         if (!firstClick)
@@ -285,7 +295,7 @@ public class PlayerController : MonoBehaviour
                 return;
             }
         }
-        if (playerState == State.POUND)
+        if (playerState == State.POUND || playerState == State.GHOST)
             return;
         if (dir.magnitude < 1.0f || !dragging)
         {
@@ -562,6 +572,7 @@ public class PlayerController : MonoBehaviour
         Vector2 A, B, C, D;
         A = transform.position;
         D = LevelManager.Instance.LastCheckpointpos;
+
         var distance = Vector2.Distance(A, D);
         var mid = (A + D) / 2;
         var Amid = (A + mid )/2;
@@ -571,6 +582,12 @@ public class PlayerController : MonoBehaviour
 
         B = Amid + (Vector2.Perpendicular(dir1.normalized) * distance/2);
         C = Dmid + (Vector2.Perpendicular(dir2.normalized) *-1f* distance/2);
+       
+
+        respawning = true;
+        
+        //flip ghost sprite
+        playerAnimation.ghostDummyVisual.flipY = D.x < A.x ? true:false;
 
         DOTween.To(() => lerpAmount, x => lerpAmount = x, 1, 1.5f).SetEase(Ease.Linear).OnUpdate(() =>
         {
@@ -582,16 +599,29 @@ public class PlayerController : MonoBehaviour
 
             var ABCD = Vector2.Lerp(ABC, BCD, lerpAmount);
 
-            this.transform.position = ABCD;
+            transform.position = ABCD;
+
+
 
         }).OnComplete(() =>
         {
-            //reset to idle
-            SetToIdle();
-            ResetGravity();
+            respawning = false;
             playerAnimation.DisableGhostParticle();
             SoundManager.instance.PlayGhostRespawnSFx(false);
+            LevelManager.Instance.LastCheckPointEffect();
+            playerAnimation.transform.rotation = Quaternion.Euler(Vector3.zero);
             collider.enabled = true;
+            playerAnimation.ToggleGhostDummy(false);
+
+            DOVirtual.DelayedCall(0.9f, () => {
+
+                //reset to idle
+                SetToIdle();
+                ResetGravity();
+                playerAnimation.ToggleSpriteRenderer(true);
+                
+            });
+
         });
 
     }
@@ -700,7 +730,6 @@ public class PlayerController : MonoBehaviour
 
         respawnPlayer -= RespawnPlayer;
         ContinuePound -= ContinuePounding;
-        LevelManager.Instance.startLevelTimer = false;
 
 #if UNITY_ANDROID
         GamePlayScreenUI.instance.slamButtonAction    -= RightClicked;
