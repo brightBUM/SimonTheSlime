@@ -35,6 +35,11 @@ public class GameManger : MonoBehaviour
         SaveLoadManager.Instance.InitFileSystem();
         SetMixervalueFromFile();
         ToggleMenuMusic(false);
+
+#if UNITY_ANDROID
+        Application.targetFrameRate = 60;
+        
+#endif
     }
 
     public void SetMixervalueFromFile()
@@ -82,7 +87,7 @@ public class GameManger : MonoBehaviour
         {
             Cursor.SetCursor(null, hotSpot, cursorMode);
         }
-    }
 #endif
-
+    }
+    
 }
