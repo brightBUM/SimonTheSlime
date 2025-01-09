@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
@@ -12,6 +13,7 @@ public class PlayerInput : MonoBehaviour
     public Action GrappleAbility;
     public Action mouseReleased;
     public Action RespawnToCheckPoint;
+    public Action DoubleTapAbility;
     //public Action<Vector2> mouseClicked;
     public Action<Vector2> mouseDragging;
 
@@ -21,9 +23,11 @@ public class PlayerInput : MonoBehaviour
     private Vector2 startTouchPosition;
     private Vector2 endTouchPosition;
     private float swipeThreshold = 50f; // Minimum swipe distance in pixels
-    private float doubleTapMaxTime = 0.3f; // Maximum time between taps in seconds
+    public float doubleTapMaxTime = 0.3f; // Maximum time between taps in seconds
     private float lastTapTime = 0f;
     private int tapCount = 0;
+    public float minHoldingTime = 0.4f;
+    private  float holdtimer;
     // Start is called before the first frame update
     void Start()
     {
@@ -46,54 +50,105 @@ public class PlayerInput : MonoBehaviour
 
     private void TouchInput()
     {
-        //touch input for mobile
-        //swipe down and doouble tap
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
 
-            switch (touch.phase)
+            //detect whether left or right side of the screen
+            Vector2 touchPos = touch.position;
+
+            if (touchPos.x < Screen.width / 2)
             {
-                case TouchPhase.Began:
-                    startTouchPosition = touch.position;
-
-                    // Double Tap Detection
-                    if (Time.time - lastTapTime < doubleTapMaxTime)
-                    {
-                        tapCount++;
-                    }
-                    else
-                    {
-                        tapCount = 1;
-                    }
-
-                    lastTapTime = Time.time;
-
-                    //if (tapCount == 2)
-                    //{
-                    //    OnDoubleTap();
-                    //}
-                    break;
-
-                case TouchPhase.Moved:
-                    endTouchPosition = touch.position;
-                    mousePos = camRef.ScreenToWorldPoint(endTouchPosition);
-                    mouseDragging.Invoke(mousePos);
-                    break;
-
-                case TouchPhase.Ended:
-                    endTouchPosition = touch.position;
-
-                    // Swipe Down Detection
-                    //if (IsSwipeDown(startTouchPosition, endTouchPosition))
-                    //{
-                    //    OnSwipeDown();
-                    //}
-
-                    mouseReleased.Invoke();
-                    break;
+                //left side
+                HandleLeftSideTouch(touch);
             }
+            else
+            {
+                //right side
+                HandleRightSideTouch(touch);
+            }
+
         }
+    }
+
+    private void HandleLeftSideTouch(Touch touch)
+    {
+        switch (touch.phase)
+        {
+            case TouchPhase.Began:
+                
+                startTouchPosition = touch.position;
+                break;
+
+            case TouchPhase.Moved:
+
+                endTouchPosition = touch.position;
+                mousePos = camRef.ScreenToWorldPoint(endTouchPosition);
+                mouseDragging.Invoke(mousePos);
+                break;
+
+            case TouchPhase.Ended:
+
+                endTouchPosition = touch.position;
+
+                // Swipe Down Detection
+                //if (IsSwipeDown(startTouchPosition, endTouchPosition))
+                //{
+                //    OnSwipeDown();
+                //}
+
+                mouseReleased.Invoke();
+                break;
+        }
+    }
+    private void HandleRightSideTouch(Touch touch)
+    {
+
+        switch(touch.phase)
+        {
+            case TouchPhase.Began:
+
+                startTouchPosition = touch.position;
+                // Double Tap Detection
+                if (Time.time - lastTapTime < doubleTapMaxTime)
+                {
+                    tapCount++;
+                }
+                else
+                {
+                    tapCount = 1;
+                }
+
+                lastTapTime = Time.time;
+
+                if (tapCount == 2)
+                {
+                    //implement dash / sling
+                    OnDoubleTap();
+
+                }
+
+                break;
+            case TouchPhase.Stationary:
+
+                //implement slam held down
+                holdtimer += Time.deltaTime;
+                if(holdtimer>=minHoldingTime)
+                {
+                    PoundAbility.Invoke();
+                }
+
+                break;
+            case TouchPhase.Ended:
+                endTouchPosition = touch.position;
+                if (holdtimer >= minHoldingTime)
+                {
+                    PoundReleased.Invoke();
+                }
+                holdtimer = 0;
+                break;
+        }
+        
     }
     private void MouseInput()
     {
@@ -147,8 +202,7 @@ public class PlayerInput : MonoBehaviour
 
     private void OnDoubleTap()
     {
-        DashAbility.Invoke();
-        Debug.Log("Double Tap Detected!");
+        DoubleTapAbility.Invoke();
         // Add your double tap handling logic here
     }
 }

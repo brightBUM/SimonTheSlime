@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -11,13 +12,20 @@ public class PauseScreen : MonoBehaviour
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] Image[] volumeStateUI;
     [SerializeField] Slider[] volumeValueUI;
+    [SerializeField] Slider holdTimeSlider;
+    [SerializeField] Slider doubleTapTimeSlider;
+    [SerializeField] TextMeshProUGUI holdtimeText;
+    [SerializeField] TextMeshProUGUI doubleTapText;
+    [SerializeField] PlayerInput playerInput;
     [SerializeField] Sprite toggleOnUI;
     [SerializeField] Sprite toggleOffUI;
     // Start is called before the first frame update
     private void OnEnable()
     {
-        LoadSettings();
+        //LoadSettings();
         Debug.Log("loading audio prefs");
+        holdTimeSlider.onValueChanged.AddListener(delegate { SetHoldTime(); });
+        doubleTapTimeSlider.onValueChanged.AddListener(delegate { SetDoubleTapTime(); });
     }
     
     public void LoadSettings()
@@ -70,12 +78,23 @@ public class PauseScreen : MonoBehaviour
         audioMixer.SetFloat("SFXVolume", Mathf.Log10(value) * 20f);
         SaveLoadManager.Instance.SetVolumeValue(2, value);
     }
+
+    public void SetHoldTime()
+    { 
+        playerInput.minHoldingTime = holdTimeSlider.value;
+        holdtimeText.text = holdTimeSlider.value.ToString("N2");
+    }
+    public void SetDoubleTapTime()
+    {
+        playerInput.doubleTapMaxTime = doubleTapTimeSlider.value;
+        doubleTapText.text = doubleTapTimeSlider.value.ToString("N2");
+    }
     public void SaveSettings()
     {
         SaveLoadManager.Instance.SaveGame();
     }
     private void OnDisable()
     {
-        SaveSettings();
+        //SaveSettings();
     }
 }

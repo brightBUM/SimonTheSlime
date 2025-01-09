@@ -32,12 +32,16 @@ public class LevelEnd : MonoBehaviour
             LevelManager.Instance.startLevelTimer = false;
             //play level complete music 
             //spawn scoreboard menu
+            Debug.Log("level end called");
+
             DOVirtual.DelayedCall(2f, () =>
             {
+                Debug.Log("level end delayed called");
+
                 SoundManager.instance.PlayLevelCompleteSFx();
-                GamePlayScreenUI.instance.UpdateLevelCompleteUI();
                 GamePlayScreenUI.instance.ToggleGamePlayScreen(false);
                 GamePlayScreenUI.instance.ToggleLevelCompleteScreen(true);
+                GamePlayScreenUI.instance.UpdateLevelCompleteUI();
             });
         }
     }

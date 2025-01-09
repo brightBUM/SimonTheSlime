@@ -32,7 +32,7 @@ public class LevelManager : MonoBehaviour
         LastCheckpointpos = levelStart.transform.position;
         targetbananas = collectiblesParent.childCount;
         levelTimer = 0f;
-
+        Application.targetFrameRate = 120;
     }
     private void Start()
     {

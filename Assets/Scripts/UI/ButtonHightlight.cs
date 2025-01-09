@@ -9,7 +9,7 @@ public class ButtonHightlight : MonoBehaviour,IPointerEnterHandler,IPointerExitH
     {
         uiImage.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic).SetUpdate(true);
         SoundManager.instance.PlayStickSFx();
-        GameManger.Instance.SwapCursor(true);
+        GameManger.Instance?.SwapCursor(true);
         
     }
 
@@ -20,7 +20,7 @@ public class ButtonHightlight : MonoBehaviour,IPointerEnterHandler,IPointerExitH
             DOTween.Kill(uiImage);
         }
         uiImage.DOScale(Vector3.zero, 0.1f).SetEase(Ease.OutFlash).SetUpdate(true);
-        GameManger.Instance.SwapCursor(false);
+        GameManger.Instance?.SwapCursor(false);
 
     }
 

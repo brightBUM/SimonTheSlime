@@ -104,6 +104,7 @@ public class PlayerController : MonoBehaviour
         playerInput.DashAbility += ActivateDashTime;
         playerInput.GrappleAbility += ActivateGrapple;
         playerInput.RespawnToCheckPoint += ResetStates;
+        playerInput.DoubleTapAbility += ActivateDoubleTapAbility;
         respawnPlayer += RespawnPlayer;
         ContinuePound += ContinuePounding;
 
@@ -638,6 +639,20 @@ public class PlayerController : MonoBehaviour
         slideAccelerate = 0f;
     }
 
+    public void ActivateDoubleTapAbility()
+    {
+
+#if UNITY_ANDROID
+        if(grappleReady)
+        {
+            ActivateGrapple();
+        }
+        else
+        {
+            ActivateDashTime();
+        }
+#endif
+    }
     public void ActivateDashTime()
     {
         //Vector2 initialVelocity = rb.velocity;
@@ -727,6 +742,7 @@ public class PlayerController : MonoBehaviour
         playerInput.DashAbility -= ActivateDashTime;
         playerInput.GrappleAbility -= ActivateGrapple;
         playerInput.RespawnToCheckPoint -= ResetStates;
+        playerInput.DoubleTapAbility -= ActivateDoubleTapAbility;
 
         respawnPlayer -= RespawnPlayer;
         ContinuePound -= ContinuePounding;

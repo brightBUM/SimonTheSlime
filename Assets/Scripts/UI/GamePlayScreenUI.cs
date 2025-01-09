@@ -59,21 +59,23 @@ public class GamePlayScreenUI : MonoBehaviour
         UpdateBananaCount(LevelManager.Instance.GetLevelBananasCount());
         defaultColor = timerFillUI.color;
         levelCompleteScreen.transform.localScale = Vector3.zero;
+        Time.timeScale = 1f;
     }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            paused = !paused;
-            TogglePauseMenu(paused);
+            TogglePauseMenu();
         }
     }
-    public void TogglePauseMenu(bool paused)
+    public void TogglePauseMenu()
     {
         if (levelCompleteScreen.activeInHierarchy)
             return;
 
-        if(paused)
+        paused = !paused;
+
+        if (paused)
         {
             gameplayScreen.SetActive(false);
             pauseScreen.SetActive(true);
@@ -96,8 +98,11 @@ public class GamePlayScreenUI : MonoBehaviour
     }
     public void ToggleLevelCompleteScreen(bool value)
     {
-        if(value)
+        Debug.Log("toggle level complete ");
+
+        if (value)
         {
+            Debug.Log("toggle level complete true");
             levelCompleteScreen.SetActive(value);
             levelCompleteScreen.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBounce);
         }
@@ -149,6 +154,9 @@ public class GamePlayScreenUI : MonoBehaviour
             starItem[i].SetActive(true);
             StartCoroutine(DelayedStarScale(0.2f+(0.2f*i),starItem[i].gameObject.transform));
         }
+
+        if (SaveLoadManager.Instance == null)
+            return;
 
         if (currentStars > SaveLoadManager.Instance.GetLevelStarData(levelManager.levelIndex))
         {
