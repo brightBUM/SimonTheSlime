@@ -40,7 +40,7 @@ public class PlayerInput : MonoBehaviour
         if (GamePlayScreenUI.instance.paused)
             return;
 
-#if UNITY_EDITOR || UNITY_STANDALONE_WIN
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_WEBGL
         MouseInput();
 #elif UNITY_ANDROID
         TouchInput();

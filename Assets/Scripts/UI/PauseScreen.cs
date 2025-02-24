@@ -24,8 +24,10 @@ public class PauseScreen : MonoBehaviour
     {
         //LoadSettings();
         Debug.Log("loading audio prefs");
+#if UNITY_ANDROID
         holdTimeSlider.onValueChanged.AddListener(delegate { SetHoldTime(); });
         doubleTapTimeSlider.onValueChanged.AddListener(delegate { SetDoubleTapTime(); });
+#endif
     }
     
     public void LoadSettings()
@@ -79,6 +81,7 @@ public class PauseScreen : MonoBehaviour
         SaveLoadManager.Instance.SetVolumeValue(2, value);
     }
 
+#if UNITY_ANDROID
     public void SetHoldTime()
     { 
         playerInput.minHoldingTime = holdTimeSlider.value;
@@ -89,6 +92,8 @@ public class PauseScreen : MonoBehaviour
         playerInput.doubleTapMaxTime = doubleTapTimeSlider.value;
         doubleTapText.text = doubleTapTimeSlider.value.ToString("N2");
     }
+#endif
+
     public void SaveSettings()
     {
         SaveLoadManager.Instance.SaveGame();
