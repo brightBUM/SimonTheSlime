@@ -1,11 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
 public class PauseScreen : MonoBehaviour
 {
@@ -24,8 +20,8 @@ public class PauseScreen : MonoBehaviour
     {
         //LoadSettings();
         Debug.Log("loading audio prefs");
-        holdTimeSlider.onValueChanged.AddListener(delegate { SetHoldTime(); });
-        doubleTapTimeSlider.onValueChanged.AddListener(delegate { SetDoubleTapTime(); });
+        //holdTimeSlider.onValueChanged.AddListener(delegate { SetHoldTime(); });
+        //doubleTapTimeSlider.onValueChanged.AddListener(delegate { SetDoubleTapTime(); });
     }
     
     public void LoadSettings()

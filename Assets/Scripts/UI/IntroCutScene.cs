@@ -1,10 +1,7 @@
 using DG.Tweening;
-using DG.Tweening.Core;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
 
 namespace CutScene
 {
