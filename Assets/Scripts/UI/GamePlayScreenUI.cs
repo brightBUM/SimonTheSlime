@@ -84,7 +84,6 @@ public class GamePlayScreenUI : MonoBehaviour
             pauseScreen.transform.localScale = Vector3.zero;
             pauseScreen.SetActive(false);
             gameplayScreen.SetActive(true);
-            GameManger.Instance?.SwapCursor(false);
             Time.timeScale = 1f;
         }
     }

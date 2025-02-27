@@ -10,10 +10,7 @@ public class GameManger : MonoBehaviour
     public static GameManger Instance;
     [SerializeField] AudioMixer audioMixer;
     [SerializeField] AudioSource menuAudioSource;
-    public Texture2D hoverCursor;
-    CursorMode cursorMode = CursorMode.Auto;
-    Vector2 hotSpot = Vector2.zero;
-    // Start is called before the first frame update
+    
     private void Awake()
     {
         if (Instance == null)
@@ -73,18 +70,4 @@ public class GameManger : MonoBehaviour
             ToggleMenuMusic(false);
         });
     }
-    public void SwapCursor(bool value)
-    {
-#if UNITY_ANDROID
-        if (value)
-        {
-            Cursor.SetCursor(hoverCursor, hotSpot, cursorMode);
-        }
-        else
-        {
-            Cursor.SetCursor(null, hotSpot, cursorMode);
-        }
-#endif
-    }
-    
 }
