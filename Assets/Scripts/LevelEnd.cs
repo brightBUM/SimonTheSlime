@@ -39,9 +39,7 @@ public class LevelEnd : MonoBehaviour
                 Debug.Log("level end delayed called");
 
                 SoundManager.Instance.PlayLevelCompleteSFx();
-                GamePlayScreenUI.Instance.ToggleGamePlayScreen(false);
-                GamePlayScreenUI.Instance.ToggleLevelCompleteScreen(true);
-                GamePlayScreenUI.Instance.UpdateLevelCompleteUI();
+                GamePlayScreenUI.Instance.ShowLevelCompleteScreen();
             });
         }
     }

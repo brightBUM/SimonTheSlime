@@ -5,8 +5,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class GamePlayScreenUI : MonoBehaviour
 {
@@ -27,6 +29,9 @@ public class GamePlayScreenUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI levelTimerCompleteUI;
     [SerializeField] TextMeshProUGUI gemsUI;
     [SerializeField] TextMeshProUGUI levelScoreUI;
+    [SerializeField] float levelCompleteTextDelay = 0.2f;
+    [SerializeField] float scoreCountTime = 2f;
+    private List<TextMeshProUGUI> levelCompleteTexts;
     //[SerializeField] List<GameObject> starItem;
 
     [Header("Panel")]
@@ -46,6 +51,7 @@ public class GamePlayScreenUI : MonoBehaviour
     private void OnEnable()
     {
         UpdateMidAirJumpUI += UpdateDashAbilityUI;
+        ScaleTexts();
     }
     private void Awake()
     {
@@ -64,6 +70,22 @@ public class GamePlayScreenUI : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePauseMenu();
+        }
+    }
+
+    private void ScaleTexts()
+    {
+        levelCompleteTexts = new List<TextMeshProUGUI>()
+        {
+            bananasLevelCompleteUI,
+            levelTimerCompleteUI,
+            gemsUI,
+            levelScoreUI,
+        };
+
+        foreach (var text in levelCompleteTexts)
+        {
+            text.transform.localScale = Vector3.zero;
         }
     }
     public void TogglePauseMenu()
@@ -135,16 +157,44 @@ public class GamePlayScreenUI : MonoBehaviour
     {
         levelTimerText.text = time;
     }
+    [ContextMenu("LevelComplete")]
+    public void ShowLevelCompleteScreen()
+    {
+        ToggleGamePlayScreen(false);
+        ToggleLevelCompleteScreen(true);
+        UpdateLevelCompleteUI();
+    }
     public void UpdateLevelCompleteUI()
     {
+
         LevelManager levelManager = LevelManager.Instance;
 
         bananasLevelCompleteUI.text = levelManager.GetLevelBananasCount();
         levelTimerCompleteUI.text   = levelManager.GetLevelTimerText();
         //launchesUI.text             = levelManager.GetLevelLaunches();
         gemsUI.text = levelManager.GetGemsCount();
-                                        
         
+        for(int i = 0;i<levelCompleteTexts.Count-1;i++)
+        {
+            StartCoroutine(DelayedStarScale(levelCompleteTextDelay + (levelCompleteTextDelay * i), levelCompleteTexts[i].gameObject.transform));
+        }
+
+        DOVirtual.DelayedCall(0.2f, () =>
+        {
+            levelScoreUI.transform.DOScale(1f, 0.2f).SetEase(Ease.OutBounce).OnComplete(() =>
+            {
+                int scoreValue = 0;
+                levelScoreUI.text = scoreValue.ToString();
+
+                int target = levelManager.CalculateLevelScore();
+                DOTween.To(() => scoreValue, x => scoreValue = x, target, scoreCountTime).SetUpdate(true).OnUpdate(() =>
+                {
+                    levelScoreUI.text = scoreValue.ToString();
+
+                });
+            });
+
+        });
     }
     
     private void StarSystem()
