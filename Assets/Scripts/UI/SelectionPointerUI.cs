@@ -11,14 +11,14 @@ public class SelectionPointerUI : MonoBehaviour,IPointerEnterHandler,IPointerCli
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        SoundManager.instance.PlayPoundSFx();
+        SoundManager.Instance.PlayPoundSFx();
         sceneLoader.SceneViaLoadingScreen(sceneToLoad);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         pointer.position = this.transform.position;
-        SoundManager.instance.PlayStickSFx();
+        SoundManager.Instance.PlayStickSFx();
         //Debug.Log("entered : " + this.transform.name);
     }
 

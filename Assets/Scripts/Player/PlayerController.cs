@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
     {
         playerState = State.IDLE;
         collider = GetComponent<CircleCollider2D>();
-        GamePlayScreenUI.instance.UpdateBulletTimeUI(bulletTimeAbility);
+        GamePlayScreenUI.Instance.UpdateBulletTimeUI(bulletTimeAbility);
         
     }
     private void OnEnable()
@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour
     {
         if(dashTimer > 0f)
         {
-            GamePlayScreenUI.instance.UpdateMidAirJumpUI((dashCooldown - dashTimer)/dashCooldown);
+            GamePlayScreenUI.Instance.UpdateMidAirJumpUI((dashCooldown - dashTimer)/dashCooldown);
             dashTimer -= Time.deltaTime;
         }
 
@@ -204,7 +204,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    GamePlayScreenUI.instance.NoBulletTimeAbilityFeedback();
+                    GamePlayScreenUI.Instance.NoBulletTimeAbilityFeedback();
                     playerAnimation.ToggleLineRenderer(false);
                     dragging = true;
                     return;
@@ -341,10 +341,10 @@ public class PlayerController : MonoBehaviour
 
             grappleTimer = 0f;
         }
-        if (GamePlayScreenUI.instance.BulletTimeActive)
+        if (GamePlayScreenUI.Instance.BulletTimeActive)
         {
             ResetGravity();
-            GamePlayScreenUI.instance.EndBulletTime(bulletTimeAbility);
+            GamePlayScreenUI.Instance.EndBulletTime(bulletTimeAbility);
         }
 
         dragging = false;
@@ -370,7 +370,7 @@ public class PlayerController : MonoBehaviour
         {
             //cancel aim 
             aimCancel = true;
-            GamePlayScreenUI.instance.EndBulletTime(bulletTimeAbility);
+            GamePlayScreenUI.Instance.EndBulletTime(bulletTimeAbility);
             ResetGravity();
             playerAnimation.ToggleLineRenderer(false);
             playerState = State.LAUNCHED;
@@ -427,8 +427,8 @@ public class PlayerController : MonoBehaviour
         //to avoid physics lag during SloMo
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
         //start a bullet timer 
-        SoundManager.instance.PlaySloMoTimer();
-        GamePlayScreenUI.instance.StartTimer(bulletTimeAbility, () =>
+        SoundManager.Instance.PlaySloMoTimer();
+        GamePlayScreenUI.Instance.StartTimer(bulletTimeAbility, () =>
         {
             aimCancel = true;
             playerState = State.LAUNCHED;
@@ -514,7 +514,7 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector2.zero;
         playerAnimation.SetStick((int)stickSide+1);
         playerAnimation.ToggleTrailRenderer(false);
-        SoundManager.instance.PlayStickSFx();
+        SoundManager.Instance.PlayStickSFx();
         //disable rb to avoid gravity
         
         Physics2D.gravity = Vector2.zero;
@@ -556,7 +556,7 @@ public class PlayerController : MonoBehaviour
     {
         lerpAmount = 0;
         playerState = State.GHOST;
-        SoundManager.instance.PlayGhostRespawnSFx(true);
+        SoundManager.Instance.PlayGhostRespawnSFx(true);
         playerAnimation.HitEffect(respawnPlayer);
         rb.velocity = new Vector2(0, rb.velocity.y);
         rb.AddForce(Vector2.up * onHitUpForce, ForceMode2D.Impulse);
@@ -608,7 +608,7 @@ public class PlayerController : MonoBehaviour
         {
             respawning = false;
             playerAnimation.DisableGhostParticle();
-            SoundManager.instance.PlayGhostRespawnSFx(false);
+            SoundManager.Instance.PlayGhostRespawnSFx(false);
             LevelManager.Instance.LastCheckPointEffect();
             playerAnimation.transform.rotation = Quaternion.Euler(Vector3.zero);
             collider.enabled = true;
@@ -631,7 +631,7 @@ public class PlayerController : MonoBehaviour
     {
         bulletTimeAbility += 2;
         bulletTimeAbility = Mathf.Clamp(bulletTimeAbility, 0, 2);
-        GamePlayScreenUI.instance.UpdateBulletTimeUI(bulletTimeAbility);
+        GamePlayScreenUI.Instance.UpdateBulletTimeUI(bulletTimeAbility);
     }
     public void ResetGravity()
     {
@@ -661,7 +661,7 @@ public class PlayerController : MonoBehaviour
             playerAnimation.ToggleSpriteTrailRenderer(true);
             rb.AddForce(rb.velocity.normalized * dashAmount, ForceMode2D.Impulse);
             LevelManager.Instance.ShakeCamera.OnDash();
-            SoundManager.instance.PlayDashSFX();
+            SoundManager.Instance.PlayDashSFX();
             dashTimer = dashCooldown;
             DOVirtual.DelayedCall(0.5f, () =>
             {
@@ -681,7 +681,7 @@ public class PlayerController : MonoBehaviour
             var grappleDirection = grapplePoint - (Vector2)transform.position;
             playerAnimation.FlipSprite(grappleDirection.normalized);
             playerAnimation.SetGrapplePose();
-            SoundManager.instance.PlayGrappleRopeSFX();
+            SoundManager.Instance.PlayGrappleRopeSFX();
 
             //activate line renderer
             StartCoroutine(grappleRope.AnimateRope(grapplePoint, () =>
@@ -691,7 +691,7 @@ public class PlayerController : MonoBehaviour
                 playerState = State.GRAPPLE;
                 playerAnimation.ToggleTrailRenderer(false);   
                 LevelManager.Instance.ShakeCamera.OnGrapple();
-                SoundManager.instance.PlayGrapplePullSFX();
+                SoundManager.Instance.PlayGrapplePullSFX();
 
             }));
         }

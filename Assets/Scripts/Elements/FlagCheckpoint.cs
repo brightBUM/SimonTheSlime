@@ -20,7 +20,7 @@ public class FlagCheckpoint : BaseRespawn
             defaultPod.SetActive(false);
             unlockedPod.SetActive(true);
             Instantiate(checkPointUnlockVFX, checkpointPos.position, checkPointUnlockVFX.transform.rotation);
-            SoundManager.instance.PlayFlagCheckPointSFx();
+            SoundManager.Instance.PlayFlagCheckPointSFx();
         }
     }
 

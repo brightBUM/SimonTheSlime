@@ -34,7 +34,7 @@ public class BreakablePlatform : MonoBehaviour,IPoundable
 
     public void OnPlayerPounded(System.Action<IPoundable> ContinuePound)
     {
-        SoundManager.instance.PlayBrickBreakSFx();
+        SoundManager.Instance.PlayBrickBreakSFx();
         var effect = Instantiate(breakablePTVFX, transform.position, Quaternion.identity);
         rigidbodies = effect.GetComponentsInChildren<Rigidbody2D>();
         //breakablePTVFX.SetActive(true);

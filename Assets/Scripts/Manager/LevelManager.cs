@@ -12,14 +12,16 @@ public class LevelManager : MonoBehaviour
     [SerializeField] float targetTime;
     [SerializeField] int maxLaunchTries = 100;
     public int levelIndex = 0;
-    private int currentLaunches;
     private float levelTimer;
+    public bool startLevelTimer = false;
     //[Header("collectibles")]
     private int targetbananas;
     private int collectedBananas;
-    private int stars;
-    public bool startLevelTimer = false;
+    private int levelScore;
+    private int collectedGems;
     private BaseRespawn baseRespawn;
+    private int currentLaunches;
+    private int stars;
     public Vector3 LastCheckpointpos { get; set; }
     public static LevelManager Instance;
     public CameraShake ShakeCamera => camShake;
@@ -44,9 +46,13 @@ public class LevelManager : MonoBehaviour
         {
             levelTimer += Time.deltaTime;
 
-            GamePlayScreenUI.instance.UpdateTimerText(TimeFormatConversion(levelTimer));
+            GamePlayScreenUI.Instance.UpdateTimerText(TimeFormatConversion(levelTimer));
         }
         
+    }
+    public int CalculateLevelScore()
+    {
+        return ((collectedBananas * 5) + (int)levelTimer);
     }
     private string TimeFormatConversion(float time)
     {
@@ -58,6 +64,10 @@ public class LevelManager : MonoBehaviour
     public void BangablePlatformSpawn()
     {
         targetbananas += 4;
+    }
+    public string GetGemsCount()
+    {
+        return collectedGems.ToString();
     }
     public string GetLevelBananasCount()
     {
@@ -84,7 +94,7 @@ public class LevelManager : MonoBehaviour
     public void CollectBanana()
     {
         collectedBananas++;
-        GamePlayScreenUI.instance.UpdateBananaCount(GetLevelBananasCount());
+        GamePlayScreenUI.Instance.UpdateBananaCount(GetLevelBananasCount());
     }
     public void IncrementLaunches()
     {

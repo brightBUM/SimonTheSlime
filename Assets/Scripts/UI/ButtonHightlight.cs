@@ -8,7 +8,7 @@ public class ButtonHightlight : MonoBehaviour,IPointerEnterHandler,IPointerExitH
     public void OnPointerEnter(PointerEventData eventData)
     {
         uiImage.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic).SetUpdate(true);
-        SoundManager.instance.PlayStickSFx();
+        SoundManager.Instance.PlayStickSFx();
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -22,7 +22,7 @@ public class ButtonHightlight : MonoBehaviour,IPointerEnterHandler,IPointerExitH
 
     public void PlayStartGameSFX()
     {
-        SoundManager.instance.PlayPoundSFx();
+        SoundManager.Instance.PlayPoundSFx();
     }
 
     // Start is called before the first frame update

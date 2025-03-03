@@ -46,7 +46,7 @@ public class LevelEndGate : MonoBehaviour
             for (int i = 0; i < code.Length; i++)
             {
                 lights[code[i] - 1].color = Color.green;
-                SoundManager.instance.PlaylightBlinkSFX();
+                SoundManager.Instance.PlaylightBlinkSFX();
 
                 yield return new WaitForSeconds(duration);
 
@@ -72,7 +72,7 @@ public class LevelEndGate : MonoBehaviour
             button.Reset();
         }
 
-        SoundManager.instance.PlayResetPuzzleSFX();
+        SoundManager.Instance.PlayResetPuzzleSFX();
         resetLight.DOColor(Color.red, 1f).SetLoops(1).OnComplete(() =>
         {
             puzzleCoroutine = StartCoroutine(StartLightBlinkOrder());
@@ -137,10 +137,10 @@ public class LevelEndGate : MonoBehaviour
                 button.Reset();
             }
 
-            SoundManager.instance.PlayGateUnlockSFx(true);
+            SoundManager.Instance.PlayGateUnlockSFx(true);
             gateTransform.DOMoveY(15f, 2f).OnComplete(() =>
             {
-                SoundManager.instance.PlayGateUnlockSFx(false);
+                SoundManager.Instance.PlayGateUnlockSFx(false);
             });
             gateLocked = false;
         }

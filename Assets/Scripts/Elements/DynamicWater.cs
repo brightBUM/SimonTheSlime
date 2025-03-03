@@ -151,7 +151,7 @@ public class DynamicWater : MonoBehaviour
         Splash(collision, rb.velocity.y * collisionVelocityFactor);
         if(collision.gameObject.layer==8)
         {
-            SoundManager.instance.PlayAcidSplashSFx();
+            SoundManager.Instance.PlayAcidSplashSFx();
         }
     }
 

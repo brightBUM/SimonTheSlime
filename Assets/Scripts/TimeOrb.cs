@@ -35,7 +35,7 @@ public class TimeOrb : MonoBehaviour
         {
             //refill bullet time consumable
             playerController.RefillBulletTime();
-            SoundManager.instance.PlayTimeOrbCollectSFX();
+            SoundManager.Instance.PlayTimeOrbCollectSFX();
             //play audio and destroy
             Destroy(this.gameObject);
         }

@@ -22,7 +22,7 @@ public class LevelEnd : MonoBehaviour
     {
         if (collision.TryGetComponent<PlayerController>(out PlayerController playerController))
         {
-            SoundManager.instance.PlaySlimeSplashSFX();
+            SoundManager.Instance.PlaySlimeSplashSFX();
             //ObjectPoolManager.Instance.Spawn(4,transform.position,Quaternion.Euler(90, 0, 0));
             //change player to roll/sleep state 
             playerController.gameObject.SetActive(false);
@@ -38,10 +38,10 @@ public class LevelEnd : MonoBehaviour
             {
                 Debug.Log("level end delayed called");
 
-                SoundManager.instance.PlayLevelCompleteSFx();
-                GamePlayScreenUI.instance.ToggleGamePlayScreen(false);
-                GamePlayScreenUI.instance.ToggleLevelCompleteScreen(true);
-                GamePlayScreenUI.instance.UpdateLevelCompleteUI();
+                SoundManager.Instance.PlayLevelCompleteSFx();
+                GamePlayScreenUI.Instance.ToggleGamePlayScreen(false);
+                GamePlayScreenUI.Instance.ToggleLevelCompleteScreen(true);
+                GamePlayScreenUI.Instance.UpdateLevelCompleteUI();
             });
         }
     }

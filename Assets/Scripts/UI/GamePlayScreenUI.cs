@@ -25,8 +25,9 @@ public class GamePlayScreenUI : MonoBehaviour
     [Header("Level Complete")]
     [SerializeField] TextMeshProUGUI bananasLevelCompleteUI;
     [SerializeField] TextMeshProUGUI levelTimerCompleteUI;
-    [SerializeField] TextMeshProUGUI launchesUI;
-    [SerializeField] List<GameObject> starItem;
+    [SerializeField] TextMeshProUGUI gemsUI;
+    [SerializeField] TextMeshProUGUI levelScoreUI;
+    //[SerializeField] List<GameObject> starItem;
 
     [Header("Panel")]
     [SerializeField] GameObject pauseScreen;
@@ -34,7 +35,7 @@ public class GamePlayScreenUI : MonoBehaviour
     [SerializeField] GameObject levelCompleteScreen;
 
     Color defaultColor;
-    public static GamePlayScreenUI instance;
+    public static GamePlayScreenUI Instance;
     public Action<float> UpdateMidAirJumpUI;
     public Action slamButtonAction;
     public Action dashButtonAction;
@@ -48,7 +49,7 @@ public class GamePlayScreenUI : MonoBehaviour
     }
     private void Awake()
     {
-        instance = this;
+        Instance = this;
     }
     void Start()
     {
@@ -123,7 +124,7 @@ public class GamePlayScreenUI : MonoBehaviour
     public void NoBulletTimeAbilityFeedback()
     {
         bulletTimeIcon.rectTransform.DOShakeAnchorPos(0.3f,20);
-        SoundManager.instance.PlayOutofBulletTimeSFX();
+        SoundManager.Instance.PlayOutofBulletTimeSFX();
     }
     
     public void UpdateBananaCount(string text)
@@ -140,26 +141,31 @@ public class GamePlayScreenUI : MonoBehaviour
 
         bananasLevelCompleteUI.text = levelManager.GetLevelBananasCount();
         levelTimerCompleteUI.text   = levelManager.GetLevelTimerText();
-        launchesUI.text             = levelManager.GetLevelLaunches();
-                                      
+        //launchesUI.text             = levelManager.GetLevelLaunches();
+        gemsUI.text = levelManager.GetGemsCount();
+                                        
+        
+    }
+    
+    private void StarSystem()
+    {
         //spawn stars and store if best score achieved      
-        var currentStars            = levelManager.GetWonStars();
+        var currentStars = LevelManager.Instance.GetWonStars();
 
-        for(int i=0;i<currentStars;i++)
+        for (int i = 0; i < currentStars; i++)
         {
-            starItem[i].SetActive(true);
-            StartCoroutine(DelayedStarScale(0.2f+(0.2f*i),starItem[i].gameObject.transform));
+            //starItem[i].SetActive(true);
+            //StartCoroutine(DelayedStarScale(0.2f + (0.2f * i), starItem[i].gameObject.transform));
         }
 
         if (SaveLoadManager.Instance == null)
             return;
 
-        if (currentStars > SaveLoadManager.Instance.GetLevelStarData(levelManager.levelIndex))
+        if (currentStars > SaveLoadManager.Instance.GetLevelStarData(LevelManager.Instance.levelIndex))
         {
-            SaveLoadManager.Instance.SetLevelStats(levelManager.levelIndex, currentStars);
+            SaveLoadManager.Instance.SetLevelStats(LevelManager.Instance.levelIndex, currentStars);
         }
     }
-
     IEnumerator DelayedStarScale(float delayTime,Transform transform)
     {
         yield return new WaitForSeconds(delayTime);

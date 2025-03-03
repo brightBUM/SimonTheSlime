@@ -34,10 +34,10 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip[] coinCollectSfx;
     private AudioSource activeSource;
 
-    public static SoundManager instance;
+    public static SoundManager Instance;
     private void Awake()
     {
-        instance = this;
+        Instance = this;
     }
     // Start is called before the first frame update
     void Start()
