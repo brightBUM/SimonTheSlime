@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MainMenuUI : MonoBehaviour
 {
-    
     [SerializeField] List<GameObject> panels;
     [SerializeField] Transform contentParent;
     

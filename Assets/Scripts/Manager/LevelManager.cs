@@ -34,7 +34,7 @@ public class LevelManager : MonoBehaviour
         LastCheckpointpos = levelStart.transform.position;
         targetbananas = collectiblesParent.childCount;
         levelTimer = 0f;
-        Application.targetFrameRate = 120;
+        //Application.targetFrameRate = 120;
     }
     private void Start()
     {
@@ -49,6 +49,15 @@ public class LevelManager : MonoBehaviour
             GamePlayScreenUI.Instance.UpdateTimerText(TimeFormatConversion(levelTimer));
         }
         
+    }
+
+    public void StartLevel()
+    {
+        startLevelTimer = true;
+        if(playerController==null)
+        {
+            playerController = FindAnyObjectByType<PlayerController>();
+        }
     }
     public int CalculateLevelScore()
     {
@@ -107,6 +116,10 @@ public class LevelManager : MonoBehaviour
             //setting to pound state while block player input 
             //playerController.playerState = !value ? State.POUND : State.IDLE;
         }
+    }
+    public void TriggerPlayerRespawn()
+    {
+        playerController.DelayedRespawn(0);
     }
     public void SetRespawn(BaseRespawn baseRespawn)
     {

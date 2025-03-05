@@ -200,6 +200,7 @@ public class PlayerCollision : MonoBehaviour
             {
                 LevelManager.Instance.ShakeCamera.OnHit();
                 playerController.PlayerHitEffect();
+                Debug.Log("player hit");
             }
             
         }

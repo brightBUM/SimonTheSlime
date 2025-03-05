@@ -5,7 +5,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.Rendering.DebugUI;
@@ -25,6 +24,7 @@ public class GamePlayScreenUI : MonoBehaviour
     [SerializeField] float duration = 0.5f;
 
     [Header("Level Complete")]
+    [SerializeField] TextMeshProUGUI scoreboardTitleUI;
     [SerializeField] TextMeshProUGUI bananasLevelCompleteUI;
     [SerializeField] TextMeshProUGUI levelTimerCompleteUI;
     [SerializeField] TextMeshProUGUI gemsUI;
@@ -33,11 +33,14 @@ public class GamePlayScreenUI : MonoBehaviour
     [SerializeField] float scoreCountTime = 2f;
     private List<TextMeshProUGUI> levelCompleteTexts;
     //[SerializeField] List<GameObject> starItem;
+    [Header("Retry")]
+    
 
     [Header("Panel")]
     [SerializeField] GameObject pauseScreen;
     [SerializeField] GameObject gameplayScreen;
-    [SerializeField] GameObject levelCompleteScreen;
+    [SerializeField] GameObject ScoreboardScreen;
+    [SerializeField] GameObject retryScreen;
 
     Color defaultColor;
     public static GamePlayScreenUI Instance;
@@ -46,7 +49,6 @@ public class GamePlayScreenUI : MonoBehaviour
     public Action dashButtonAction;
     public Action grappleButtonAction;
     private TweenerCore<float, float, FloatOptions> tween;
-    [HideInInspector] public bool paused;
     public bool BulletTimeActive => timerFillUI.fillAmount < 1f;
     private void OnEnable()
     {
@@ -62,7 +64,7 @@ public class GamePlayScreenUI : MonoBehaviour
         UpdateDashAbilityUI(0f);
         UpdateBananaCount(LevelManager.Instance.GetLevelBananasCount());
         defaultColor = timerFillUI.color;
-        levelCompleteScreen.transform.localScale = Vector3.zero;
+        ScoreboardScreen.transform.localScale = Vector3.zero;
         Time.timeScale = 1f;
     }
     private void Update()
@@ -90,46 +92,69 @@ public class GamePlayScreenUI : MonoBehaviour
     }
     public void TogglePauseMenu()
     {
-        if (levelCompleteScreen.activeInHierarchy)
+        if (ScoreboardScreen.activeInHierarchy)
             return;
 
-        paused = !paused;
+        GameManger.Instance.TogglePauseGame();
 
-        if (paused)
+        if (GameManger.Instance.IsPaused)
         {
             gameplayScreen.SetActive(false);
             pauseScreen.SetActive(true);
             pauseScreen.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBounce).SetUpdate(true);
-            Time.timeScale = 0f;
         }
         else
         {
             pauseScreen.transform.localScale = Vector3.zero;
             pauseScreen.SetActive(false);
             gameplayScreen.SetActive(true);
-            Time.timeScale = 1f;
         }
     }
     
-    public void ToggleGamePlayScreen(bool value)
+    public void TriggerLevelCompleteScoreboard(bool value)
     {
-        gameplayScreen.SetActive(value);
-    }
-    public void ToggleLevelCompleteScreen(bool value)
-    {
-        Debug.Log("toggle level complete ");
-
         if (value)
         {
-            Debug.Log("toggle level complete true");
-            levelCompleteScreen.SetActive(value);
-            levelCompleteScreen.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBounce);
+            scoreboardTitleUI.text = "Level Complete";
+            ScoreboardScreen.SetActive(value);
+            ScoreboardScreen.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBounce);
         }
         else
         {
-            levelCompleteScreen.transform.localScale = Vector3.zero;
-            levelCompleteScreen.SetActive(false);
+            ScoreboardScreen.transform.localScale = Vector3.zero;
+            ScoreboardScreen.SetActive(false);
         }
+    }
+    public void TriggerLevelFailedScoreboard()
+    {
+        GameManger.Instance.TogglePauseGame();
+        LevelManager.Instance.startLevelTimer = false;
+        retryScreen.SetActive(false);
+        scoreboardTitleUI.text = "Level Failed";
+        ScoreboardScreen.SetActive(true);
+        ScoreboardScreen.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBounce);
+        UpdateLevelCompleteUI();
+    }
+    public void ShowRetryScreen()
+    {
+        //Debug.Log("show retry");
+        GameManger.Instance.TogglePauseGame();
+        retryScreen.SetActive(true);
+    }
+    public void RespawnViaBananas()
+    {
+        //decrement 500 nanas from player profile
+        retryScreen.SetActive(false);
+        GameManger.Instance.TogglePauseGame();
+        LevelManager.Instance.TriggerPlayerRespawn();
+    }
+    public void RespawnViaAd()
+    {
+        //trigger rewarded ad  here
+        //for now respawning for testing
+        retryScreen.SetActive(false);
+        GameManger.Instance.TogglePauseGame();
+        LevelManager.Instance.TriggerPlayerRespawn();
     }
     private void UpdateDashAbilityUI(float value)
     {
@@ -160,8 +185,8 @@ public class GamePlayScreenUI : MonoBehaviour
     [ContextMenu("LevelComplete")]
     public void ShowLevelCompleteScreen()
     {
-        ToggleGamePlayScreen(false);
-        ToggleLevelCompleteScreen(true);
+        gameplayScreen.SetActive(false);
+        TriggerLevelCompleteScoreboard(true);
         UpdateLevelCompleteUI();
     }
     public void UpdateLevelCompleteUI()

@@ -1,11 +1,7 @@
 using DG.Tweening;
 using System;
 using System.Collections;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
-using static UnityEngine.Rendering.DebugUI.Table;
 
 public enum State
 {
@@ -113,6 +109,7 @@ public class PlayerController : MonoBehaviour
         GamePlayScreenUI.instance.dashButtonAction += ActivateDashTime;
         GamePlayScreenUI.instance.grappleButtonAction += ActivateGrapple;
 #endif
+
     }
     private void FixedUpdate()
     {
@@ -155,8 +152,6 @@ public class PlayerController : MonoBehaviour
                 
             }
         }
-
-        
     }
   
     private void LeftDragging(Vector2 mousePos)
@@ -556,10 +551,22 @@ public class PlayerController : MonoBehaviour
     {
         lerpAmount = 0;
         playerState = State.GHOST;
-        SoundManager.Instance.PlayGhostRespawnSFx(true);
-        playerAnimation.HitEffect(respawnPlayer);
         rb.velocity = new Vector2(0, rb.velocity.y);
         rb.AddForce(Vector2.up * onHitUpForce, ForceMode2D.Impulse);
+
+        //trigger retry screen here (also pause the game )
+        DOVirtual.DelayedCall(0.3f,() =>
+        {
+            GamePlayScreenUI.Instance.ShowRetryScreen();
+        });
+    }
+    public void DelayedRespawn(float time)
+    {
+        DOVirtual.DelayedCall(time, () =>
+        {
+            SoundManager.Instance.PlayGhostRespawnSFx(true);
+            playerAnimation.HitEffect(respawnPlayer);
+        });
     }
     private void RespawnPlayer()
     {

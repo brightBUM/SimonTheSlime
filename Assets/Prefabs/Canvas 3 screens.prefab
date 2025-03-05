@@ -683,10 +683,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8981302384662850164}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.25, y: 25}
-  m_SizeDelta: {x: 150, y: 150}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -0.0000019073486, y: -68.3}
+  m_SizeDelta: {x: 115.5355, y: 115.53549}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3427441879123306646
 CanvasRenderer:
@@ -1322,7 +1322,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5269167023310143798}
         m_TargetAssemblyTypeName: GamePlayScreenUI, Assembly-CSharp
-        m_MethodName: TogglePauseMenu
+        m_MethodName: TriggerLevelFailedScoreboard
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2455,10 +2455,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 3307990858697020156}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.25, y: 25}
-  m_SizeDelta: {x: 150, y: 150}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -0.0000019073486, y: -68.3}
+  m_SizeDelta: {x: 115.5355, y: 115.53549}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3440840807505160178
 CanvasRenderer:
@@ -4788,14 +4788,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9245283, g: 0.3983215, b: 0.31835172, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 8e548f5183a8aad4e808e01c60948531, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4848,7 +4848,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 571421002568670636}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5269167023310143798}
+        m_TargetAssemblyTypeName: GamePlayScreenUI, Assembly-CSharp
+        m_MethodName: RespawnViaAd
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4125632858726199898
 GameObject:
   m_ObjectHideFlags: 0
@@ -6415,7 +6427,6 @@ GameObject:
   - component: {fileID: 496828308339219649}
   - component: {fileID: 6763443231515036992}
   - component: {fileID: 5082213563818141322}
-  - component: {fileID: 8752463921321291443}
   m_Layer: 5
   m_Name: 'Retry Screen '
   m_TagString: Untagged
@@ -6483,34 +6494,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8752463921321291443
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5244651200661415398}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 094b209e726acea44ab68b9e53a87078, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioMixer: {fileID: 24100000, guid: 6ef2a9c5d2471a64a9cecbfa05a23a54, type: 2}
-  volumeStateUI:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  volumeValueUI:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  holdTimeSlider: {fileID: 0}
-  doubleTapTimeSlider: {fileID: 0}
-  holdtimeText: {fileID: 0}
-  doubleTapText: {fileID: 0}
-  playerInput: {fileID: 0}
-  toggleOnUI: {fileID: 5265155242488745697, guid: 8b42ac6eac96f5e468a9d54a0c8420ba, type: 3}
-  toggleOffUI: {fileID: 2836716195319912866, guid: 110d906a6757f3341b607a67a33d4c39, type: 3}
 --- !u!1 &5350278356839749336
 GameObject:
   m_ObjectHideFlags: 0
@@ -6752,6 +6735,7 @@ MonoBehaviour:
   aimReticleObject: {fileID: 0}
   timeOverColor: {r: 0.87058824, g: 0.40784314, b: 0.40784314, a: 1}
   duration: 1
+  scoreboardTitleUI: {fileID: 7321689654733732491}
   bananasLevelCompleteUI: {fileID: 4234971793615914430}
   levelTimerCompleteUI: {fileID: 8060565603686316033}
   gemsUI: {fileID: 1246255216846565220}
@@ -6760,8 +6744,8 @@ MonoBehaviour:
   scoreCountTime: 2
   pauseScreen: {fileID: 3414433134113511680}
   gameplayScreen: {fileID: 826644597045285788}
-  levelCompleteScreen: {fileID: 1740849700618633797}
-  paused: 0
+  ScoreboardScreen: {fileID: 1740849700618633797}
+  retryScreen: {fileID: 5244651200661415398}
 --- !u!1 &5532223942693432288
 GameObject:
   m_ObjectHideFlags: 0
@@ -7556,14 +7540,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9245283, g: 0.3983215, b: 0.31835172, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 8e548f5183a8aad4e808e01c60948531, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7616,7 +7600,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8919401975593726161}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5269167023310143798}
+        m_TargetAssemblyTypeName: GamePlayScreenUI, Assembly-CSharp
+        m_MethodName: RespawnViaBananas
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6057822100751094978
 GameObject:
   m_ObjectHideFlags: 0
@@ -8565,8 +8561,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -43.444397}
+  m_SizeDelta: {x: 0, y: -148.3888}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6355642109194547645
 CanvasRenderer:
@@ -9839,10 +9835,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8981302384662850164}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 59.4}
+  m_SizeDelta: {x: 220, y: 59.27}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4184050996445349338
 CanvasRenderer:

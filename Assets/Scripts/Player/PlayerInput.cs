@@ -34,7 +34,7 @@ public class PlayerInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GamePlayScreenUI.Instance.paused)
+        if (GameManger.Instance.IsPaused)
             return;
 
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN

@@ -10,7 +10,8 @@ public class GameManger : MonoBehaviour
     public static GameManger Instance;
     [SerializeField] AudioMixer audioMixer;
     [SerializeField] AudioSource menuAudioSource;
-    
+    public bool IsPaused { get; set; }
+
     private void Awake()
     {
         if (Instance == null)
@@ -70,4 +71,11 @@ public class GameManger : MonoBehaviour
             ToggleMenuMusic(false);
         });
     }
+
+    public void TogglePauseGame()
+    {
+        IsPaused = !IsPaused;
+        Time.timeScale = IsPaused? 0f : 1f;
+    }
+    
 }

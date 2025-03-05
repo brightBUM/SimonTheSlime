@@ -22,7 +22,7 @@ public class LevelStart : BaseRespawn
                 //spawn player Prefab
                 sleepingPlayerTransform.gameObject.SetActive(false);
                 playerPrefab.gameObject.SetActive(true);
-                LevelManager.Instance.startLevelTimer = true;
+                LevelManager.Instance.StartLevel();
                 liquidTransform.DOScaleY(0, liquidfallDuration);
 
                 LevelManager.Instance.SetRespawn(this);
