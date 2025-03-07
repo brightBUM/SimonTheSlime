@@ -3018,7 +3018,6 @@ MonoBehaviour:
   selectedIndex: 0
   audioMixer: {fileID: 24100000, guid: 6ef2a9c5d2471a64a9cecbfa05a23a54, type: 2}
   menuAudioSource: {fileID: 1937059554}
-  hoverCursor: {fileID: 2800000, guid: af96fa3eb8998e34a860a08837652695, type: 3}
 --- !u!4 &1264795535
 Transform:
   m_ObjectHideFlags: 0
@@ -3692,6 +3691,7 @@ MonoBehaviour:
   cutSceneAudio: {fileID: 1146915810}
   sceneTransDuration: 0.3
   splashScreenDelay: 2
+  skipButton: {fileID: 1904446450}
 --- !u!114 &1699322971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4026,7 +4026,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0.000061035156, y: 29}
+  m_AnchoredPosition: {x: 0, y: 29}
   m_SizeDelta: {x: 417.16, y: 76.8672}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1904446450
@@ -4036,7 +4036,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1904446448}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
@@ -4080,13 +4080,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1904446448}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.15294118, g: 0.68235296, b: 0.3764706, a: 1}
+  m_Color: {r: 0.15294118, g: 0.68235296, b: 0.3764706, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

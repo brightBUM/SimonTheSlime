@@ -8,29 +8,33 @@ public class SelectionPointerUI : MonoBehaviour,IPointerEnterHandler,IPointerCli
     [SerializeField] Transform pointer;
     [SerializeField] int sceneToLoad;
     [SerializeField] SceneLoader sceneLoader;
+    [SerializeField] GameObject unlockedImage;
+    [SerializeField] GameObject lockedImage;
+    bool unlocked = false;
 
+    private void Awake()
+    {
+        unlocked = SaveLoadManager.Instance.GetLevelUnlockData(sceneToLoad - 3); //3 for the scene index
+        unlockedImage.SetActive(unlocked);
+        lockedImage.SetActive(!unlocked);
+    }
     public void OnPointerClick(PointerEventData eventData)
     {
-        SoundManager.Instance.PlayPoundSFx();
-        sceneLoader.SceneViaLoadingScreen(sceneToLoad);
+        if(unlocked)
+        {
+            SoundManager.Instance.PlayPoundSFx();
+            sceneLoader.SceneViaLoadingScreen(sceneToLoad);
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        pointer.position = this.transform.position;
-        SoundManager.Instance.PlayStickSFx();
-        //Debug.Log("entered : " + this.transform.name);
+        if(unlocked)
+        {
+            pointer.position = this.transform.position;
+            SoundManager.Instance.PlayStickSFx();
+        }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   
 }

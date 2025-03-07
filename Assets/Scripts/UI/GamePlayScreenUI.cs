@@ -29,6 +29,7 @@ public class GamePlayScreenUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI levelTimerCompleteUI;
     [SerializeField] TextMeshProUGUI gemsUI;
     [SerializeField] TextMeshProUGUI levelScoreUI;
+    [SerializeField] GameObject nextLevelButton;
     [SerializeField] float levelCompleteTextDelay = 0.2f;
     [SerializeField] float scoreCountTime = 2f;
     private List<TextMeshProUGUI> levelCompleteTexts;
@@ -131,6 +132,7 @@ public class GamePlayScreenUI : MonoBehaviour
         LevelManager.Instance.startLevelTimer = false;
         retryScreen.SetActive(false);
         scoreboardTitleUI.text = "Level Failed";
+        nextLevelButton.SetActive(false);
         ScoreboardScreen.SetActive(true);
         ScoreboardScreen.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBounce);
         UpdateLevelCompleteUI();
@@ -188,6 +190,8 @@ public class GamePlayScreenUI : MonoBehaviour
         gameplayScreen.SetActive(false);
         TriggerLevelCompleteScoreboard(true);
         UpdateLevelCompleteUI();
+        //unlock next level
+        LevelManager.Instance.UnlockNextLevel();
     }
     public void UpdateLevelCompleteUI()
     {

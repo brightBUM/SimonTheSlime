@@ -105,9 +105,9 @@ public class PlayerController : MonoBehaviour
         ContinuePound += ContinuePounding;
 
 #if UNITY_ANDROID
-        GamePlayScreenUI.instance.slamButtonAction += RightClicked;
-        GamePlayScreenUI.instance.dashButtonAction += ActivateDashTime;
-        GamePlayScreenUI.instance.grappleButtonAction += ActivateGrapple;
+        GamePlayScreenUI.Instance.slamButtonAction += RightClicked;
+        GamePlayScreenUI.Instance.dashButtonAction += ActivateDashTime;
+        GamePlayScreenUI.Instance.grappleButtonAction += ActivateGrapple;
 #endif
 
     }
@@ -311,8 +311,7 @@ public class PlayerController : MonoBehaviour
             rb.velocity = forceDir;
             playerAnimation.ToggleTrailRenderer(true);
             playerAnimation.SetLaunch();
-            //playerAnimation.SpawnJumpTrail();
-            LevelManager.Instance.IncrementLaunches();
+           
 
         }
         else if (playerState == State.TIMEDILATION)
@@ -321,7 +320,6 @@ public class PlayerController : MonoBehaviour
             forceDir = Vector2.ClampMagnitude(forceDir, maxForce);
 
             rb.velocity = forceDir;
-            LevelManager.Instance.IncrementLaunches();
 
         }
         else if (playerState == State.STICK || playerState == State.GRAPPLEHANG)
@@ -408,8 +406,6 @@ public class PlayerController : MonoBehaviour
         rb.velocity = forceDir;
         playerAnimation.SetRelaunch();
         playerAnimation.ToggleTrailRenderer(true);
-        LevelManager.Instance.IncrementLaunches();
-
     }
 
     private void ActivateBulletTime()
@@ -755,9 +751,9 @@ public class PlayerController : MonoBehaviour
         ContinuePound -= ContinuePounding;
 
 #if UNITY_ANDROID
-        GamePlayScreenUI.instance.slamButtonAction    -= RightClicked;
-        GamePlayScreenUI.instance.dashButtonAction    -= ActivateDashTime;
-        GamePlayScreenUI.instance.grappleButtonAction -= ActivateGrapple;
+        GamePlayScreenUI.Instance.slamButtonAction    -= RightClicked;
+        GamePlayScreenUI.Instance.dashButtonAction    -= ActivateDashTime;
+        GamePlayScreenUI.Instance.grappleButtonAction -= ActivateGrapple;
 #endif
 
     }

@@ -10,7 +10,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField] Transform collectiblesParent;
     [SerializeField] PlayerController playerController;
     [SerializeField] float targetTime;
-    [SerializeField] int maxLaunchTries = 100;
     public int levelIndex = 0;
     private float levelTimer;
     public bool startLevelTimer = false;
@@ -20,7 +19,6 @@ public class LevelManager : MonoBehaviour
     private int levelScore;
     private int collectedGems;
     private BaseRespawn baseRespawn;
-    private int currentLaunches;
     private int stars;
     public Vector3 LastCheckpointpos { get; set; }
     public static LevelManager Instance;
@@ -48,7 +46,6 @@ public class LevelManager : MonoBehaviour
 
             GamePlayScreenUI.Instance.UpdateTimerText(TimeFormatConversion(levelTimer));
         }
-        
     }
 
     public void StartLevel()
@@ -90,12 +87,7 @@ public class LevelManager : MonoBehaviour
             stars++;
         return TimeFormatConversion(levelTimer) + "/" + TimeFormatConversion(targetTime);
     }
-    public string GetLevelLaunches()
-    {
-        if (currentLaunches <= maxLaunchTries)
-            stars++;
-        return currentLaunches.ToString() + "/" + maxLaunchTries.ToString();
-    }
+    
     public int GetWonStars()
     {
         return stars;
@@ -105,16 +97,22 @@ public class LevelManager : MonoBehaviour
         collectedBananas++;
         GamePlayScreenUI.Instance.UpdateBananaCount(GetLevelBananasCount());
     }
-    public void IncrementLaunches()
-    {
-        currentLaunches++;
-    }
+   
     public void PlayerInputToggle(bool value)
     {
         if(playerController!=null)
         {
             //setting to pound state while block player input 
             //playerController.playerState = !value ? State.POUND : State.IDLE;
+        }
+    }
+    public void UnlockNextLevel()
+    {
+        var nextLevelIndex = levelIndex+1;
+        if(!SaveLoadManager.Instance.GetLevelUnlockData(nextLevelIndex))
+        {
+            SaveLoadManager.Instance.UnlockLevel(nextLevelIndex);
+
         }
     }
     public void TriggerPlayerRespawn()

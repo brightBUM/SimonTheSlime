@@ -46,6 +46,8 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
 
             };
 
+           
+
             for(int i=0;i<3;i++)
             {
                 playerProfile.volumeControls.Add(new VolumeControl());
@@ -57,6 +59,9 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
                     levelIndex = i
                 });
             }
+
+            //unlocked lv1
+            playerProfile.levelStats[0].unlocked = true;
 
             SaveGame();
             Debug.Log("New save file created @" + filePath);
@@ -87,9 +92,18 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     {
         return playerProfile.levelStats[index].stars;
     }
+    public bool GetLevelUnlockData(int index)
+    {
+        return playerProfile.levelStats[index].unlocked;
+    }
     public void SetLevelStats(int index,int stars)
     {
         playerProfile.levelStats[index].stars = stars;
+        SaveGame();
+    }
+    public void UnlockLevel(int index)
+    {
+        playerProfile.levelStats[index].unlocked = true;
         SaveGame();
     }
     public void ToggleVolumeState(int index)
@@ -126,6 +140,7 @@ public class LevelStats
     public float bestTime = 0.0f;
     public int minLaunches = 0;
     public int stars;
+    public bool unlocked;
 }
 [System.Serializable]
 public class VolumeControl

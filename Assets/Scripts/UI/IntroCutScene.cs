@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace CutScene
 {
@@ -14,14 +15,19 @@ namespace CutScene
         [SerializeField] CutSceneAudio cutSceneAudio;
         [SerializeField] float sceneTransDuration = 0.5f;
         [SerializeField] float splashScreenDelay = 1f;
+        [SerializeField] Button skipButton;
         int currentTween = 0;
-
+        bool next = false;
         // Start is called before the first frame update
         void Awake()
         {
             //check for save file 
             SaveLoadManager.Instance.skipCutScene += CheckForSaveLoad;
 
+        }
+        private void OnEnable()
+        {
+            skipButton.onClick.AddListener(SkipEscape);
         }
         private void LoadMainMenu()
         {
@@ -54,12 +60,17 @@ namespace CutScene
         {
             if(Input.GetKeyDown(KeyCode.Escape))
             {
-                StopAllCoroutines();
-                DOTween.KillAll();
-
-                //load to main menu
-                LoadMainMenu();
+                SkipEscape();
             }
+        }
+
+        private void SkipEscape()
+        {
+            StopAllCoroutines();
+            DOTween.KillAll();
+
+            //load to main menu
+            LoadMainMenu();
         }
         IEnumerator StartCutScene()
         {
@@ -71,7 +82,7 @@ namespace CutScene
 
                 //Debug.Log(string.Format($"scene {i+1} complete"));
 
-                yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+                yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.Space)) || Input.GetMouseButtonDown(0));
 
                 //move to next slide
                 if(i!=scenes.Count-1)
@@ -90,7 +101,7 @@ namespace CutScene
             Debug.Log("all scenes complete");
 
             //load main menu
-            yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+            yield return new WaitUntil(() => (Input.GetKeyDown(KeyCode.Space)) || Input.GetMouseButtonDown(0));
             LoadMainMenu();
         }
 
@@ -134,9 +145,10 @@ namespace CutScene
         private void OnDisable()
         {
             SaveLoadManager.Instance.skipCutScene -= CheckForSaveLoad;
+            skipButton.onClick.RemoveListener(SkipEscape);
 
         }
-        
+
     }
     
 

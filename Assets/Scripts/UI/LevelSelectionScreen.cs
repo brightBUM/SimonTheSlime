@@ -13,15 +13,15 @@ public class LevelSelectionScreen : MonoBehaviour
     void Start()
     {
         //get level progress data from saveload and show level progress
-        for(int i=0;i<starparent.Count;i++)
-        {
-            var count = SaveLoadManager.Instance?.GetLevelStarData(i);
-            while(count > 0)
-            {
-                Instantiate(starPrefab, starparent[i]);
-                count--;
-            }
-        }
+        //for(int i=0;i<starparent.Count;i++)
+        //{
+        //    var count = SaveLoadManager.Instance?.GetLevelStarData(i);
+        //    while(count > 0)
+        //    {
+        //        Instantiate(starPrefab, starparent[i]);
+        //        count--;
+        //    }
+        //}
     }
     public void TweenToPage(float value)
     {

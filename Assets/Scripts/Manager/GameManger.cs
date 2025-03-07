@@ -77,5 +77,7 @@ public class GameManger : MonoBehaviour
         IsPaused = !IsPaused;
         Time.timeScale = IsPaused? 0f : 1f;
     }
+
+
     
 }
