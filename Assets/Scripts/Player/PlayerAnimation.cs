@@ -50,6 +50,7 @@ public class PlayerAnimation : MonoBehaviour
     public void FlipSprite(Vector2 aimDirection)
     {
         spriteRenderer.flipX = Vector2.Dot(Vector2.right, aimDirection) < 0 ? true : false;
+        spriteRenderer.material.SetFloat("_FlipX", spriteRenderer.flipX ? 1.0f : 0.0f);
     }
 
     public void DrawTrajectory(Vector2 vel,bool aiminLimit)

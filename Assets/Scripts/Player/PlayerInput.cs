@@ -24,7 +24,8 @@ public class PlayerInput : MonoBehaviour
     private float lastTapTime = 0f;
     private int tapCount = 0;
     public float minHoldingTime = 0.4f;
-    private  float holdtimer;
+    private float holdtimer;
+    private bool isSwipeDown;
     // Start is called before the first frame update
     void Start()
     {
@@ -73,7 +74,7 @@ public class PlayerInput : MonoBehaviour
         switch (touch.phase)
         {
             case TouchPhase.Began:
-                
+
                 startTouchPosition = touch.position;
                 break;
 
@@ -101,7 +102,7 @@ public class PlayerInput : MonoBehaviour
     private void HandleRightSideTouch(Touch touch)
     {
 
-        switch(touch.phase)
+        switch (touch.phase)
         {
             case TouchPhase.Began:
 
@@ -126,26 +127,37 @@ public class PlayerInput : MonoBehaviour
                 }
 
                 break;
+
+            case TouchPhase.Moved:
+                // Check swipe direction
+                Vector2 direction = touch.position - startTouchPosition;
+                if (direction.y < -swipeThreshold && !isSwipeDown) // Swipe down threshold
+                {
+                    isSwipeDown = true;
+                    PoundAbility.Invoke();
+                }
+                else
+                {
+                    isSwipeDown = false;
+                }
+                break;
+
             case TouchPhase.Stationary:
 
                 //implement slam held down
-                holdtimer += Time.deltaTime;
-                if(holdtimer>=minHoldingTime)
+                if (isSwipeDown)
                 {
                     PoundAbility.Invoke();
                 }
-
                 break;
+
             case TouchPhase.Ended:
                 endTouchPosition = touch.position;
-                if (holdtimer >= minHoldingTime)
-                {
-                    PoundReleased.Invoke();
-                }
+                PoundReleased.Invoke();
                 holdtimer = 0;
                 break;
         }
-        
+
     }
     private void MouseInput()
     {
@@ -167,7 +179,7 @@ public class PlayerInput : MonoBehaviour
         {
             PoundReleased.Invoke();
         }
-       
+
         if (Input.GetKeyDown(KeyCode.X))
         {
             DashAbility.Invoke();
