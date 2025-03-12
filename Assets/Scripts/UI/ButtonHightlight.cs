@@ -4,7 +4,9 @@ using UnityEngine.EventSystems;
 
 public class ButtonHightlight : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
 {
+    
     [SerializeField] Transform uiImage;
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         uiImage.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutElastic).SetUpdate(true);
@@ -25,15 +27,9 @@ public class ButtonHightlight : MonoBehaviour,IPointerEnterHandler,IPointerExitH
         SoundManager.Instance.PlayPoundSFx();
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnDisable()
     {
-        
-    }
+        uiImage.localScale = Vector3.zero;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

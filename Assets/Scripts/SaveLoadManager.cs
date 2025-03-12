@@ -20,6 +20,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
 
     public Action<bool> skipCutScene;
     public PlayerProfile playerProfile;
+    public bool firstLoad = false;
     private void Awake()
     {
         
@@ -46,8 +47,6 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
 
             };
 
-           
-
             for(int i=0;i<3;i++)
             {
                 playerProfile.volumeControls.Add(new VolumeControl());
@@ -66,6 +65,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
             SaveGame();
             Debug.Log("New save file created @" + filePath);
             skipCutScene(false);
+            firstLoad = true;
         }
     }
 
@@ -87,7 +87,13 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
         File.WriteAllText(filePath, data);
         Debug.Log("Game saved");
     }
-    
+    public void SaveProfileInfo(string name , int age)
+    {
+        firstLoad = false;
+        this.playerProfile.profileName = name;
+        this.playerProfile.age = age;
+        SaveGame();
+    }
     public int GetLevelStarData(int index)
     {
         return playerProfile.levelStats[index].stars;
@@ -129,6 +135,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
 public class PlayerProfile
 {
     public string profileName;
+    public int age;
     public List<LevelStats> levelStats;
     public List<VolumeControl> volumeControls;
 }
