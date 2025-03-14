@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 
 public class CharSkinBase : MonoBehaviour
@@ -9,7 +10,7 @@ public class CharSkinBase : MonoBehaviour
     [SerializeField] TextMeshProUGUI skinNameText;
     [SerializeField] GameObject purchaseButton;
     [SerializeField] GameObject unlockedObject;
-    [SerializeField] GameObject equippedObject;
+    [SerializeField] GameObject selectedObject;
     public int skinNum;
     public bool isPod;
 
@@ -18,23 +19,20 @@ public class CharSkinBase : MonoBehaviour
     private void OnEnable()
     {
         //check if it is unlocked/equipped from saveload
-        if (isPod)
+        switch (SaveLoadManager.Instance.CheckIfSkinSelectedOrUnlocked(isPod, skinNum))
         {
-            switch(SaveLoadManager.Instance.CheckIfSkinSelectedOrUnlocked(isPod,skinNum))
-            {
-                case 0:
-                    equippedObject.SetActive(true);
-                    ShopManager.instance.AddToList(this);
-                    break;
-                case 1:
-                    unlockedObject.SetActive(true);
-                    ShopManager.instance.AddToList(this);
-                    break;
-                case 2:
-                    purchaseButton.SetActive(true);
-                    break;
+            case 0:
+                selectedObject.SetActive(true);
+                ShopManager.instance.AddToList(this);
+                break;
+            case 1:
+                unlockedObject.SetActive(true);
+                ShopManager.instance.AddToList(this);
+                break;
+            case 2:
+                purchaseButton.SetActive(true);
+                break;
 
-            }
         }
 
         //if not it is purchasable
@@ -43,11 +41,27 @@ public class CharSkinBase : MonoBehaviour
     public void EquipSkin()
     {
         ShopManager.instance.SetEquippedSkin(this);
+        ////Debug.Log("char skin num : " + skinNum);
+        SaveLoadManager.Instance.EquipSkin(this);
     }
     public void FlipSelection(bool state)
     {
-        equippedObject.SetActive(state);
+        Debug.Log("skin num : " + skinNum + " state : " + state);
+        selectedObject.SetActive(state);
         unlockedObject.SetActive(!state);
     }
-    
+    public void PurchaseSkin()
+    {
+        if(SaveLoadManager.Instance.PurchaseSkin(this))
+        {
+            ShopManager.instance.AddToList(this);
+            purchaseButton.SetActive(false);
+            unlockedObject.SetActive(true);
+        }
+        else
+        {
+            // not enough melons
+            // tween a button shake
+        }
+    }
 }

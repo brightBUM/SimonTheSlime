@@ -1,12 +1,15 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ShopManager : MonoBehaviour
 {
     [SerializeField] Transform[] buttonsTabs;
     [SerializeField] Transform[] ScreenTabs;
+    [SerializeField] TextMeshProUGUI nanasText;
+    [SerializeField] TextMeshProUGUI melonsText;
     // Start is called before the first frame update
 
     public List<CharSkinBase> charSkinList;
@@ -17,6 +20,15 @@ public class ShopManager : MonoBehaviour
         instance = this;
     }
 
+    private void OnEnable()
+    {
+        UpdateCurrencyUI();
+    }
+    public void UpdateCurrencyUI()
+    {
+        nanasText.text = SaveLoadManager.Instance.playerProfile.nanas.ToString();
+        melonsText.text = SaveLoadManager.Instance.playerProfile.melons.ToString();
+    }
     public void AddToList(CharSkinBase charSkinBase)
     {
         if (charSkinBase.isPod)
@@ -53,11 +65,12 @@ public class ShopManager : MonoBehaviour
             {
                 if (charSkinBase.skinNum == charSkin.skinNum)
                 {
-                    charSkinBase.FlipSelection(true);
+                    //Debug.Log(charSkinBase.skinNum + "_" + charSkin.skinNum+" ");
+                    charSkin.FlipSelection(true);
                 }
                 else
                 {
-                    charSkinBase.FlipSelection(false);
+                    charSkin.FlipSelection(false);
                 }
             }
         }

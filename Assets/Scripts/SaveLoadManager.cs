@@ -45,8 +45,10 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
                 profileName = "default",
                 levelStats = new List<LevelStats>(6),
                 volumeControls = new List<VolumeControl>(3),
-                unlockedCharSkins = new List<int>(),
-                unlockedPodSkins = new List<int>()
+                unlockedCharSkins = new List<int>() { 0 },
+                unlockedPodSkins = new List<int>() { 0 },
+                nanas = 500,
+                melons = 50
             };
 
             for(int i=0;i<3;i++)
@@ -95,6 +97,40 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
         this.playerProfile.profileName = name;
         this.playerProfile.age = age;
         SaveGame();
+    }
+    public void EquipSkin(CharSkinBase charSkinBase)
+    {
+        if(charSkinBase.isPod)
+        {
+            playerProfile.equippedPod = charSkinBase.skinNum;
+        }
+        else
+        {
+            playerProfile.equippedSkin = charSkinBase.skinNum;
+        }
+    }
+    public bool PurchaseSkin(CharSkinBase charSkinBase)
+    {
+        if(playerProfile.melons>10)
+        {
+            playerProfile.melons -= 10;
+            ShopManager.instance.UpdateCurrencyUI();
+
+            if(charSkinBase.isPod)
+            {
+                playerProfile.unlockedPodSkins.Add(charSkinBase.skinNum);
+
+            }
+            else
+            {
+                playerProfile.unlockedCharSkins.Add(charSkinBase.skinNum);
+            }
+
+            SaveGame();
+            return true;
+            //unlock in shop & equip in game
+        }
+        return false;
     }
     public int GetLevelStarData(int index)
     {
