@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using System.Numerics;
 
 public class SaveLoadManager : Singleton<SaveLoadManager>
 {
@@ -44,7 +45,8 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
                 profileName = "default",
                 levelStats = new List<LevelStats>(6),
                 volumeControls = new List<VolumeControl>(3),
-                unlockedSkins = new List<int>()
+                unlockedCharSkins = new List<int>(),
+                unlockedPodSkins = new List<int>()
             };
 
             for(int i=0;i<3;i++)
@@ -112,6 +114,44 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
         playerProfile.levelStats[index].unlocked = true;
         SaveGame();
     }
+
+    public bool CheckIfSkinUnlocked(int item)
+    {
+        return playerProfile.unlockedCharSkins.Contains(item);
+    }
+    public bool CheckIfPodUnlocked(int item)
+    {
+        return playerProfile.unlockedPodSkins.Contains(item);
+    }
+    public int CheckIfSkinSelectedOrUnlocked(bool isPod,int item)
+    {
+        if(isPod)
+        {
+            if (playerProfile.equippedPod == item)
+            {
+                return 0;
+            }
+            else if (playerProfile.unlockedPodSkins.Contains(item))
+            {
+                return 1;
+            }
+
+            return 2;
+        }
+
+
+        if (playerProfile.equippedSkin == item)
+        {
+            return 0;
+        }
+        else if (playerProfile.unlockedCharSkins.Contains(item))
+        {
+            return 1;
+        }
+
+        return 2;
+
+    }
     public void ToggleVolumeState(int index)
     {
         playerProfile.volumeControls[index].volumeState = !playerProfile.volumeControls[index].volumeState;
@@ -138,8 +178,10 @@ public class PlayerProfile
     public int age;
     public int nanas;
     public int melons;
-    public List<int> unlockedSkins;
+    public List<int> unlockedCharSkins;
+    public List<int> unlockedPodSkins;
     public int equippedSkin;
+    public int equippedPod;
     public List<LevelStats> levelStats;
     public List<VolumeControl> volumeControls;
 }
