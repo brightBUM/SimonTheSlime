@@ -10,6 +10,7 @@ public class GameManger : MonoBehaviour
     public static GameManger Instance;
     [SerializeField] AudioMixer audioMixer;
     [SerializeField] AudioSource menuAudioSource;
+    [SerializeField] CharSkinSO charSkinSO;
     public bool IsPaused { get; set; }
 
     private void Awake()
@@ -62,7 +63,10 @@ public class GameManger : MonoBehaviour
             menuAudioSource?.Pause();
         }
     }
-
+    public Color GetCharSkinColor()
+    {
+        return charSkinSO.skinList[SaveLoadManager.Instance.playerProfile.equippedSkin].skinColor;
+    }
     public void ReloadIntroDelayed()
     {
         DOVirtual.DelayedCall(1f, () =>

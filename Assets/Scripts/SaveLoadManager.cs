@@ -43,8 +43,8 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
             {
                 profileName = "default",
                 levelStats = new List<LevelStats>(6),
-                volumeControls = new List<VolumeControl>(3)
-
+                volumeControls = new List<VolumeControl>(3),
+                unlockedSkins = new List<int>()
             };
 
             for(int i=0;i<3;i++)
@@ -136,6 +136,10 @@ public class PlayerProfile
 {
     public string profileName;
     public int age;
+    public int nanas;
+    public int melons;
+    public List<int> unlockedSkins;
+    public int equippedSkin;
     public List<LevelStats> levelStats;
     public List<VolumeControl> volumeControls;
 }

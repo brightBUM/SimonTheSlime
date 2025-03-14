@@ -1,0 +1,16 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(fileName ="CharSkin")]
+public class CharSkinSO : ScriptableObject
+{
+    public List<Skin> skinList = new List<Skin>();
+}
+
+[System.Serializable]
+public class Skin
+{
+    public string skinName;
+    public Color skinColor;
+}
