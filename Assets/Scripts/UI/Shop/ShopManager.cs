@@ -40,7 +40,10 @@ public class ShopManager : MonoBehaviour
             charSkinList.Add(charSkinBase);
         }
     }
-
+    public void SaveOnShopExit()
+    {
+        SaveLoadManager.Instance.SaveGame();
+    }
     public void SetEquippedSkin(CharSkinBase charSkinBase)
     {
         if (charSkinBase.isPod)
@@ -65,7 +68,6 @@ public class ShopManager : MonoBehaviour
             {
                 if (charSkinBase.skinNum == charSkin.skinNum)
                 {
-                    //Debug.Log(charSkinBase.skinNum + "_" + charSkin.skinNum+" ");
                     charSkin.FlipSelection(true);
                 }
                 else

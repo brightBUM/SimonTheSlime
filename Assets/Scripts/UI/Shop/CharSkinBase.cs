@@ -34,19 +34,15 @@ public class CharSkinBase : MonoBehaviour
                 break;
 
         }
-
-        //if not it is purchasable
     }
 
     public void EquipSkin()
     {
         ShopManager.instance.SetEquippedSkin(this);
-        ////Debug.Log("char skin num : " + skinNum);
         SaveLoadManager.Instance.EquipSkin(this);
     }
     public void FlipSelection(bool state)
     {
-        Debug.Log("skin num : " + skinNum + " state : " + state);
         selectedObject.SetActive(state);
         unlockedObject.SetActive(!state);
     }
