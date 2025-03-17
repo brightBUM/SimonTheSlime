@@ -12,6 +12,7 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] GameObject registrationPanel;
     [SerializeField] TMP_InputField nameField;
     [SerializeField] TMP_InputField ageField;
+    [SerializeField] WatchAdRewardUI watchAdRewardUI;
 
     private void OnEnable()
     {
@@ -20,7 +21,8 @@ public class MainMenuUI : MonoBehaviour
         {
             //show profile registration page
             registrationPanel.SetActive(true);
-
+            //show banner ad only the first time
+            IronSourceAdManager.Instance.LoadBannerAd();
         }
     }
 
@@ -39,6 +41,9 @@ public class MainMenuUI : MonoBehaviour
         if(Int32.TryParse(ageField.text, out int age))
         {
             SaveLoadManager.Instance.SaveProfileInfo(nameField.text, age);
+            registrationPanel.SetActive(false);
+            //hide banner ad when login panel closes
+            IronSourceAdManager.Instance.HideBannerAd();
 
         }
         else
@@ -46,4 +51,6 @@ public class MainMenuUI : MonoBehaviour
             Debug.Log("int parse failed");
         }
     }
+
+    
 }

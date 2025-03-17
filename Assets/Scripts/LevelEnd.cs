@@ -1,4 +1,6 @@
+using com.unity3d.mediation;
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,11 +38,32 @@ public class LevelEnd : MonoBehaviour
 
             DOVirtual.DelayedCall(2f, () =>
             {
-                Debug.Log("level end delayed called");
+                //Debug.Log("level end delayed called");
+                SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
 
-                SoundManager.Instance.PlayLevelCompleteSFx();
-                GamePlayScreenUI.Instance.ShowLevelCompleteScreen();
+                //check interstitial ad condition
+                if(SaveLoadManager.Instance.playerProfile.interStitialAdCount>=2)
+                {
+                    IronSourceAdManager.Instance.ShowInterstitialAd();
+                    IronSourceAdManager.Instance.interstitialAd.OnAdClosed += InterstitialOnAdClosedEvent;
+
+                }
+                else
+                {
+                    SoundManager.Instance.PlayLevelCompleteSFx();
+                    GamePlayScreenUI.Instance.ShowLevelCompleteScreen();
+                }
+
             });
         }
+    }
+
+    private void InterstitialOnAdClosedEvent(LevelPlayAdInfo info)
+    {
+        SaveLoadManager.Instance.playerProfile.interStitialAdCount = 0;
+
+        SoundManager.Instance.PlayLevelCompleteSFx();
+        GamePlayScreenUI.Instance.ShowLevelCompleteScreen();
+        IronSourceAdManager.Instance.interstitialAd.OnAdClosed -= InterstitialOnAdClosedEvent;
     }
 }

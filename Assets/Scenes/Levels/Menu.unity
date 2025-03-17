@@ -1762,7 +1762,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8771800152845538078, guid: d037994a7952ab34fadb1d39045c1c9e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -175
+      value: -186.39511
       objectReference: {fileID: 0}
     - target: {fileID: 8771800152845538078, guid: d037994a7952ab34fadb1d39045c1c9e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3299,6 +3299,7 @@ MonoBehaviour:
   registrationPanel: {fileID: 1826189277}
   nameField: {fileID: 1994173402}
   ageField: {fileID: 909072983}
+  watchAdRewardUI: {fileID: 0}
 --- !u!1 &242247649
 GameObject:
   m_ObjectHideFlags: 0
@@ -5549,7 +5550,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8771800152845538078, guid: d037994a7952ab34fadb1d39045c1c9e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -175
+      value: -186.39511
       objectReference: {fileID: 0}
     - target: {fileID: 8771800152845538078, guid: d037994a7952ab34fadb1d39045c1c9e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -5882,18 +5883,6 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: MainMenuUI, Assembly-CSharp
         m_MethodName: SaveProfileInfo
         m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1826189277}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -6243,10 +6232,10 @@ RectTransform:
   - {fileID: 148348977}
   m_Father: {fileID: 400849355}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -2.7635498, y: -232.97089}
-  m_SizeDelta: {x: -92.2314, y: 348.4418}
+  m_AnchorMin: {x: 0.02653678, y: 0.53033483}
+  m_AnchorMax: {x: 0.96873164, y: 0.92766523}
+  m_AnchoredPosition: {x: 0.7364502, y: -0.47088623}
+  m_SizeDelta: {x: -1.2313995, y: 7.441803}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &500622312
 MonoBehaviour:
@@ -7820,17 +7809,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 443710599}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 607950931}
+        m_TargetAssemblyTypeName: WatchAdRewardUI, Assembly-CSharp
+        m_MethodName: ShowMainMenuRewardedAd
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &607950929
 MonoBehaviour:
@@ -7882,11 +7871,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39e58fb92f3afe14699562693cd86240, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rewardAmount: 50
   text: {fileID: 702496533}
   bananaIcon: {fileID: 184470531}
   AdImage: {fileID: 502143453}
   lockedImage: {fileID: 2094026569}
-  remainTime: 15
+  button: {fileID: 607950928}
+  rewardPamel: {fileID: 443710599}
   rewardReady: 0
 --- !u!1 &608022009
 GameObject:
@@ -10970,8 +10961,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 81.68692, y: 0}
-  m_SizeDelta: {x: 240.42871, y: 0}
+  m_AnchoredPosition: {x: 33.747314, y: 0}
+  m_SizeDelta: {x: 240.57605, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &802398549
 MonoBehaviour:
@@ -10990,7 +10981,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 25
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 4
   m_Spacing: 50
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
@@ -14574,7 +14565,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8771800152845538078, guid: d037994a7952ab34fadb1d39045c1c9e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -175
+      value: -186.39511
       objectReference: {fileID: 0}
     - target: {fileID: 8771800152845538078, guid: d037994a7952ab34fadb1d39045c1c9e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -15912,7 +15903,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8771800152845538078, guid: d037994a7952ab34fadb1d39045c1c9e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -175
+      value: -186.53654
       objectReference: {fileID: 0}
     - target: {fileID: 8771800152845538078, guid: d037994a7952ab34fadb1d39045c1c9e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -23280,7 +23271,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8771800152845538078, guid: d037994a7952ab34fadb1d39045c1c9e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -175
+      value: -186.53654
       objectReference: {fileID: 0}
     - target: {fileID: 8771800152845538078, guid: d037994a7952ab34fadb1d39045c1c9e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -23635,7 +23626,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8771800152845538078, guid: d037994a7952ab34fadb1d39045c1c9e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -175
+      value: -186.53654
       objectReference: {fileID: 0}
     - target: {fileID: 8771800152845538078, guid: d037994a7952ab34fadb1d39045c1c9e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -26022,7 +26013,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8771800152845538078, guid: d037994a7952ab34fadb1d39045c1c9e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -175
+      value: -186.53654
       objectReference: {fileID: 0}
     - target: {fileID: 8771800152845538078, guid: d037994a7952ab34fadb1d39045c1c9e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -26147,10 +26138,10 @@ RectTransform:
   - {fileID: 1108439368}
   m_Father: {fileID: 400849355}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -2.7635498, y: -608.4709}
-  m_SizeDelta: {x: -92.2314, y: 348.4418}
+  m_AnchorMin: {x: 0.02653678, y: 0.090665154}
+  m_AnchorMax: {x: 0.96873164, y: 0.48715833}
+  m_AnchoredPosition: {x: 0.7364502, y: 0.52911377}
+  m_SizeDelta: {x: -1.2313995, y: 8.441803}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1786017255
 MonoBehaviour:
@@ -28323,7 +28314,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8771800152845538078, guid: d037994a7952ab34fadb1d39045c1c9e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -175
+      value: -186.39511
       objectReference: {fileID: 0}
     - target: {fileID: 8771800152845538078, guid: d037994a7952ab34fadb1d39045c1c9e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -28457,7 +28448,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8771800152845538078, guid: d037994a7952ab34fadb1d39045c1c9e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -175
+      value: -186.53654
       objectReference: {fileID: 0}
     - target: {fileID: 8771800152845538078, guid: d037994a7952ab34fadb1d39045c1c9e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -30138,8 +30129,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 81.68692, y: 0}
-  m_SizeDelta: {x: 240.42871, y: 0}
+  m_AnchoredPosition: {x: 33.747314, y: 0}
+  m_SizeDelta: {x: 240.57605, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2077498264
 MonoBehaviour:
@@ -30158,7 +30149,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 25
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 4
   m_Spacing: 50
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
@@ -31437,7 +31428,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8771800152845538078, guid: d037994a7952ab34fadb1d39045c1c9e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -175
+      value: -186.39511
       objectReference: {fileID: 0}
     - target: {fileID: 8771800152845538078, guid: d037994a7952ab34fadb1d39045c1c9e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

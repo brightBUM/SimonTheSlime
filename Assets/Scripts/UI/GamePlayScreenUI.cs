@@ -146,18 +146,33 @@ public class GamePlayScreenUI : MonoBehaviour
     public void RespawnViaBananas()
     {
         //decrement 500 nanas from player profile
-        retryScreen.SetActive(false);
-        GameManger.Instance.TogglePauseGame();
-        LevelManager.Instance.TriggerPlayerRespawn();
+        if(SaveLoadManager.Instance.playerProfile.nanas>500)
+        {
+            SaveLoadManager.Instance.playerProfile.nanas -= 500;
+            retryScreen.SetActive(false);
+            GameManger.Instance.TogglePauseGame();
+            LevelManager.Instance.TriggerPlayerRespawn();
+        }
+        
     }
     public void RespawnViaAd()
     {
         //trigger rewarded ad  here
-        //for now respawning for testing
+        IronSourceAdManager.Instance.ShowRewardedAd();
+        IronSourceRewardedVideoEvents.onAdClosedEvent += RewardedVideoOnAdClosedEvent;
+
+    }
+
+    private void RewardedVideoOnAdClosedEvent(IronSourceAdInfo info)
+    {
         retryScreen.SetActive(false);
         GameManger.Instance.TogglePauseGame();
         LevelManager.Instance.TriggerPlayerRespawn();
+
+        IronSourceRewardedVideoEvents.onAdClosedEvent += RewardedVideoOnAdClosedEvent;
+
     }
+
     private void UpdateDashAbilityUI(float value)
     {
         dashFillImage.fillAmount = value;

@@ -66,6 +66,9 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
             //unlocked lv1
             playerProfile.levelStats[0].unlocked = true;
 
+            //main menu rewarded ad ready 
+            playerProfile.lastrewardedAdTime = DateTime.Now.AddHours(-25);
+
             SaveGame();
             Debug.Log("New save file created @" + filePath);
             skipCutScene(false);
@@ -205,6 +208,14 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
         playerProfile.volumeControls[index].volumeState = state;
     }
 
+    public DateTime GetLastRewardedAdTime()
+    {
+        return playerProfile.lastrewardedAdTime;
+    }   
+    public void SetLastRewardedAdTime(DateTime dateTime)
+    {
+        playerProfile.lastrewardedAdTime = dateTime;
+    }
     
 }
 [System.Serializable]
@@ -220,6 +231,8 @@ public class PlayerProfile
     public int equippedPod;
     public List<LevelStats> levelStats;
     public List<VolumeControl> volumeControls;
+    public DateTime lastrewardedAdTime;
+    public int interStitialAdCount;
 }
 [System.Serializable]
 public class LevelStats
