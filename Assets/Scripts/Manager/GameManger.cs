@@ -11,6 +11,8 @@ public class GameManger : MonoBehaviour
     [SerializeField] AudioMixer audioMixer;
     [SerializeField] AudioSource menuAudioSource;
     [SerializeField] CharSkinSO charSkinSO;
+    public GameConfig gameConfig;
+
     public bool IsPaused { get; set; }
 
     private void Awake()

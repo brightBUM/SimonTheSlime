@@ -1,0 +1,16 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(fileName ="GameConfig")]
+public class GameConfig : ScriptableObject
+{
+    [Header("Default Save File")]
+    public string ProfileName = "default";
+    public int nanasCount = 500;
+    public int melonsCount = 50;
+    [Header("Ads Setting")]
+    public int interstitialAdCheckPerLevel;
+    public int mainMenuRewardedAdNanas;
+
+}

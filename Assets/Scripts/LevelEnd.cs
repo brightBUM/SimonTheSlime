@@ -39,7 +39,7 @@ public class LevelEnd : MonoBehaviour
                 SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
 
                 //check interstitial ad condition
-                if(SaveLoadManager.Instance.playerProfile.interStitialAdCount>=2)
+                if(SaveLoadManager.Instance.CheckInterstitialAdCondition())
                 {
                     IronSourceAdManager.Instance.ShowInterstitialAd();
                     IronSourceAdManager.Instance.interstitialAd.OnAdClosed += InterstitialOnAdClosedEvent;

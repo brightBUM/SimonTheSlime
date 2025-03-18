@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 public class WatchAdRewardUI : MonoBehaviour
 {
-    [SerializeField] int rewardAmount = 50;
     [SerializeField] TextMeshProUGUI text;
     [SerializeField] Image bananaIcon;
     [SerializeField] GameObject AdImage;
@@ -61,11 +60,11 @@ public class WatchAdRewardUI : MonoBehaviour
     private void RewardedVideoOnAdClosedEvent(IronSourceAdInfo info)
     {
         rewardPamel.SetActive(true);
-        SaveLoadManager.Instance.playerProfile.nanas += rewardAmount;
-        Debug.Log("main menu rewarded ad complete");
 
-        SaveLoadManager.Instance.SetLastRewardedAdTime(DateTime.Now);
+        SaveLoadManager.Instance.MainMenuAdRewarded();
         CalculateRewardLockUnlock();
+        
+        Debug.Log("main menu rewarded ad complete");
 
         IronSourceRewardedVideoEvents.onAdClosedEvent -= RewardedVideoOnAdClosedEvent;
     }

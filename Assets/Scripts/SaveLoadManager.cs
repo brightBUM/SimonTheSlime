@@ -10,19 +10,11 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
 {
     private string fileName = "GameSave.json";
     private string filePath;
-
-    public const string MASTER_VOLUME_TOGGLE = "MasterVolumeToggle";
-    public const string MASTER_VOLUME_VALUE  = "MasterVolumeValue";
-    public const string MUSIC_VOLUME_TOGGLE  = "MusicVolumeToggle";
-    public const string MUSIC_VOLUME_VALUE   = "MusicVolumeValue";
-    public const string SFX_VOLUME_TOGGLE    = "SfxVolumeToggle";
-    public const string SFX_VOLUME_VALUE     = "SfxVolumeValue";
-    public const string PLAYER_PROGRESS      = "PlayerProgress";
-
     public Action<bool> skipCutScene;
     public PlayerProfile playerProfile;
     public bool firstLoad = false;
     public DateTime lastRewardedAdTime;
+    
     private void Awake()
     {
         
@@ -48,8 +40,8 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
                 volumeControls = new List<VolumeControl>(3),
                 unlockedCharSkins = new List<int>() { 0 },
                 unlockedPodSkins = new List<int>() { 0 },
-                nanas = 500,
-                melons = 50
+                nanas = GameManger.Instance.gameConfig.nanasCount,
+                melons = GameManger.Instance.gameConfig.melonsCount
             };
 
             for(int i=0;i<3;i++)
@@ -222,6 +214,18 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     public void SetLastRewardedAdTime(DateTime dateTime)
     {
         this.lastRewardedAdTime = dateTime;
+    }
+
+    public bool CheckInterstitialAdCondition()
+    {
+        return playerProfile.interStitialAdCount >= GameManger.Instance.gameConfig.interstitialAdCheckPerLevel;
+    }
+
+    public void MainMenuAdRewarded()
+    {
+        playerProfile.nanas += GameManger.Instance.gameConfig.mainMenuRewardedAdNanas;
+        SetLastRewardedAdTime(DateTime.Now);
+        SaveGame();
     }
     
 }
