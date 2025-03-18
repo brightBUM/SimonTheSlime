@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
+using Unity.Services.LevelPlay;
 
 public class GamePlayScreenUI : MonoBehaviour
 {
@@ -126,7 +126,26 @@ public class GamePlayScreenUI : MonoBehaviour
             ScoreboardScreen.SetActive(false);
         }
     }
+
     public void TriggerLevelFailedScoreboard()
+    {
+        SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
+
+        //check interstitial ad condition
+        if (SaveLoadManager.Instance.playerProfile.interStitialAdCount >= 2)
+        {
+            IronSourceAdManager.Instance.ShowInterstitialAd();
+            IronSourceAdManager.Instance.interstitialAd.OnAdClosed += InterstitialOnAdClosedEvent;
+
+        }
+        else
+        {
+            LevelFailedLeaderBoard();
+        }
+
+        
+    }
+    private void LevelFailedLeaderBoard()
     {
         GameManger.Instance.TogglePauseGame();
         LevelManager.Instance.startLevelTimer = false;
@@ -137,6 +156,14 @@ public class GamePlayScreenUI : MonoBehaviour
         ScoreboardScreen.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBounce);
         UpdateLevelCompleteUI();
     }
+    private void InterstitialOnAdClosedEvent(LevelPlayAdInfo info)
+    {
+        SaveLoadManager.Instance.playerProfile.interStitialAdCount = 0;
+
+        LevelFailedLeaderBoard();
+        IronSourceAdManager.Instance.interstitialAd.OnAdClosed -= InterstitialOnAdClosedEvent;
+    }
+
     public void ShowRetryScreen()
     {
         //Debug.Log("show retry");

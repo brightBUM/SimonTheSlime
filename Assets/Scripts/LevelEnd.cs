@@ -1,8 +1,5 @@
-using com.unity3d.mediation;
+using Unity.Services.LevelPlay;
 using DG.Tweening;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelEnd : MonoBehaviour

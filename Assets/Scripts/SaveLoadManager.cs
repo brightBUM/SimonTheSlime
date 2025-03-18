@@ -22,6 +22,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     public Action<bool> skipCutScene;
     public PlayerProfile playerProfile;
     public bool firstLoad = false;
+    public DateTime lastRewardedAdTime;
     private void Awake()
     {
         
@@ -66,8 +67,8 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
             //unlocked lv1
             playerProfile.levelStats[0].unlocked = true;
 
-            //main menu rewarded ad ready 
-            playerProfile.lastrewardedAdTime = DateTime.Now.AddHours(-25);
+            //main menu rewarded ad ready
+            this.lastRewardedAdTime = DateTime.Now.AddHours(-25);
 
             SaveGame();
             Debug.Log("New save file created @" + filePath);
@@ -86,10 +87,16 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     {
         string data = File.ReadAllText(filePath);
         playerProfile = JsonUtility.FromJson<PlayerProfile>(data);
+
+        //parse string to dateTime
+        this.lastRewardedAdTime = DateTime.Parse(playerProfile.lastrewardedAdTime);
         Debug.Log("Game loaded from file");
     }
     public void SaveGame() 
     {
+        //date time conversion
+        playerProfile.lastrewardedAdTime = lastRewardedAdTime.ToString("o"); // "o" = ISO 8601 format
+
         string data = JsonUtility.ToJson(playerProfile);
         File.WriteAllText(filePath, data);
         Debug.Log("Game saved");
@@ -210,11 +217,11 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
 
     public DateTime GetLastRewardedAdTime()
     {
-        return playerProfile.lastrewardedAdTime;
+        return this.lastRewardedAdTime;
     }   
     public void SetLastRewardedAdTime(DateTime dateTime)
     {
-        playerProfile.lastrewardedAdTime = dateTime;
+        this.lastRewardedAdTime = dateTime;
     }
     
 }
@@ -231,7 +238,7 @@ public class PlayerProfile
     public int equippedPod;
     public List<LevelStats> levelStats;
     public List<VolumeControl> volumeControls;
-    public DateTime lastrewardedAdTime;
+    public string lastrewardedAdTime;
     public int interStitialAdCount;
 }
 [System.Serializable]
