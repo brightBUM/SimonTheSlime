@@ -1,4 +1,3 @@
-using System;
 using Unity.Services.LevelPlay;
 using UnityEngine;
 
@@ -35,7 +34,6 @@ public class IronSourceAdManager : Singleton<IronSourceAdManager>
     {
         //IronSourceRewardedVideoEvents.onAdClosedEvent += RewardedVideoOnAdClosedEvent;
         //IronSourceRewardedVideoEvents.onAdRewardedEvent += RewardedVideoOnAdRewardedEvent;
-
         bannerAd = new LevelPlayBannerAd(bannerAdUnitId);
 
         interstitialAd = new LevelPlayInterstitialAd(interstitialAdUnitId);
@@ -70,6 +68,7 @@ public class IronSourceAdManager : Singleton<IronSourceAdManager>
     public void LoadBannerAd()
     {
         bannerAd.LoadAd();
+        
     }
     public void HideBannerAd()
     {
@@ -94,17 +93,7 @@ public class IronSourceAdManager : Singleton<IronSourceAdManager>
             Debug.Log("Iron source - Interstitial ad not ready");
         }
     }
-    //public void ReloadInterstitialAd()
-    //{
-    //    IronSourceInterstitialEvents.onAdClosedEvent += IronSourceInterstitialEvents_onAdClosedEvent;
-    //}
-
-    //private void IronSourceInterstitialEvents_onAdClosedEvent(IronSourceAdInfo obj)
-    //{
-    //    LoadInterstitialAd();
-    //    IronSourceInterstitialEvents.onAdClosedEvent -= IronSourceInterstitialEvents_onAdClosedEvent;
-
-    //}
+   
     #endregion
 
     #region RewardedAds
@@ -123,5 +112,9 @@ public class IronSourceAdManager : Singleton<IronSourceAdManager>
 
     #endregion
 
-
+    private void OnDisable()
+    {
+        bannerAd?.DestroyAd();
+        interstitialAd?.DestroyAd();
+    }
 }

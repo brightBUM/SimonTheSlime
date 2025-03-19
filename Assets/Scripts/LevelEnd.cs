@@ -35,22 +35,19 @@ public class LevelEnd : MonoBehaviour
 
             DOVirtual.DelayedCall(2f, () =>
             {
-                //Debug.Log("level end delayed called");
+                //check interstitial ad condition
+#if UNITY_ANDROID
                 SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
 
-                //check interstitial ad condition
                 if(SaveLoadManager.Instance.CheckInterstitialAdCondition())
                 {
                     IronSourceAdManager.Instance.ShowInterstitialAd();
                     IronSourceAdManager.Instance.interstitialAd.OnAdClosed += InterstitialOnAdClosedEvent;
-
+                    return;
                 }
-                else
-                {
-                    SoundManager.Instance.PlayLevelCompleteSFx();
-                    GamePlayScreenUI.Instance.ShowLevelCompleteScreen();
-                }
-
+#endif
+                SoundManager.Instance.PlayLevelCompleteSFx();
+                GamePlayScreenUI.Instance.ShowLevelCompleteScreen();
             });
         }
     }
@@ -61,6 +58,8 @@ public class LevelEnd : MonoBehaviour
 
         SoundManager.Instance.PlayLevelCompleteSFx();
         GamePlayScreenUI.Instance.ShowLevelCompleteScreen();
+
+        IronSourceAdManager.Instance.LoadInterstitialAd();
         IronSourceAdManager.Instance.interstitialAd.OnAdClosed -= InterstitialOnAdClosedEvent;
     }
 }

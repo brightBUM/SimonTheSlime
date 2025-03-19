@@ -2077,6 +2077,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 818449806}
   m_CullTransparentMesh: 1
+--- !u!1 &822178209
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 822178211}
+  - component: {fileID: 822178210}
+  m_Layer: 0
+  m_Name: IronSourceAdManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &822178210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 822178209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf2fd8c3954e4ac478b8e767c766e894, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &822178211
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 822178209}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 110.066154, y: 5.0070486, z: -1.1209935}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &896372684
 GameObject:
   m_ObjectHideFlags: 0
@@ -3077,6 +3121,7 @@ MonoBehaviour:
   audioMixer: {fileID: 24100000, guid: 6ef2a9c5d2471a64a9cecbfa05a23a54, type: 2}
   menuAudioSource: {fileID: 1937059554}
   charSkinSO: {fileID: 11400000, guid: ed0fda30b8229b34bbdfc8014ac522a0, type: 2}
+  gameConfig: {fileID: 11400000, guid: 4f39697cf25fe0c43a272261e6461ecb, type: 2}
 --- !u!4 &1264795535
 Transform:
   m_ObjectHideFlags: 0
@@ -4658,3 +4703,4 @@ SceneRoots:
   - {fileID: 1146915809}
   - {fileID: 39658648}
   - {fileID: 1754319395}
+  - {fileID: 822178211}
