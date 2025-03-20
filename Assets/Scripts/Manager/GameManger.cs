@@ -34,7 +34,7 @@ public class GameManger : MonoBehaviour
         SetMixervalueFromFile();
         ToggleMenuMusic(false);
 
-#if UNITY_ANDROID
+#if UNITY_ANDROID && !UNITY_EDITOR
         Application.targetFrameRate = 60;
         
 #endif

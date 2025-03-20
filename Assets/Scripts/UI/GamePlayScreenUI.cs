@@ -129,20 +129,21 @@ public class GamePlayScreenUI : MonoBehaviour
 
     public void TriggerLevelFailedScoreboard()
     {
-        //check interstitial ad condition
-#if UNITY_ANDROID
+#if UNITY_EDITOR
+
+        LevelFailedLeaderBoard();
+
+#elif UNITY_ANDROID //check interstitial ad condition
+        
         SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
 
         if (SaveLoadManager.Instance.CheckInterstitialAdCondition())
         {
             IronSourceAdManager.Instance.ShowInterstitialAd();
             IronSourceAdManager.Instance.interstitialAd.OnAdClosed += InterstitialOnAdClosedEvent;
-            return;
         }
 #endif
-        
-        LevelFailedLeaderBoard();
-        
+
     }
     private void LevelFailedLeaderBoard()
     {

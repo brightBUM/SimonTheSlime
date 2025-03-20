@@ -35,19 +35,23 @@ public class LevelEnd : MonoBehaviour
 
             DOVirtual.DelayedCall(2f, () =>
             {
-                //check interstitial ad condition
-#if UNITY_ANDROID
+                
+
+#if UNITY_EDITOR
+
+                SoundManager.Instance.PlayLevelCompleteSFx();
+                GamePlayScreenUI.Instance.ShowLevelCompleteScreen();
+
+#elif UNITY_ANDROID //check interstitial ad condition
+                Debug.Log("level end - android code");
                 SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
 
-                if(SaveLoadManager.Instance.CheckInterstitialAdCondition())
+                if (SaveLoadManager.Instance.CheckInterstitialAdCondition())
                 {
                     IronSourceAdManager.Instance.ShowInterstitialAd();
                     IronSourceAdManager.Instance.interstitialAd.OnAdClosed += InterstitialOnAdClosedEvent;
-                    return;
                 }
 #endif
-                SoundManager.Instance.PlayLevelCompleteSFx();
-                GamePlayScreenUI.Instance.ShowLevelCompleteScreen();
             });
         }
     }
