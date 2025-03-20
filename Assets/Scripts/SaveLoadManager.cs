@@ -57,7 +57,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
             }
 
             //unlocked lv1
-            playerProfile.levelStats[0].unlocked = true;
+            //playerProfile.levelStats[0].unlocked = true;
 
             //main menu rewarded ad ready
             this.lastRewardedAdTime = DateTime.Now.AddHours(-25);
@@ -253,7 +253,7 @@ public class LevelStats
     public float bestTime = 0.0f;
     public int minLaunches = 0;
     public int stars;
-    public bool unlocked;
+    public bool unlocked = true;
 }
 [System.Serializable]
 public class VolumeControl
