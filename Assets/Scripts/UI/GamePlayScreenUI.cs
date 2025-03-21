@@ -334,6 +334,7 @@ public class GamePlayScreenUI : MonoBehaviour
     public void GotoLevelSelectionScreen()
     {
         SceneLoader.Instance.LoadScene(2);
+        GameManger.Instance.TogglePauseGame();
         GameManger.Instance.ToggleMenuMusic(true);
     }
     public void GotoNextLevel()
@@ -347,6 +348,7 @@ public class GamePlayScreenUI : MonoBehaviour
     public void LoadMenu()
     {
         SceneLoader.Instance.LoadScene(1);
+        GameManger.Instance.TogglePauseGame();
         GameManger.Instance.ToggleMenuMusic(true);
     }
     public void QuitGame()
