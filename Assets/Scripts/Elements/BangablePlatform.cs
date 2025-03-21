@@ -15,7 +15,6 @@ public class BangablePlatform : MonoBehaviour, IPoundable
 
     private void Start()
     {
-        LevelManager.Instance.BangablePlatformSpawn();
     }
     public void OnPlayerPounded(System.Action<IPoundable> ContinuePound)
     {

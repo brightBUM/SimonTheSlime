@@ -31,6 +31,9 @@ public class LevelManager : MonoBehaviour
         }
         LastCheckpointpos = levelStart.transform.position;
         targetbananas = collectiblesParent.childCount;
+        //bangeable pt
+        targetbananas += FindObjectsByType<BangablePlatform>(FindObjectsSortMode.None).Length*4;
+
         levelTimer = 0f;
         //Application.targetFrameRate = 120;
     }
@@ -67,24 +70,22 @@ public class LevelManager : MonoBehaviour
         string timeFormat = Mathf.FloorToInt(minutes) + ":" + Mathf.FloorToInt(seconds);
         return timeFormat;
     }
-    public void BangablePlatformSpawn()
-    {
-        targetbananas += 4;
-    }
+    
     public string GetGemsCount()
     {
         return collectedGems.ToString();
     }
     public string GetLevelBananasCount()
     {
-        if(collectedBananas>=targetbananas)
-            stars++;
+        //if(collectedBananas>=targetbananas)
+        //    stars++;
+
         return collectedBananas.ToString() + "/" + targetbananas.ToString();
     }
     public string GetLevelTimerText()
     {
-        if (levelTimer <= targetTime)
-            stars++;
+        //if (levelTimer <= targetTime)
+        //    stars++;
         return TimeFormatConversion(levelTimer) + "/" + TimeFormatConversion(targetTime);
     }
     
