@@ -686,12 +686,13 @@ public class PlayerController : MonoBehaviour
             playerAnimation.SetGrapplePose();
             SoundManager.Instance.PlayGrappleRopeSFX();
 
+            playerState = State.GRAPPLE;
+
             //activate line renderer
             StartCoroutine(grappleRope.AnimateRope(grapplePoint, () =>
             {
                 rb.velocity = grappleDirection.normalized * grapplePullSpeed;
                 //ResetGravity();
-                playerState = State.GRAPPLE;
                 playerAnimation.ToggleTrailRenderer(false);   
                 LevelManager.Instance.ShakeCamera.OnGrapple();
                 SoundManager.Instance.PlayGrapplePullSFX();
@@ -757,8 +758,6 @@ public class PlayerController : MonoBehaviour
 #endif
 
     }
-    private void OnDestroy()
-    {
-    }
+    
 
 }

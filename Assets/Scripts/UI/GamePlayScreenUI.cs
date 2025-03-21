@@ -8,7 +8,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Services.LevelPlay;
-using Unity.VisualScripting;
 
 public class GamePlayScreenUI : MonoBehaviour
 {
@@ -175,7 +174,10 @@ public class GamePlayScreenUI : MonoBehaviour
         //Debug.Log("show retry");
         GameManger.Instance.TogglePauseGame(true);
         nanasCost.text = LevelManager.Instance.retryCount > 3 ? " " : CostToRespawn().ToString()+" Nanas";
+
+        retryScreen.transform.localScale = Vector3.zero;
         retryScreen.SetActive(true);
+        retryScreen.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBounce).SetUpdate(true);
     }
     private int CostToRespawn()
     {
