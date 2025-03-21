@@ -228,6 +228,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
         SaveGame();
     }
     
+    
 }
 [System.Serializable]
 public class PlayerProfile

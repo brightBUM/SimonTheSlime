@@ -709,7 +709,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.92156863}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6731,6 +6731,8 @@ MonoBehaviour:
   nextLevelButton: {fileID: 8159143909750218436}
   levelCompleteTextDelay: 0.2
   scoreCountTime: 2
+  bananaRespawnButton: {fileID: 3782948691800468000}
+  nanasCost: {fileID: 3586132231625808512}
   pauseScreen: {fileID: 3414433134113511680}
   gameplayScreen: {fileID: 826644597045285788}
   ScoreboardScreen: {fileID: 1740849700618633797}
@@ -7589,19 +7591,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8919401975593726161}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5269167023310143798}
-        m_TargetAssemblyTypeName: GamePlayScreenUI, Assembly-CSharp
-        m_MethodName: RespawnViaBananas
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &6057822100751094978
 GameObject:
   m_ObjectHideFlags: 0

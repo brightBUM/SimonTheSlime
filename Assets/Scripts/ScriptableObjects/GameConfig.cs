@@ -12,5 +12,6 @@ public class GameConfig : ScriptableObject
     [Header("Ads Setting")]
     public int interstitialAdCheckPerLevel;
     public int mainMenuRewardedAdNanas;
+    public int RetryNanasCost = 100;
 
 }

@@ -8,6 +8,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Services.LevelPlay;
+using Unity.VisualScripting;
 
 public class GamePlayScreenUI : MonoBehaviour
 {
@@ -35,7 +36,8 @@ public class GamePlayScreenUI : MonoBehaviour
     private List<TextMeshProUGUI> levelCompleteTexts;
     //[SerializeField] List<GameObject> starItem;
     [Header("Retry")]
-    
+    [SerializeField] Button bananaRespawnButton;
+    [SerializeField] TextMeshProUGUI nanasCost;
 
     [Header("Panel")]
     [SerializeField] GameObject pauseScreen;
@@ -54,12 +56,14 @@ public class GamePlayScreenUI : MonoBehaviour
     private void OnEnable()
     {
         UpdateMidAirJumpUI += UpdateDashAbilityUI;
+        bananaRespawnButton.onClick.AddListener(RespawnViaBananas);
         ScaleTexts();
     }
     private void Awake()
     {
         Instance = this;
     }
+    
     void Start()
     {
         UpdateDashAbilityUI(0f);
@@ -170,19 +174,36 @@ public class GamePlayScreenUI : MonoBehaviour
     {
         //Debug.Log("show retry");
         GameManger.Instance.TogglePauseGame(true);
+        nanasCost.text = LevelManager.Instance.retryCount > 3 ? " " : CostToRespawn().ToString()+" Nanas";
         retryScreen.SetActive(true);
+    }
+    private int CostToRespawn()
+    {
+        return GameManger.Instance.gameConfig.RetryNanasCost * LevelManager.Instance.retryCount;
     }
     public void RespawnViaBananas()
     {
-        //decrement 500 nanas from player profile
-        if(SaveLoadManager.Instance.playerProfile.nanas>=500)
+        //current cost to respawn
+        var cost = CostToRespawn();
+
+        //decrement cost from player profile & respawn
+
+        if(SaveLoadManager.Instance.playerProfile.nanas>= cost)
         {
-            SaveLoadManager.Instance.playerProfile.nanas -= 500;
+            SaveLoadManager.Instance.playerProfile.nanas -= cost;
             retryScreen.SetActive(false);
             GameManger.Instance.TogglePauseGame(false);
             LevelManager.Instance.TriggerPlayerRespawn();
+            LevelManager.Instance.retryCount++;
         }
-        
+
+        //check for retryCount
+        if (LevelManager.Instance.retryCount > 3)
+        {
+            //disable banana retry button interactable 
+            bananaRespawnButton.interactable = false;
+        }
+
     }
     public void RespawnViaAd()
     {
@@ -375,6 +396,7 @@ public class GamePlayScreenUI : MonoBehaviour
     private void OnDisable()
     {
         UpdateMidAirJumpUI -= UpdateDashAbilityUI;
+        bananaRespawnButton.onClick.AddListener(RespawnViaBananas);
 
     }
 }

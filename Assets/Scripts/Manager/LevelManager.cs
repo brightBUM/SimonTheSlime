@@ -20,6 +20,7 @@ public class LevelManager : MonoBehaviour
     private int collectedGems;
     private BaseRespawn baseRespawn;
     private int stars;
+    public int retryCount = 1;
     public Vector3 LastCheckpointpos { get; set; }
     public static LevelManager Instance;
     public CameraShake ShakeCamera => camShake;
