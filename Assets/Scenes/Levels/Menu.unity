@@ -6339,8 +6339,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 18, y: 0}
-  m_SizeDelta: {x: 111.979, y: 111.979}
+  m_AnchoredPosition: {x: 20, y: -5}
+  m_SizeDelta: {x: 111.979, y: 74.5804}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &502143455
 MonoBehaviour:
@@ -6355,7 +6355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.57254905}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9209,7 +9209,7 @@ PrefabInstance:
     - target: {fileID: 2290795685676161651, guid: b828b483dd59fd544be441b1fb9eeafc, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+      objectReference: {fileID: 2100000, guid: 7ce80fd96d218804c9c94f14bc796908, type: 2}
     - target: {fileID: 3625580579192261975, guid: b828b483dd59fd544be441b1fb9eeafc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -9274,8 +9274,7 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1346728609457784634, guid: b828b483dd59fd544be441b1fb9eeafc, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 3625580579192261975, guid: b828b483dd59fd544be441b1fb9eeafc, type: 3}
@@ -9288,6 +9287,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3625580579192261975, guid: b828b483dd59fd544be441b1fb9eeafc, type: 3}
   m_PrefabInstance: {fileID: 687306100}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &687306102 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1346728609457784634, guid: b828b483dd59fd544be441b1fb9eeafc, type: 3}
+  m_PrefabInstance: {fileID: 687306100}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c8b18c46eb27d3409637527315be629, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &695514774
 GameObject:
   m_ObjectHideFlags: 0
@@ -26629,6 +26639,7 @@ MonoBehaviour:
   - {fileID: 715639582}
   nanasText: {fileID: 1689516856}
   melonsText: {fileID: 521318436}
+  charSkinLoad: {fileID: 687306102}
   charSkinList: []
   podList: []
 --- !u!1 &1804799171

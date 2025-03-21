@@ -99,7 +99,11 @@ public class LevelManager : MonoBehaviour
         collectedBananas++;
         GamePlayScreenUI.Instance.UpdateBananaCount(GetLevelBananasCount());
     }
-   
+    public void AddNanasToProfile()
+    {
+        SaveLoadManager.Instance.playerProfile.nanas += collectedBananas;
+        SaveLoadManager.Instance.SaveGame();
+    }
     public void PlayerInputToggle(bool value)
     {
         if(playerController!=null)

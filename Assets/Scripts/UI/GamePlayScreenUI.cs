@@ -122,6 +122,8 @@ public class GamePlayScreenUI : MonoBehaviour
             scoreboardTitleUI.text = "Level Complete";
             ScoreboardScreen.SetActive(value);
             ScoreboardScreen.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBounce);
+            LevelManager.Instance.AddNanasToProfile();
+
         }
         else
         {
@@ -158,6 +160,9 @@ public class GamePlayScreenUI : MonoBehaviour
         ScoreboardScreen.SetActive(true);
         ScoreboardScreen.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBounce);
         UpdateLevelCompleteUI();
+
+
+        LevelManager.Instance.AddNanasToProfile();
     }
     private void InterstitialOnAdClosedEvent(LevelPlayAdInfo info)
     {
@@ -205,7 +210,7 @@ public class GamePlayScreenUI : MonoBehaviour
             //disable banana retry button interactable 
             bananaRespawnButton.interactable = false;
         }
-
+        SaveLoadManager.Instance.SaveGame();
     }
     public void RespawnViaAd()
     {

@@ -113,7 +113,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     }
     public bool PurchaseSkin(CharSkinBase charSkinBase)
     {
-        if(playerProfile.melons>10)
+        if(playerProfile.melons>=10)
         {
             playerProfile.melons -= 10;
             ShopManager.instance.UpdateCurrencyUI();

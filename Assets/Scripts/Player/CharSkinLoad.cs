@@ -8,17 +8,12 @@ public class CharSkinLoad : MonoBehaviour
     // Start is called before the first frame update
     private void OnEnable()
     {
+        RefreshSkin();
+        
+    }
+    public void RefreshSkin()
+    {
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.material.SetColor("_replaceColor", GameManger.Instance.GetCharSkinColor());
-        
-    }
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

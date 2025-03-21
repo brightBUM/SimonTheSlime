@@ -10,6 +10,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] Transform[] ScreenTabs;
     [SerializeField] TextMeshProUGUI nanasText;
     [SerializeField] TextMeshProUGUI melonsText;
+    [SerializeField] CharSkinLoad charSkinLoad;
     // Start is called before the first frame update
 
     public List<CharSkinBase> charSkinList;
@@ -22,6 +23,7 @@ public class ShopManager : MonoBehaviour
 
     private void OnEnable()
     {
+        
         UpdateCurrencyUI();
     }
     public void UpdateCurrencyUI()
@@ -42,7 +44,10 @@ public class ShopManager : MonoBehaviour
     }
     public void SaveOnShopExit()
     {
+        charSkinList.Clear();
+        podList.Clear();
         SaveLoadManager.Instance.SaveGame();
+        charSkinLoad.RefreshSkin();
     }
     public void SetEquippedSkin(CharSkinBase charSkinBase)
     {
@@ -53,11 +58,11 @@ public class ShopManager : MonoBehaviour
             {
                 if (charSkinBase.skinNum == podSkin.skinNum)
                 {
-                    charSkinBase.FlipSelection(true);
+                    podSkin.FlipSelection(true);
                 }
                 else
                 {
-                    charSkinBase.FlipSelection(false);
+                    podSkin.FlipSelection(false);
                 }
             }
 
