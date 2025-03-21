@@ -147,7 +147,7 @@ public class GamePlayScreenUI : MonoBehaviour
     }
     private void LevelFailedLeaderBoard()
     {
-        GameManger.Instance.TogglePauseGame();
+        GameManger.Instance.TogglePauseGame(false);
         LevelManager.Instance.startLevelTimer = false;
         retryScreen.SetActive(false);
         scoreboardTitleUI.text = "Level Failed";
@@ -169,17 +169,17 @@ public class GamePlayScreenUI : MonoBehaviour
     public void ShowRetryScreen()
     {
         //Debug.Log("show retry");
-        GameManger.Instance.TogglePauseGame();
+        GameManger.Instance.TogglePauseGame(true);
         retryScreen.SetActive(true);
     }
     public void RespawnViaBananas()
     {
         //decrement 500 nanas from player profile
-        if(SaveLoadManager.Instance.playerProfile.nanas>500)
+        if(SaveLoadManager.Instance.playerProfile.nanas>=500)
         {
             SaveLoadManager.Instance.playerProfile.nanas -= 500;
             retryScreen.SetActive(false);
-            GameManger.Instance.TogglePauseGame();
+            GameManger.Instance.TogglePauseGame(false);
             LevelManager.Instance.TriggerPlayerRespawn();
         }
         
@@ -195,7 +195,7 @@ public class GamePlayScreenUI : MonoBehaviour
     private void RewardedVideoOnAdClosedEvent(IronSourceAdInfo info)
     {
         retryScreen.SetActive(false);
-        GameManger.Instance.TogglePauseGame();
+        GameManger.Instance.TogglePauseGame(false);
         LevelManager.Instance.TriggerPlayerRespawn();
 
         IronSourceRewardedVideoEvents.onAdClosedEvent += RewardedVideoOnAdClosedEvent;
@@ -334,21 +334,25 @@ public class GamePlayScreenUI : MonoBehaviour
     public void GotoLevelSelectionScreen()
     {
         SceneLoader.Instance.LoadScene(2);
-        GameManger.Instance.TogglePauseGame();
+        GameManger.Instance.TogglePauseGame(false);
         GameManger.Instance.ToggleMenuMusic(true);
     }
     public void GotoNextLevel()
     {
         SceneLoader.Instance.LoadNextScene();
+        GameManger.Instance.TogglePauseGame(false);
+
     }
     public void ReplayScene()
     {
         SceneLoader.Instance.ReloadCurrentScreen();
+        GameManger.Instance.TogglePauseGame(false);
+
     }
     public void LoadMenu()
     {
         SceneLoader.Instance.LoadScene(1);
-        GameManger.Instance.TogglePauseGame();
+        GameManger.Instance.TogglePauseGame(false);
         GameManger.Instance.ToggleMenuMusic(true);
     }
     public void QuitGame()

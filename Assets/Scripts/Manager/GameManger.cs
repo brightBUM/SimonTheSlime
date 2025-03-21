@@ -81,9 +81,15 @@ public class GameManger : MonoBehaviour
     public void TogglePauseGame()
     {
         IsPaused = !IsPaused;
-        Time.timeScale = IsPaused? 0f : 1f;
+        Time.timeScale = IsPaused ? 0f : 1f;
+    }
+
+    public void TogglePauseGame(bool value)
+    {
+        IsPaused = value;
+        Time.timeScale = IsPaused ? 0f : 1f;
     }
 
 
-    
+
 }
