@@ -28,7 +28,8 @@ public class LevelEnd : MonoBehaviour
             sleepingPlayer.gameObject.SetActive(true);
             sleepingPlayer.DOLocalMoveY(yValue, 1f).SetEase(Ease.OutCubic);
 
-            LevelManager.Instance.startLevelTimer = false;
+            LevelManager.Instance.InvokeLevelCompleteAnalytics();
+
             //play level complete music 
             //spawn scoreboard menu
             Debug.Log("level end called");

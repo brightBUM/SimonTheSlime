@@ -51,6 +51,13 @@ public class MainMenuUI : MonoBehaviour
             Debug.Log("int parse failed");
         }
     }
+    public void PrivacyPolicyLink()
+    {
+        GameManger.Instance.PrivacyPolicy();
+    }
+    public void TermsLink()
+    {
+        GameManger.Instance.TermsAndConditions();
+    }
 
-    
 }

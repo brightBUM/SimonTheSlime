@@ -10,6 +10,7 @@ namespace CutScene
     {
         [SerializeField] List<Scene> scenes;
         [SerializeField] GameObject splashScreen;
+        [SerializeField] GameObject privacyPanel;
         [SerializeField] Transform camTransform;
         [SerializeField] Ease sceneTrans;
         [SerializeField] CutSceneAudio cutSceneAudio;
@@ -18,6 +19,7 @@ namespace CutScene
         [SerializeField] Button skipButton;
         int currentTween = 0;
         bool next = false;
+      
         // Start is called before the first frame update
         void Awake()
         {
@@ -46,12 +48,9 @@ namespace CutScene
             }
             else
             {
-                //show cutscene
-                DOVirtual.DelayedCall(splashScreenDelay, () =>
-                {
-                    splashScreen.SetActive(false);
-                    StartCoroutine(StartCutScene());
-                });
+                // privacy policy will be enabled for first time
+                privacyPanel.SetActive(true);
+
             }
         }
 
@@ -63,7 +62,15 @@ namespace CutScene
                 SkipEscape();
             }
         }
-
+        public void PrivacyAgreeTrigger()
+        {
+            //show cutscene
+            DOVirtual.DelayedCall(splashScreenDelay, () =>
+            {
+                splashScreen.SetActive(false);
+                StartCoroutine(StartCutScene());
+            });
+        }
         private void SkipEscape()
         {
             StopAllCoroutines();
@@ -141,6 +148,15 @@ namespace CutScene
                 default:
                     break;
             }
+        }
+
+        public void PrivacyPolicyLink()
+        {
+            GameManger.Instance.PrivacyPolicy();
+        }
+        public void TermsLink()
+        {
+           GameManger.Instance.TermsAndConditions();
         }
         private void OnDisable()
         {

@@ -43,16 +43,20 @@ public class PauseScreen : MonoBehaviour
         volumeControl.volumeState = !volumeControl.volumeState;
         volumeStateUI[index].sprite = volumeControl.volumeState ? toggleOnUI : toggleOffUI;
 
+        var convertedValue = volumeControl.volumeState ? Mathf.Log10(volumeControl.volumeValue) * 20f : -80f;
         switch (index)
         {
             case 0:
-                audioMixer.SetFloat("MasterVolume", volumeControl.volumeState? Mathf.Log10(volumeControl.volumeValue) * 20f : -80f);
+                audioMixer.SetFloat("MasterVolume", convertedValue);
+                volumeValueUI[0].value = volumeControl.volumeValue;
                 break;
             case 1:
-                audioMixer.SetFloat("MusicVolume", volumeControl.volumeState ? Mathf.Log10(volumeControl.volumeValue) * 20f : -80f);
+                audioMixer.SetFloat("MusicVolume", convertedValue);
+                volumeValueUI[1].value = volumeControl.volumeValue;
                 break;
             case 2:
-                audioMixer.SetFloat("SFXVolume", volumeControl.volumeState ? Mathf.Log10(volumeControl.volumeValue) * 20f : -80f);
+                audioMixer.SetFloat("SFXVolume", convertedValue);
+                volumeValueUI[2].value = volumeControl.volumeValue;
                 break;
         }
 

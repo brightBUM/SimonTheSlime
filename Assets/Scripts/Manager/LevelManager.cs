@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class LevelManager : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] PlayerController playerController;
     [SerializeField] float targetTime;
     public int levelIndex = 0;
-    private float levelTimer;
+    public float levelTimer;
     public bool startLevelTimer = false;
     //[Header("collectibles")]
     private int targetbananas;
@@ -133,5 +134,19 @@ public class LevelManager : MonoBehaviour
     public void LastCheckPointEffect()
     {
         this.baseRespawn.RespawnEffect();
+    }
+
+    public void InvokeLevelCompleteAnalytics()
+    {
+        startLevelTimer = false;
+        //Firebase.Analytics.FirebaseAnalytics.LogEvent("GAME", "Time taken to complete Level "+(levelIndex+1).ToString(), levelTimer);
+    }
+
+    public void BananaRespawn()
+    {
+        TriggerPlayerRespawn();
+        retryCount++;
+        //Firebase.Analytics.FirebaseAnalytics.LogEvent("GAME", "No. of Retries in Level  " + (levelIndex + 1).ToString());
+        //Firebase.Analytics.FirebaseAnalytics.LogEvent("GAME", "No. of time bananas is clicked for Extra life");
     }
 }

@@ -53,11 +53,28 @@ public class CharSkinBase : MonoBehaviour
             ShopManager.instance.AddToList(this);
             purchaseButton.SetActive(false);
             unlockedObject.SetActive(true);
+
+            LogPurchaseEvents();
+
         }
         else
         {
             // not enough melons
             // tween a button shake
+        }
+    }
+
+    private void LogPurchaseEvents()
+    {
+        if(isPod)
+        {
+            //Firebase.Analytics.FirebaseAnalytics.LogEvent("GAME", "No. of players purchasing Pod Skin " + (skinNum+1).ToString());
+
+        }
+        else
+        {
+            //Firebase.Analytics.FirebaseAnalytics.LogEvent("GAME", "No. of players purchasing Character Skin "+(skinNum+1).ToString());
+
         }
     }
 }

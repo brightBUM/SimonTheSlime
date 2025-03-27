@@ -15,6 +15,9 @@ public class GameManger : MonoBehaviour
 
     public bool IsPaused { get; set; }
 
+    private const string privacyPolicyURL = "https://kyodaigameworks.com/privacy-policy/";
+    private const string termsAndConditionsURL = "https://kyodaigameworks.com/terms-of-service/";
+
     private void Awake()
     {
         if (Instance == null)
@@ -73,7 +76,7 @@ public class GameManger : MonoBehaviour
     {
         DOVirtual.DelayedCall(1f, () =>
         {
-            FindAnyObjectByType<IntroCutScene>()?.CheckForSaveLoad(false);
+            FindAnyObjectByType<IntroCutScene>()?.PrivacyAgreeTrigger();
             ToggleMenuMusic(false);
         });
     }
@@ -90,6 +93,13 @@ public class GameManger : MonoBehaviour
         Time.timeScale = IsPaused ? 0f : 1f;
     }
 
-
+    public void PrivacyPolicy()
+    {
+        Application.OpenURL(privacyPolicyURL);
+    }
+    public void TermsAndConditions()
+    {
+        Application.OpenURL(termsAndConditionsURL);
+    }
 
 }

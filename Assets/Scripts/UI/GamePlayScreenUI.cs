@@ -200,8 +200,8 @@ public class GamePlayScreenUI : MonoBehaviour
             SaveLoadManager.Instance.playerProfile.nanas -= cost;
             retryScreen.SetActive(false);
             GameManger.Instance.TogglePauseGame(false);
-            LevelManager.Instance.TriggerPlayerRespawn();
-            LevelManager.Instance.retryCount++;
+            LevelManager.Instance.BananaRespawn();
+            
         }
 
         //check for retryCount
@@ -226,7 +226,10 @@ public class GamePlayScreenUI : MonoBehaviour
         GameManger.Instance.TogglePauseGame(false);
         LevelManager.Instance.TriggerPlayerRespawn();
 
-        IronSourceRewardedVideoEvents.onAdClosedEvent += RewardedVideoOnAdClosedEvent;
+        //Firebase.Analytics.FirebaseAnalytics.LogEvent("GAME", "No. of Retries in Level  " + (LevelManager.Instance.levelIndex + 1).ToString());
+        //Firebase.Analytics.FirebaseAnalytics.LogEvent("GAME", "No. of times Watch Ad is clicked for Extra life");
+
+        IronSourceRewardedVideoEvents.onAdClosedEvent -= RewardedVideoOnAdClosedEvent;
 
     }
 
