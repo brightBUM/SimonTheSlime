@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Unity.Services.LevelPlay;
 
 public class GamePlayScreenUI : MonoBehaviour
 {
@@ -140,13 +139,16 @@ public class GamePlayScreenUI : MonoBehaviour
 
 #elif UNITY_ANDROID //check interstitial ad condition
         
-        SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
+        LevelFailedLeaderBoard();
 
-        if (SaveLoadManager.Instance.CheckInterstitialAdCondition())
-        {
-            IronSourceAdManager.Instance.ShowInterstitialAd();
-            IronSourceAdManager.Instance.interstitialAd.OnAdClosed += InterstitialOnAdClosedEvent;
-        }
+
+        //SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
+
+        //if (SaveLoadManager.Instance.CheckInterstitialAdCondition())
+        //{
+        //    IronSourceAdManager.Instance.ShowInterstitialAd();
+        //    IronSourceAdManager.Instance.interstitialAd.OnAdClosed += InterstitialOnAdClosedEvent;
+        //}
 #endif
 
     }
@@ -164,15 +166,14 @@ public class GamePlayScreenUI : MonoBehaviour
 
         LevelManager.Instance.AddNanasToProfile();
     }
-    private void InterstitialOnAdClosedEvent(LevelPlayAdInfo info)
-    {
-        SaveLoadManager.Instance.playerProfile.interStitialAdCount = 0;
+    //private void InterstitialOnAdClosedEvent(LevelPlayAdInfo info)
+    //{
+    //    SaveLoadManager.Instance.playerProfile.interStitialAdCount = 0;
 
-        LevelFailedLeaderBoard();
 
-        IronSourceAdManager.Instance.LoadInterstitialAd();
-        IronSourceAdManager.Instance.interstitialAd.OnAdClosed -= InterstitialOnAdClosedEvent;
-    }
+    //    IronSourceAdManager.Instance.LoadInterstitialAd();
+    //    IronSourceAdManager.Instance.interstitialAd.OnAdClosed -= InterstitialOnAdClosedEvent;
+    //}
 
     public void ShowRetryScreen()
     {
@@ -215,23 +216,24 @@ public class GamePlayScreenUI : MonoBehaviour
     public void RespawnViaAd()
     {
         //trigger rewarded ad  here
-        IronSourceAdManager.Instance.ShowRewardedAd();
-        IronSourceRewardedVideoEvents.onAdClosedEvent += RewardedVideoOnAdClosedEvent;
+        //IronSourceAdManager.Instance.ShowRewardedAd();
+        //IronSourceRewardedVideoEvents.onAdClosedEvent += RewardedVideoOnAdClosedEvent;
 
-    }
-
-    private void RewardedVideoOnAdClosedEvent(IronSourceAdInfo info)
-    {
         retryScreen.SetActive(false);
         GameManger.Instance.TogglePauseGame(false);
         LevelManager.Instance.TriggerPlayerRespawn();
-
-        //Firebase.Analytics.FirebaseAnalytics.LogEvent("GAME", "No. of Retries in Level  " + (LevelManager.Instance.levelIndex + 1).ToString());
-        //Firebase.Analytics.FirebaseAnalytics.LogEvent("GAME", "No. of times Watch Ad is clicked for Extra life");
-
-        IronSourceRewardedVideoEvents.onAdClosedEvent -= RewardedVideoOnAdClosedEvent;
-
     }
+
+    //private void RewardedVideoOnAdClosedEvent(IronSourceAdInfo info)
+    //{
+        
+
+    //    //Firebase.Analytics.FirebaseAnalytics.LogEvent("GAME", "No. of Retries in Level  " + (LevelManager.Instance.levelIndex + 1).ToString());
+    //    //Firebase.Analytics.FirebaseAnalytics.LogEvent("GAME", "No. of times Watch Ad is clicked for Extra life");
+
+    //    IronSourceRewardedVideoEvents.onAdClosedEvent -= RewardedVideoOnAdClosedEvent;
+
+    //}
 
     private void UpdateDashAbilityUI(float value)
     {

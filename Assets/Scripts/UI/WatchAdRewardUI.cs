@@ -1,7 +1,5 @@
 using DG.Tweening;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -52,22 +50,24 @@ public class WatchAdRewardUI : MonoBehaviour
 
     public void ShowMainMenuRewardedAd()
     {
-        IronSourceAdManager.Instance.ShowRewardedAd();
-        IronSourceRewardedVideoEvents.onAdClosedEvent += RewardedVideoOnAdClosedEvent;
-
-    }
-
-    private void RewardedVideoOnAdClosedEvent(IronSourceAdInfo info)
-    {
         rewardPamel.SetActive(true);
-
         SaveLoadManager.Instance.MainMenuAdRewarded();
         CalculateRewardLockUnlock();
-        
+
         Debug.Log("main menu rewarded ad complete");
 
-        IronSourceRewardedVideoEvents.onAdClosedEvent -= RewardedVideoOnAdClosedEvent;
+        //IronSourceAdManager.Instance.ShowRewardedAd();
+        //IronSourceRewardedVideoEvents.onAdClosedEvent += RewardedVideoOnAdClosedEvent;
+
     }
+
+    //private void RewardedVideoOnAdClosedEvent(IronSourceAdInfo info)
+    //{
+
+       
+
+    //    IronSourceRewardedVideoEvents.onAdClosedEvent -= RewardedVideoOnAdClosedEvent;
+    //}
 
     private void ToggleUnlockImages()
     {
