@@ -121,6 +121,7 @@ public class PlayerCollision : MonoBehaviour
         if(rayCastHit2D.collider!=null)
         {
             playerController.SetToStickState(stickSide);
+            Debug.Log("stick side : " + stickSide);
             return true; 
         }
         else

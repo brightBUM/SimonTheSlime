@@ -1,3 +1,4 @@
+using Unity.Services.LevelPlay;
 using DG.Tweening;
 using UnityEngine;
 
@@ -43,30 +44,27 @@ public class LevelEnd : MonoBehaviour
                 GamePlayScreenUI.Instance.ShowLevelCompleteScreen();
 
 #elif UNITY_ANDROID //check interstitial ad condition
-
-                SoundManager.Instance.PlayLevelCompleteSFx();
-                GamePlayScreenUI.Instance.ShowLevelCompleteScreen();
-
                 Debug.Log("level end - android code");
-                //SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
+                SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
 
-                //if (SaveLoadManager.Instance.CheckInterstitialAdCondition())
-                //{
-                //    IronSourceAdManager.Instance.ShowInterstitialAd();
-                //    IronSourceAdManager.Instance.interstitialAd.OnAdClosed += InterstitialOnAdClosedEvent;
-                //}
+                if (SaveLoadManager.Instance.CheckInterstitialAdCondition())
+                {
+                    IronSourceAdManager.Instance.ShowInterstitialAd();
+                    IronSourceAdManager.Instance.interstitialAd.OnAdClosed += InterstitialOnAdClosedEvent;
+                }
 #endif
             });
         }
     }
 
-    //private void InterstitialOnAdClosedEvent(LevelPlayAdInfo info)
-    //{
-    //    SaveLoadManager.Instance.playerProfile.interStitialAdCount = 0;
+    private void InterstitialOnAdClosedEvent(LevelPlayAdInfo info)
+    {
+        SaveLoadManager.Instance.playerProfile.interStitialAdCount = 0;
 
-        
+        SoundManager.Instance.PlayLevelCompleteSFx();
+        GamePlayScreenUI.Instance.ShowLevelCompleteScreen();
 
-    //    IronSourceAdManager.Instance.LoadInterstitialAd();
-    //    IronSourceAdManager.Instance.interstitialAd.OnAdClosed -= InterstitialOnAdClosedEvent;
-    //}
+        IronSourceAdManager.Instance.LoadInterstitialAd();
+        IronSourceAdManager.Instance.interstitialAd.OnAdClosed -= InterstitialOnAdClosedEvent;
+    }
 }

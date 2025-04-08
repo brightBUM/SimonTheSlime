@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Services.LevelPlay;
 
 public class GamePlayScreenUI : MonoBehaviour
 {
@@ -133,22 +134,25 @@ public class GamePlayScreenUI : MonoBehaviour
 
     public void TriggerLevelFailedScoreboard()
     {
+        //triggered with next button
 #if UNITY_EDITOR
 
         LevelFailedLeaderBoard();
 
 #elif UNITY_ANDROID //check interstitial ad condition
         
+        SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
+
+        if (SaveLoadManager.Instance.CheckInterstitialAdCondition())
+        {
+            IronSourceAdManager.Instance.ShowInterstitialAd();
+            IronSourceAdManager.Instance.interstitialAd.OnAdClosed += InterstitialOnAdClosedEvent;
+            return;
+        }
+
+        //reached here - interstitial ad condition not true , so show level failed scoreboard without the ad
+
         LevelFailedLeaderBoard();
-
-
-        //SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
-
-        //if (SaveLoadManager.Instance.CheckInterstitialAdCondition())
-        //{
-        //    IronSourceAdManager.Instance.ShowInterstitialAd();
-        //    IronSourceAdManager.Instance.interstitialAd.OnAdClosed += InterstitialOnAdClosedEvent;
-        //}
 #endif
 
     }
@@ -166,18 +170,21 @@ public class GamePlayScreenUI : MonoBehaviour
 
         LevelManager.Instance.AddNanasToProfile();
     }
-    //private void InterstitialOnAdClosedEvent(LevelPlayAdInfo info)
-    //{
-    //    SaveLoadManager.Instance.playerProfile.interStitialAdCount = 0;
+    private void InterstitialOnAdClosedEvent(LevelPlayAdInfo info)
+    {
+        SaveLoadManager.Instance.playerProfile.interStitialAdCount = 0;
 
+        LevelFailedLeaderBoard();
 
-    //    IronSourceAdManager.Instance.LoadInterstitialAd();
-    //    IronSourceAdManager.Instance.interstitialAd.OnAdClosed -= InterstitialOnAdClosedEvent;
-    //}
+        IronSourceAdManager.Instance.LoadInterstitialAd();
+        IronSourceAdManager.Instance.interstitialAd.OnAdClosed -= InterstitialOnAdClosedEvent;
+    }
 
     public void ShowRetryScreen()
     {
         //Debug.Log("show retry");
+        gameplayScreen.SetActive(false);
+
         GameManger.Instance.TogglePauseGame(true);
         nanasCost.text = LevelManager.Instance.retryCount > 3 ? " " : CostToRespawn().ToString()+" Nanas";
 
@@ -200,6 +207,7 @@ public class GamePlayScreenUI : MonoBehaviour
         {
             SaveLoadManager.Instance.playerProfile.nanas -= cost;
             retryScreen.SetActive(false);
+            gameplayScreen.SetActive(true);
             GameManger.Instance.TogglePauseGame(false);
             LevelManager.Instance.BananaRespawn();
             
@@ -216,24 +224,24 @@ public class GamePlayScreenUI : MonoBehaviour
     public void RespawnViaAd()
     {
         //trigger rewarded ad  here
-        //IronSourceAdManager.Instance.ShowRewardedAd();
-        //IronSourceRewardedVideoEvents.onAdClosedEvent += RewardedVideoOnAdClosedEvent;
+        IronSourceAdManager.Instance.ShowRewardedAd();
+        IronSourceRewardedVideoEvents.onAdClosedEvent += RewardedVideoOnAdClosedEvent;
 
-        retryScreen.SetActive(false);
-        GameManger.Instance.TogglePauseGame(false);
-        LevelManager.Instance.TriggerPlayerRespawn();
     }
 
-    //private void RewardedVideoOnAdClosedEvent(IronSourceAdInfo info)
-    //{
-        
+    private void RewardedVideoOnAdClosedEvent(IronSourceAdInfo info)
+    {
+        retryScreen.SetActive(false);
+        gameplayScreen.SetActive(true);
+        GameManger.Instance.TogglePauseGame(false);
+        LevelManager.Instance.TriggerPlayerRespawn();
 
-    //    //Firebase.Analytics.FirebaseAnalytics.LogEvent("GAME", "No. of Retries in Level  " + (LevelManager.Instance.levelIndex + 1).ToString());
-    //    //Firebase.Analytics.FirebaseAnalytics.LogEvent("GAME", "No. of times Watch Ad is clicked for Extra life");
+        //Firebase.Analytics.FirebaseAnalytics.LogEvent("GAME", "No. of Retries in Level  " + (LevelManager.Instance.levelIndex + 1).ToString());
+        //Firebase.Analytics.FirebaseAnalytics.LogEvent("GAME", "No. of times Watch Ad is clicked for Extra life");
 
-    //    IronSourceRewardedVideoEvents.onAdClosedEvent -= RewardedVideoOnAdClosedEvent;
+        IronSourceRewardedVideoEvents.onAdClosedEvent -= RewardedVideoOnAdClosedEvent;
 
-    //}
+    }
 
     private void UpdateDashAbilityUI(float value)
     {

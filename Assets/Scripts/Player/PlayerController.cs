@@ -491,12 +491,11 @@ public class PlayerController : MonoBehaviour
     
     IEnumerator DelayedRespawn()
     {
-        yield return new WaitForSeconds(2f);
         lerpAmount = 0;
-        playerSquishDummy.SetActive(false);
-
         playerState = State.GHOST;
-        playerAnimation.HitEffect(respawnPlayer);
+        yield return new WaitForSeconds(0.5f);
+
+        GamePlayScreenUI.Instance.ShowRetryScreen();
     }
     public void SetToStickState(StickSide stickSide)
     {
@@ -560,6 +559,7 @@ public class PlayerController : MonoBehaviour
     {
         DOVirtual.DelayedCall(time, () =>
         {
+            playerSquishDummy.SetActive(false);
             SoundManager.Instance.PlayGhostRespawnSFx(true);
             playerAnimation.HitEffect(respawnPlayer);
         });

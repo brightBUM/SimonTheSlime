@@ -22,7 +22,7 @@ public class MainMenuUI : MonoBehaviour
             //show profile registration page
             registrationPanel.SetActive(true);
             //show banner ad only the first time
-            //IronSourceAdManager.Instance.LoadBannerAd();
+            IronSourceAdManager.Instance.LoadBannerAd();
         }
     }
 
@@ -43,7 +43,7 @@ public class MainMenuUI : MonoBehaviour
             SaveLoadManager.Instance.SaveProfileInfo(nameField.text, age);
             registrationPanel.SetActive(false);
             //hide banner ad when login panel closes
-            //IronSourceAdManager.Instance.HideBannerAd();
+            IronSourceAdManager.Instance.HideBannerAd();
 
         }
         else
