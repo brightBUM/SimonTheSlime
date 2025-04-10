@@ -88,7 +88,6 @@ public class PlayerCollision : MonoBehaviour
                     {
                         stickTimer = 0;
                         playerController.ResetGravity();
-                        playerController.SetToIdle();
                     }
                     break;
                 case StickSide.BOTTOM:
@@ -196,6 +195,11 @@ public class PlayerCollision : MonoBehaviour
 
                 }
             }
+        }
+        else if(playerController.playerState == State.STICK && playerController.stickSide == StickSide.TOP)
+        {
+            playerController.SetToIdle();
+            stickTimer = 0;
         }
 
 
