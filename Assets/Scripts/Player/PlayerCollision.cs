@@ -178,20 +178,23 @@ public class PlayerCollision : MonoBehaviour
         }
         else if (playerController.playerState == State.POUND)
         {
-            //check if collided with breakables
-            if (collision.gameObject.TryGetComponent<IPoundable>(out IPoundable IPoundable))
+            if(Physics2D.CircleCast(transform.position+Vector3.down,0.5f,Vector2.down,0f, platformLayer | breakableLayer))
             {
-                IPoundable.OnPlayerPounded(playerController.ContinuePound);
-                LevelManager.Instance.ShakeCamera.OnPound();
-            }
-            else
-            {
-                //splatter effect
-                SoundManager.Instance.PlayPoundSFx();
-                SplatterEffect(transform.position + new Vector3(0, -1, -1) * maskRange);
-                playerController.ResetPound();
-                LevelManager.Instance.ShakeCamera.OnPound();
+                //check if collided with breakables
+                if (collision.gameObject.TryGetComponent<IPoundable>(out IPoundable IPoundable))
+                {
+                    IPoundable.OnPlayerPounded(playerController.ContinuePound);
+                    LevelManager.Instance.ShakeCamera.OnPound();
+                }
+                else
+                {
+                    //splatter effect
+                    SoundManager.Instance.PlayPoundSFx();
+                    SplatterEffect(transform.position + new Vector3(0, -1, -1) * maskRange);
+                    playerController.ResetPound();
+                    LevelManager.Instance.ShakeCamera.OnPound();
 
+                }
             }
         }
 
@@ -281,7 +284,8 @@ public class PlayerCollision : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = hit ? Color.blue : Color.red;
-        Gizmos.DrawRay(transform.position, aimDir.normalized*debugDistance);
+        //Gizmos.DrawRay(transform.position, aimDir.normalized*debugDistance);
+        Gizmos.DrawSphere(transform.position + Vector3.down, 0.5f);
         //Gizmos.DrawRay(transform.position, 5f * transform.right);
     }
 }
