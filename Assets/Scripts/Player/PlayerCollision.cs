@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 using System;
+using Unity.Collections.LowLevel.Unsafe;
 
 public class PlayerCollision : MonoBehaviour
 {
@@ -27,7 +28,11 @@ public class PlayerCollision : MonoBehaviour
     bool hit;
     //int stickSide = 0;
     float stickTimer = 0f;
+    float stayTimer = 0;
+    float stayTimerMax = 0.5f;
     ParticleSystem goreFx;
+    Vector2 aimDir;
+    float debugDistance;
     // Start is called before the first frame update
     void Start()
     {
@@ -121,7 +126,6 @@ public class PlayerCollision : MonoBehaviour
         if(rayCastHit2D.collider!=null)
         {
             playerController.SetToStickState(stickSide);
-            Debug.Log("stick side : " + stickSide);
             return true; 
         }
         else
@@ -129,8 +133,18 @@ public class PlayerCollision : MonoBehaviour
             return false;
         }
     }
+
+    public bool RayCastAimDirection(Vector2 origin,Vector2 direction,float distance)
+    {
+        aimDir = direction;
+        debugDistance = distance;
+        var result = Physics2D.Raycast(origin, direction, distance, platformLayer | breakableLayer);
+        return result.collider ==null ? true : false;
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        stayTimer = 0;
+
         if (playerController.playerState == State.LAUNCHED && 
             (collision.gameObject.layer == platformLayerValue || collision.gameObject.layer == breakableLayerValue))
         {
@@ -207,6 +221,25 @@ public class PlayerCollision : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        //Debug.Log(collision.gameObject.name);
+        if (playerController.playerState == State.LAUNCHED)
+        {
+            //
+            if (stayTimer >= stayTimerMax)
+            {
+                //reset to idle state
+                stayTimer = 0;
+                playerController.SetToIdle();
+            }
+            else
+            {
+                stayTimer += Time.fixedDeltaTime;
+            }
+        }
+    }
+    
     private void SquishSplatterEffect(Vector2 offset)
     {
         for(int i=0;i<3;i++)
@@ -248,8 +281,7 @@ public class PlayerCollision : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = hit ? Color.blue : Color.red;
-        var dir = transform.right + (-transform.up);
-        Gizmos.DrawRay(transform.position, rayCastLength * dir.normalized);
+        Gizmos.DrawRay(transform.position, aimDir.normalized*debugDistance);
         //Gizmos.DrawRay(transform.position, 5f * transform.right);
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using Unity.Burst.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 public enum HitDirection
 {
@@ -54,14 +55,23 @@ public class Thumper : MonoBehaviour
         {
             hit = true;
             var playerController = hitinfo.collider.GetComponent<PlayerController>();
-            //Debug.Log("hit point : " + hitinfo.point);
-            if (playerController.playerState != State.SQUISHED && playerController.playerState != State.GHOST)
-            {
-                //check the thumper orientation and spawn squish dummy according to the direction
 
-                playerController.SetToSquishState(hitPos.position,this.hitDirection);
-                //Debug.Log("squish called");
+            var dir = playerController.transform.position-boxRef.position;
+            var dotValue = Vector2.Dot((-transform.up), dir.normalized);
+            Debug.Log("thumper box dot value : " + dotValue);
+
+            if(dotValue>0.1)
+            {
+                //Debug.Log("hit point : " + hitinfo.point);
+                if (playerController.playerState != State.SQUISHED && playerController.playerState != State.GHOST)
+                {
+                    //check the thumper orientation and spawn squish dummy according to the direction
+
+                    playerController.SetToSquishState(hitPos.position, this.hitDirection);
+                    //Debug.Log("squish called");
+                }
             }
+           
         }
         else
         {
@@ -75,5 +85,10 @@ public class Thumper : MonoBehaviour
     //        playerController.SetToSquishState(this.transform.position,this.hitDirection);
     //    }
     //}
-  
+    private void OnDrawGizmos()
+    {
+        //Gizmos.color = Color.yellow;
+        //Gizmos.DrawCube(boxRef.position, Vector2.one * boxSize);
+    }
+
 }

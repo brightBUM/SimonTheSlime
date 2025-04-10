@@ -164,7 +164,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (playerState == State.POUND || playerState == State.GHOST)
+        if (playerState == State.POUND || playerState == State.GHOST || playerState == State.GRAPPLE)
             return;
 
         if (!firstClick)
@@ -691,8 +691,10 @@ public class PlayerController : MonoBehaviour
             //activate line renderer
             StartCoroutine(grappleRope.AnimateRope(grapplePoint, () =>
             {
-                rb.velocity = grappleDirection.normalized * grapplePullSpeed;
-                //ResetGravity();
+                if(playerState!=State.GRAPPLEHANG)
+                {
+                    rb.velocity = grappleDirection.normalized * grapplePullSpeed;
+                }
                 playerAnimation.ToggleTrailRenderer(false);   
                 LevelManager.Instance.ShakeCamera.OnGrapple();
                 SoundManager.Instance.PlayGrapplePullSFX();

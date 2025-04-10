@@ -186,7 +186,13 @@ public class GamePlayScreenUI : MonoBehaviour
         gameplayScreen.SetActive(false);
 
         GameManger.Instance.TogglePauseGame(true);
-        nanasCost.text = LevelManager.Instance.retryCount > 3 ? " " : CostToRespawn().ToString()+" Nanas";
+        
+        if(SaveLoadManager.Instance.playerProfile.nanas <= CostToRespawn())
+        {
+            bananaRespawnButton.interactable = false;
+        }
+       
+        nanasCost.text = LevelManager.Instance.retryCount > 3 ? " " : CostToRespawn().ToString() + " Nanas";
 
         retryScreen.transform.localScale = Vector3.zero;
         retryScreen.SetActive(true);
@@ -223,9 +229,18 @@ public class GamePlayScreenUI : MonoBehaviour
     }
     public void RespawnViaAd()
     {
+#if UNITY_EDITOR
+        //allow free respawn in editor , bcoz no test ads
+        retryScreen.SetActive(false);
+        gameplayScreen.SetActive(true);
+        GameManger.Instance.TogglePauseGame(false);
+        LevelManager.Instance.TriggerPlayerRespawn();
+
+#elif UNITY_ANDROID
         //trigger rewarded ad  here
         IronSourceAdManager.Instance.ShowRewardedAd();
         IronSourceRewardedVideoEvents.onAdClosedEvent += RewardedVideoOnAdClosedEvent;
+#endif
 
     }
 
