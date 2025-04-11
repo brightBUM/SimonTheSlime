@@ -27,14 +27,14 @@ public class LevelManager : MonoBehaviour
     public CameraShake ShakeCamera => camShake;
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
         LastCheckpointpos = levelStart.transform.position;
         targetbananas = collectiblesParent.childCount;
         //bangeable pt
-        targetbananas += FindObjectsByType<BangablePlatform>(FindObjectsSortMode.None).Length*4;
+        targetbananas += FindObjectsByType<BangablePlatform>(FindObjectsSortMode.None).Length * 4;
 
         levelTimer = 0f;
         //Application.targetFrameRate = 120;
@@ -45,7 +45,7 @@ public class LevelManager : MonoBehaviour
     }
     private void Update()
     {
-        if(startLevelTimer)
+        if (startLevelTimer)
         {
             levelTimer += Time.deltaTime;
 
@@ -56,7 +56,7 @@ public class LevelManager : MonoBehaviour
     public void StartLevel()
     {
         startLevelTimer = true;
-        if(playerController==null)
+        if (playerController == null)
         {
             playerController = FindAnyObjectByType<PlayerController>();
         }
@@ -72,7 +72,7 @@ public class LevelManager : MonoBehaviour
         string timeFormat = Mathf.FloorToInt(minutes) + ":" + Mathf.FloorToInt(seconds);
         return timeFormat;
     }
-    
+
     public string GetGemsCount()
     {
         return collectedGems.ToString();
@@ -90,7 +90,7 @@ public class LevelManager : MonoBehaviour
         //    stars++;
         return TimeFormatConversion(levelTimer) + "/" + TimeFormatConversion(targetTime);
     }
-    
+
     public int GetWonStars()
     {
         return stars;
@@ -107,7 +107,7 @@ public class LevelManager : MonoBehaviour
     }
     public void PlayerInputToggle(bool value)
     {
-        if(playerController!=null)
+        if (playerController != null)
         {
             //setting to pound state while block player input 
             //playerController.playerState = !value ? State.POUND : State.IDLE;
@@ -115,8 +115,8 @@ public class LevelManager : MonoBehaviour
     }
     public void UnlockNextLevel()
     {
-        var nextLevelIndex = levelIndex+1;
-        if(!SaveLoadManager.Instance.GetLevelUnlockData(nextLevelIndex))
+        var nextLevelIndex = levelIndex + 1;
+        if (!SaveLoadManager.Instance.GetLevelUnlockData(nextLevelIndex))
         {
             SaveLoadManager.Instance.UnlockLevel(nextLevelIndex);
 
@@ -139,14 +139,29 @@ public class LevelManager : MonoBehaviour
     public void InvokeLevelCompleteAnalytics()
     {
         startLevelTimer = false;
-        //Firebase.Analytics.FirebaseAnalytics.LogEvent("GAME", "Time taken to complete Level "+(levelIndex+1).ToString(), levelTimer);
+        FirebaseAnalyticsManager.LogEvent("Time taken to complete Level", new Dictionary<string, object>
+    {
+        { "screen", "GAME" },
+        { "level", levelIndex+1},
+        { "time_taken", levelTimer }
+    });
     }
 
     public void BananaRespawn()
     {
         TriggerPlayerRespawn();
         retryCount++;
-        //Firebase.Analytics.FirebaseAnalytics.LogEvent("GAME", "No. of Retries in Level  " + (levelIndex + 1).ToString());
-        //Firebase.Analytics.FirebaseAnalytics.LogEvent("GAME", "No. of time bananas is clicked for Extra life");
+        FirebaseAnalyticsManager.LogEvent("No of Retries in Level", new Dictionary<string, object>
+    {
+        { "screen", "GAME"},
+        { "level", levelIndex+1},
+    });
+
+        FirebaseAnalyticsManager.LogEvent("No of time bananas is clicked for Extra life", new Dictionary<string, object>
+    {
+        { "screen", "GAME" },
+        { "level", levelIndex+1}
+    });
+
     }
 }

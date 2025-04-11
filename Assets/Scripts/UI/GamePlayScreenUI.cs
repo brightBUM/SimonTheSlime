@@ -251,8 +251,19 @@ public class GamePlayScreenUI : MonoBehaviour
         GameManger.Instance.TogglePauseGame(false);
         LevelManager.Instance.TriggerPlayerRespawn();
 
-        //Firebase.Analytics.FirebaseAnalytics.LogEvent("GAME", "No. of Retries in Level  " + (LevelManager.Instance.levelIndex + 1).ToString());
-        //Firebase.Analytics.FirebaseAnalytics.LogEvent("GAME", "No. of times Watch Ad is clicked for Extra life");
+
+        FirebaseAnalyticsManager.LogEvent("No. of Retries in Level", new Dictionary<string, object>
+    {
+        { "screen", "GAME" },
+        {"level", LevelManager.Instance.levelIndex+1 }
+
+    });
+
+        FirebaseAnalyticsManager.LogEvent("No of times Watch Ad is clicked for Extra life", new Dictionary<string, object>
+    {
+        { "screen", "GAME"},
+        {"level", LevelManager.Instance.levelIndex+1 }
+    });
 
         IronSourceRewardedVideoEvents.onAdClosedEvent -= RewardedVideoOnAdClosedEvent;
 
