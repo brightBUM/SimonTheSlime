@@ -18,7 +18,7 @@ public class PauseScreen : MonoBehaviour
     // Start is called before the first frame update
     private void OnEnable()
     {
-        //LoadSettings();
+        LoadSettings();
         Debug.Log("loading audio prefs");
         //holdTimeSlider.onValueChanged.AddListener(delegate { SetHoldTime(); });
         //doubleTapTimeSlider.onValueChanged.AddListener(delegate { SetDoubleTapTime(); });
@@ -95,6 +95,6 @@ public class PauseScreen : MonoBehaviour
     }
     private void OnDisable()
     {
-        //SaveSettings();
+        SaveSettings();
     }
 }

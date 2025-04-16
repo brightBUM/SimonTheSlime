@@ -139,6 +139,7 @@
     <Compile Include="Assets\Imported Packages\drop PT\DropPT.cs" />
     <Compile Include="Assets\Scripts\UI\GamePlayScreenUI.cs" />
     <Compile Include="Assets\Scripts\Manager\GameManger.cs" />
+    <Compile Include="Assets\Scripts\FirebaseAnalyticsManager.cs" />
     <Compile Include="Assets\Scripts\Elements\RedBarrel.cs" />
     <Compile Include="Assets\Scripts\Elements\DynamicWater.cs" />
     <Compile Include="Assets\Scripts\BouncyDeform.cs" />
@@ -1067,6 +1068,10 @@
       <Project>{5A1E0F0C-74C6-E71F-811C-E3FE196B5016}</Project>
       <Name>Unity.RenderPipelines.Core.ShaderLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="IngameDebugConsole.Runtime.csproj">
+      <Project>{C648DCB9-C310-3D3D-B6E2-4969C7F845F6}</Project>
+      <Name>IngameDebugConsole.Runtime</Name>
+    </ProjectReference>
     <ProjectReference Include="UnityEngine.UI.csproj">
       <Project>{113586DA-AE5D-4804-5F9C-39858F0502B9}</Project>
       <Name>UnityEngine.UI</Name>
@@ -1110,6 +1115,10 @@
     <ProjectReference Include="Unity.RenderPipelines.Core.Runtime.csproj">
       <Project>{FB379281-292A-5982-45C8-E135F1256FDF}</Project>
       <Name>Unity.RenderPipelines.Core.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="IngameDebugConsole.Editor.csproj">
+      <Project>{D665E6AD-19AB-B5D2-8284-D774E0B24ACE}</Project>
+      <Name>IngameDebugConsole.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.RenderPipelines.Universal.2D.Runtime.csproj">
       <Project>{AE190938-0EB1-0BDC-3482-2A07B9A1ECC5}</Project>

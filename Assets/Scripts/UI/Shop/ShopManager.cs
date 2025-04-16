@@ -16,14 +16,21 @@ public class ShopManager : MonoBehaviour
     public List<CharSkinBase> charSkinList;
     public List<CharSkinBase> podList;
     public static ShopManager instance;
+    public bool Init = false;
     private void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+        }
+
+        charSkinList = new List<CharSkinBase>();
+        podList = new List<CharSkinBase>();
+        Init = true;
     }
 
     private void OnEnable()
     {
-        
         UpdateCurrencyUI();
     }
     public void UpdateCurrencyUI()
@@ -81,7 +88,7 @@ public class ShopManager : MonoBehaviour
                 }
             }
         }
-
+        Debug.Log(string.Format("pod list count : {0} ,charSkin List Count : {1}", charSkinList.Count, podList.Count));
     }
     public void SelectPage(int index)
     {

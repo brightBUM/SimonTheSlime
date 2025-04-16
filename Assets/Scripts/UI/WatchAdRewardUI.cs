@@ -32,7 +32,7 @@ public class WatchAdRewardUI : MonoBehaviour
     {
         //calculate last elapsed time reward ad was opened
         var span = (DateTime.Now - SaveLoadManager.Instance.GetLastRewardedAdTime());
-        Debug.Log("calculate rewarded ad span hours :" + span.Hours);
+        //Debug.Log("calculate rewarded ad span hours :" + span.Hours);
         if (span.Days >= 1)
         {
             //trigger flashing tween

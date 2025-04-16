@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -14,9 +15,18 @@ public class CharSkinBase : MonoBehaviour
     public int skinNum;
     public bool isPod;
 
-
+   
     // Start is called before the first frame update
     private void OnEnable()
+    {
+        StartCoroutine(WaitForShopManagerInit());
+    }
+    private IEnumerator WaitForShopManagerInit()
+    {
+        yield return new WaitUntil(()=>ShopManager.instance.Init);
+        SetShopButtons();
+    }
+    private void SetShopButtons()
     {
         //check if it is unlocked/equipped from saveload
         switch (SaveLoadManager.Instance.CheckIfSkinSelectedOrUnlocked(isPod, skinNum))
@@ -32,14 +42,24 @@ public class CharSkinBase : MonoBehaviour
             case 2:
                 purchaseButton.SetActive(true);
                 break;
+            default:
+                Debug.Log("char skin base default condition");
+                break;
 
         }
     }
-
     public void EquipSkin()
     {
-        ShopManager.instance.SetEquippedSkin(this);
-        SaveLoadManager.Instance.EquipSkin(this);
+        try
+        {
+            ShopManager.instance.SetEquippedSkin(this);
+            SaveLoadManager.Instance.EquipSkin(this);
+        }
+        catch (Exception e)
+        {
+            Debug.Log(e);
+        }
+        
     }
     public void FlipSelection(bool state)
     {
