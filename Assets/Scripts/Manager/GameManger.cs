@@ -72,6 +72,10 @@ public class GameManger : MonoBehaviour
     {
         return charSkinSO.skinList[SaveLoadManager.Instance.playerProfile.equippedSkin].skinColor;
     }
+    public Color GetPodSkinColor()
+    {
+        return charSkinSO.podList[SaveLoadManager.Instance.playerProfile.equippedPod].skinColor;
+    }
     public void ReloadIntroDelayed()
     {
         DOVirtual.DelayedCall(1f, () =>

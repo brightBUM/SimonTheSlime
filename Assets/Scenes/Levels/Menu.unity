@@ -2388,7 +2388,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 127111732}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1817858297}
+        m_TargetAssemblyTypeName: PauseScreen, Assembly-CSharp
+        m_MethodName: ToggleLeftRightControls
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &127111732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7715,6 +7727,8 @@ MonoBehaviour:
   playerInput: {fileID: 0}
   toggleOnUI: {fileID: 5265155242488745697, guid: 8b42ac6eac96f5e468a9d54a0c8420ba, type: 3}
   toggleOffUI: {fileID: 2836716195319912866, guid: 110d906a6757f3341b607a67a33d4c39, type: 3}
+  leftControlButton: {fileID: 0}
+  rightControlButton: {fileID: 0}
 --- !u!114 &564259245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9154,7 +9168,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 632661898}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1817858297}
+        m_TargetAssemblyTypeName: PauseScreen, Assembly-CSharp
+        m_MethodName: ToggleLeftRightControls
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &632661898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29039,6 +29065,7 @@ MonoBehaviour:
   charSkinLoad: {fileID: 687306102}
   charSkinList: []
   podList: []
+  Init: 0
 --- !u!1 &1804799171
 GameObject:
   m_ObjectHideFlags: 0
@@ -29325,6 +29352,8 @@ MonoBehaviour:
   playerInput: {fileID: 0}
   toggleOnUI: {fileID: -2048172579208378004, guid: 7f70cc5acbcda184ba6aba74525263f6, type: 3}
   toggleOffUI: {fileID: 8142553771975662322, guid: 2a690d77eccf86f4186d90705637ea65, type: 3}
+  leftControlButton: {fileID: 127111731}
+  rightControlButton: {fileID: 632661897}
 --- !u!114 &1817858298
 MonoBehaviour:
   m_ObjectHideFlags: 0

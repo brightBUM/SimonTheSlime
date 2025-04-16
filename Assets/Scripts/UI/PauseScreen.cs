@@ -15,6 +15,8 @@ public class PauseScreen : MonoBehaviour
     [SerializeField] PlayerInput playerInput;
     [SerializeField] Sprite toggleOnUI;
     [SerializeField] Sprite toggleOffUI;
+    [SerializeField] Button leftControlButton;
+    [SerializeField] Button rightControlButton;
     // Start is called before the first frame update
     private void OnEnable()
     {
@@ -35,6 +37,8 @@ public class PauseScreen : MonoBehaviour
             //audioMixer.SetFloat("SFXVolume", Mathf.Log10(volumeValueUI[2].value) * 20f);
 
         }
+
+        SetLeftRightControls();
     }
 
     public void SetVolumeToggle(int index)
@@ -92,6 +96,18 @@ public class PauseScreen : MonoBehaviour
     public void SaveSettings()
     {
         SaveLoadManager.Instance.SaveGame();
+    }
+
+    public void ToggleLeftRightControls()
+    {
+        SaveLoadManager.Instance.ToggleLeftRightControls();
+        SetLeftRightControls();
+    }
+    private void SetLeftRightControls()
+    {
+        var leftControl = SaveLoadManager.Instance.playerProfile.leftControls;
+        leftControlButton.interactable = !leftControl;
+        rightControlButton.interactable = leftControl;
     }
     private void OnDisable()
     {

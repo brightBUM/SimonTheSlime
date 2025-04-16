@@ -227,8 +227,11 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
         SetLastRewardedAdTime(DateTime.Now);
         SaveGame();
     }
-    
-    
+
+    public void ToggleLeftRightControls()
+    {
+        playerProfile.leftControls = !playerProfile.leftControls;
+    }
 }
 [System.Serializable]
 public class PlayerProfile
@@ -245,6 +248,7 @@ public class PlayerProfile
     public List<VolumeControl> volumeControls;
     public string lastrewardedAdTime;
     public int interStitialAdCount;
+    public bool leftControls = true;
 }
 [System.Serializable]
 public class LevelStats

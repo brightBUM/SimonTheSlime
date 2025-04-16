@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
@@ -26,10 +27,12 @@ public class PlayerInput : MonoBehaviour
     public float minHoldingTime = 0.4f;
     private float holdtimer;
     private bool isSwipeDown;
+    private bool leftControl;
     // Start is called before the first frame update
     void Start()
     {
         camRef = Camera.main;
+        this.leftControl = SaveLoadManager.Instance.playerProfile.leftControls;
     }
 
     // Update is called once per frame
@@ -55,21 +58,42 @@ public class PlayerInput : MonoBehaviour
             //detect whether left or right side of the screen
             Vector2 touchPos = touch.position;
 
-            if (touchPos.x < Screen.width / 2)
+
+            if(leftControl)
             {
-                //left side
-                HandleLeftSideTouch(touch);
+                //left handed controls -  left side is aim , right side is abilities
+                if (touchPos.x < Screen.width / 2)
+                {
+                    //left side
+                    HandleAimTouch(touch);
+                }
+                else
+                {
+                    //right side
+                    HandleAbilitiesTouch(touch);
+                }
             }
             else
             {
-                //right side
-                HandleRightSideTouch(touch);
+                //right handed controls -  right side is aim ,  left side is abilities
+
+                if (touchPos.x > Screen.width / 2)
+                {
+                    //left side
+                    HandleAimTouch(touch);
+                }
+                else
+                {
+                    //right side
+                    HandleAbilitiesTouch(touch);
+                }
             }
+            
 
         }
     }
 
-    private void HandleLeftSideTouch(Touch touch)
+    private void HandleAimTouch(Touch touch)
     {
         switch (touch.phase)
         {
@@ -99,7 +123,7 @@ public class PlayerInput : MonoBehaviour
                 break;
         }
     }
-    private void HandleRightSideTouch(Touch touch)
+    private void HandleAbilitiesTouch(Touch touch)
     {
 
         switch (touch.phase)

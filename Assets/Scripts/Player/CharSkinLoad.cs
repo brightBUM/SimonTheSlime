@@ -5,6 +5,7 @@ using UnityEngine;
 public class CharSkinLoad : MonoBehaviour
 {
     SpriteRenderer spriteRenderer;
+    public bool isPod = false;
     // Start is called before the first frame update
     private void OnEnable()
     {
@@ -14,6 +15,14 @@ public class CharSkinLoad : MonoBehaviour
     public void RefreshSkin()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.material.SetColor("_replaceColor", GameManger.Instance.GetCharSkinColor());
+        if(isPod)
+        {
+            spriteRenderer.material.SetColor("_replaceColor", GameManger.Instance.GetPodSkinColor());
+
+        }
+        else
+        {
+            spriteRenderer.material.SetColor("_replaceColor", GameManger.Instance.GetCharSkinColor());
+        }
     }
 }

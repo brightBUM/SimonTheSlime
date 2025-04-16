@@ -6,6 +6,7 @@ using UnityEngine;
 public class CharSkinSO : ScriptableObject
 {
     public List<Skin> skinList = new List<Skin>();
+    public List<Skin> podList = new List<Skin>();
 }
 
 [System.Serializable]
