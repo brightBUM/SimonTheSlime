@@ -252,18 +252,18 @@ public class GamePlayScreenUI : MonoBehaviour
         LevelManager.Instance.TriggerPlayerRespawn();
 
 
-    //    FirebaseAnalyticsManager.Instance.LogEvent("No. of Retries in Level", new Dictionary<string, object>
-    //{
-    //    { "screen", "GAME" },
-    //    {"level", LevelManager.Instance.levelIndex+1 }
+        FirebaseAnalyticsManager.Instance.LogEvent("No. of Retries in Level", new Dictionary<string, object>
+    {
+        { "screen", "GAME" },
+        {"level", LevelManager.Instance.levelIndex+1 }
 
-    //});
+    });
 
-    //    FirebaseAnalyticsManager.Instance.LogEvent("No of times Watch Ad is clicked for Extra life", new Dictionary<string, object>
-    //{
-    //    { "screen", "GAME"},
-    //    {"level", LevelManager.Instance.levelIndex+1 }
-    //});
+        FirebaseAnalyticsManager.Instance.LogEvent("No of times Watch Ad is clicked for Extra life", new Dictionary<string, object>
+    {
+        { "screen", "GAME"},
+        {"level", LevelManager.Instance.levelIndex+1 }
+    });
 
         IronSourceRewardedVideoEvents.onAdClosedEvent -= RewardedVideoOnAdClosedEvent;
 

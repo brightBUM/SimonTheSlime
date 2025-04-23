@@ -36,10 +36,10 @@ public class MainMenuUI : MonoBehaviour
 
         if (index == 2)
         {
-    //    FirebaseAnalyticsManager.Instance.LogEvent("No. of clickes on Store", new Dictionary<string, object>
-    //{
-    //    { "screen", "MAIN MENU" }
-    //});
+            FirebaseAnalyticsManager.Instance.LogEvent("No. of clickes on Store", new Dictionary<string, object>
+    {
+        { "screen", "MAIN MENU" }
+    });
         }
 
 
