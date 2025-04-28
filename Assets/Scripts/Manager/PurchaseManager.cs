@@ -1,31 +1,25 @@
-using DG.Tweening;
-using System;
+﻿using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Purchasing;
-using UnityEngine.Tilemaps;
-public class PurchaseManager : MonoBehaviour, IStoreListener
+using UnityEngine.Purchasing.Extension;
+using System.Collections.Generic;
+public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
 {
     IStoreController myStoreController;
-    public ConsumableItem[] consumableItems = new ConsumableItem[4];
-    public Text gemText;
-    public TextMeshProUGUI adGemValueText;
-    int currentValue;
+    public List<ConsumableItem> bananaItems;
+    public List<ConsumableItem> melonItems;
     private void OnEnable()
     {
-        //EventManager.Instance.AddListener(GameEvent.OnCoinChange, OnCoinChange);
-        //OnCoinChange(GameEvent.OnCoinChange, this, null);
+        
     }
     void Start()
     {
         //adGemValueText.text = RemoteConfig.instance.configData.adGemValue + " gems";
 
-        AssignRemoteConfigValues();
         SetupBuilder();
-
-        //Firebase.Analytics.FirebaseAnalytics.LogEvent("OnWin", "Level", Profile.Instance.Level);
-
+        AssignRemoteConfigValues();
     }
 
     private void AssignRemoteConfigValues()
@@ -41,21 +35,40 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
     }
     private void UpdateUI()
     {
-        foreach (var item in consumableItems)
+        foreach (var item in bananaItems)
         {
-            item.mainGemText.text = item.mainGem.ToString() + " gems";
-            item.extraGemText.text = "+Extra " + item.extraGem.ToString();
-            item.priceText.text = "$" + item.price.ToString();
+            var product = myStoreController.products.WithID(item.id);
+            var localizedPrice = product.metadata.localizedPriceString;
+            Debug.Log("localized prize : "+localizedPrice);
+
+            item.valueText.text = item.value.ToString() + " Nanas";
+            item.priceText.text = localizedPrice;
+        }
+
+        foreach (var item in melonItems)
+        {
+            var product = myStoreController.products.WithID(item.id);
+            var localizedPrice = product.metadata.localizedPriceString;
+            Debug.Log("localized prize : " + localizedPrice);
+
+            item.valueText.text = item.value.ToString() + " Gems";
+            item.priceText.text = localizedPrice;
         }
     }
+    
     private void SetupBuilder()
     {
         var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
-        foreach (var item in consumableItems)
+        foreach (var item in bananaItems)
+        {
+            builder.AddProduct(item.id, ProductType.Consumable);
+        }
+        foreach (var item in melonItems)
         {
             builder.AddProduct(item.id, ProductType.Consumable);
         }
         UnityPurchasing.Initialize(this, builder);
+        
     }
     public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
     {
@@ -67,62 +80,73 @@ public class PurchaseManager : MonoBehaviour, IStoreListener
         var product = purchaseEvent.purchasedProduct;
         Debug.Log("Processing Purchase -" + product.definition.id);
 
-        foreach (var item in consumableItems)
+        foreach (var item in bananaItems)
         {
             if (product.definition.id == item.id)
             {
-                //currentValue = Profile.Instance.Coins;
-                //Profile.Instance.Coins += (item.mainGem + item.extraGem);
-                //OnCoinChange(GameEvent.OnCoinChange, this, Profile.Instance.Coins);
+                Debug.Log("nanas before : " + SaveLoadManager.Instance.playerProfile.nanas);
+                SaveLoadManager.Instance.playerProfile.nanas += item.value;
+                Debug.Log("nanas after : " + SaveLoadManager.Instance.playerProfile.nanas);
             }
         }
 
+        foreach(var item in melonItems)
+        {
+            if (product.definition.id == item.id)
+            {
+                Debug.Log("melons before : " + SaveLoadManager.Instance.playerProfile.melons);
+                SaveLoadManager.Instance.playerProfile.melons += item.value;
+                Debug.Log("melons after : " + SaveLoadManager.Instance.playerProfile.melons);
+            }
+        }
+
+        ShopManager.instance.UpdateCurrencyUI();
+
         return PurchaseProcessingResult.Complete;
     }
-    public void GemBuyButtonPress(int index)
+    public void PurchaseBananasButton(int index)
     {
-        myStoreController.InitiatePurchase(consumableItems[index].id);
+        myStoreController.InitiatePurchase(bananaItems[index].id);
     }
-
+    public void PurchaseGemsButton(int index)
+    {
+        myStoreController.InitiatePurchase(melonItems[index].id);
+    }
     public void OnInitializeFailed(InitializationFailureReason error)
     {
-        Debug.Log("Initialize failed ");
+        OnInitializeFailed(error, null);
     }
 
     public void OnInitializeFailed(InitializationFailureReason error, string message)
     {
-        Debug.Log("Initialize failed ");
-    }
+        var errorMessage = $"Purchasing failed to initialize. Reason: {error}.";
 
+        if (message != null)
+        {
+            errorMessage += $" More details: {message}";
+        }
+
+        Debug.Log(errorMessage);
+    }
     public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
     {
-        Debug.Log("Purchase failed ");
-
+        Debug.Log($"Purchase failed - Product: '{product.definition.id}', PurchaseFailureReason: {failureReason}");
     }
 
-    
-    //private void OnCoinChange(GameEvent Event_Type, Component Sender, object Param)
-    //{
-    //    if (Param != null)
-    //    {
-    //        var endValue = currentValue + ((int)Param - currentValue);
-    //        gemText.text = Profile.Instance.Coins.ToString();
-    //        DOTween.To(() => currentValue, x => currentValue = x, endValue, 2f).OnUpdate(() =>
-    //        {
-    //            gemText.text = currentValue.ToString("F0");
-    //        });
-    //    }
-    //    else
-    //    {
-    //        gemText.text = Profile.Instance.Coins.ToString();
-    //    }
-    //}
+    public void OnPurchaseFailed(Product product, PurchaseFailureDescription failureDescription)
+    {
+        Debug.Log($"Purchase failed - Product: '{product.definition.id}'," +
+            $" Purchase failure reason: {failureDescription.reason}," +
+            $" Purchase failure details: {failureDescription.message}");
+    }
 
-   
+
     private void OnDisable()
     {
         //EventManager.Instance?.RemoveEvent(GameEvent.OnCoinChange, OnCoinChange);
     }
+
+    
 }
 [Serializable]
 public class ConsumableItem
@@ -131,10 +155,8 @@ public class ConsumableItem
     public string name;
     public string description;
     public float price;
-    public int mainGem;
-    public int extraGem;
+    public int value;
     [Header("UI references")]
-    public TextMeshProUGUI mainGemText;
-    public TextMeshProUGUI extraGemText;
-    public TextMeshProUGUI priceText;
+    public TextMeshProUGUI valueText;
+    public Text priceText;
 }

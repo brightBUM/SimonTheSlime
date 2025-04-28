@@ -18,6 +18,7 @@ public class FirebaseAnalyticsManager : Singleton<FirebaseAnalyticsManager>
             {
                 firebaseApp = FirebaseApp.DefaultInstance;
                 Debug.Log("Firebase Analytics Initialized");
+                LogEvent(FirebaseAnalytics.EventLevelStart);
             }
             else
             {
