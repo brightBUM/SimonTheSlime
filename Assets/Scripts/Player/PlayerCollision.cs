@@ -231,14 +231,14 @@ public class PlayerCollision : MonoBehaviour
     private void OnCollisionStay2D(Collision2D collision)
     {
         //Debug.Log(collision.gameObject.name);
-        if (playerController.playerState == State.LAUNCHED)
+        if (playerController.playerState == State.LAUNCHED || playerController.playerState == State.POUND)
         {
             //
             if (stayTimer >= stayTimerMax)
             {
                 //reset to idle state
                 stayTimer = 0;
-                playerController.SetToIdle();
+                playerController.ResetPound();
             }
             else
             {
