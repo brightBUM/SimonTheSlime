@@ -67,14 +67,21 @@ public class IronSourceAdManager : Singleton<IronSourceAdManager>
     #region BannerAds
     public void LoadBannerAd()
     {
+
+#if UNITY_ANDROID && !UNITY_EDITOR
         bannerAd.LoadAd();
+#endif
         
     }
     public void HideBannerAd()
     {
+
+#if UNITY_ANDROID && !UNITY_EDITOR
         bannerAd.HideAd();
+#endif
+
     }
-    #endregion
+#endregion
 
     #region InterstitialAds
     public void LoadInterstitialAd()
