@@ -12,7 +12,7 @@ namespace CutScene
         public Ease easeType;
         //public AudioClip clip;
         public TweenType tweenType;
-
+        [HideInInspector] public Vector3 startScale;
         private void Start()
         {
             //duration = 0.5f;
@@ -20,7 +20,7 @@ namespace CutScene
             //if (endValue == Vector3.zero)
             //    endValue = Vector3.one;
             //set audioclip from soundManager;
-
+            startScale = transform.localScale;
         }
     }
 }

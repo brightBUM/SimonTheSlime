@@ -133,6 +133,7 @@ namespace CutScene
             switch (tweenObject.tweenType)
             {
                 case TweenType.MOVING:
+                    tweenObject.transform.localScale = Vector3.one;
                     var tween = tweenObject.transform.DOLocalMove(tweenObject.endValue, tweenObject.duration).SetEase(tweenObject.easeType);
                     cutSceneAudio.PlayPopSounds();
                     yield return tween.WaitForCompletion();
