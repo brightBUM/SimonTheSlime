@@ -15,10 +15,18 @@ public class CutSceneAudio : MonoBehaviour
         audioSource.clip = swooshClip;
         audioSource.Play();
     }
-    public void PlayPopSounds()
+    public void PlayTweenObjectSounds(AudioClip clip)
     {
-        audioSource.clip = popSounds[Random.Range(0, popSounds.Length)];
+        if(clip == null)
+        {
+            audioSource.clip = popSounds[Random.Range(0, popSounds.Length)];
+        }
+        else
+        {
+            audioSource.clip = clip;
+        }
         audioSource.Play();
+        
     }
 
     public void PlayClip(AudioClip audioClip)

@@ -100,8 +100,10 @@ namespace CutScene
                     var tween = camTransform.DOMove(newPos, sceneTransDuration).SetEase(sceneTrans);
                     yield return tween.WaitForCompletion();
 
-                    if (scenes[i].nextSceneSound != null)
-                        cutSceneAudio.PlayClip(scenes[i].nextSceneSound);
+                    //if (scenes[i].nextSceneSound != null)
+                    //{
+                    //    cutSceneAudio.PlayClip(scenes[i].nextSceneSound);
+                    //}
                 }
 
             }
@@ -135,14 +137,22 @@ namespace CutScene
                 case TweenType.MOVING:
                     tweenObject.transform.localScale = Vector3.one;
                     var tween = tweenObject.transform.DOLocalMove(tweenObject.endValue, tweenObject.duration).SetEase(tweenObject.easeType);
-                    cutSceneAudio.PlayPopSounds();
+                    cutSceneAudio.PlayTweenObjectSounds(tweenObject.clip);
                     yield return tween.WaitForCompletion();
                     currentTween++;
                     break;
+
                 case TweenType.SCALING:
                     var tween2 = tweenObject.transform.DOScale(tweenObject.endValue,tweenObject.duration).SetEase(tweenObject.easeType);
-                    cutSceneAudio.PlayPopSounds();
+                    cutSceneAudio.PlayTweenObjectSounds(tweenObject.clip);
                     yield return tween2.WaitForCompletion();
+                    currentTween++;
+                    break;
+
+                case TweenType.ROTATING:
+                    var tween3 = tweenObject.transform.DORotate(new Vector3(0, 0, 225), tweenObject.duration).SetEase(tweenObject.easeType);
+                    cutSceneAudio.PlayTweenObjectSounds(tweenObject.clip);
+                    yield return tween3.WaitForCompletion();
                     currentTween++;
                     break;
 
@@ -173,5 +183,6 @@ namespace CutScene
     {
         MOVING,
         SCALING,
+        ROTATING
     }
 }

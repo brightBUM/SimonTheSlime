@@ -12,6 +12,7 @@ namespace CutScene
         public Ease easeType;
         //public AudioClip clip;
         public TweenType tweenType;
+        public AudioClip clip;
         [HideInInspector] public Vector3 startScale;
         private void Start()
         {
