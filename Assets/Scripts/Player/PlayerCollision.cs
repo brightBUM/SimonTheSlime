@@ -29,7 +29,7 @@ public class PlayerCollision : MonoBehaviour
     //int stickSide = 0;
     float stickTimer = 0f;
     float stayTimer = 0;
-    float stayTimerMax = 0.5f;
+    float stayTimerMax = 0.45f;
     ParticleSystem goreFx;
     Vector2 aimDir;
     float debugDistance;

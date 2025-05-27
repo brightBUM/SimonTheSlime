@@ -60,8 +60,6 @@ public class PlayerInput : MonoBehaviour
 
 
             HandleAimTouch(touch);
-
-
         }
     }
 

@@ -70,10 +70,19 @@ public class GameManger : MonoBehaviour
     }
     public Color GetCharSkinColor()
     {
+        if(SaveLoadManager.Instance.playerProfile.equippedSkin==0)
+        {
+            return Color.black;
+        }
+
         return charSkinSO.skinList[SaveLoadManager.Instance.playerProfile.equippedSkin].skinColor;
     }
     public Color GetPodSkinColor()
     {
+        if (SaveLoadManager.Instance.playerProfile.equippedPod == 0)
+        {
+            return Color.black;
+        }
         return charSkinSO.podList[SaveLoadManager.Instance.playerProfile.equippedPod].skinColor;
     }
     public void ReloadIntroDelayed()
