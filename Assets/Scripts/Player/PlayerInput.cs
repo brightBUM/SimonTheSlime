@@ -27,12 +27,12 @@ public class PlayerInput : MonoBehaviour
     public float minHoldingTime = 0.4f;
     private float holdtimer;
     private bool isSwipeDown;
-    private bool leftControl;
+    //private bool leftControl;
     // Start is called before the first frame update
     void Start()
     {
         camRef = Camera.main;
-        this.leftControl = SaveLoadManager.Instance.playerProfile.leftControls;
+        //this.leftControl = SaveLoadManager.Instance.playerProfile.leftControls;
     }
 
     // Update is called once per frame
@@ -59,36 +59,8 @@ public class PlayerInput : MonoBehaviour
             Vector2 touchPos = touch.position;
 
 
-            if(leftControl)
-            {
-                //left handed controls -  left side is aim , right side is abilities
-                if (touchPos.x < Screen.width / 2)
-                {
-                    //left side
-                    HandleAimTouch(touch);
-                }
-                else
-                {
-                    //right side
-                    HandleAbilitiesTouch(touch);
-                }
-            }
-            else
-            {
-                //right handed controls -  right side is aim ,  left side is abilities
+            HandleAimTouch(touch);
 
-                if (touchPos.x > Screen.width / 2)
-                {
-                    //left side
-                    HandleAimTouch(touch);
-                }
-                else
-                {
-                    //right side
-                    HandleAbilitiesTouch(touch);
-                }
-            }
-            
 
         }
     }

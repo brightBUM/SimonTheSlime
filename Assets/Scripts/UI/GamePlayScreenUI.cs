@@ -20,6 +20,8 @@ public class GamePlayScreenUI : MonoBehaviour
     [SerializeField] Image timerFillUI;
     [SerializeField] Transform greenWheelUI;
     [SerializeField] GameObject aimReticleObject;
+    [SerializeField] Button dashButton;
+    [SerializeField] Button grappleButton;
     [SerializeField] Color timeOverColor;
     [SerializeField] float duration = 0.5f;
 
@@ -47,7 +49,8 @@ public class GamePlayScreenUI : MonoBehaviour
     Color defaultColor;
     public static GamePlayScreenUI Instance;
     public Action<float> UpdateMidAirJumpUI;
-    public Action slamButtonAction;
+    public Action poundAbilityAction;
+    public Action poundReleaseAction;
     public Action dashButtonAction;
     public Action grappleButtonAction;
     private TweenerCore<float, float, FloatOptions> tween;
@@ -57,6 +60,10 @@ public class GamePlayScreenUI : MonoBehaviour
         UpdateMidAirJumpUI += UpdateDashAbilityUI;
         bananaRespawnButton.onClick.AddListener(RespawnViaBananas);
         ScaleTexts();
+
+        dashButton.onClick.AddListener(DashViaButton);
+        grappleButton.onClick.AddListener(GrappleViaButton);
+        
     }
     private void Awake()
     {
@@ -427,10 +434,7 @@ public class GamePlayScreenUI : MonoBehaviour
         SceneLoader.Instance.QuitGame();
     }
 
-    public void SlamViaButton()
-    {
-        slamButtonAction.Invoke();
-    }
+    
     public void DashViaButton()
     {
         dashButtonAction.Invoke();    
@@ -442,7 +446,9 @@ public class GamePlayScreenUI : MonoBehaviour
     private void OnDisable()
     {
         UpdateMidAirJumpUI -= UpdateDashAbilityUI;
-        bananaRespawnButton.onClick.AddListener(RespawnViaBananas);
 
+        bananaRespawnButton.onClick.RemoveListener(RespawnViaBananas);
+        dashButton.onClick.RemoveListener(DashViaButton);
+        grappleButton.onClick.RemoveListener(GrappleViaButton);
     }
 }

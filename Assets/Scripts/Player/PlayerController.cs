@@ -105,7 +105,8 @@ public class PlayerController : MonoBehaviour
         ContinuePound += ContinuePounding;
 
 #if UNITY_ANDROID
-        GamePlayScreenUI.Instance.slamButtonAction += RightClicked;
+        GamePlayScreenUI.Instance.poundAbilityAction += RightClicked;
+        GamePlayScreenUI.Instance.poundReleaseAction += RightClickReleased;
         GamePlayScreenUI.Instance.dashButtonAction += ActivateDashTime;
         GamePlayScreenUI.Instance.grappleButtonAction += ActivateGrapple;
 #endif
@@ -754,7 +755,8 @@ public class PlayerController : MonoBehaviour
         ContinuePound -= ContinuePounding;
 
 #if UNITY_ANDROID
-        GamePlayScreenUI.Instance.slamButtonAction    -= RightClicked;
+        GamePlayScreenUI.Instance.poundAbilityAction += RightClicked;
+        GamePlayScreenUI.Instance.poundReleaseAction += RightClickReleased;
         GamePlayScreenUI.Instance.dashButtonAction    -= ActivateDashTime;
         GamePlayScreenUI.Instance.grappleButtonAction -= ActivateGrapple;
 #endif

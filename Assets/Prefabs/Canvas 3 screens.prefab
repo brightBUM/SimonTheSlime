@@ -1379,7 +1379,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -43.86328, y: -19.450012}
+  m_AnchoredPosition: {x: -43.86328, y: -19.450073}
   m_SizeDelta: {x: 252.54, y: 89.25}
   m_Pivot: {x: 1, y: 1}
 --- !u!1 &1375133201749357785
@@ -1865,13 +1865,14 @@ GameObject:
   - component: {fileID: 3811967034421031413}
   - component: {fileID: 1483334962676052116}
   - component: {fileID: 2288682531672893238}
+  - component: {fileID: 7285085503287354994}
   m_Layer: 5
   m_Name: slam Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &749039056447699462
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1975,19 +1976,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1483334962676052116}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5269167023310143798}
-        m_TargetAssemblyTypeName: GamePlayScreenUI, Assembly-CSharp
-        m_MethodName: SlamViaButton
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+--- !u!114 &7285085503287354994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711412536661684737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9008b646a0860547a085342218e2d85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1740849700618633797
 GameObject:
   m_ObjectHideFlags: 0
@@ -2085,7 +2086,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &902687174548928721
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6727,6 +6728,8 @@ MonoBehaviour:
   timerFillUI: {fileID: 0}
   greenWheelUI: {fileID: 0}
   aimReticleObject: {fileID: 0}
+  dashButton: {fileID: 2683090989153642501}
+  grappleButton: {fileID: 5399897833948032087}
   timeOverColor: {r: 0.87058824, g: 0.40784314, b: 0.40784314, a: 1}
   duration: 1
   scoreboardTitleUI: {fileID: 7321689654733732491}
@@ -9205,7 +9208,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3875171230385154380
 RectTransform:
   m_ObjectHideFlags: 0
