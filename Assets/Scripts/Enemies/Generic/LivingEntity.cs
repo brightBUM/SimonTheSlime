@@ -30,38 +30,45 @@ namespace magar
         {
             InitHealth();
         }
-
+        protected virtual void OnEnable() { }
         public virtual void TakeDamage(DamageInfo info)
         {
             if (info.amount > 0)
             {
-                Health -= info.amount;
-                if (Health <= 0f)
+                health -= info.amount;
+                if (health <= 0f)
                 {
                     DieEvent?.Invoke(info);
                     Die();
                 }
-                else if (Health > 0)
+                else if (health > 0)
                 {
                     HealthChangedEvent?.Invoke(info);
                 }
             }
         }
 
-        [ContextMenu("Self Destruc")]
+        [ContextMenu("Self Destruct")]
         public void SelfDestruct()
         {
-            Die();
+            TakeDamage(new DamageInfo(startingHealth+1, Vector3.zero));
         }
 
+        [ContextMenu("Self Damage")]
+        public void SelfDamage()
+        {
+            TakeDamage(new DamageInfo(.1f, Vector3.zero));
+        }
         public void InitHealth()
         {
-            Health = health;
+            Health = startingHealth;
+            health = startingHealth;
         }
 
         public void Die()
         {
             Destroy(gameObject);
         }
+        protected virtual void OnDisable() { }
     }
 }

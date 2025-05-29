@@ -44,6 +44,7 @@ namespace Magar
         {
             base.OnDeath(info);
             if (DeathSound.Count <=0) return;
+            AudioSource.PlayClipAtPoint(DeathSound[0], transform.position);
             //PlaySoundInstance(DeathSound);
             //AudioManager.PlayRandomSoundEffect(DeathSound.ToArray(),transform);
         }
