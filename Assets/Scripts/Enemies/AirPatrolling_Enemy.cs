@@ -14,13 +14,17 @@ namespace magar
         [Header("Detection Settings")]
         public float detectionRadius = 5f;
         public LayerMask targetLayer;
+        public LayerMask obstacleLayer; // Layers that block vision
 
         [Header("Combat Settings")]
         public float chaseDelay = 0.3f;
-
+        public float shootInterval = 1f;
+        private float lastShootTime = 0f;
+        public GameObject projectilePrefab;
         // Events
         public event Action OnPatrolPointReachedEvent;
         public event Action OnPlayerFoundEvent;
+        public event Action OnShootProjectileEvent;
 
         private Vector2[] patrolPoints; // Actual positions used for movement
         private Rigidbody2D rb;
@@ -31,6 +35,7 @@ namespace magar
         private bool isInChaseDelay = false;
         private float chaseDelayTimer = 0f;
         private bool isAlert = false;
+        private Transform currentTarget; // Store the detected target
 
         protected override void Start()
         {
@@ -68,7 +73,7 @@ namespace magar
 
         private void FixedUpdate()
         {
-            if (hasDetectedTarget)
+            if (hasDetectedTarget && currentTarget != null)
             {
                 if (isInChaseDelay)
                 {
@@ -81,8 +86,25 @@ namespace magar
                     return;
                 }
 
-                // Stop moving when target detected
-                rb.velocity = Vector2.zero;
+                // Check if target is still visible
+                if (IsTargetVisible(currentTarget))
+                {
+                    // Stop moving when target detected and visible
+                    rb.velocity = Vector2.zero;
+
+                    // Handle shooting
+                    if (Time.time > lastShootTime + shootInterval)
+                    {
+                        ShootProjectile();
+                        lastShootTime = Time.time;
+                    }
+                }
+                else
+                {
+                    // Target not visible, resume patrol
+                    hasDetectedTarget = false;
+                    isAlert = false;
+                }
                 return;
             }
 
@@ -115,25 +137,51 @@ namespace magar
 
             if (hit != null)
             {
-                if (!hasDetectedTarget)
+                // Check if target is visible with raycast
+                if (IsTargetVisible(hit.transform))
                 {
-                    isInChaseDelay = true;
-                    chaseDelayTimer = 0f;
-
-                    if (!isAlert)
+                    if (!hasDetectedTarget)
                     {
-                        isAlert = true;
-                        OnPlayerFoundEvent?.Invoke();
+                        isInChaseDelay = true;
+                        chaseDelayTimer = 0f;
+                        currentTarget = hit.transform;
+
+                        if (!isAlert)
+                        {
+                            isAlert = true;
+                            OnPlayerFoundEvent?.Invoke();
+                        }
                     }
+                    hasDetectedTarget = true;
+                    return;
                 }
-                hasDetectedTarget = true;
             }
-            else
+
+            // No valid target found
+            hasDetectedTarget = false;
+            isInChaseDelay = false;
+            isAlert = false;
+            currentTarget = null;
+        }
+
+        private bool IsTargetVisible(Transform target)
+        {
+            Vector2 direction = target.position - transform.position;
+            RaycastHit2D hit = Physics2D.Raycast(
+                transform.position,
+                direction,
+                detectionRadius,
+                obstacleLayer | targetLayer);
+
+            // If we hit something and it's our target, then it's visible
+            if (hit.collider != null && hit.transform == target)
             {
-                hasDetectedTarget = false;
-                isInChaseDelay = false;
-                isAlert = false;
+                Debug.DrawRay(transform.position, direction, Color.green, 0.1f);
+                return true;
             }
+
+            Debug.DrawRay(transform.position, direction, Color.red, 0.1f);
+            return false;
         }
 
         private void Patrol()
@@ -167,6 +215,26 @@ namespace magar
             currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
         }
 
+        private void ShootProjectile()
+        {
+            if (currentTarget == null || projectilePrefab == null) return;
+
+            // Calculate direction to target
+            Vector2 shootDirection = (currentTarget.position - transform.position).normalized;
+
+            // Instantiate projectile
+            GameObject projectile = Instantiate(projectilePrefab, transform.position+((Vector3)shootDirection.normalized*2f), Quaternion.identity);
+
+            // Initialize projectile
+            Projectile projectileScript = projectile.GetComponent<Projectile>();
+            if (projectileScript != null)
+            {
+                projectileScript.Init(shootDirection);
+            }
+            Debug.DrawLine(transform.position, currentTarget.position, Color.magenta, 0.5f);
+            OnShootProjectileEvent?.Invoke();
+        }
+
         private void OnDrawGizmosSelected()
         {
             // Draw detection radius
@@ -174,20 +242,14 @@ namespace magar
             Gizmos.DrawWireSphere(transform.position, detectionRadius);
 
             // Draw patrol path
-            if (patrolTransforms != null && patrolTransforms.Length > 0)
+            if (patrolPoints != null && patrolPoints.Length > 0)
             {
                 Gizmos.color = Color.cyan;
-                for (int i = 0; i < patrolTransforms.Length; i++)
+                for (int i = 0; i < patrolPoints.Length; i++)
                 {
-                    if (patrolTransforms[i] != null)
-                    {
-                        Gizmos.DrawSphere(patrolTransforms[i].position, 0.2f);
-                        int nextIndex = (i + 1) % patrolTransforms.Length;
-                        if (patrolTransforms[nextIndex] != null)
-                        {
-                            Gizmos.DrawLine(patrolTransforms[i].position, patrolTransforms[nextIndex].position);
-                        }
-                    }
+                    Gizmos.DrawSphere(patrolPoints[i], 0.2f);
+                    int nextIndex = (i + 1) % patrolPoints.Length;
+                    Gizmos.DrawLine(patrolPoints[i], patrolPoints[nextIndex]);
                 }
             }
         }
