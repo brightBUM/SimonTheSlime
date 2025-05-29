@@ -5,7 +5,6 @@ using UnityEngine.Tilemaps;
 
 public class LevelManager : MonoBehaviour
 {
-    [SerializeField] AudioClip levelMusic;
     [SerializeField] CameraShake camShake;
     [SerializeField] LevelStart levelStart;
     [SerializeField] Transform collectiblesParent;
