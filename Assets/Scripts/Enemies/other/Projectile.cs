@@ -7,6 +7,7 @@ public class Projectile : MonoBehaviour
     public float speed = 5f;
     public int damage = 1;
     public float lifeTime = 3f;
+    public ParticleSystem explosionEffect;
 
     private Vector2 direction;
     private Rigidbody2D rb;
@@ -49,6 +50,8 @@ public class Projectile : MonoBehaviour
                 Vector2 hitDirection = (collision.transform.position - transform.position).normalized;
                 livingEntity.TakeDamage(new DamageInfo(damage, hitDirection));
             }
+            Instantiate(explosionEffect,transform.position,Quaternion.identity);
+
             Destroy(gameObject);
         
     }

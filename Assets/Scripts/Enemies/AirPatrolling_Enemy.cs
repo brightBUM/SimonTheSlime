@@ -21,6 +21,7 @@ namespace magar
         public float shootInterval = 1f;
         private float lastShootTime = 0f;
         public GameObject projectilePrefab;
+        public ParticleSystem shootEffect;
         // Events
         public event Action OnPatrolPointReachedEvent;
         public event Action OnPlayerFoundEvent;
@@ -231,6 +232,8 @@ namespace magar
             {
                 projectileScript.Init(shootDirection);
             }
+            shootEffect.transform.forward = shootDirection;
+            shootEffect.Play();
             Debug.DrawLine(transform.position, currentTarget.position, Color.magenta, 0.5f);
             OnShootProjectileEvent?.Invoke();
         }
