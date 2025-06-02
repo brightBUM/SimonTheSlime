@@ -1,5 +1,8 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 namespace magar
 {
@@ -12,7 +15,10 @@ namespace magar
         public bool shouldWait = true;
 
         [Header("Detection Settings")]
+        public Transform detectionOrigin; // Transform whose up direction defines forward
         public float detectionRadius = 5f;
+        public float searchAngle = 90f; // Total detection angle (split equally left/right)
+        public float safeZoneAngle = 30f; // Angle where enemies are ignored
         public LayerMask targetLayer;
         public LayerMask obstacleLayer; // Layers that block vision
 
@@ -42,7 +48,10 @@ namespace magar
         {
             base.Start();
             rb = GetComponent<Rigidbody2D>();
-
+            if (detectionOrigin == null)
+            {
+                detectionOrigin = transform;
+            }
             // Initialize patrol points from transforms
             if (patrolTransforms != null && patrolTransforms.Length > 0)
             {
@@ -131,30 +140,46 @@ namespace magar
 
         private void CheckForTarget()
         {
-            Collider2D hit = Physics2D.OverlapCircle(
+            Collider2D[] hits = Physics2D.OverlapCircleAll(
                 transform.position,
                 detectionRadius,
                 targetLayer);
 
-            if (hit != null)
+            foreach (Collider2D hit in hits)
             {
-                // Check if target is visible with raycast
-                if (IsTargetVisible(hit.transform))
+                if (hit != null)
                 {
-                    if (!hasDetectedTarget)
-                    {
-                        isInChaseDelay = true;
-                        chaseDelayTimer = 0f;
-                        currentTarget = hit.transform;
+                    Vector2 directionToTarget = hit.transform.position - transform.position;
+                    float angleToTarget = Vector2.Angle(detectionOrigin.up, directionToTarget);
 
-                        if (!isAlert)
+                    // Check if target is in safe zone (ignore if true)
+                    if (angleToTarget <= safeZoneAngle / 2f)
+                    {
+                        continue;
+                    }
+
+                    // Check if target is within search angle
+                    if (angleToTarget <= searchAngle / 2f)
+                    {
+                        // Check line of sight
+                        if (IsTargetVisible(hit.transform))
                         {
-                            isAlert = true;
-                            OnPlayerFoundEvent?.Invoke();
+                            if (!hasDetectedTarget)
+                            {
+                                isInChaseDelay = true;
+                                chaseDelayTimer = 0f;
+                                currentTarget = hit.transform;
+
+                                if (!isAlert)
+                                {
+                                    isAlert = true;
+                                    OnPlayerFoundEvent?.Invoke();
+                                }
+                            }
+                            hasDetectedTarget = true;
+                            return;
                         }
                     }
-                    hasDetectedTarget = true;
-                    return;
                 }
             }
 
@@ -174,7 +199,9 @@ namespace magar
                 detectionRadius,
                 obstacleLayer | targetLayer);
 
-            // If we hit something and it's our target, then it's visible
+            // Visualize detection angle
+            //DrawDetectionGizmo();
+
             if (hit.collider != null && hit.transform == target)
             {
                 Debug.DrawRay(transform.position, direction, Color.green, 0.1f);
@@ -184,7 +211,28 @@ namespace magar
             Debug.DrawRay(transform.position, direction, Color.red, 0.1f);
             return false;
         }
+        private void DrawDetectionGizmo()
+        {
+            // Draw search angle
+            float halfSearchAngle = searchAngle / 2f;
+            float halfSafeAngle = safeZoneAngle / 2f;
+            Vector2 originPos = detectionOrigin.position;
+            Vector2 forward = detectionOrigin.up;
 
+            // Draw search zone (yellow)
+            Gizmos.color = new Color(1, 1, 0, 0.3f);
+            Vector2 searchLeft = Quaternion.Euler(0, 0, halfSearchAngle) * forward;
+            Vector2 searchRight = Quaternion.Euler(0, 0, -halfSearchAngle) * forward;
+            Gizmos.DrawLine(originPos, originPos + searchLeft * detectionRadius);
+            Gizmos.DrawLine(originPos, originPos + searchRight * detectionRadius);
+
+            // Draw safe zone (green)
+            Gizmos.color = new Color(0, 1, 0, 0.2f);
+            Vector2 safeLeft = Quaternion.Euler(0, 0, halfSafeAngle) * forward;
+            Vector2 safeRight = Quaternion.Euler(0, 0, -halfSafeAngle) * forward;
+            Gizmos.DrawLine(originPos, originPos + safeLeft * detectionRadius);
+            Gizmos.DrawLine(originPos, originPos + safeRight * detectionRadius);
+        }
         private void Patrol()
         {
             Vector2 targetPosition = patrolPoints[currentPatrolIndex];
@@ -255,6 +303,26 @@ namespace magar
                     Gizmos.DrawLine(patrolPoints[i], patrolPoints[nextIndex]);
                 }
             }
+
+            Gizmos.color = Color.red;
+            Vector3 origin = detectionOrigin.position;
+            Vector3 upDirection = detectionOrigin.up;
+
+            Vector3 leftDir = Quaternion.AngleAxis(-searchAngle * 0.5f, transform.forward) * upDirection;
+            Vector3 rightDir = Quaternion.AngleAxis(searchAngle * 0.5f, transform.forward) * upDirection;
+
+            //Gizmos.DrawLine(origin, origin + upDirection * detectionRadius);
+            Gizmos.DrawLine(origin, origin + leftDir * detectionRadius);
+            Gizmos.DrawLine(origin, origin + rightDir * detectionRadius);
+
+            Gizmos.color = Color.green;
+            Vector3 _leftDir = Quaternion.AngleAxis(-safeZoneAngle * 0.5f, transform.forward) * upDirection;
+            Vector3 _rightDir = Quaternion.AngleAxis(safeZoneAngle * 0.5f, transform.forward) * upDirection;
+
+            //Gizmos.DrawLine(origin, origin + upDirection * detectionRadius);
+            Gizmos.DrawLine(origin, origin + _leftDir * detectionRadius);
+            Gizmos.DrawLine(origin, origin + _rightDir * detectionRadius);
+
         }
     }
 }
