@@ -33,7 +33,7 @@ public class WaterSetup : MonoBehaviour
         
         dynamicWater2Df.transform.position = new Vector3(offsetPos.x, offsetPos.y, 0f);
         
-        dynamicWater2Df.SetBounds(boxCollider.size);
+        //dynamicWater2Df.SetBounds(boxCollider.size);
         
         boxCollider.enabled = false;
     }

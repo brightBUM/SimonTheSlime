@@ -19,48 +19,58 @@ public class DynamicWater2Df : MonoBehaviour
     Mesh mesh;
     float[] velocities, accelerations;
     float timer;
-
-    public void SetBounds(Vector2 bounds)
+    private float restingWaterHeight;
+    private void Start()
     {
-        this.bound = bounds;
+        restingWaterHeight = bound.y / 2f; // Top edge of centered mesh
         InitializePhysics();
         GenerateMesh();
         SetBosCollider2D();
     }
-    private void Start()
-    {
-        
-    }
 
     void GenerateMesh()
     {
+        float halfWidth = bound.x / 2f;
+        float halfHeight = bound.y / 2f;
         float range = bound.x / (resolution - 1);
+        float xOffset = -halfWidth;
+
         vertices = new Vector3[resolution * 2];
 
-        for(int i = 0; i < resolution; i++)
+        // Top row (wave surface)
+        for (int i = 0; i < resolution; i++)
         {
-            vertices[i] = new Vector3(bound.x + (i * range), bound.y, 0f);
+            float x = xOffset + i * range;
+            vertices[i] = new Vector3(x, halfHeight, 0f);
         }
 
-        for(int i = 0; i < resolution; i++)
+        // Bottom row
+        for (int i = 0; i < resolution; i++)
         {
-            vertices[i + resolution] = new Vector2(bound.x + (i * range), 0f);
+            float x = xOffset + i * range;
+            vertices[i + resolution] = new Vector3(x, -halfHeight, 0f);
         }
 
-        int[] template = new int[6];
-        template[0] = resolution;
-        template[1] = 0;
-        template[2] = resolution + 1;
-        template[3] = 0;
-        template[4] = 1;
-        template[5] = resolution + 1;
-
-        int marker = 0;
+        // Triangle construction
         int[] tris = new int[((resolution - 1) * 2) * 3];
-        for (int i = 0; i < tris.Length; i++)
+        int t = 0;
+
+        for (int i = 0; i < resolution - 1; i++)
         {
-            tris[i] = template[marker++]++;
-            if (marker >= 6) marker = 0;
+            int topLeft = i;
+            int bottomLeft = i + resolution;
+            int topRight = i + 1;
+            int bottomRight = i + resolution + 1;
+
+            // First triangle
+            tris[t++] = topLeft;
+            tris[t++] = bottomLeft;
+            tris[t++] = bottomRight;
+
+            // Second triangle
+            tris[t++] = topLeft;
+            tris[t++] = bottomRight;
+            tris[t++] = topRight;
         }
 
         MeshRenderer meshRenderer = gameObject.AddComponent<MeshRenderer>();
@@ -87,20 +97,18 @@ public class DynamicWater2Df : MonoBehaviour
     {
         BoxCollider2D collision = gameObject.AddComponent<BoxCollider2D>();
         collision.isTrigger = true;
+        collision.size = bound;
+        collision.offset = Vector2.zero; // Centered
     }
 
     private void Update()
     {
-       
-    }
-    private void FixedUpdate()
-    {
         if (timer <= 0) return;
-        timer -= Time.fixedDeltaTime;
+        timer -= Time.unscaledDeltaTime;
 
         for (int i = 0; i < resolution; i++)
         {
-            float force = springConstant * (vertices[i].y - bound.y) + velocities[i] * damping;
+            float force = springConstant * (vertices[i].y - restingWaterHeight) + velocities[i] * damping;
             accelerations[i] = -force;
             vertices[i].y += velocities[i];
             velocities[i] += accelerations[i];
@@ -113,6 +121,7 @@ public class DynamicWater2Df : MonoBehaviour
                 float l = spread * (vertices[i].y - vertices[i - 1].y);
                 velocities[i - 1] += l;
             }
+
             if (i < resolution - 1)
             {
                 float r = spread * (vertices[i].y - vertices[i + 1].y);
@@ -122,6 +131,7 @@ public class DynamicWater2Df : MonoBehaviour
 
         mesh.vertices = vertices;
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
@@ -132,7 +142,7 @@ public class DynamicWater2Df : MonoBehaviour
     {
         timer = 3f;
         float radius = collision.bounds.max.x - collision.bounds.min.x;
-        Vector2 center = new Vector2(collision.bounds.center.x, transform.TransformPoint(bound).y);
+        Vector2 center = new Vector2(collision.bounds.center.x, transform.position.y + restingWaterHeight);
 
         //GameObject splashGO = Instantiate(splash, new Vector3(center.x, center.y, 0), Quaternion.Euler(0, 0, 60));
         //Destroy(splashGO, 2f);
@@ -142,7 +152,7 @@ public class DynamicWater2Df : MonoBehaviour
             if (PointInsideCircle(transform.TransformPoint(vertices[i]), center, radius))
             {
                 velocities[i] = force;
-                //Debug.Log("boom");
+                Debug.Log("boom");
             }
         }
     }
@@ -150,5 +160,11 @@ public class DynamicWater2Df : MonoBehaviour
     bool PointInsideCircle(Vector2 point, Vector2 center, float radius)
     {
         return Vector2.Distance(point, center) < radius;
+    }
+
+    private void OnDrawGizmos()
+    {
+        
+        //Gizmos.DrawWireCube(transform.position, new Vector3(bound.x, bound.y, 0));
     }
 }
