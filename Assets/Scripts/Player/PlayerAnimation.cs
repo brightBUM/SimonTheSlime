@@ -109,6 +109,10 @@ public class PlayerAnimation : MonoBehaviour
         //animator.ResetTrigger("roll");
         animator.SetTrigger("idle");
     }
+    public bool GetSpriteFlipX()
+    {
+        return spriteRenderer.flipX;
+    }
     public void ResetAll()
     {
         ResetVelocity();

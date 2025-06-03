@@ -14,6 +14,7 @@ public enum State
     GRAPPLE,
     GRAPPLEHANG,
     POUND,
+    DASH,
     SQUISHED,
     GHOST
 }
@@ -45,11 +46,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float gravity = -20f;
     [Header("Ability")]
     [SerializeField] float dashAmount = 2f;
+    [SerializeField] float dashDuration = 0.5f;
+    [SerializeField] float dashCooldown = 1f;
+    [SerializeField] float dashTrailDuration;
+
     [SerializeField] float grapplePullSpeed = 6f;
     [SerializeField] float grappleGrabHangTimer = 5f;
     [SerializeField] float grappledOffSpeed = 10f;
     [SerializeField] float onHitUpForce = 3f;
-    [SerializeField] float dashCooldown = 1f;
     [SerializeField] float bulletTimeScale = 0.5f;
     [SerializeField] float slideDownValue = 0.5f;
     [SerializeField] bool debugVectors;
@@ -76,6 +80,7 @@ public class PlayerController : MonoBehaviour
     private const float squishOffset = 0.5f;
     private bool respawning;
     private Vector3 lastPos;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -662,14 +667,28 @@ public class PlayerController : MonoBehaviour
         //Vector2 initialVelocity = rb.velocity;
         if(dashTimer<=0 && playerState == State.LAUNCHED)
         {
+            var lastVelocity = rb.velocity;
             playerAnimation.ToggleSpriteTrailRenderer(true);
-            rb.AddForce(rb.velocity.normalized * dashAmount, ForceMode2D.Impulse);
+            var dir = playerAnimation.GetSpriteFlipX() ? -Vector2.right:Vector2.right;
+            Physics2D.gravity = Vector2.zero;
+            rb.velocity = dir * dashAmount;
+            //rb.AddForce(dir * dashAmount, ForceMode2D.Impulse);
+            playerState = State.DASH;
+
             LevelManager.Instance.ShakeCamera.OnDash();
             SoundManager.Instance.PlayDashSFX();
             dashTimer = dashCooldown;
-            DOVirtual.DelayedCall(0.5f, () =>
+            DOVirtual.DelayedCall(dashTrailDuration, () =>
             {
                 playerAnimation.ToggleSpriteTrailRenderer(false);
+
+            });
+            DOVirtual.DelayedCall(dashDuration, () =>
+            {
+                rb.velocity = Vector2.ClampMagnitude(rb.velocity,maxForce);
+                ResetGravity();
+                if (playerState == State.DASH)
+                    playerState = State.LAUNCHED;
 
             });
         }
