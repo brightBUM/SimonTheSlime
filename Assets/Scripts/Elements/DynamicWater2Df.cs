@@ -20,8 +20,14 @@ public class DynamicWater2Df : MonoBehaviour
     float[] velocities, accelerations;
     float timer;
     private float restingWaterHeight;
+    public bool updateBound = false;
     private void Start()
     {
+        if(updateBound)
+        {
+            bound = GetComponentInParent<BoxCollider2D>().bounds.size;
+        }
+
         restingWaterHeight = bound.y / 2f; // Top edge of centered mesh
         InitializePhysics();
         GenerateMesh();
