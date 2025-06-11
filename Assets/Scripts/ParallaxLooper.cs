@@ -5,7 +5,7 @@ public class ParallaxLooper : MonoBehaviour
 {
     public Transform[] backgrounds;   // Assign 3 background transforms
     public float parallaxSpeed = 0.5f;
-    //public float parallaxSpeedY = 0.2f;
+    public float parallaxSpeedY = 1f;
     public Transform player;
 
     private float backgroundWidth;
@@ -28,8 +28,8 @@ public class ParallaxLooper : MonoBehaviour
         // Move each background according to player delta and parallax speed
         foreach (Transform bg in backgrounds)
         {
-            //bg.position += new Vector3(delta.x * parallaxSpeed, delta.y*parallaxSpeedY, 0f);
-            bg.position += new Vector3(delta.x * parallaxSpeed, 0f, 0f);
+            bg.position += new Vector3(delta.x * parallaxSpeed, delta.y * parallaxSpeedY, 0f);
+            //bg.position += new Vector3(delta.x * parallaxSpeed, 0f, 0f);
         }
 
         // Loop backgrounds
