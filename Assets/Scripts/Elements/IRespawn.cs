@@ -5,6 +5,7 @@ using UnityEngine;
 public class BaseRespawn : MonoBehaviour
 {
     [Header("BaseRespawn")]
+    [SerializeField] BoxCollider2D groundCollider;
     [SerializeField] GameObject respawnEffect;
 
     public void ToggleRespawnEffect(bool value)
@@ -20,6 +21,7 @@ public class BaseRespawn : MonoBehaviour
     IEnumerator DelayedRespawn()
     {
         ToggleRespawnEffect(true);
+        groundCollider.enabled = true;
 
         yield return new WaitForSeconds(1.5f);
 
@@ -29,5 +31,13 @@ public class BaseRespawn : MonoBehaviour
     public Vector3 CheckPointPosition()
     {
         return transform.position;
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if(collision.GetComponent<PlayerController>())
+        {
+            groundCollider.enabled = false;
+        }
     }
 }
