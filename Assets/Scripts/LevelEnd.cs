@@ -1,6 +1,7 @@
 using Unity.Services.LevelPlay;
 using DG.Tweening;
 using UnityEngine;
+using Cinemachine;
 
 public class LevelEnd : MonoBehaviour
 {
@@ -21,6 +22,17 @@ public class LevelEnd : MonoBehaviour
     {
         if (collision.TryGetComponent<PlayerController>(out PlayerController playerController))
         {
+            //camZoom
+            var virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
+            var confiner = FindAnyObjectByType<CinemachineConfiner2D>();
+            var orthoSize = virtualCamera.m_Lens.OrthographicSize;
+            DOTween.To(() => orthoSize, x => orthoSize = x, 12, 0.5f).SetUpdate(true).OnUpdate(() =>
+            {
+                virtualCamera.m_Lens.OrthographicSize = orthoSize;
+                confiner.InvalidateCache();
+            });
+            
+
             SoundManager.Instance.PlaySlimeSplashSFX();
             //ObjectPoolManager.Instance.Spawn(4,transform.position,Quaternion.Euler(90, 0, 0));
             //change player to roll/sleep state 
@@ -36,8 +48,6 @@ public class LevelEnd : MonoBehaviour
 
             DOVirtual.DelayedCall(2f, () =>
             {
-                
-
 #if UNITY_EDITOR
 
                 SoundManager.Instance.PlayLevelCompleteSFx();
