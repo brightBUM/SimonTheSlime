@@ -44,8 +44,8 @@ namespace magar
             targetHitPoint = null;
             isInChaseDelay = false;
 
-            Destroy(TransformA.gameObject);
-            Destroy(TransformB.gameObject);
+            //Destroy(TransformA.gameObject);
+           // Destroy(TransformB.gameObject);
         }
         private void FixedUpdate()
         {

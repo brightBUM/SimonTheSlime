@@ -31,8 +31,8 @@ namespace magar
             rb = GetComponent<Rigidbody2D>();
             isMovingLeft = true;
 
-            Destroy(TransformA.gameObject);
-            Destroy(TransformB.gameObject);
+           // Destroy(TransformA.gameObject);
+           // Destroy(TransformB.gameObject);
         }
 
         private void FixedUpdate()
