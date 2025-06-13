@@ -1,3 +1,4 @@
+using Cinemachine;
 using DG.Tweening;
 using UnityEngine;
 
@@ -14,6 +15,15 @@ public class LevelStart : BaseRespawn
     // Start is called before the first frame update
     void Start()
     {
+        var virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
+        virtualCamera.m_Lens.OrthographicSize = 12f;
+        var orthoSize = virtualCamera.m_Lens.OrthographicSize;
+        DOTween.To(() => orthoSize, x => orthoSize = x, 18, 3.5f).SetUpdate(true).OnUpdate(() =>
+        {
+            virtualCamera.m_Lens.OrthographicSize = orthoSize;
+
+        });
+
         liquidTransform.DOScaleY(1.1f, liquidRiseDuration).OnComplete(() =>
         {
             //tween sleeping player 
@@ -23,11 +33,13 @@ public class LevelStart : BaseRespawn
                 sleepingPlayerTransform.gameObject.SetActive(false);
                 playerPrefab.gameObject.SetActive(true);
                 LevelManager.Instance.StartLevel();
-                liquidTransform.DOScaleY(0, liquidfallDuration);
 
+                liquidTransform.DOScaleY(0, liquidfallDuration);
+                
                 LevelManager.Instance.SetRespawn(this);
             });
         });
 
+       
     }
 }

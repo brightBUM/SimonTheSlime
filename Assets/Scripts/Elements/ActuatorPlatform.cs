@@ -59,4 +59,11 @@ public class ActuatorPlatform : MonoBehaviour,IPoundable
     {
         
     }
+
+    private void OnDrawGizmos()
+    {
+        var targetSize = spriteRenderer.size + Vector2.up * stepAmount*hitCount;
+        var centre = spriteRenderer.transform.position + new Vector3(0, targetSize.y/2, 0);
+        Gizmos.DrawWireCube(centre, targetSize);
+    }
 }
