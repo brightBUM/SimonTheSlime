@@ -16,11 +16,13 @@ public class LevelStart : BaseRespawn
     void Start()
     {
         var virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
+        var confiner = FindAnyObjectByType<CinemachineConfiner2D>();
         virtualCamera.m_Lens.OrthographicSize = 12f;
         var orthoSize = virtualCamera.m_Lens.OrthographicSize;
         DOTween.To(() => orthoSize, x => orthoSize = x, 18, 3.5f).SetUpdate(true).OnUpdate(() =>
         {
             virtualCamera.m_Lens.OrthographicSize = orthoSize;
+            confiner.InvalidateCache();
 
         });
 
