@@ -11,6 +11,7 @@ public class air_patrolling_animator_response : Agent_AnimatorResponse
         base.Start();
         agent.GetComponent<AirPatrollingEnemy>().OnPatrolPointReachedEvent += OnPointReached;
         agent.GetComponent<AirPatrollingEnemy>().OnPlayerFoundEvent += OnEnemyFound;
+        agent.GetComponent<AirPatrollingEnemy>().OnShootProjectileEvent += OnShootProjectile;
     }
 
     void OnPointReached()
@@ -22,6 +23,11 @@ public class air_patrolling_animator_response : Agent_AnimatorResponse
     void OnEnemyFound()
     {
         animator.SetTrigger("alert");
+    }
+    void OnShootProjectile()
+    {
+        animator.SetTrigger("alert");
+
     }
 
 }
