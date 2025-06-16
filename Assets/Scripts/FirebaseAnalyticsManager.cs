@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Firebase;
-using Firebase.Analytics;
-using Firebase.Extensions;
+//using Firebase;
+//using Firebase.Analytics;
+//using Firebase.Extensions;
 
 public class FirebaseAnalyticsManager : Singleton<FirebaseAnalyticsManager>
 {
+    public FirebaseAnalyticsManager instance;
     // Firebase App instance
-    private FirebaseApp firebaseApp;
+    //private FirebaseApp firebaseApp;
     // Initialize Firebase
     void Start()
     {
-        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
+       /* FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
             if (task.Result == DependencyStatus.Available)
             {
@@ -24,13 +25,13 @@ public class FirebaseAnalyticsManager : Singleton<FirebaseAnalyticsManager>
             {
                 Debug.LogError("Could not resolve all Firebase dependencies: " + task.Result);
             }
-        });
+        });*/
     }
 
     // Log a custom event
     public void LogEvent(string eventName, Dictionary<string, object> parameters = null)
     {
-        if (parameters == null)
+        /*if (parameters == null)
         {
             FirebaseAnalytics.LogEvent(eventName);
         }
@@ -48,19 +49,19 @@ public class FirebaseAnalyticsManager : Singleton<FirebaseAnalyticsManager>
 
             FirebaseAnalytics.LogEvent(eventName, firebaseParameters);
         }
-
+*/
         Debug.Log($"Custom Event Logged: {eventName}");
     }
 
     // Log a predefined event (example: Purchase)
     public void LogPurchaseEvent(string itemName, string currencyType, double price)
     {
-        FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventPurchase, new Parameter[]
+       /* FirebaseAnalytics.LogEvent(FirebaseAnalytics.EventPurchase, new Parameter[]
         {
             new Parameter(FirebaseAnalytics.ParameterItemName, itemName),
             new Parameter(FirebaseAnalytics.ParameterCurrency, currencyType),
             new Parameter(FirebaseAnalytics.ParameterValue, price)
-        });
+        });*/
 
         Debug.Log($"Purchase Event Logged: Item:{itemName}, Currency:{currencyType}, Price:{price}");
     }
@@ -68,14 +69,14 @@ public class FirebaseAnalyticsManager : Singleton<FirebaseAnalyticsManager>
     // Set User Property
     public void SetUserProperty(string propertyName, string propertyValue)
     {
-        FirebaseAnalytics.SetUserProperty(propertyName, propertyValue);
+       /* FirebaseAnalytics.SetUserProperty(propertyName, propertyValue);*/
         Debug.Log($"User Property Set: {propertyName} = {propertyValue}");
     }
 
     // Set User ID
     public void SetUserId(string userId)
     {
-        FirebaseAnalytics.SetUserId(userId);
+       /* FirebaseAnalytics.SetUserId(userId);*/
         Debug.Log($"User ID Set: {userId}");
     }
 }
