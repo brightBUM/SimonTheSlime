@@ -62,6 +62,8 @@ namespace magar
             }
         }
 
+        
+
         private void Patrol()
         {
             Vector2 targetPosition = isMovingLeft ? pointA : pointB;

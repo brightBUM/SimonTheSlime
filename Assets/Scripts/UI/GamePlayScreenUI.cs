@@ -22,6 +22,7 @@ public class GamePlayScreenUI : MonoBehaviour
     [SerializeField] GameObject aimReticleObject;
     [SerializeField] Button dashButton;
     [SerializeField] Button grappleButton;
+    [SerializeField] Image iconImage;
     [SerializeField] Color timeOverColor;
     [SerializeField] float duration = 0.5f;
 
@@ -63,8 +64,23 @@ public class GamePlayScreenUI : MonoBehaviour
 
         dashButton.onClick.AddListener(DashViaButton);
         grappleButton.onClick.AddListener(GrappleViaButton);
-        
+        LootDrop.OnCollection += TweenCollection;
     }
+
+    private void TweenCollection(Sprite sprite, Vector3 vector)
+    {
+        iconImage.gameObject.SetActive(true);
+        iconImage.sprite = sprite;
+        iconImage.preserveAspect = true;
+
+        var screenpos = Camera.main.WorldToScreenPoint(vector);
+        iconImage.transform.position = screenpos;
+        iconImage.transform.DOMove(bananaUI.transform.position, 1f).OnComplete(() =>
+        {
+            iconImage.gameObject.SetActive(false);
+        });
+    }
+
     private void Awake()
     {
         Instance = this;
@@ -450,5 +466,8 @@ public class GamePlayScreenUI : MonoBehaviour
         bananaRespawnButton.onClick.RemoveListener(RespawnViaBananas);
         dashButton.onClick.RemoveListener(DashViaButton);
         grappleButton.onClick.RemoveListener(GrappleViaButton);
+
+        LootDrop.OnCollection -= TweenCollection;
+
     }
 }

@@ -635,7 +635,11 @@ public class PlayerController : MonoBehaviour
         });
 
     }
-
+    public void Die()
+    {
+        LevelManager.Instance.ShakeCamera.OnHit();
+        PlayerHitEffect();
+    }
     public void RefillBulletTime()
     {
         bulletTimeAbility += 2;
