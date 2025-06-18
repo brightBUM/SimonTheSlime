@@ -162,7 +162,6 @@ public class DynamicWater2Df : MonoBehaviour
             if (PointInsideCircle(transform.TransformPoint(vertices[i]), center, radius))
             {
                 velocities[i] = force;
-                Debug.Log("boom");
             }
         }
     }

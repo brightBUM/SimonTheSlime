@@ -67,7 +67,7 @@ namespace magar
 
         public void Die()
         {
-            Destroy(gameObject);
+            Destroy(gameObject,0.5f);
         }
         protected virtual void OnDisable() { }
     }

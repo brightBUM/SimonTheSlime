@@ -1,5 +1,7 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -9,6 +11,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] LevelStart levelStart;
     [SerializeField] Transform collectiblesParent;
     [SerializeField] PlayerController playerController;
+    [SerializeField] ComboUI ComboUIPrefab;
     [SerializeField] float targetTime;
     public int levelIndex = 0;
     public float levelTimer;
@@ -21,9 +24,11 @@ public class LevelManager : MonoBehaviour
     private BaseRespawn baseRespawn;
     private int stars;
     public int retryCount = 1;
+    public int comboCount = 0;
     public Vector3 LastCheckpointpos { get; set; }
     public static LevelManager Instance;
     public CameraShake ShakeCamera => camShake;
+    ComboUI ComboParent;
     private void Awake()
     {
         if (Instance == null)
@@ -41,6 +46,9 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         GameManger.Instance?.ToggleMenuMusic(false);
+
+        ComboParent = Instantiate(ComboUIPrefab);
+        ComboParent.transform.localScale = Vector3.zero;
     }
     private void Update()
     {
@@ -134,7 +142,12 @@ public class LevelManager : MonoBehaviour
     {
         this.baseRespawn.RespawnEffect();
     }
-
+    public void ComboAchieved()
+    {
+        comboCount++;
+        ComboParent.TweenCombo(playerController.transform.position, comboCount);
+    }
+    
     public void InvokeLevelCompleteAnalytics()
     {
         startLevelTimer = false;

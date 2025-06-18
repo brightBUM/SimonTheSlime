@@ -6,9 +6,10 @@ public class Banana : MonoBehaviour
 {
     [SerializeField] private float effectScale = 3f;
     // Start is called before the first frame update
+    ComboGroup comboGroup;
     void Start()
     {
-        
+        comboGroup = GetComponentInParent<ComboGroup>();
     }
 
     // Update is called once per frame
@@ -31,6 +32,12 @@ public class Banana : MonoBehaviour
         //SoundManager.instance.PlayCollectibleSFx();
         LevelManager.Instance.CollectBanana();
         SoundManager.Instance.PlayCollectibleSFx();
+
+        if(comboGroup!=null && comboGroup.enabled)
+        {
+            comboGroup.Collected.Invoke();
+        }
+
         Destroy(this.gameObject);
     }
 
