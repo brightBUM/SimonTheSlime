@@ -17,7 +17,7 @@ public class ComboUI : MonoBehaviour
         comboNum.text = comboValue + "X";
 
         transform.position = pos + Vector3.up * 3f;
-        transform.DOScale(1, 0.5f).SetEase(easeType);
+        transform.DOScale(0.75f, 0.5f).SetEase(easeType);
         transform.DOMoveY(transform.position.y + 0.5f, 0.5f).SetEase(easeType);
 
         temp = DOVirtual.DelayedCall(1.5f, () =>
