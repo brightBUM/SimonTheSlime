@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class LevelSelectionScreen : MonoBehaviour
 {
-    [SerializeField] List<Transform> starparent;
     [SerializeField] Transform starPrefab;
     [SerializeField] RectTransform panelParent;
     [SerializeField] Ease ease = Ease.InSine;
@@ -26,7 +25,7 @@ public class LevelSelectionScreen : MonoBehaviour
         for (int i = 0; i < levelCount; i++)
         {
             var levelPod = Instantiate(levelPodPrefab, contentParent);
-            levelPod.GetComponent<LevelSelectPod>().Init(i + 1);
+            levelPod.GetComponent<LevelSelectPod>().Init(i);
         }
         pageSnapScroll.Init();
     }

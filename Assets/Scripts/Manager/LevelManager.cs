@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -12,7 +13,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] Transform collectiblesParent;
     [SerializeField] PlayerController playerController;
     [SerializeField] ComboUI ComboUIPrefab;
-    [SerializeField] float targetTime;
+    [SerializeField] float targetTime = 45f;
     public int levelIndex = 0;
     public float levelTimer;
     public bool startLevelTimer = false;
@@ -22,8 +23,8 @@ public class LevelManager : MonoBehaviour
     private int levelScore;
     private int collectedGems;
     private BaseRespawn baseRespawn;
-    private int stars;
     public int retryCount = 1;
+    public int adRespawnCount = 0;
     public int comboCount = 0;
     public Vector3 LastCheckpointpos { get; set; }
     public static LevelManager Instance;
@@ -41,6 +42,8 @@ public class LevelManager : MonoBehaviour
         targetbananas += FindObjectsByType<BangablePlatform>(FindObjectsSortMode.None).Length * 4;
 
         levelTimer = 0f;
+
+        levelIndex = GameManger.Instance.selectedIndex - 3;
         //Application.targetFrameRate = 120;
     }
     private void Start()
@@ -86,20 +89,29 @@ public class LevelManager : MonoBehaviour
     }
     public string GetLevelBananasCount()
     {
-        //if(collectedBananas>=targetbananas)
-        //    stars++;
+        
 
         return collectedBananas.ToString() + "/" + targetbananas.ToString();
     }
     public string GetLevelTimerText()
     {
-        //if (levelTimer <= targetTime)
-        //    stars++;
+        
         return TimeFormatConversion(levelTimer) + "/" + TimeFormatConversion(targetTime);
     }
 
     public int GetWonStars()
     {
+        int stars = 0;
+
+        if (collectedBananas >= targetbananas)
+            stars++;
+
+        if (levelTimer <= targetTime)
+            stars++;
+
+        if (retryCount + adRespawnCount <= 0)
+            stars ++;
+
         return stars;
     }
     public void CollectBanana()
@@ -122,12 +134,7 @@ public class LevelManager : MonoBehaviour
     }
     public void UnlockNextLevel()
     {
-        var nextLevelIndex = levelIndex + 1;
-        if (!SaveLoadManager.Instance.GetLevelUnlockData(nextLevelIndex))
-        {
-            SaveLoadManager.Instance.UnlockLevel(nextLevelIndex);
-
-        }
+        SaveLoadManager.Instance.UnlockLevel();
     }
     public void TriggerPlayerRespawn()
     {

@@ -36,7 +36,7 @@ public class GamePlayScreenUI : MonoBehaviour
     [SerializeField] float levelCompleteTextDelay = 0.2f;
     [SerializeField] float scoreCountTime = 2f;
     private List<TextMeshProUGUI> levelCompleteTexts;
-    //[SerializeField] List<GameObject> starItem;
+    [SerializeField] List<GameObject> starItem;
     [Header("Retry")]
     [SerializeField] Button bananaRespawnButton;
     [SerializeField] TextMeshProUGUI nanasCost;
@@ -258,7 +258,7 @@ public class GamePlayScreenUI : MonoBehaviour
         gameplayScreen.SetActive(true);
         GameManger.Instance.TogglePauseGame(false);
         LevelManager.Instance.TriggerPlayerRespawn();
-
+        LevelManager.Instance.adRespawnCount++;
 #elif UNITY_ANDROID
         //trigger rewarded ad  here
         IronSourceAdManager.Instance.ShowRewardedAd();
@@ -273,7 +273,7 @@ public class GamePlayScreenUI : MonoBehaviour
         gameplayScreen.SetActive(true);
         GameManger.Instance.TogglePauseGame(false);
         LevelManager.Instance.TriggerPlayerRespawn();
-
+        LevelManager.Instance.adRespawnCount++;
 
         FirebaseAnalyticsManager.Instance.LogEvent("No. of Retries in Level", new Dictionary<string, object>
     {
@@ -325,6 +325,10 @@ public class GamePlayScreenUI : MonoBehaviour
         TriggerLevelCompleteScoreboard(true);
         UpdateLevelCompleteUI();
         //unlock next level
+
+        //check if first play or replay
+        SaveLoadManager.Instance.FirstOrReplay(LevelManager.Instance.GetWonStars());
+
         LevelManager.Instance.UnlockNextLevel();
     }
     public void UpdateLevelCompleteUI()
@@ -341,6 +345,7 @@ public class GamePlayScreenUI : MonoBehaviour
         {
             StartCoroutine(DelayedStarScale(levelCompleteTextDelay + (levelCompleteTextDelay * i), levelCompleteTexts[i].gameObject.transform));
         }
+
 
         DOVirtual.DelayedCall(0.2f, () =>
         {
@@ -367,17 +372,16 @@ public class GamePlayScreenUI : MonoBehaviour
 
         for (int i = 0; i < currentStars; i++)
         {
-            //starItem[i].SetActive(true);
-            //StartCoroutine(DelayedStarScale(0.2f + (0.2f * i), starItem[i].gameObject.transform));
+            starItem[i].SetActive(true);
+            StartCoroutine(DelayedStarScale(0.2f + (0.2f * i), starItem[i].gameObject.transform));
         }
 
         if (SaveLoadManager.Instance == null)
             return;
 
-        if (currentStars > SaveLoadManager.Instance.GetLevelStarData(LevelManager.Instance.levelIndex))
-        {
-            SaveLoadManager.Instance.SetLevelStats(LevelManager.Instance.levelIndex, currentStars);
-        }
+        //check if scored stars are more than saved level stars
+        SaveLoadManager.Instance.FirstOrReplay(LevelManager.Instance.GetWonStars());
+        
     }
     IEnumerator DelayedStarScale(float delayTime,Transform transform)
     {

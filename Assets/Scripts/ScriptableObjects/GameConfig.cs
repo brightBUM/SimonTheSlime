@@ -13,5 +13,7 @@ public class GameConfig : ScriptableObject
     public int interstitialAdCheckPerLevel;
     public int mainMenuRewardedAdNanas;
     public int RetryNanasCost = 100;
+    [Header("Level Stats")]
+    public List<float> targetTime;
 
 }

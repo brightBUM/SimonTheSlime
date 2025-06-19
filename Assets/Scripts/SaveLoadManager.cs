@@ -1,10 +1,7 @@
 using System;
 using System.IO;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Audio;
-using System.Numerics;
 
 public class SaveLoadManager : Singleton<SaveLoadManager>
 {
@@ -15,11 +12,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     public bool firstLoad = false;
     public DateTime lastRewardedAdTime;
     
-    private void Awake()
-    {
-        
-    }
-
+    
     public void InitFileSystem()
     {
         filePath = Application.persistentDataPath + "/" + fileName;
@@ -36,10 +29,11 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
             playerProfile = new PlayerProfile
             {
                 profileName = "default",
-                levelStats = new List<LevelStats>(6),
+                levelUnlockProgress = 0,  // unlocked lv 1
                 volumeControls = new List<VolumeControl>(3),
                 unlockedCharSkins = new List<int>() { 0 },
                 unlockedPodSkins = new List<int>() { 0 },
+                levelStars = new List<int> { }, //assign 0 stars for 1st level
                 nanas = GameManger.Instance.gameConfig.nanasCount,
                 melons = GameManger.Instance.gameConfig.melonsCount
             };
@@ -48,16 +42,6 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
             {
                 playerProfile.volumeControls.Add(new VolumeControl());
             }
-            for (int i = 0; i < 6; i++)
-            {
-                playerProfile.levelStats.Add(new LevelStats
-                {
-                    levelIndex = i
-                });
-            }
-
-            //unlocked lv1
-            //playerProfile.levelStats[0].unlocked = true;
 
             //main menu rewarded ad ready
             this.lastRewardedAdTime = DateTime.Now.AddHours(-25);
@@ -136,21 +120,46 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     }
     public int GetLevelStarData(int index)
     {
-        return playerProfile.levelStats[index].stars;
+        if(index == playerProfile.levelUnlockProgress)
+        {
+            return 0;
+        }
+        return playerProfile.levelStars[index];
     }
-    public bool GetLevelUnlockData(int index)
+    public int GetLevelUnlockData()
     {
-        return playerProfile.levelStats[index].unlocked;
+        return playerProfile.levelUnlockProgress;
     }
-    public void SetLevelStats(int index,int stars)
+    public void FirstOrReplay(int currentStars)
     {
-        playerProfile.levelStats[index].stars = stars;
-        SaveGame();
+        int levelIndex = LevelManager.Instance.levelIndex;
+        if (levelIndex == playerProfile.levelUnlockProgress)
+        {
+            // first play
+            playerProfile.levelStars.Add(currentStars);
+            Debug.Log($"stars awarded first time ,lvl {levelIndex + 1} : {currentStars} stars");
+
+            playerProfile.levelUnlockProgress++;
+            SaveGame();
+        }
+        else if(currentStars > playerProfile.levelStars[levelIndex])
+        {
+            //replay 
+            //save the currentstars if they are more than stored
+            playerProfile.levelStars[levelIndex] = currentStars;
+            Debug.Log($"replay level , stars overwritten, {levelIndex} : {currentStars}");
+            SaveGame();
+        }
     }
-    public void UnlockLevel(int index)
+    
+    
+    public void UnlockLevel()
     {
-        playerProfile.levelStats[index].unlocked = true;
-        SaveGame();
+        if(LevelManager.Instance.levelIndex == playerProfile.levelUnlockProgress)
+        {
+            playerProfile.levelUnlockProgress++;
+            SaveGame();
+        }
     }
 
     public bool CheckIfSkinUnlocked(int item)
@@ -244,22 +253,14 @@ public class PlayerProfile
     public List<int> unlockedPodSkins;
     public int equippedSkin;
     public int equippedPod;
-    public List<LevelStats> levelStats;
+    public int levelUnlockProgress;
+    public List<int> levelStars;
     public List<VolumeControl> volumeControls;
     public string lastrewardedAdTime;
     public int interStitialAdCount;
     public bool leftControls = true;
 }
-[System.Serializable]
-public class LevelStats
-{
-    public int levelIndex = 0;
-    public int coinsCollected = 0;
-    public float bestTime = 0.0f;
-    public int minLaunches = 0;
-    public int stars;
-    public bool unlocked = true;
-}
+
 [System.Serializable]
 public class VolumeControl
 {

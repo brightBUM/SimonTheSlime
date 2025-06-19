@@ -9,6 +9,7 @@ public class LevelSelectPod : MonoBehaviour,IPointerEnterHandler,IPointerClickHa
     [SerializeField] GameObject unlockedImage;
     [SerializeField] GameObject lockedImage;
     [SerializeField] TextMeshProUGUI levelNumText;
+    [SerializeField] GameObject[] stars;
     bool unlocked = false;
 
     int levelNum;
@@ -16,11 +17,21 @@ public class LevelSelectPod : MonoBehaviour,IPointerEnterHandler,IPointerClickHa
     public void Init(int num)
     {
         levelNum = num;
-        levelNumText.text = "level " + num;
+        var podNum = num + 1;
+        levelNumText.text = "level " + podNum;
 
-        unlocked = SaveLoadManager.Instance.GetLevelUnlockData(sceneToLoad - 3); //3 for the scene index
+        unlocked = levelNum <= SaveLoadManager.Instance.GetLevelUnlockData(); 
         unlockedImage.SetActive(unlocked);
         lockedImage.SetActive(!unlocked);
+
+        if(unlocked)
+        {
+            var collectedStar = SaveLoadManager.Instance.GetLevelStarData(levelNum);
+            for (int i = 0; i < collectedStar; i++)
+            {
+                stars[i].SetActive(true);
+            }
+        }
     }
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -41,7 +52,7 @@ public class LevelSelectPod : MonoBehaviour,IPointerEnterHandler,IPointerClickHa
 #endif
 
 #if UNITY_EDITOR
-            LevelSelectionScreen.Instance.LoadLevel(levelNum+2); // 2 is for the build setting scene index
+            LevelSelectionScreen.Instance.LoadLevel(levelNum+3); // 3 is for the build setting scene index
             SoundManager.Instance.PlayPoundSFx();
 #endif
         }
