@@ -104,13 +104,22 @@ public class LevelManager : MonoBehaviour
         int stars = 0;
 
         if (collectedBananas >= targetbananas)
+        {
             stars++;
+            Debug.Log("nanas star awarded");
+        }
 
         if (levelTimer <= targetTime)
+        {
             stars++;
+            Debug.Log("target time star awarded");
+        }
 
         if (retryCount + adRespawnCount <= 0)
-            stars ++;
+        {
+            Debug.Log("No respawn star awarded ");
+            stars++;
+        }
 
         return stars;
     }

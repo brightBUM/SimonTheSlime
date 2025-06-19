@@ -11,7 +11,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     public PlayerProfile playerProfile;
     public bool firstLoad = false;
     public DateTime lastRewardedAdTime;
-    
+    int debugUnlock = 11;
     
     public void InitFileSystem()
     {
@@ -29,11 +29,11 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
             playerProfile = new PlayerProfile
             {
                 profileName = "default",
-                levelUnlockProgress = 0,  // unlocked lv 1
+                levelUnlockProgress = debugUnlock,  // unlocked lv 1
                 volumeControls = new List<VolumeControl>(3),
                 unlockedCharSkins = new List<int>() { 0 },
                 unlockedPodSkins = new List<int>() { 0 },
-                levelStars = new List<int> { }, //assign 0 stars for 1st level
+                levelStars = new List<int>(debugUnlock + 1), //assign 0 stars for all the debug unlock levels
                 nanas = GameManger.Instance.gameConfig.nanasCount,
                 melons = GameManger.Instance.gameConfig.melonsCount
             };
@@ -41,6 +41,11 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
             for(int i=0;i<3;i++)
             {
                 playerProfile.volumeControls.Add(new VolumeControl());
+            }
+
+            for(int i=0;i<debugUnlock+1; i++)
+            {
+                playerProfile.levelStars.Add(0);
             }
 
             //main menu rewarded ad ready
