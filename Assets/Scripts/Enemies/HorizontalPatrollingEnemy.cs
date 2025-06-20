@@ -63,7 +63,7 @@ namespace magar
                 }
 
                 ChaseTarget();
-                return;
+                //return;
             }
 
             if (isWaiting)

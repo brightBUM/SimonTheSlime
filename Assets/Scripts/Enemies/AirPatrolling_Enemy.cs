@@ -25,6 +25,7 @@ namespace magar
         [Header("Combat Settings")]
         public float chaseDelay = 0.3f;
         public float shootInterval = 1f;
+        public float shootOffset = 2f;
         private float lastShootTime = 0f;
         public GameObject projectilePrefab;
         public ParticleSystem shootEffect;
@@ -272,7 +273,7 @@ namespace magar
             Vector2 shootDirection = (currentTarget.position - transform.position).normalized;
 
             // Instantiate projectile
-            GameObject projectile = Instantiate(projectilePrefab, transform.position+((Vector3)shootDirection.normalized*2f), Quaternion.identity);
+            GameObject projectile = Instantiate(projectilePrefab, transform.position+((Vector3)shootDirection.normalized*shootOffset), Quaternion.identity);
 
             // Initialize projectile
             Projectile projectileScript = projectile.GetComponent<Projectile>();

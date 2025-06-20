@@ -6,14 +6,36 @@ using UnityEngine;
 public class CameraBoundSwitch : MonoBehaviour
 {
     [SerializeField] CinemachineConfiner2D confiner2D;
-    [SerializeField] CompositeCollider2D compositeCollider;
-
+    [SerializeField] List<CompositeCollider2D> compositeCollider;
+    int index = 0;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.GetComponent<PlayerController>())
+        if(collision.TryGetComponent<PlayerController>(out PlayerController playerController))
         {
-            confiner2D.m_BoundingShape2D = compositeCollider;
-            confiner2D.InvalidateCache();
+            if(playerController.transform.position.x<transform.position.x)
+            {
+                //entered left side
+                Debug.Log($"entered left");
+                index++;
+                if(index<compositeCollider.Count)
+                {
+                    confiner2D.m_BoundingShape2D = compositeCollider[index];
+                    confiner2D.InvalidateCache();
+                }
+            }
+            else
+            {
+                //entered right side
+                Debug.Log($"entered right");
+                index--;
+                if(index>=0)
+                {
+                    confiner2D.m_BoundingShape2D = compositeCollider[index];
+                    confiner2D.InvalidateCache();
+                }
+            }
+
+            
         }
     }
 }

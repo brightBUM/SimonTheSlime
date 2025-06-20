@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using magar;
 namespace magar
@@ -13,7 +11,7 @@ namespace magar
         {
             if (collision.TryGetComponent<PlayerController>(out PlayerController playerController))
             {
-                if (playerController.playerState == State.POUND)
+                if (playerController.playerState == State.POUND || playerController.playerState == State.DASH)
                 {
                     //spawn loot
                     var lootDropItem = Instantiate(lootDropPrefab,transform.position,Quaternion.identity);

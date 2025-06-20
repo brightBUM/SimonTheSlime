@@ -4,7 +4,7 @@ namespace magar
 {
     public abstract class LivingEntity : MonoBehaviour, IHealth
     {
-        private float health;
+        protected float health; // changed from private to protected - ram
         public float startingHealth;
 
         public float Health

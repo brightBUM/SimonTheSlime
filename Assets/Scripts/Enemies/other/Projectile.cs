@@ -43,7 +43,7 @@ public class Projectile : MonoBehaviour
     }*/
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
+            
             LivingEntity livingEntity = collision.GetComponent<LivingEntity>();
             if (livingEntity != null)
             {
