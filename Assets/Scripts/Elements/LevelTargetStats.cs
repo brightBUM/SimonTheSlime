@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "LevelTargetStats")]
 public class LevelTargetStats : ScriptableObject
 {
-   public List<LevelStats> levelStats;
+   //public List<LevelStats> levelStats;
     
 }
 
