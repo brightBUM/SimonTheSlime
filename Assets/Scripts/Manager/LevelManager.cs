@@ -167,29 +167,29 @@ public class LevelManager : MonoBehaviour
     public void InvokeLevelCompleteAnalytics()
     {
         startLevelTimer = false;
-        FirebaseAnalyticsManager.Instance.LogEvent("Time taken to complete Level", new Dictionary<string, object>
-    {
-        { "screen", "GAME" },
-        { "level", levelIndex+1},
-        { "time_taken", levelTimer }
-    });
+    //    FirebaseAnalyticsManager.Instance.LogEvent("Time taken to complete Level", new Dictionary<string, object>
+    //{
+    //    { "screen", "GAME" },
+    //    { "level", levelIndex+1},
+    //    { "time_taken", levelTimer }
+    //});
     }
 
     public void BananaRespawn()
     {
         TriggerPlayerRespawn();
         retryCount++;
-        FirebaseAnalyticsManager.Instance.LogEvent("No of Retries in Level", new Dictionary<string, object>
-    {
-        { "screen", "GAME"},
-        { "level", levelIndex+1},
-    });
+    //    FirebaseAnalyticsManager.Instance.LogEvent("No of Retries in Level", new Dictionary<string, object>
+    //{
+    //    { "screen", "GAME"},
+    //    { "level", levelIndex+1},
+    //});
 
-        FirebaseAnalyticsManager.Instance.LogEvent("No of time bananas is clicked for Extra life", new Dictionary<string, object>
-    {
-        { "screen", "GAME" },
-        { "level", levelIndex+1}
-    });
+    //    FirebaseAnalyticsManager.Instance.LogEvent("No of time bananas is clicked for Extra life", new Dictionary<string, object>
+    //{
+    //    { "screen", "GAME" },
+    //    { "level", levelIndex+1}
+    //});
 
     }
 }

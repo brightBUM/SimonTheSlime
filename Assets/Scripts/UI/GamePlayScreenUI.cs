@@ -158,7 +158,7 @@ public class GamePlayScreenUI : MonoBehaviour
     public void TriggerLevelFailedScoreboard()
     {
         //triggered with next button
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
 
         LevelFailedLeaderBoard();
 
@@ -252,7 +252,7 @@ public class GamePlayScreenUI : MonoBehaviour
     }
     public void RespawnViaAd()
     {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
         //allow free respawn in editor , bcoz no test ads
         retryScreen.SetActive(false);
         gameplayScreen.SetActive(true);
@@ -275,18 +275,18 @@ public class GamePlayScreenUI : MonoBehaviour
         LevelManager.Instance.TriggerPlayerRespawn();
         LevelManager.Instance.adRespawnCount++;
 
-        FirebaseAnalyticsManager.Instance.LogEvent("No. of Retries in Level", new Dictionary<string, object>
-    {
-        { "screen", "GAME" },
-        {"level", LevelManager.Instance.levelIndex+1 }
+    //    FirebaseAnalyticsManager.Instance.LogEvent("No. of Retries in Level", new Dictionary<string, object>
+    //{
+    //    { "screen", "GAME" },
+    //    {"level", LevelManager.Instance.levelIndex+1 }
 
-    });
+    //});
 
-        FirebaseAnalyticsManager.Instance.LogEvent("No of times Watch Ad is clicked for Extra life", new Dictionary<string, object>
-    {
-        { "screen", "GAME"},
-        {"level", LevelManager.Instance.levelIndex+1 }
-    });
+    //    FirebaseAnalyticsManager.Instance.LogEvent("No of times Watch Ad is clicked for Extra life", new Dictionary<string, object>
+    //{
+    //    { "screen", "GAME"},
+    //    {"level", LevelManager.Instance.levelIndex+1 }
+    //});
 
         IronSourceRewardedVideoEvents.onAdClosedEvent -= RewardedVideoOnAdClosedEvent;
 

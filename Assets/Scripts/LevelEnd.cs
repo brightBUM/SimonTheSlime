@@ -48,7 +48,7 @@ public class LevelEnd : MonoBehaviour
 
             DOVirtual.DelayedCall(2f, () =>
             {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
 
                 SoundManager.Instance.PlayLevelCompleteSFx();
                 GamePlayScreenUI.Instance.ShowLevelCompleteScreen();

@@ -51,7 +51,7 @@ public class LevelSelectPod : MonoBehaviour,IPointerEnterHandler,IPointerClickHa
             });
 #endif
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
             LevelSelectionScreen.Instance.LoadLevel(levelNum+3); // 3 is for the build setting scene index
             SoundManager.Instance.PlayPoundSFx();
 #endif
@@ -60,7 +60,7 @@ public class LevelSelectPod : MonoBehaviour,IPointerEnterHandler,IPointerClickHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || UNITY_STANDALONE_WIN
         if (unlocked)
         {
             var pointer = LevelSelectionScreen.Instance.GetPlayerPointer();
