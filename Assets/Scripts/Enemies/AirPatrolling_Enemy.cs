@@ -1,8 +1,5 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
-using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 
 namespace magar
 {

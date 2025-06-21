@@ -11,7 +11,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     public PlayerProfile playerProfile;
     public bool firstLoad = false;
     public DateTime lastRewardedAdTime;
-    int debugUnlock = 11;
+    int debugUnlock = 14;
     
     public void InitFileSystem()
     {

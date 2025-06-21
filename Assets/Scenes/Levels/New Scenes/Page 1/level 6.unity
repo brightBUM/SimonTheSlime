@@ -1279,7 +1279,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   confiner2D: {fileID: 300296313}
-  compositeCollider: {fileID: 6794387}
+  compositeCollider:
+  - {fileID: 0}
 --- !u!61 &268415064
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9103,7 +9104,7 @@ Transform:
   m_GameObject: {fileID: 1487673070}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -102.066986, y: 20.00095, z: -10}
+  m_LocalPosition: {x: -102.119606, y: 20.00095, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -34932,6 +34933,10 @@ PrefabInstance:
     - target: {fileID: 1740849700618633797, guid: 9e74fc8a4855f384da8d2e5b00524f90, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1776706419138509940, guid: 9e74fc8a4855f384da8d2e5b00524f90, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1977060346451792086, guid: 9e74fc8a4855f384da8d2e5b00524f90, type: 3}
       propertyPath: m_AnchorMax.x

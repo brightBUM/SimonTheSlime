@@ -5,7 +5,6 @@ using UnityEngine.EventSystems;
 
 public class LevelSelectPod : MonoBehaviour,IPointerEnterHandler,IPointerClickHandler
 {
-    [SerializeField] int sceneToLoad;
     [SerializeField] GameObject unlockedImage;
     [SerializeField] GameObject lockedImage;
     [SerializeField] TextMeshProUGUI levelNumText;
@@ -47,7 +46,7 @@ public class LevelSelectPod : MonoBehaviour,IPointerEnterHandler,IPointerClickHa
             pointer.DOScale(1, 0.5f).SetEase(Ease.OutElastic).OnComplete(() =>
             {
                 SoundManager.Instance.PlayPoundSFx();
-                LevelSelectionScreen.Instance.LoadLevel(levelNum+2);
+                LevelSelectionScreen.Instance.LoadLevel(levelNum+3);
             });
 #endif
 
