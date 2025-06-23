@@ -48,10 +48,11 @@ public class LevelManager : MonoBehaviour
     }
     private void Start()
     {
-        GameManger.Instance?.ToggleMenuMusic(false);
 
         ComboParent = Instantiate(ComboUIPrefab);
         ComboParent.transform.localScale = Vector3.zero;
+
+        GameManger.Instance?.ToggleMenuMusic(false);
     }
     private void Update()
     {

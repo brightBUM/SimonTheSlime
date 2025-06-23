@@ -17,7 +17,7 @@ public class CharSkinLoad : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         if(isPod)
         {
-            var color = GameManger.Instance.GetPodSkinColor();
+            var color = GameManger.Instance?.GetPodSkinColor();
             if(color == Color.black)
             {
                 spriteRenderer.material = new Material(Shader.Find("Sprites/Default")); ;
@@ -30,7 +30,7 @@ public class CharSkinLoad : MonoBehaviour
         }
         else
         {
-            var color = GameManger.Instance.GetCharSkinColor();
+            var color = GameManger.Instance?.GetCharSkinColor();
             if (color == Color.black)
             {
                 spriteRenderer.material = new Material(Shader.Find("Sprites/Default")); ;
