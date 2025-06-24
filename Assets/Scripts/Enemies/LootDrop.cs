@@ -31,10 +31,10 @@ public class LootDrop : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Init();
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    Init();
+        //}
 
         var zRotation = radialVisual.eulerAngles.z + 10f * Time.deltaTime;
         radialVisual.rotation = Quaternion.Euler(0, 0, zRotation);
