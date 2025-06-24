@@ -161,11 +161,11 @@ public class SoundManager : MonoBehaviour
     {
         if (value)
         {
-            ghostSource.Play();
+            ghostSource?.Play();
         }
         else
         {
-            ghostSource.Stop();
+            ghostSource?.Stop();
         }
     }
     public void PlayGateUnlockSFx(bool value)
