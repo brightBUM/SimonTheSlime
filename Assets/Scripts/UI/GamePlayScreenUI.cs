@@ -205,7 +205,7 @@ public class GamePlayScreenUI : MonoBehaviour
 
     public void ShowRetryScreen()
     {
-        //Debug.Log("show retry");
+        Debug.Log("show retry");
         gameplayScreen.SetActive(false);
 
         GameManger.Instance.TogglePauseGame(true);
