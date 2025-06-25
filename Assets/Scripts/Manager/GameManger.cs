@@ -18,6 +18,9 @@ public class GameManger : MonoBehaviour
     private const string privacyPolicyURL = "https://kyodaigameworks.com/privacy-policy/";
     private const string termsAndConditionsURL = "https://kyodaigameworks.com/terms-of-service/";
 
+    public int sceneLimitOffset = 18;
+    public int sceneLoadOffset = 3;
+
     private void Awake()
     {
         if (Instance == null)

@@ -47,12 +47,10 @@ public class LevelEnd : MonoBehaviour
 
             DOVirtual.DelayedCall(2f, () =>
             {
-#if UNITY_EDITOR
-
                 SoundManager.Instance.PlayLevelCompleteSFx();
                 GamePlayScreenUI.Instance.ShowLevelCompleteScreen();
 
-#elif UNITY_ANDROID //check interstitial ad condition
+#if UNITY_ANDROID //check interstitial ad condition
                 Debug.Log("level end - android code");
                 SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
 
@@ -76,8 +74,8 @@ public class LevelEnd : MonoBehaviour
     {
         //incase ad load fails , continue with level complete
         Debug.Log("level end interstitial ad display failed");
-        SoundManager.Instance.PlayLevelCompleteSFx();
-        GamePlayScreenUI.Instance.ShowLevelCompleteScreen();
+        //SoundManager.Instance.PlayLevelCompleteSFx();
+        //GamePlayScreenUI.Instance.ShowLevelCompleteScreen();
 
         IronSourceAdManager.Instance.interstitialAd.OnAdDisplayFailed -= InterstitialAd_OnAdDisplayFailed;
     }
@@ -87,8 +85,8 @@ public class LevelEnd : MonoBehaviour
         // on intersitial ad watched and closed , display level complete
         SaveLoadManager.Instance.playerProfile.interStitialAdCount = 0;
 
-        SoundManager.Instance.PlayLevelCompleteSFx();
-        GamePlayScreenUI.Instance.ShowLevelCompleteScreen();
+        //SoundManager.Instance.PlayLevelCompleteSFx();
+        //GamePlayScreenUI.Instance.ShowLevelCompleteScreen();
 
         IronSourceAdManager.Instance.LoadInterstitialAd();
         IronSourceAdManager.Instance.interstitialAd.OnAdClosed -= InterstitialOnAdClosedEvent;

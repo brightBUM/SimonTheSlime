@@ -1,11 +1,11 @@
 using Unity.Services.LevelPlay;
 using UnityEngine;
 
-public class IronSourceAdManager : Singleton<IronSourceAdManager>
+public class IronSourceAdManager : MonoBehaviour
 {
     private LevelPlayBannerAd bannerAd;
     public LevelPlayInterstitialAd interstitialAd;
-
+    public static IronSourceAdManager Instance;
 #if UNITY_ANDROID
     string appKey = "85460dcd";
     string bannerAdUnitId = "thnfvcsog13bhn08";
@@ -15,6 +15,18 @@ public class IronSourceAdManager : Singleton<IronSourceAdManager>
     string bannerAdUnitId = "unexpected_platform";
     string interstitialAdUnitId = "unexpected_platform";
 #endif
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     public void Start()
     {
         IronSource.Agent.validateIntegration();

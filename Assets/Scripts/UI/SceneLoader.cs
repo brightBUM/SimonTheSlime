@@ -18,7 +18,7 @@ public class SceneLoader : Singleton<SceneLoader>
     {
         var nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
 
-        if (nextSceneIndex == 9) //to prevent infinite loading screens temporarily
+        if (nextSceneIndex == GameManger.Instance.sceneLimitOffset) //to prevent infinite loading screens temporarily
             return;
         SceneViaLoadingScreen(nextSceneIndex);
 
