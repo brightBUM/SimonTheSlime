@@ -550,13 +550,14 @@ public class PlayerController : MonoBehaviour
     }
     public void PlayerHitEffect()
     {
+        playerAnimation.DeathEffect();
         lerpAmount = 0;
         playerState = State.GHOST;
         rb.velocity = new Vector2(0, rb.velocity.y);
         rb.AddForce(Vector2.up * onHitUpForce, ForceMode2D.Impulse);
 
         //trigger retry screen here (also pause the game )
-        DOVirtual.DelayedCall(0.3f,() =>
+        DOVirtual.DelayedCall(0.5f,() =>
         {
             GamePlayScreenUI.Instance.ShowRetryScreen();
         });

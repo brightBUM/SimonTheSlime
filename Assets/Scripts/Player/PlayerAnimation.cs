@@ -3,11 +3,13 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class PlayerAnimation : MonoBehaviour
 {
     [SerializeField] PlayerController playerController;
     [SerializeField] GameObject ghostParticleVFX;
+    [SerializeField] GameObject deathFXPrefab;
     [SerializeField] Material lineMaterial;
     [SerializeField] Transform arrowHead;
     [SerializeField] Volume volume;
@@ -194,6 +196,13 @@ public class PlayerAnimation : MonoBehaviour
     {
         //volume.blendDistance = blendValue;
         ghostParticleVFX.SetActive(false);
+    }
+    public void DeathEffect()
+    {
+        ToggleTrailRenderer(false);
+        ToggleSpriteRenderer(false);
+        var deathFX = Instantiate(deathFXPrefab,transform.position,Quaternion.identity);
+        Destroy(deathFX, 1.5f);
     }
     public void HitEffect(Action respawnPlayer)
     {
