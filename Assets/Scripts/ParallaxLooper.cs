@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 [ExecuteInEditMode]
@@ -21,7 +22,8 @@ public class ParallaxLooper : MonoBehaviour
         backgroundWidth = backgrounds[0].GetComponent<SpriteRenderer>().bounds.size.x;
         lastPlayerPosition = player.position;
     }
-    private void FixedUpdate()
+    
+    private void Update()
     {
         var delta = player.position - lastPlayerPosition;
 
@@ -54,7 +56,6 @@ public class ParallaxLooper : MonoBehaviour
         lastPlayerPosition = player.position;
     }
     
-
     Transform GetRightmostBackground()
     {
         Transform rightmost = backgrounds[0];
