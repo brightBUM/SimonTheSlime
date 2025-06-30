@@ -10,6 +10,7 @@ public class Banana : MonoBehaviour
     void Start()
     {
         comboGroup = GetComponentInParent<ComboGroup>();
+        LevelManager.Instance.UpdateTargetBananas(1);
     }
 
     // Update is called once per frame

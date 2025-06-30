@@ -322,8 +322,12 @@ public class GamePlayScreenUI : MonoBehaviour
     public void ShowLevelCompleteScreen()
     {
         gameplayScreen.SetActive(false);
-        TriggerLevelCompleteScoreboard(true);
-        UpdateLevelCompleteUI();
+
+        //TriggerLevelCompleteScoreboard(true);
+        //UpdateLevelCompleteUI();
+
+        FindAnyObjectByType<ScoreBoard>().TriggerScoreBoard();
+        
         //unlock next level
 
         //check if first play or replay

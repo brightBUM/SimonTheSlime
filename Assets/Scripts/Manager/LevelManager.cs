@@ -13,19 +13,20 @@ public class LevelManager : MonoBehaviour
     [SerializeField] Transform collectiblesParent;
     [SerializeField] PlayerController playerController;
     [SerializeField] ComboUI ComboUIPrefab;
-    [SerializeField] float targetTime = 45f;
+    public float targetTime = 45f;
     public int levelIndex = 0;
     public float levelTimer;
     public bool startLevelTimer = false;
     //[Header("collectibles")]
-    private int targetbananas;
-    private int collectedBananas;
+    [HideInInspector] public int targetbananas;
+    [HideInInspector] public int collectedBananas;
     private int levelScore;
     private int collectedGems;
     private BaseRespawn baseRespawn;
     public int retryCount = 1;
     public int adRespawnCount = 0;
-    public int comboCount = 0;
+    public int TotalRespawnCount => retryCount + adRespawnCount;
+    public int comboCount;
     public Vector3 LastCheckpointpos { get; set; }
     public static LevelManager Instance;
     public CameraShake ShakeCamera => camShake;
@@ -37,10 +38,7 @@ public class LevelManager : MonoBehaviour
             Instance = this;
         }
         LastCheckpointpos = levelStart.transform.position;
-        targetbananas = collectiblesParent.childCount;
-        //bangeable pt
-        targetbananas += FindObjectsByType<BangablePlatform>(FindObjectsSortMode.None).Length * 4;
-
+       
         levelTimer = 0f;
 
         levelIndex = GameManger.Instance.selectedIndex - 3;
@@ -48,10 +46,10 @@ public class LevelManager : MonoBehaviour
     }
     private void Start()
     {
-
+        comboCount = 0;
         ComboParent = Instantiate(ComboUIPrefab);
         ComboParent.transform.localScale = Vector3.zero;
-
+        //Debug.Log("combo count : " + comboCount);
         GameManger.Instance?.ToggleMenuMusic(false);
     }
     private void Update()
@@ -63,7 +61,11 @@ public class LevelManager : MonoBehaviour
             GamePlayScreenUI.Instance.UpdateTimerText(TimeFormatConversion(levelTimer));
         }
     }
-
+    public void UpdateTargetBananas(int count)
+    {
+        targetbananas+=count;
+        GamePlayScreenUI.Instance.UpdateBananaCount(GetLevelBananasCount());
+    }
     public void StartLevel()
     {
         startLevelTimer = true;
@@ -76,22 +78,26 @@ public class LevelManager : MonoBehaviour
     {
         return ((collectedBananas * 5) + (int)levelTimer);
     }
-    private string TimeFormatConversion(float time)
+    public string TimeFormatConversion(float time)
     {
         var seconds = time % 60;
         var minutes = time / 60;
         string timeFormat = Mathf.FloorToInt(minutes) + ":" + Mathf.FloorToInt(seconds);
         return timeFormat;
     }
-
+    public string GetPerfectJumpBonus()
+    {
+        var baseValue = GameManger.Instance.gameConfig.perfectJumpBase;
+        var perfectJumpBonus = comboCount*baseValue;
+        SaveLoadManager.Instance.playerProfile.nanas += perfectJumpBonus;
+        return $"{baseValue}x{comboCount} = {perfectJumpBonus} nanas";
+    }
     public string GetGemsCount()
     {
         return collectedGems.ToString();
     }
     public string GetLevelBananasCount()
     {
-        
-
         return collectedBananas.ToString() + "/" + targetbananas.ToString();
     }
     public string GetLevelTimerText()
@@ -107,23 +113,26 @@ public class LevelManager : MonoBehaviour
         if (collectedBananas >= targetbananas)
         {
             stars++;
-            Debug.Log("nanas star awarded");
+            //Debug.Log("nanas star awarded");
         }
 
         if (levelTimer <= targetTime)
         {
             stars++;
-            Debug.Log("target time star awarded");
+            //Debug.Log("target time star awarded");
         }
 
-        if (retryCount + adRespawnCount <= 0)
+        if (retryCount + adRespawnCount <= 1)
         {
-            Debug.Log("No respawn star awarded ");
+            //Debug.Log("No respawn star awarded ");
             stars++;
         }
 
+        //Debug.Log(" star awarded : "+stars);
+
         return stars;
     }
+    
     public void CollectBanana()
     {
         collectedBananas++;

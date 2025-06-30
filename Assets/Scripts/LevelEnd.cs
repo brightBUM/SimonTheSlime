@@ -6,6 +6,7 @@ using Cinemachine;
 public class LevelEnd : MonoBehaviour
 {
     [SerializeField] Transform sleepingPlayer;
+    [SerializeField] Transform camCentre;
     [SerializeField] float yValue;
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,10 @@ public class LevelEnd : MonoBehaviour
         {
             //camZoom
             var virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
+
+            // set the cam follow to level end camCentre as player prefab will be disabled
+            virtualCamera.Follow = camCentre; 
+
             var confiner = FindAnyObjectByType<CinemachineConfiner2D>();
             var orthoSize = virtualCamera.m_Lens.OrthographicSize;
             DOTween.To(() => orthoSize, x => orthoSize = x, 12, 0.5f).SetUpdate(true).OnUpdate(() =>
@@ -45,7 +50,7 @@ public class LevelEnd : MonoBehaviour
             //play level complete music 
             //spawn scoreboard menu
 
-            DOVirtual.DelayedCall(2f, () =>
+            DOVirtual.DelayedCall(0.5f, () =>
             {
                 SoundManager.Instance.PlayLevelCompleteSFx();
                 GamePlayScreenUI.Instance.ShowLevelCompleteScreen();

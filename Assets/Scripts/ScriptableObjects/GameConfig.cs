@@ -9,6 +9,7 @@ public class GameConfig : ScriptableObject
     public string ProfileName = "default";
     public int nanasCount = 500;
     public int melonsCount = 50;
+    public int perfectJumpBase = 25;
     [Header("Ads Setting")]
     public int interstitialAdCheckPerLevel;
     public int mainMenuRewardedAdNanas;
