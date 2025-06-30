@@ -5,12 +5,15 @@ using UnityEngine;
 public class Banana : MonoBehaviour
 {
     [SerializeField] private float effectScale = 3f;
+    public bool runTime;
     // Start is called before the first frame update
     ComboGroup comboGroup;
     void Start()
     {
         comboGroup = GetComponentInParent<ComboGroup>();
-        LevelManager.Instance.UpdateTargetBananas(1);
+
+        if(!runTime) // bananas spawned in runtime by bangeable pt shouldn't increase the target 
+            LevelManager.Instance.UpdateTargetBananas(1);
     }
 
     // Update is called once per frame

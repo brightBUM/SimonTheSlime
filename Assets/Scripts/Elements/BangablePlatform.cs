@@ -25,6 +25,7 @@ public class BangablePlatform : MonoBehaviour, IPoundable
             GetComponentInChildren<BouncyDeform>().HitDeform();
             SoundManager.Instance.PlayCoinBangSFX();
             var coin = Instantiate(bananaPrefab, transform.position, Quaternion.identity);
+            coin.GetComponent<Banana>().runTime = true;
             coin.AddComponent<Rigidbody2D>().AddForce(Vector2.up * coinForce, ForceMode2D.Impulse);
             DOVirtual.DelayedCall(0.5f, () =>
             {
