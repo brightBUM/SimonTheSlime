@@ -59,7 +59,7 @@ Transform:
   m_GameObject: {fileID: 2309982410645028237}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.920002, y: 0, z: 0}
+  m_LocalPosition: {x: 20.170002, y: 0, z: 0}
   m_LocalScale: {x: 7.9899993, y: 7.9899993, z: 7.9899993}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -90,7 +90,7 @@ Transform:
   m_GameObject: {fileID: 2485872192114067958}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.49, y: 0, z: 0}
+  m_LocalPosition: {x: -15.74, y: 0, z: 0}
   m_LocalScale: {x: 7.9899993, y: 7.9899993, z: 7.9899993}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -5197,7 +5197,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHealth: 1
   animator: {fileID: 5273922472000961152}
-  lootDropPrefab: {fileID: 8579645309876374661, guid: aefcc4c4572d11f4aac6a917c7e33f28, type: 3}
   TransformA: {fileID: 5468259892744904608}
   TransformB: {fileID: 3251320818031212370}
   patrolSpeed: 4
@@ -5391,15 +5390,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 461002, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.166276
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 461002, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2.166276
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 461002, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2.166276
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 461002, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5449,9 +5448,25 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 19821674, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
+      propertyPath: simulationSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 19821674, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19821674, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
+      propertyPath: InitialModule.startLifetime.minScalar
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 19839796, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
       propertyPath: playOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19839796, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
+      propertyPath: simulationSpeed
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -13,6 +14,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] Transform collectiblesParent;
     [SerializeField] PlayerController playerController;
     [SerializeField] ComboUI ComboUIPrefab;
+    [SerializeField] LootDrop lootDropPrefab;
+    private float lootDelay = 0.25f;
     public float targetTime = 45f;
     public int levelIndex = 0;
     public float levelTimer;
@@ -30,6 +33,7 @@ public class LevelManager : MonoBehaviour
     public Vector3 LastCheckpointpos { get; set; }
     public static LevelManager Instance;
     public CameraShake ShakeCamera => camShake;
+    public Action<Vector3> OnEnemyLootDrop;
     ComboUI ComboParent;
     private void Awake()
     {
@@ -51,6 +55,7 @@ public class LevelManager : MonoBehaviour
         ComboParent.transform.localScale = Vector3.zero;
         //Debug.Log("combo count : " + comboCount);
         GameManger.Instance?.ToggleMenuMusic(false);
+        OnEnemyLootDrop += EnemyLootDrop;
     }
     private void Update()
     {
@@ -60,6 +65,16 @@ public class LevelManager : MonoBehaviour
 
             GamePlayScreenUI.Instance.UpdateTimerText(TimeFormatConversion(levelTimer));
         }
+    }
+    private void EnemyLootDrop(Vector3 pos)
+    {
+        StartCoroutine(SpawnLootDelayed(pos));
+    }
+    private IEnumerator SpawnLootDelayed(Vector3 pos)
+    {
+        yield return new WaitForSeconds(lootDelay);
+        var lootDropItem = Instantiate(lootDropPrefab, pos, Quaternion.identity);
+        lootDropItem.Init();
     }
     public void UpdateTargetBananas(int count)
     {
@@ -200,6 +215,12 @@ public class LevelManager : MonoBehaviour
         { "screen", "GAME" },
         { "level", levelIndex+1}
     });
+
+    }
+
+    private void OnDestroy()
+    {
+        OnEnemyLootDrop -= EnemyLootDrop;
 
     }
 }

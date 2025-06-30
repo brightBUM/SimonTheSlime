@@ -77,6 +77,7 @@ namespace Magar
             if (DeathFx == null) return;
             DeathFx.transform.parent = null;
             DeathFx.gameObject.SetActive(true);
+            //Debug.Break();
             DeathFx.Play();
         }
 

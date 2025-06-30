@@ -5282,7 +5282,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHealth: 1
   animator: {fileID: 3126240292559334324}
-  lootDropPrefab: {fileID: 8579645309876374661, guid: aefcc4c4572d11f4aac6a917c7e33f28, type: 3}
   TransformA: {fileID: 7542636943815974012}
   TransformB: {fileID: 3370865284220113349}
   patrolSpeed: 3
@@ -5598,15 +5597,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 461002, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.166276
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 461002, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2.166276
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 461002, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2.166276
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 461002, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5656,9 +5655,25 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 19821674, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
+      propertyPath: simulationSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 19821674, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 19821674, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
+      propertyPath: InitialModule.startLifetime.minScalar
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 19839796, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
       propertyPath: playOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 19839796, guid: 8368975de5593844bbfaf74e342fb326, type: 3}
+      propertyPath: simulationSpeed
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
