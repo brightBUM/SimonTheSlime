@@ -3974,54 +3974,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 30181370091435216, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 30181370091435216, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 30181370091435216, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 30181370091435216, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1794242011810939649, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1794242011810939649, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1794242011810939649, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1794242011810939649, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5126080226229901838, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5126080226229901838, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5126080226229901838, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5126080226229901838, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5289766292405697462, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 202.08847
@@ -4065,26 +4017,6 @@ PrefabInstance:
     - target: {fileID: 6334032491021425923, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
       propertyPath: m_Name
       value: Level End  (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 8865410623932009521, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9180894864378346567, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9180894864378346567, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9180894864378346567, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9180894864378346567, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6582,6 +6514,8 @@ MonoBehaviour:
   menuAudioSource: {fileID: 417976674}
   charSkinSO: {fileID: 11400000, guid: ed0fda30b8229b34bbdfc8014ac522a0, type: 2}
   gameConfig: {fileID: 11400000, guid: 4f39697cf25fe0c43a272261e6461ecb, type: 2}
+  sceneLimitOffset: 18
+  sceneLoadOffset: 3
 --- !u!1001 &614452097
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15850,7 +15784,7 @@ Transform:
   m_GameObject: {fileID: 1487673070}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -31.797264, y: 13.0358, z: -10}
+  m_LocalPosition: {x: -35.79725, y: 13.0358, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -50727,7 +50661,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2092365149554379088, guid: 4c1b2dc7c141dba45a2e906eb9b54d21, type: 3}
       propertyPath: m_LocalScale.x
-      value: 12.499999
+      value: 11.111111
       objectReference: {fileID: 0}
     - target: {fileID: 2092365149554379088, guid: 4c1b2dc7c141dba45a2e906eb9b54d21, type: 3}
       propertyPath: m_LocalScale.y
@@ -52439,7 +52373,7 @@ Transform:
   m_GameObject: {fileID: 939357581102745237}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.75, y: 0, z: 0}
+  m_LocalPosition: {x: 5.6062517, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -53614,6 +53548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &822840647608419447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53627,6 +53562,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &822840647849329558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53640,6 +53576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &822840648051362524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53653,6 +53590,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &822840648307475639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53666,6 +53604,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &822840649231852689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53679,6 +53618,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!95 &840298935971593724
 Animator:
   serializedVersion: 7
@@ -54705,7 +54645,7 @@ Transform:
   m_GameObject: {fileID: 7736714557511939330}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.28749454, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -54983,6 +54923,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &1785907688707857622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54996,6 +54937,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &1785907689189235703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55009,6 +54951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &1785907689526006461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55022,6 +54965,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &1785907689956531222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55035,6 +54979,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &1785907689999693204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55048,6 +54993,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!1 &1794080357217166265
 GameObject:
   m_ObjectHideFlags: 0
@@ -55118,7 +55064,7 @@ Transform:
   m_GameObject: {fileID: 6489648980030629670}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.75, y: 0, z: 0}
+  m_LocalPosition: {x: -5.965621, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -55151,7 +55097,7 @@ Transform:
   m_GameObject: {fileID: 223903854671293839}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 18.571428, y: 0, z: 0}
+  m_LocalPosition: {x: -35.231422, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -55166,7 +55112,7 @@ Transform:
   m_GameObject: {fileID: 1794080357217166265}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.14374729, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -56249,7 +56195,7 @@ Transform:
   m_GameObject: {fileID: 4425158531698371136}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.2285701, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -56352,6 +56298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &4151224381162370138
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56365,6 +56312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &4151224381405901755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56378,6 +56326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &4151224381474274033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56391,6 +56340,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &4151224381738251418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56404,6 +56354,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &4151224382692988092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56417,6 +56368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!4 &4166760084404786591
 Transform:
   m_ObjectHideFlags: 0
@@ -56426,7 +56378,7 @@ Transform:
   m_GameObject: {fileID: 5723874127559664799}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.75, y: 0, z: 0}
+  m_LocalPosition: {x: 5.534379, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -56442,7 +56394,7 @@ Transform:
   m_GameObject: {fileID: 3012975489875743907}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -17.88, y: -1.0099999, z: 0}
+  m_LocalPosition: {x: -17.651423, y: -1.0099999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -56595,7 +56547,7 @@ Transform:
   m_GameObject: {fileID: 7647863818903194814}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.21562076, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -56628,7 +56580,7 @@ Transform:
   m_GameObject: {fileID: 6899847488959360174}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.75, y: 0, z: 0}
+  m_LocalPosition: {x: 5.462505, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -57913,7 +57865,7 @@ Transform:
   m_GameObject: {fileID: 4102031993437454621}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.75, y: 0, z: 0}
+  m_LocalPosition: {x: -5.893747, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -58002,6 +57954,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &6825567572098989152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58015,6 +57968,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &6825567572409105281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58028,6 +57982,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &6825567572474983115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58041,6 +57996,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &6825567572731100320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58054,6 +58010,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &6825567573655297158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58067,6 +58024,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!1 &6899847488959360174
 GameObject:
   m_ObjectHideFlags: 0
@@ -59347,7 +59305,7 @@ Transform:
   m_GameObject: {fileID: 4739912318854956382}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.75, y: 0, z: 0}
+  m_LocalPosition: {x: -6.0374937, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -60288,6 +60246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &9142507954713586109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60301,6 +60260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &9142507955229706587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60314,6 +60274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &9142507955416522969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60327,6 +60288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &9142507955455413946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60340,6 +60302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &9142507955924436976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60353,6 +60316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &9172195901865622867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60366,6 +60330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &9172195901931467801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60379,6 +60344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &9172195902506193712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60392,6 +60358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &9172195902692162226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60405,6 +60372,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &9172195903141239380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60418,6 +60386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!114 &9172195903261325938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60431,6 +60400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectScale: 3
+  runTime: 0
 --- !u!95 &9189640978680636191
 Animator:
   serializedVersion: 7

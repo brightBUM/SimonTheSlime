@@ -9,6 +9,7 @@ namespace magar
         [Header("Horizontal patroller")]
         public Transform TransformA;  // Left position reference
         public Transform TransformB; // Right position reference
+        public Transform blinkVisual;
         public float patrolSpeed = 2f;
         public float chaseSpeed = 5f;
         public float waitDuration = 1f;
@@ -18,6 +19,7 @@ namespace magar
         public float chaseDelay = 0.3f; // Delay before chasing
         public float blastDelay = 1f;
 
+        private float blinkInterval = 0.1f;
         private Vector2 pointA, pointB;
         private Rigidbody2D rb;
         private bool isMovingLeft = true;
@@ -28,6 +30,7 @@ namespace magar
         private float chaseDelayTimer = 0f;
         private bool isInChaseDelay = false;
         private bool isAlert = false;
+        private Coroutine alertBlinkCoroutine;
 
         public event Action OnMovePointReachedEvent;
         public event Action OnPlayerFoundEvent;
@@ -123,6 +126,13 @@ namespace magar
                 hasDetectedTarget = false;
                 targetHitPoint = null;
                 isInChaseDelay = false;
+
+                if (alertBlinkCoroutine != null)
+                {
+                    StopCoroutine(alertBlinkCoroutine);
+                    alertBlinkCoroutine = null;
+                    blinkVisual.gameObject.SetActive(false); // Ensure it's hidden
+                }
             }
         }
 
@@ -141,6 +151,12 @@ namespace magar
             Vector3 scale = transform.localScale;
             scale.x = direction.x < 0 ? -Mathf.Abs(scale.x) : Mathf.Abs(scale.x);
             transform.localScale = scale;
+
+            // Start blinking if not already
+            if (alertBlinkCoroutine == null)
+            {
+                alertBlinkCoroutine = StartCoroutine(AlertBlinkRoutine());
+            }
 
             // Check if reached blast range
             if (Vector2.Distance(currentPosition, targetHitPoint.Value) <= blastRange)
@@ -193,6 +209,14 @@ namespace magar
             OnBlastInitiatedEvent?.Invoke();    
             StartCoroutine(DamageCoroutine());
 
+            if (alertBlinkCoroutine != null)
+            {
+                StopCoroutine(alertBlinkCoroutine);
+                alertBlinkCoroutine = null;
+                blinkVisual.gameObject.SetActive(false);
+            }
+
+
             this.enabled = false;
         }
         IEnumerator DamageCoroutine()
@@ -220,6 +244,15 @@ namespace magar
             Debug.DrawLine(transform.position, transform.position + Vector3.left * blastRange, Color.red, 1f);
             Debug.DrawLine(transform.position, transform.position + Vector3.up * blastRange, Color.red, 1f);
             Debug.DrawLine(transform.position, transform.position + Vector3.down * blastRange, Color.red, 1f);
+        }
+
+        IEnumerator AlertBlinkRoutine()
+        {
+            while (true)
+            {
+                blinkVisual.gameObject.SetActive(!blinkVisual.gameObject.activeSelf);
+                yield return new WaitForSeconds(blinkInterval);
+            }
         }
     }
 }
