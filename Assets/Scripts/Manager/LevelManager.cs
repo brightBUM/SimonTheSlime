@@ -54,8 +54,8 @@ public class LevelManager : MonoBehaviour
         ComboParent = Instantiate(ComboUIPrefab);
         ComboParent.transform.localScale = Vector3.zero;
         //Debug.Log("combo count : " + comboCount);
-        GameManger.Instance?.ToggleMenuMusic(false);
         OnEnemyLootDrop += EnemyLootDrop;
+        GameManger.Instance?.ToggleMenuMusic(false);
     }
     private void Update()
     {
