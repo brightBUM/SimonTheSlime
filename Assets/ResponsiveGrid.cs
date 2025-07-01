@@ -26,11 +26,11 @@ public class ResponsiveGrid : MonoBehaviour
         grid.spacing = new Vector2(spacingX, spacingY);
 
         grid.padding = new RectOffset(0, 0, 0, 0); // optional — spacing handles the centering
-        grid.constraint = GridLayoutGroup.Constraint.FixedRowCount;
-        grid.constraintCount = rows;
+        grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+        grid.constraintCount = columns;
 
-        var cont = gameObject.AddComponent<ContentSizeFitter>();
-        cont.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+        //var cont = gameObject.AddComponent<ContentSizeFitter>();
+        //cont.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
     }
     private void Update()
     {

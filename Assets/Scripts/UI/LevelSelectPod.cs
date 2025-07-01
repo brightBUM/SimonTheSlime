@@ -36,10 +36,11 @@ public class LevelSelectPod : MonoBehaviour,IPointerEnterHandler,IPointerClickHa
     {
         if(unlocked)
         {
+
             //for mobile touch , have delayed load
 #if UNITY_ANDROID && !UNITY_EDITOR
-            var pointer = LevelSelectionScreen.Instance.GetPlayerPointer();
 
+            var pointer = LevelSelectionScreen.Instance.GetPlayerPointer();
             pointer.localScale = Vector3.zero;
             pointer.position = this.transform.position;
             pointer.SetParent(this.transform);
@@ -63,6 +64,7 @@ public class LevelSelectPod : MonoBehaviour,IPointerEnterHandler,IPointerClickHa
         if (unlocked)
         {
             var pointer = LevelSelectionScreen.Instance.GetPlayerPointer();
+            pointer.DOKill();
             pointer.localScale = Vector3.zero;
             pointer.position = this.transform.position;
             pointer.SetParent(this.transform);

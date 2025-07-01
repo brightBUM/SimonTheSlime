@@ -1108,10 +1108,10 @@ RectTransform:
   - {fileID: 1272779718}
   m_Father: {fileID: 1172558639}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.06689453, y: -0.22467041}
-  m_SizeDelta: {x: -0.49697876, y: -0.4493637}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -0.06692505, y: -0.22467041}
+  m_SizeDelta: {x: 1791.503, y: 929.55066}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &309379964
 MonoBehaviour:
@@ -4543,10 +4543,10 @@ RectTransform:
   - {fileID: 309379962}
   m_Father: {fileID: 467557803}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.031708345, y: 0}
-  m_AnchorMax: {x: 0.9672502, y: 0.86288893}
-  m_AnchoredPosition: {x: -0.2902832, y: -0.82385254}
-  m_SizeDelta: {x: -4.3312073, y: -1.6477289}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -1.2902527, y: -74.82385}
+  m_SizeDelta: {x: 1791.6688, y: 930.3523}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1172558640
 MonoBehaviour:
@@ -4630,7 +4630,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scrollRect: {fileID: 1172558640}
   content: {fileID: 1272779718}
-  itemsPerPage: 6
+  itemsPerPage: 1
 --- !u!1 &1188570624
 GameObject:
   m_ObjectHideFlags: 0
@@ -4924,7 +4924,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1272779718}
-  - component: {fileID: 1272779720}
   - component: {fileID: 1272779719}
   m_Layer: 5
   m_Name: Content
@@ -4947,10 +4946,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 309379962}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -0.000010728836, y: 0}
+  m_SizeDelta: {x: 1792, y: 930}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1272779719
 MonoBehaviour:
@@ -4961,37 +4960,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1272779717}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46234a67f8bcf454d847809ad2d6d5c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cellWidth: 500
-  cellHeight: 425
-  columns: 3
-  rows: 2
---- !u!114 &1272779720
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1272779717}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
+    m_Left: 50
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 3
-  m_StartCorner: 0
-  m_StartAxis: 0
-  m_CellSize: {x: 500, y: 425}
-  m_Spacing: {x: 0, y: 0}
-  m_Constraint: 2
-  m_ConstraintCount: 2
+  m_Spacing: 200
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &1301694305
 GameObject:
   m_ObjectHideFlags: 0
@@ -7027,6 +7012,7 @@ MonoBehaviour:
   ease: 9
   playerPointer: {fileID: 131353308}
   levelPodPrefab: {fileID: 379800187649224335, guid: 279af01d9322ab0458ec7ceace04ea70, type: 3}
+  pagePanelPrefab: {fileID: 1535116436042911922, guid: f82569dab21342d468dc5d0cd13c713f, type: 3}
   contentParent: {fileID: 1272779718}
   pageSnapScroll: {fileID: 1172558643}
   sceneLoader: {fileID: 220412545}

@@ -1,7 +1,9 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelSelectionScreen : MonoBehaviour
 {
@@ -10,6 +12,7 @@ public class LevelSelectionScreen : MonoBehaviour
     [SerializeField] Ease ease = Ease.InSine;
     [SerializeField] Transform playerPointer;
     [SerializeField] GameObject levelPodPrefab;
+    [SerializeField] GameObject pagePanelPrefab;
     [SerializeField] Transform contentParent;
     [SerializeField] PageSnapScroll pageSnapScroll;
     [SerializeField] SceneLoader sceneLoader;
@@ -22,11 +25,26 @@ public class LevelSelectionScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < levelCount; i++)
+        //spawn in 6 as a page 
+        var pages = levelCount / 6;
+        pages = levelCount % 6 != 0 ? pages + 1 : pages;
+        //Debug.Log($"levelCount : {levelCount} , pages : {pages}");
+        for (int i = 0; i < pages; i++)
         {
-            var levelPod = Instantiate(levelPodPrefab, contentParent);
-            levelPod.GetComponent<LevelSelectPod>().Init(i);
+            var pagePanel = Instantiate(pagePanelPrefab,contentParent);
+            var startIndex = 6 * i;
+            var endIndex = Mathf.Min((6 * i + 6),levelCount);
+
+            for (int j = startIndex ; j < endIndex ; j++)
+            {
+                var levelPod = Instantiate(levelPodPrefab, pagePanel.transform);
+                levelPod.GetComponent<LevelSelectPod>().Init(j);
+            }
         }
+
+        var contentSizeFitter = contentParent.AddComponent<ContentSizeFitter>();
+        contentSizeFitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+
         pageSnapScroll.Init();
     }
     public void TweenToPage(float value)

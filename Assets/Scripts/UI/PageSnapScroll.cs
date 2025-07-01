@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using DG.Tweening;
 
 public class PageSnapScroll : MonoBehaviour,IBeginDragHandler, IEndDragHandler
 {
@@ -21,13 +22,36 @@ public class PageSnapScroll : MonoBehaviour,IBeginDragHandler, IEndDragHandler
     {
         totalItems = content.childCount;
         totalPages = Mathf.CeilToInt((float)totalItems / itemsPerPage);
-        Debug.Log("total pages : " + totalPages);
         pagePositions = new float[totalPages];
+
+        var layoutGroup = content.GetComponent<HorizontalLayoutGroup>();
+        var item = content.GetChild(0) as RectTransform;
+        float itemWidth = item.rect.width;
+        float spacing = layoutGroup.spacing;
+
+        float viewWidth = scrollRect.viewport.rect.width;
+        float pageWidth = (itemWidth + spacing) * itemsPerPage;
+
+        float totalContentWidth = (itemWidth + spacing) * totalItems - spacing;
+        float scrollableWidth = totalContentWidth - viewWidth;
 
         for (int i = 0; i < totalPages; i++)
         {
-            pagePositions[i] = (float)i / (totalPages - 1);
+            // Calculate center of each page
+            float pageCenter = ((itemWidth + spacing) * itemsPerPage * i) + (pageWidth / 2f) - (viewWidth / 2f);
+            float normalized = scrollableWidth <= 0 ? 0 : pageCenter / scrollableWidth;
+            pagePositions[i] = Mathf.Clamp01(normalized);
         }
+
+        StartCoroutine(SnapToStartAfterLayout());
+    }
+    private System.Collections.IEnumerator SnapToStartAfterLayout()
+    {
+        // Wait one frame for layout to finish
+        yield return null;
+
+        // Now set position immediately (no smooth scroll)
+        scrollRect.horizontalNormalizedPosition = pagePositions[0];
     }
     public void OnEndDrag(PointerEventData eventData)
     {
@@ -66,6 +90,8 @@ public class PageSnapScroll : MonoBehaviour,IBeginDragHandler, IEndDragHandler
 
     System.Collections.IEnumerator SmoothScrollTo(float target)
     {
+        //Debug.Log("Scroll rect HNP target: " + target);
+
         float duration = 0.3f;
         float elapsed = 0f;
         float start = scrollRect.horizontalNormalizedPosition;
