@@ -23,6 +23,8 @@ public class ResponsiveGrid : MonoBehaviour
         float spacingY = (screenHeight - (rows * cellHeight)) / (rows - 1);
 
         grid.cellSize = new Vector2(cellWidth, cellHeight);
+        if (spacingX < 0)
+            spacingX = 0;
         grid.spacing = new Vector2(spacingX, spacingY);
 
         grid.padding = new RectOffset(0, 0, 0, 0); // optional — spacing handles the centering

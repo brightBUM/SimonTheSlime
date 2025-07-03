@@ -35,6 +35,8 @@ public class PageSnapScroll : MonoBehaviour,IBeginDragHandler, IEndDragHandler
         float totalContentWidth = (itemWidth + spacing) * totalItems - spacing;
         float scrollableWidth = totalContentWidth - viewWidth;
 
+        //Debug.Log($" Pagepositions : {pagePositions[i]}");
+
         for (int i = 0; i < totalPages; i++)
         {
             // Calculate center of each page
@@ -65,11 +67,14 @@ public class PageSnapScroll : MonoBehaviour,IBeginDragHandler, IEndDragHandler
         // Find current page
         for (int i = 0; i < pagePositions.Length; i++)
         {
+
             float dist = Mathf.Abs(dragStartPos - pagePositions[i]);
             if (dist < closest)
             {
                 closest = dist;
                 currentPage = i;
+
+                //Debug.Log($"closest : {closest} , dist : {dist} , currentPage : {currentPage}");
             }
         }
 

@@ -135,6 +135,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     {
         return playerProfile.levelUnlockProgress;
     }
+    
     public void FirstOrReplay(int currentStars)
     {
         int levelIndex = LevelManager.Instance.levelIndex;
@@ -254,11 +255,14 @@ public class PlayerProfile
     public int age;
     public int nanas;
     public int melons;
+    public int screws;
+    public int batteries;
     public List<int> unlockedCharSkins;
     public List<int> unlockedPodSkins;
     public int equippedSkin;
     public int equippedPod;
     public int levelUnlockProgress;
+    public int pageUnlockProgress;
     public List<int> levelStars;
     public List<VolumeControl> volumeControls;
     public string lastrewardedAdTime;

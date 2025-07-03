@@ -1,7 +1,4 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +9,7 @@ public class LevelSelectionScreen : MonoBehaviour
     [SerializeField] Ease ease = Ease.InSine;
     [SerializeField] Transform playerPointer;
     [SerializeField] GameObject levelPodPrefab;
-    [SerializeField] GameObject pagePanelPrefab;
+    [SerializeField] LevelPage pagePanelPrefab;
     [SerializeField] Transform contentParent;
     [SerializeField] PageSnapScroll pageSnapScroll;
     [SerializeField] SceneLoader sceneLoader;
@@ -32,17 +29,19 @@ public class LevelSelectionScreen : MonoBehaviour
         for (int i = 0; i < pages; i++)
         {
             var pagePanel = Instantiate(pagePanelPrefab,contentParent);
+            pagePanel.Init(i);
+
             var startIndex = 6 * i;
             var endIndex = Mathf.Min((6 * i + 6),levelCount);
 
             for (int j = startIndex ; j < endIndex ; j++)
             {
-                var levelPod = Instantiate(levelPodPrefab, pagePanel.transform);
+                var levelPod = Instantiate(levelPodPrefab, pagePanel.pagePanelParent);
                 levelPod.GetComponent<LevelSelectPod>().Init(j);
             }
         }
 
-        var contentSizeFitter = contentParent.AddComponent<ContentSizeFitter>();
+        var contentSizeFitter = contentParent.gameObject.AddComponent<ContentSizeFitter>();
         contentSizeFitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
 
         pageSnapScroll.Init();

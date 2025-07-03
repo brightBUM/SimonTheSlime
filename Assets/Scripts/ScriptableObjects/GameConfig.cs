@@ -16,5 +16,8 @@ public class GameConfig : ScriptableObject
     public int RetryNanasCost = 100;
     [Header("Level Stats")]
     public List<float> targetTime;
+    [Header("Level Parts")]
+    public List<int> parts;
+
 
 }
