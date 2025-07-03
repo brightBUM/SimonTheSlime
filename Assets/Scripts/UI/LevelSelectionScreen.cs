@@ -1,9 +1,17 @@
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LevelSelectionScreen : MonoBehaviour
 {
+    [Header("Currency Tab")]
+    [SerializeField] TextMeshProUGUI nanasText;
+    [SerializeField] TextMeshProUGUI melonsText;
+    [SerializeField] TextMeshProUGUI screwsText;
+    [SerializeField] TextMeshProUGUI batteryText;
+
+    [Header("Level Select ")]
     [SerializeField] Transform starPrefab;
     [SerializeField] RectTransform panelParent;
     [SerializeField] Ease ease = Ease.InSine;
@@ -22,6 +30,9 @@ public class LevelSelectionScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //update currency UI
+        UpdateCurrencyUI();
+
         //spawn in 6 as a page 
         var pages = levelCount / 6;
         pages = levelCount % 6 != 0 ? pages + 1 : pages;
@@ -45,6 +56,14 @@ public class LevelSelectionScreen : MonoBehaviour
         contentSizeFitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
 
         pageSnapScroll.Init();
+    }
+    private void UpdateCurrencyUI()
+    {
+        var playerProfile = SaveLoadManager.Instance.playerProfile;
+        nanasText.text    = playerProfile.nanas.ToString();
+        melonsText.text   = playerProfile.melons.ToString();
+        screwsText.text   = playerProfile.screws.ToString();
+        batteryText.text  = playerProfile.batteries.ToString();
     }
     public void TweenToPage(float value)
     {
