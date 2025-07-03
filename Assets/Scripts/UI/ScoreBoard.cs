@@ -27,8 +27,8 @@ public class ScoreBoard : MonoBehaviour
     [SerializeField] TextMeshProUGUI perfectJumpCount;
     [SerializeField] TextMeshProUGUI perfectJumpMultipler;
     [SerializeField] TextMeshProUGUI gemsCollected;
-    [SerializeField] TextMeshProUGUI part1Text;
-    [SerializeField] TextMeshProUGUI part2Text;
+    [SerializeField] TextMeshProUGUI screwsText;
+    [SerializeField] TextMeshProUGUI batteryText;
 
     [SerializeField] GameObject nextLevelButton;
     [SerializeField] float levelCompleteTextDelay = 0.2f;
@@ -57,7 +57,18 @@ public class ScoreBoard : MonoBehaviour
     }
     private void OnNextClick()
     {
-        GamePlayScreenUI.Instance.GotoNextLevel();
+        //if last level of a page goto level select screen instead of next level
+        var levelIndex = LevelManager.Instance.levelIndex;
+        var pageUnlock = SaveLoadManager.Instance.playerProfile.pageUnlockProgress;
+        if ((levelIndex == 5 && pageUnlock ==0 )|| (levelIndex == 11 && pageUnlock == 1))
+        {
+            LevelManager.Instance.UnlockNextLevel();
+            GamePlayScreenUI.Instance.GotoLevelSelectionScreen();
+        }
+        else
+        {
+            GamePlayScreenUI.Instance.GotoNextLevel();
+        }
     }
     public void AnimateCounter(TextMeshProUGUI counterText, int from, int to, float time)
     {
@@ -109,7 +120,8 @@ public class ScoreBoard : MonoBehaviour
         totalRespawns.text = (levelManager.TotalRespawnCount-1).ToString();
 
         //animate parts text (right panel)
-
+        screwsText.text = levelManager.collectedScrews.ToString();
+        batteryText.text = levelManager.collectedBatteries.ToString();
     }
     [ContextMenu("Tween ScoreBoard")]
     public void TriggerScoreBoard()

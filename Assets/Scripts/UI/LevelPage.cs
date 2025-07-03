@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,7 +19,7 @@ public class LevelPage : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+        unlockButton.onClick.AddListener(UnlockLevelPage);
     }
     public void Init(int num)
     {
@@ -39,7 +40,7 @@ public class LevelPage : MonoBehaviour
                 screwPart.SetActive(true);
                 screwRemainValue = screwValue - playerProfile.screws;
                 screwRemainValue = screwRemainValue<=0 ? 0 : screwRemainValue;
-                screwText.text = screwRemainValue.ToString();
+                screwText.text = screwValue.ToString();
             }
 
             var batterValue = GameManger.Instance.gameConfig.parts[2 * num + 1];
@@ -48,7 +49,7 @@ public class LevelPage : MonoBehaviour
                 batterPart.SetActive(true);
                 batteryRemainValue = batterValue - playerProfile.batteries;
                 batteryRemainValue = batteryRemainValue<=0 ? 0 : batteryRemainValue;
-                batteryText.text = batteryRemainValue.ToString();
+                batteryText.text = batterValue.ToString();
             }
 
             if(screwRemainValue+batteryRemainValue<=0)
@@ -65,5 +66,12 @@ public class LevelPage : MonoBehaviour
     {
         //to do unlock vfx 
         lockedPanel.SetActive(false);
+        //decrement part from profile
+        LevelSelectionScreen.Instance.UnlockNextPage();
+    }
+    private void OnDestroy()
+    {
+        unlockButton.onClick.RemoveListener(UnlockLevelPage);
+
     }
 }

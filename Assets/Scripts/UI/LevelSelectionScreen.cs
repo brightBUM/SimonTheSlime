@@ -57,6 +57,8 @@ public class LevelSelectionScreen : MonoBehaviour
 
         pageSnapScroll.Init();
     }
+
+
     private void UpdateCurrencyUI()
     {
         var playerProfile = SaveLoadManager.Instance.playerProfile;
@@ -68,6 +70,18 @@ public class LevelSelectionScreen : MonoBehaviour
     public void TweenToPage(float value)
     {
         panelParent.DOAnchorPosX(value,0.5f).SetEase(ease);
+    }
+
+    public void UnlockNextPage()
+    {
+        var playerProfile = SaveLoadManager.Instance.playerProfile;
+
+        playerProfile.screws -= GameManger.Instance.gameConfig.parts[2 * playerProfile.pageUnlockProgress];
+        playerProfile.batteries -= GameManger.Instance.gameConfig.parts[2 * playerProfile.pageUnlockProgress+1];
+
+        playerProfile.pageUnlockProgress++;
+        UpdateCurrencyUI();
+        SaveLoadManager.Instance.SaveGame();
     }
     public Transform GetPlayerPointer()
     {

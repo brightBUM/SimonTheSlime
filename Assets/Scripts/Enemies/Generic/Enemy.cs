@@ -7,7 +7,7 @@ namespace magar
     {
         [Header("Enemy")]
         public Animator animator;
-        
+        public int lootIndex;
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
@@ -19,7 +19,7 @@ namespace magar
                     TakeDamage(new DamageInfo(1, Vector3.down));
 
                     //spawn loot
-                    LevelManager.Instance.OnEnemyLootDrop(transform.position);
+                    LevelManager.Instance.OnEnemyLootDrop(lootIndex,transform.position);
                 }
                 else
                 {

@@ -46,6 +46,14 @@ public class LootDrop : MonoBehaviour
         {
             var sprite = spriteRenderer.sprite;
 
+            if(transform.CompareTag("Screw Part"))
+            {
+                LevelManager.Instance.collectedScrews++;
+            }
+            else if(transform.CompareTag("Battery Part"))
+            {
+                LevelManager.Instance.collectedBatteries++;
+            }
             //tween the UI icon
             OnCollection.Invoke(sprite, transform.position);
             //disable self

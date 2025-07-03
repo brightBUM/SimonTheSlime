@@ -11,7 +11,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     public PlayerProfile playerProfile;
     public bool firstLoad = false;
     public DateTime lastRewardedAdTime;
-    int debugUnlock = 14;
+    int debugUnlock = 0;
     
     public void InitFileSystem()
     {
@@ -144,9 +144,6 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
             // first play
             playerProfile.levelStars.Add(currentStars);
             Debug.Log($"stars awarded first time ,lvl {levelIndex + 1} : {currentStars} stars");
-
-            playerProfile.levelUnlockProgress++;
-            SaveGame();
         }
         else if(currentStars > playerProfile.levelStars[levelIndex])
         {
@@ -154,7 +151,6 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
             //save the currentstars if they are more than stored
             playerProfile.levelStars[levelIndex] = currentStars;
             Debug.Log($"replay level , stars overwritten, {levelIndex} : {currentStars}");
-            SaveGame();
         }
     }
     
@@ -164,7 +160,6 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
         if(LevelManager.Instance.levelIndex == playerProfile.levelUnlockProgress)
         {
             playerProfile.levelUnlockProgress++;
-            SaveGame();
         }
     }
 

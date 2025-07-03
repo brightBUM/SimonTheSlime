@@ -145,7 +145,7 @@ public class GamePlayScreenUI : MonoBehaviour
             scoreboardTitleUI.text = "Level Complete";
             ScoreboardScreen.SetActive(value);
             ScoreboardScreen.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBounce);
-            LevelManager.Instance.AddNanasToProfile();
+            LevelManager.Instance.AddLevelStatsToProfile();
 
         }
         else
@@ -190,8 +190,8 @@ public class GamePlayScreenUI : MonoBehaviour
         ScoreboardScreen.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBounce);
         UpdateLevelCompleteUI();
 
-
-        LevelManager.Instance.AddNanasToProfile();
+        //LevelManager.Instance.AddLevelStatsToProfile();
+        //SaveLoadManager.Instance.SaveGame();
     }
     private void InterstitialOnAdClosedEvent(LevelPlayAdInfo info)
     {
@@ -326,14 +326,18 @@ public class GamePlayScreenUI : MonoBehaviour
         //TriggerLevelCompleteScoreboard(true);
         //UpdateLevelCompleteUI();
 
+        //add level stats to profile
+        LevelManager.Instance.AddLevelStatsToProfile();
+
         FindAnyObjectByType<ScoreBoard>().TriggerScoreBoard();
-        
-        //unlock next level
 
         //check if first play or replay
         SaveLoadManager.Instance.FirstOrReplay(LevelManager.Instance.GetWonStars());
 
+        //unlock next level , if atleast 1 star acquired
         LevelManager.Instance.UnlockNextLevel();
+
+        SaveLoadManager.Instance.SaveGame();
     }
     public void UpdateLevelCompleteUI()
     {

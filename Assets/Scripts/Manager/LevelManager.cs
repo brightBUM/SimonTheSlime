@@ -14,7 +14,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] Transform collectiblesParent;
     [SerializeField] PlayerController playerController;
     [SerializeField] ComboUI ComboUIPrefab;
-    [SerializeField] LootDrop lootDropPrefab;
+    [SerializeField] LootDrop[] lootDropPrefab;
     private float lootDelay = 0.25f;
     public float targetTime = 45f;
     public int levelIndex = 0;
@@ -23,6 +23,9 @@ public class LevelManager : MonoBehaviour
     //[Header("collectibles")]
     [HideInInspector] public int targetbananas;
     [HideInInspector] public int collectedBananas;
+    [HideInInspector] public int collectedScrews;
+    [HideInInspector] public int collectedBatteries;
+    [HideInInspector] public int collectedMelons;
     private int levelScore;
     private int collectedGems;
     private BaseRespawn baseRespawn;
@@ -33,7 +36,7 @@ public class LevelManager : MonoBehaviour
     public Vector3 LastCheckpointpos { get; set; }
     public static LevelManager Instance;
     public CameraShake ShakeCamera => camShake;
-    public Action<Vector3> OnEnemyLootDrop;
+    public Action<int , Vector3> OnEnemyLootDrop;
     ComboUI ComboParent;
     private void Awake()
     {
@@ -66,14 +69,14 @@ public class LevelManager : MonoBehaviour
             GamePlayScreenUI.Instance.UpdateTimerText(TimeFormatConversion(levelTimer));
         }
     }
-    private void EnemyLootDrop(Vector3 pos)
+    private void EnemyLootDrop(int index,Vector3 pos)
     {
-        StartCoroutine(SpawnLootDelayed(pos));
+        StartCoroutine(SpawnLootDelayed(index,pos));
     }
-    private IEnumerator SpawnLootDelayed(Vector3 pos)
+    private IEnumerator SpawnLootDelayed(int index,Vector3 pos)
     {
         yield return new WaitForSeconds(lootDelay);
-        var lootDropItem = Instantiate(lootDropPrefab, pos, Quaternion.identity);
+        var lootDropItem = Instantiate(lootDropPrefab[index], pos, Quaternion.identity);
         lootDropItem.Init();
     }
     public void UpdateTargetBananas(int count)
@@ -153,10 +156,12 @@ public class LevelManager : MonoBehaviour
         collectedBananas++;
         GamePlayScreenUI.Instance.UpdateBananaCount(GetLevelBananasCount());
     }
-    public void AddNanasToProfile()
+    public void AddLevelStatsToProfile()
     {
         SaveLoadManager.Instance.playerProfile.nanas += collectedBananas;
-        SaveLoadManager.Instance.SaveGame();
+        SaveLoadManager.Instance.playerProfile.melons += collectedMelons;
+        SaveLoadManager.Instance.playerProfile.screws += collectedScrews;
+        SaveLoadManager.Instance.playerProfile.batteries += collectedBatteries;
     }
     public void PlayerInputToggle(bool value)
     {
@@ -168,7 +173,11 @@ public class LevelManager : MonoBehaviour
     }
     public void UnlockNextLevel()
     {
-        SaveLoadManager.Instance.UnlockLevel();
+        if(GetWonStars()>0)
+        {
+            SaveLoadManager.Instance.UnlockLevel();
+
+        }
     }
     public void TriggerPlayerRespawn()
     {
