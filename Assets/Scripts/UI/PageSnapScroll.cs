@@ -13,7 +13,8 @@ public class PageSnapScroll : MonoBehaviour,IBeginDragHandler, IEndDragHandler
     private int totalPages;
     private float[] pagePositions;
     private float dragStartPos;
-
+    private int pageNum;
+    bool shifting;
     void Start()
     {
         
@@ -57,6 +58,9 @@ public class PageSnapScroll : MonoBehaviour,IBeginDragHandler, IEndDragHandler
     }
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (shifting)
+            return;
+
         float dragEndPos = scrollRect.horizontalNormalizedPosition;
         float swipeDelta = dragStartPos-dragEndPos;
         float threshold = 0.05f; // Adjust this value to make swipes more or less sensitive
@@ -88,13 +92,31 @@ public class PageSnapScroll : MonoBehaviour,IBeginDragHandler, IEndDragHandler
         {
             targetPage = currentPage + 1; // swipe left (next page)
         }
+        pageNum = targetPage;
 
         StopAllCoroutines();
         MoveTopage(targetPage);
     }
+    public void NextPage()
+    {
+        if (shifting)
+            return;
+        pageNum = pageNum + 1;
+        pageNum = Mathf.Clamp(pageNum, 0, pagePositions.Length - 1);
+
+        MoveTopage(pageNum);
+    }
+    public void PrevPage()
+    {
+        if (shifting)
+            return;
+
+        pageNum = pageNum - 1;
+        pageNum = Mathf.Clamp(pageNum, 0, pagePositions.Length - 1);
+        MoveTopage(pageNum);
+    }
     public void MoveTopage(int num)
     {
-        num = Mathf.Clamp(num, 0, pagePositions.Length-1);
         StartCoroutine(SmoothScrollTo(pagePositions[num]));
     }
     System.Collections.IEnumerator SmoothScrollTo(float target)
@@ -104,13 +126,14 @@ public class PageSnapScroll : MonoBehaviour,IBeginDragHandler, IEndDragHandler
         float duration = 0.3f;
         float elapsed = 0f;
         float start = scrollRect.horizontalNormalizedPosition;
-
+        shifting = true;
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
             scrollRect.horizontalNormalizedPosition = Mathf.Lerp(start, target, elapsed / duration);
             yield return null;
         }
+        shifting = false;
 
         scrollRect.horizontalNormalizedPosition = target;
     }
