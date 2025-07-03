@@ -15,6 +15,7 @@ public class LevelPage : MonoBehaviour
     public Transform pagePanelParent;
     int screwRemainValue;
     int batteryRemainValue;
+    int pageNum;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +23,7 @@ public class LevelPage : MonoBehaviour
     }
     public void Init(int num)
     {
+        pageNum = num;
         //if already unlocked , disable the panel
         var playerProfile = SaveLoadManager.Instance.playerProfile;
         var unlocked = num <= playerProfile.pageUnlockProgress;
@@ -59,10 +61,13 @@ public class LevelPage : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void NextPage()
     {
-        
+        FindAnyObjectByType<PageSnapScroll>().MoveTopage(pageNum + 1);
+    }
+    public void PrevPage()
+    {
+        FindAnyObjectByType<PageSnapScroll>().MoveTopage(pageNum - 1);
     }
 
     public void UnlockLevelPage()

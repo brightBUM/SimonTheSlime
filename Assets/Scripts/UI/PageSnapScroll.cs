@@ -90,9 +90,13 @@ public class PageSnapScroll : MonoBehaviour,IBeginDragHandler, IEndDragHandler
         }
 
         StopAllCoroutines();
-        StartCoroutine(SmoothScrollTo(pagePositions[targetPage]));
+        MoveTopage(targetPage);
     }
-
+    public void MoveTopage(int num)
+    {
+        num = Mathf.Clamp(num, 0, pagePositions.Length-1);
+        StartCoroutine(SmoothScrollTo(pagePositions[num]));
+    }
     System.Collections.IEnumerator SmoothScrollTo(float target)
     {
         //Debug.Log("Scroll rect HNP target: " + target);
