@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class CharSkinBase : MonoBehaviour
 {
-    [SerializeField] SpriteRenderer spriteRenderer;
     [SerializeField] TextMeshProUGUI skinNameText;
     [SerializeField] GameObject purchaseButton;
     [SerializeField] GameObject unlockedObject;
@@ -24,6 +23,8 @@ public class CharSkinBase : MonoBehaviour
     private IEnumerator WaitForShopManagerInit()
     {
         yield return new WaitUntil(()=>ShopManager.instance.Init);
+
+        skinNameText.text = GameManger.Instance.GetSkinByIndex(isPod,skinNum).skinName;
         SetShopButtons();
     }
     private void SetShopButtons()

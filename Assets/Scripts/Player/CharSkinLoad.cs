@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharSkinLoad : MonoBehaviour
 {
@@ -15,30 +16,39 @@ public class CharSkinLoad : MonoBehaviour
     public void RefreshSkin()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        if(isPod)
-        {
-            var color = GameManger.Instance?.GetPodSkinColor();
-            if(color == Color.black)
-            {
-                spriteRenderer.material = new Material(Shader.Find("Sprites/Default")); ;
-            }
-            else
-            {
-                spriteRenderer.material.SetColor("_replaceColor", GameManger.Instance.GetPodSkinColor());
-            }
+        var image = GetComponent<Image>();
 
+        Material material;
+        if (spriteRenderer != null)
+        {
+            material = spriteRenderer.material;
+        }
+        else if (image != null)
+        {
+            material = image.material;
         }
         else
         {
-            var color = GameManger.Instance?.GetCharSkinColor();
-            if (color == Color.black)
-            {
-                spriteRenderer.material = new Material(Shader.Find("Sprites/Default")); ;
-            }
-            else
-            {
-                spriteRenderer.material.SetColor("_replaceColor", GameManger.Instance.GetCharSkinColor());
-            }
+            material = null;
         }
+
+        if(isPod)
+        {
+            var skin = GameManger.Instance?.GetPodSkinColor();
+            SetSkinToMaterial(skin, material);
+        }
+        else
+        {
+            var skin = GameManger.Instance?.GetCharSkinColor();
+            SetSkinToMaterial(skin, material);
+        }
+    }
+
+    private void SetSkinToMaterial(Skin skin,Material material)
+    {
+        material.SetFloat("_Hue", skin.hueshift);
+        material.SetFloat("_Saturation", skin.saturation);
+        material.SetColor("_Tint", skin.tintColor);
+        material.SetFloat("_Invert", skin.invert);
     }
 }

@@ -13,5 +13,8 @@ public class CharSkinSO : ScriptableObject
 public class Skin
 {
     public string skinName;
-    public Color skinColor;
+    public Color tintColor;
+    public float hueshift;
+    public float saturation;
+    public float invert;
 }

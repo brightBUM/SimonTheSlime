@@ -489,6 +489,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3792646638448423548}
   - component: {fileID: 4337697144942190396}
+  - component: {fileID: 7474793333639467968}
   m_Layer: 0
   m_Name: sleeping player
   m_TagString: Untagged
@@ -531,7 +532,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 8b45aac4deb430143b5e330858f1637f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -563,6 +564,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7474793333639467968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 691817161807791308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c8b18c46eb27d3409637527315be629, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPod: 0
 --- !u!1 &705071322202595939
 GameObject:
   m_ObjectHideFlags: 0
@@ -6291,6 +6305,10 @@ PrefabInstance:
     - target: {fileID: 6924226597165805920, guid: d118cdbb68490ba478e360eca7e4402b, type: 3}
       propertyPath: m_LocalPosition.y
       value: -2.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 6924226597180968320, guid: d118cdbb68490ba478e360eca7e4402b, type: 3}
+      propertyPath: m_SortingOrder
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6924226597181010976, guid: d118cdbb68490ba478e360eca7e4402b, type: 3}
       propertyPath: ShapeModule.m_Scale.x

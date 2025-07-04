@@ -38,15 +38,11 @@ public class PlayerAnimation : MonoBehaviour
         lineRenderer = GetComponent<LineRenderer>();
         spriteTrailRenderer = GetComponent<SpriteTrailRenderer.SpriteTrailRenderer>();
 
-        var color = GameManger.Instance.GetCharSkinColor();
-        if (color == Color.black)
-        {
-            spriteRenderer.material = new Material(Shader.Find("Sprites/Default")); ;
-        }
-        else
-        {
-            spriteRenderer.material.SetColor("_replaceColor", GameManger.Instance.GetCharSkinColor());
-        }
+        var skin = GameManger.Instance.GetCharSkinColor();
+        spriteRenderer.material.SetFloat("_Hue", skin.hueshift);
+        spriteRenderer.material.SetFloat("_Saturation", skin.saturation);
+        spriteRenderer.material.SetColor("_Tint", skin.tintColor);
+        spriteRenderer.material.SetFloat("_Invert", skin.invert);
     }
 
     // Update is called once per frame

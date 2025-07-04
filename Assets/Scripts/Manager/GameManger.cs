@@ -71,22 +71,24 @@ public class GameManger : MonoBehaviour
             menuAudioSource?.Pause();
         }
     }
-    public Color GetCharSkinColor()
+    public Skin GetCharSkinColor()
     {
-        if(SaveLoadManager.Instance.playerProfile.equippedSkin==0)
-        {
-            return Color.black;
-        }
-
-        return charSkinSO.skinList[SaveLoadManager.Instance.playerProfile.equippedSkin].skinColor;
+        return charSkinSO.skinList[SaveLoadManager.Instance.playerProfile.equippedSkin];
     }
-    public Color GetPodSkinColor()
+    public Skin GetPodSkinColor()
     {
-        if (SaveLoadManager.Instance.playerProfile.equippedPod == 0)
+        return charSkinSO.podList[SaveLoadManager.Instance.playerProfile.equippedPod];
+    }
+    public Skin GetSkinByIndex(bool isPod,int skinIndex)
+    {
+        if(isPod)
         {
-            return Color.black;
+            return charSkinSO.podList[skinIndex];
         }
-        return charSkinSO.podList[SaveLoadManager.Instance.playerProfile.equippedPod].skinColor;
+        else
+        {
+            return charSkinSO.skinList[skinIndex];
+        }
     }
     public void ReloadIntroDelayed()
     {
