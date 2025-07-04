@@ -142,7 +142,15 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
         if (levelIndex == playerProfile.levelUnlockProgress)
         {
             // first play
-            playerProfile.levelStars.Add(currentStars);
+            if(levelIndex == 0)
+            {
+                //overwrite if first level
+                playerProfile.levelStars[levelIndex] = currentStars;
+            }
+            else
+            {
+                playerProfile.levelStars.Add(currentStars);
+            }
             Debug.Log($"stars awarded first time ,lvl {levelIndex + 1} : {currentStars} stars");
         }
         else if(currentStars > playerProfile.levelStars[levelIndex])

@@ -21,8 +21,8 @@ public class LevelManager : MonoBehaviour
     public float levelTimer;
     public bool startLevelTimer = false;
     //[Header("collectibles")]
-    [HideInInspector] public int targetbananas;
-    [HideInInspector] public int collectedBananas;
+    public int targetbananas;
+    public int collectedBananas;
     [HideInInspector] public int collectedScrews;
     [HideInInspector] public int collectedBatteries;
     [HideInInspector] public int collectedMelons;
@@ -50,6 +50,7 @@ public class LevelManager : MonoBehaviour
 
         levelIndex = GameManger.Instance.selectedIndex - 3;
         //Application.targetFrameRate = 120;
+        targetbananas = 0;
     }
     private void Start()
     {
