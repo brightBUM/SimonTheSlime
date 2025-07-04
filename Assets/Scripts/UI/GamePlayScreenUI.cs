@@ -29,9 +29,7 @@ public class GamePlayScreenUI : MonoBehaviour
     [Header("Level Complete")]
     [SerializeField] TextMeshProUGUI scoreboardTitleUI;
     [SerializeField] TextMeshProUGUI bananasLevelCompleteUI;
-    [SerializeField] TextMeshProUGUI levelTimerCompleteUI;
     [SerializeField] TextMeshProUGUI gemsUI;
-    [SerializeField] TextMeshProUGUI levelScoreUI;
     [SerializeField] GameObject nextLevelButton;
     [SerializeField] float levelCompleteTextDelay = 0.2f;
     [SerializeField] float scoreCountTime = 2f;
@@ -104,18 +102,18 @@ public class GamePlayScreenUI : MonoBehaviour
 
     private void ScaleTexts()
     {
-        levelCompleteTexts = new List<TextMeshProUGUI>()
-        {
-            bananasLevelCompleteUI,
-            levelTimerCompleteUI,
-            gemsUI,
-            levelScoreUI,
-        };
+        //levelCompleteTexts = new List<TextMeshProUGUI>()
+        //{
+        //    bananasLevelCompleteUI,
+        //    levelTimerCompleteUI,
+        //    gemsUI,
+        //    levelScoreUI,
+        //};
 
-        foreach (var text in levelCompleteTexts)
-        {
-            text.transform.localScale = Vector3.zero;
-        }
+        //foreach (var text in levelCompleteTexts)
+        //{
+        //    text.transform.localScale = Vector3.zero;
+        //}
     }
     public void TogglePauseMenu()
     {
@@ -345,32 +343,31 @@ public class GamePlayScreenUI : MonoBehaviour
         LevelManager levelManager = LevelManager.Instance;
 
         bananasLevelCompleteUI.text = levelManager.GetLevelBananasCount();
-        levelTimerCompleteUI.text   = levelManager.GetLevelTimerText();
-        //launchesUI.text             = levelManager.GetLevelLaunches();
+        
         gemsUI.text = levelManager.GetGemsCount();
         
-        for(int i = 0;i<levelCompleteTexts.Count-1;i++)
-        {
-            StartCoroutine(DelayedStarScale(levelCompleteTextDelay + (levelCompleteTextDelay * i), levelCompleteTexts[i].gameObject.transform));
-        }
+        //for(int i = 0;i<levelCompleteTexts.Count-1;i++)
+        //{
+        //    StartCoroutine(DelayedStarScale(levelCompleteTextDelay + (levelCompleteTextDelay * i), levelCompleteTexts[i].gameObject.transform));
+        //}
 
 
-        DOVirtual.DelayedCall(0.2f, () =>
-        {
-            levelScoreUI.transform.DOScale(1f, 0.2f).SetEase(Ease.OutBounce).OnComplete(() =>
-            {
-                int scoreValue = 0;
-                levelScoreUI.text = scoreValue.ToString();
+        //DOVirtual.DelayedCall(0.2f, () =>
+        //{
+        //    levelScoreUI.transform.DOScale(1f, 0.2f).SetEase(Ease.OutBounce).OnComplete(() =>
+        //    {
+        //        int scoreValue = 0;
+        //        levelScoreUI.text = scoreValue.ToString();
 
-                int target = levelManager.CalculateLevelScore();
-                DOTween.To(() => scoreValue, x => scoreValue = x, target, scoreCountTime).SetUpdate(true).OnUpdate(() =>
-                {
-                    levelScoreUI.text = scoreValue.ToString();
+        //        int target = levelManager.CalculateLevelScore();
+        //        DOTween.To(() => scoreValue, x => scoreValue = x, target, scoreCountTime).SetUpdate(true).OnUpdate(() =>
+        //        {
+        //            levelScoreUI.text = scoreValue.ToString();
 
-                });
-            });
+        //        });
+        //    });
 
-        });
+        //});
     }
     
     private void StarSystem()
