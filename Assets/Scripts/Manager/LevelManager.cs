@@ -60,6 +60,9 @@ public class LevelManager : MonoBehaviour
         //Debug.Log("combo count : " + comboCount);
         OnEnemyLootDrop += EnemyLootDrop;
         GameManger.Instance?.ToggleMenuMusic(false);
+
+        //clear the pound splash object pool on level load || bug caused by delayed despawn
+        ObjectPoolManager.Instance.ResetPool(0);
     }
     private void Update()
     {

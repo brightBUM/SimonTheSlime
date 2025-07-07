@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ObjectPoolManager : Singleton<ObjectPoolManager>
 {
@@ -64,7 +65,16 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
         }
     }
 
-    
+    public void ResetPool(int index)
+    {
+        foreach (var poolObject in mainPool[objectsToPool[index].name + "_Pool"])
+        {
+            if (poolObject.activeInHierarchy)
+            {
+                poolObject.SetActive(false);
+            }
+        }
+    }
     // Update is called once per frame
     void Update()
     {
