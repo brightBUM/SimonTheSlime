@@ -32,7 +32,10 @@ public class WatchAdRewardUI : MonoBehaviour
     {
         //calculate last elapsed time reward ad was opened
         var span = (DateTime.Now - SaveLoadManager.Instance.GetLastRewardedAdTime());
-        //Debug.Log("calculate rewarded ad span hours :" + span.Hours);
+
+        Debug.Log($"now time : {DateTime.Now},last time = " +
+            $"{SaveLoadManager.Instance.GetLastRewardedAdTime()},span days : {span.Days} ");
+
         if (span.Days >= 1)
         {
             //trigger flashing tween
@@ -52,22 +55,36 @@ public class WatchAdRewardUI : MonoBehaviour
 
     public void ShowMainMenuRewardedAd()
     {
+#if UNITY_ANDROID && !UNITY_EDITOR
         IronSourceAdManager.Instance.ShowRewardedAd();
-        IronSourceRewardedVideoEvents.onAdClosedEvent += RewardedVideoOnAdClosedEvent;
+        IronSourceRewardedVideoEvents.onAdRewardedEvent += IronSourceRewardedVideoEvents_onAdRewardedEvent;
+#endif
+
+#if UNITY_EDITOR
+        
+        rewardPamel.SetActive(true);
+
+        SaveLoadManager.Instance.MainMenuAdRewarded();
+        CalculateRewardLockUnlock();
+
+        Debug.Log("main menu rewarded ad complete");
+#endif
 
     }
 
-    private void RewardedVideoOnAdClosedEvent(IronSourceAdInfo info)
+    private void IronSourceRewardedVideoEvents_onAdRewardedEvent(IronSourcePlacement arg1, IronSourceAdInfo arg2)
     {
         rewardPamel.SetActive(true);
 
         SaveLoadManager.Instance.MainMenuAdRewarded();
         CalculateRewardLockUnlock();
-        
+
         Debug.Log("main menu rewarded ad complete");
 
-        IronSourceRewardedVideoEvents.onAdClosedEvent -= RewardedVideoOnAdClosedEvent;
+        IronSourceRewardedVideoEvents.onAdRewardedEvent -= IronSourceRewardedVideoEvents_onAdRewardedEvent;
+
     }
+
 
     private void ToggleUnlockImages()
     {
