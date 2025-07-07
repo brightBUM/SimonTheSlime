@@ -1,9 +1,11 @@
 using Cinemachine;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 
 public class LevelStart : BaseRespawn
 {
+    [SerializeField] TextMeshProUGUI levelNumText;
     [SerializeField] Transform liquidTransform;
     [SerializeField] Transform entryPoint;
     [SerializeField] Transform sleepingPlayerTransform;
@@ -15,6 +17,8 @@ public class LevelStart : BaseRespawn
     // Start is called before the first frame update
     void Start()
     {
+        levelNumText.text = (LevelManager.Instance.levelIndex+1).ToString();
+
         var virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
         var confiner = FindAnyObjectByType<CinemachineConfiner2D>();
         virtualCamera.m_Lens.OrthographicSize = 12f;
