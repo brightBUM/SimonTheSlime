@@ -54,6 +54,10 @@ public class LootDrop : MonoBehaviour
             {
                 LevelManager.Instance.collectedBatteries++;
             }
+            else if(transform.CompareTag("Melon"))
+            {
+                LevelManager.Instance.collectedMelons++;
+            }
             //tween the UI icon
             OnCollection.Invoke(sprite, transform.position);
             //disable self

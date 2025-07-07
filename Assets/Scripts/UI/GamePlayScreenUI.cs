@@ -349,7 +349,7 @@ public class GamePlayScreenUI : MonoBehaviour
 
         bananasLevelCompleteUI.text = levelManager.GetLevelBananasCount();
         
-        gemsUI.text = levelManager.GetGemsCount();
+        gemsUI.text = levelManager.GetMelonsCount();
         
         //for(int i = 0;i<levelCompleteTexts.Count-1;i++)
         //{

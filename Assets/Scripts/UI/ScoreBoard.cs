@@ -27,7 +27,7 @@ public class ScoreBoard : MonoBehaviour
     [SerializeField] TextMeshProUGUI totalRespawns;
     [SerializeField] TextMeshProUGUI perfectJumpCount;
     [SerializeField] TextMeshProUGUI perfectJumpMultipler;
-    [SerializeField] TextMeshProUGUI gemsCollected;
+    [SerializeField] TextMeshProUGUI melonsCollected;
     [SerializeField] TextMeshProUGUI screwsText;
     [SerializeField] TextMeshProUGUI batteryText;
 
@@ -224,7 +224,7 @@ public class ScoreBoard : MonoBehaviour
         AnimateCounter(collectedBananas, 0, levelManager.collectedBananas, 1f);
 
         //animate gems text (right panel)
-        gemsCollected.text = levelManager.GetGemsCount();
+        melonsCollected.text = levelManager.GetMelonsCount();
 
         yield return new WaitForSeconds(0.25f);
         //animate respawn panel

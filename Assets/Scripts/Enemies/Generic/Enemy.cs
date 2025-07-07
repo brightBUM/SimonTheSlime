@@ -19,7 +19,7 @@ namespace magar
                     TakeDamage(new DamageInfo(1, Vector3.down));
 
                     //spawn loot
-                    LevelManager.Instance.OnEnemyLootDrop(lootIndex,transform.position);
+                    LevelManager.Instance.OnLootDrop(lootIndex,transform.position);
                 }
                 else
                 {

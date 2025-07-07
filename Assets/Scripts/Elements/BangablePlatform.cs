@@ -6,6 +6,7 @@ using UnityEngine;
 public class BangablePlatform : MonoBehaviour, IPoundable
 {
     [SerializeField] GameObject bananaPrefab;
+    [SerializeField] float melonDropOffset = 0.5f;
     [SerializeField] float coinForce = 5f;
     [SerializeField] int HitCount = 0;
     [SerializeField] SpriteRenderer originalSprite;
@@ -16,6 +17,7 @@ public class BangablePlatform : MonoBehaviour, IPoundable
     private void Start()
     {
         LevelManager.Instance.UpdateTargetBananas(4);
+        melonDropOffset = 2f;
     }
     public void OnPlayerPounded(System.Action<IPoundable> ContinuePound)
     {
@@ -23,6 +25,7 @@ public class BangablePlatform : MonoBehaviour, IPoundable
         if(HitCount>0)
         {
             GetComponentInChildren<BouncyDeform>().HitDeform();
+
             SoundManager.Instance.PlayCoinBangSFX();
             var coin = Instantiate(bananaPrefab, transform.position, Quaternion.identity);
             coin.GetComponent<Banana>().runTime = true;
@@ -31,6 +34,14 @@ public class BangablePlatform : MonoBehaviour, IPoundable
             {
                 coin.GetComponent<Banana>().CollectEffect();
             });
+
+            //lucky drop melon prefab - 1 in 20 chances
+            var chance = Random.Range(1, GameManger.Instance.gameConfig.melonDropChance+1);
+            if(chance == 1)
+            {
+                LevelManager.Instance.OnLootDrop(2,transform.position+Vector3.up*melonDropOffset);
+            }
+
             HitCount--;
             //UpdateHitCount();
             originalSprite.color = Color.Lerp(originalSprite.color, breakColor, 1 - (float)HitCount / 5.0f);

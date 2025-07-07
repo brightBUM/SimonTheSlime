@@ -36,7 +36,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
                 levelStars = new List<int>(debugUnlock + 1), //assign 0 stars for all the debug unlock levels
                 nanas = GameManger.Instance.gameConfig.nanasCount,
                 melons = GameManger.Instance.gameConfig.melonsCount,
-                dragSens = 3.0f
+                dragSens = 3.5f
             };
 
             for(int i=0;i<3;i++)

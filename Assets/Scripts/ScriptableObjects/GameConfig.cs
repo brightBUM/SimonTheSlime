@@ -10,6 +10,7 @@ public class GameConfig : ScriptableObject
     public int nanasCount = 500;
     public int melonsCount = 50;
     public int perfectJumpBase = 25;
+    public int melonDropChance = 20;
     [Header("Ads Setting")]
     public int interstitialAdCheckPerLevel;
     public int mainMenuRewardedAdNanas;

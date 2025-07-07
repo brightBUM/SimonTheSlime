@@ -27,7 +27,6 @@ public class LevelManager : MonoBehaviour
     [HideInInspector] public int collectedBatteries;
     [HideInInspector] public int collectedMelons;
     private int levelScore;
-    private int collectedGems;
     private BaseRespawn baseRespawn;
     public int retryCount = 1;
     public int adRespawnCount = 0;
@@ -36,7 +35,7 @@ public class LevelManager : MonoBehaviour
     public Vector3 LastCheckpointpos { get; set; }
     public static LevelManager Instance;
     public CameraShake ShakeCamera => camShake;
-    public Action<int , Vector3> OnEnemyLootDrop;
+    public Action<int , Vector3> OnLootDrop;
     ComboUI ComboParent;
     private void Awake()
     {
@@ -58,7 +57,7 @@ public class LevelManager : MonoBehaviour
         ComboParent = Instantiate(ComboUIPrefab);
         ComboParent.transform.localScale = Vector3.zero;
         //Debug.Log("combo count : " + comboCount);
-        OnEnemyLootDrop += EnemyLootDrop;
+        OnLootDrop += EnemyLootDrop;
         GameManger.Instance?.ToggleMenuMusic(false);
 
         //clear the pound splash object pool on level load || bug caused by delayed despawn
@@ -114,9 +113,9 @@ public class LevelManager : MonoBehaviour
         SaveLoadManager.Instance.playerProfile.nanas += perfectJumpBonus;
         return $"{baseValue}x{comboCount} = {perfectJumpBonus} nanas";
     }
-    public string GetGemsCount()
+    public string GetMelonsCount()
     {
-        return collectedGems.ToString();
+        return collectedMelons.ToString();
     }
     public string GetLevelBananasCount()
     {
@@ -233,7 +232,7 @@ public class LevelManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        OnEnemyLootDrop -= EnemyLootDrop;
+        OnLootDrop -= EnemyLootDrop;
 
     }
 }
