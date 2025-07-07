@@ -39,7 +39,7 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
         {
             var product = myStoreController.products.WithID(item.id);
             var localizedPrice = product.metadata.localizedPriceString;
-            Debug.Log("localized prize : "+localizedPrice);
+            //Debug.Log("localized prize : "+localizedPrice);
 
             item.valueText.text = item.value.ToString() + " Nanas";
             item.priceText.text = localizedPrice;
@@ -49,7 +49,7 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
         {
             var product = myStoreController.products.WithID(item.id);
             var localizedPrice = product.metadata.localizedPriceString;
-            Debug.Log("localized prize : " + localizedPrice);
+            //Debug.Log("localized prize : " + localizedPrice);
 
             item.valueText.text = item.value.ToString() + " Gems";
             item.priceText.text = localizedPrice;
