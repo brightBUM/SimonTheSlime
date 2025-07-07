@@ -136,31 +136,28 @@ public class GamePlayScreenUI : MonoBehaviour
         }
     }
     
-    public void TriggerLevelCompleteScoreboard(bool value)
-    {
-        if (value)
-        {
-            scoreboardTitleUI.text = "Level Complete";
-            ScoreboardScreen.SetActive(value);
-            ScoreboardScreen.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBounce);
-            LevelManager.Instance.AddLevelStatsToProfile();
-
-        }
-        else
-        {
-            ScoreboardScreen.transform.localScale = Vector3.zero;
-            ScoreboardScreen.SetActive(false);
-        }
-    }
+    //public void TriggerLevelCompleteScoreboard(bool value)
+    //{
+    //    if (value)
+    //    {
+    //        scoreboardTitleUI.text = "Level Complete";
+    //        ScoreboardScreen.SetActive(value);
+    //        ScoreboardScreen.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBounce);
+    //        LevelManager.Instance.AddLevelStatsToProfile();
+    //    }
+    //    else
+    //    {
+    //        ScoreboardScreen.transform.localScale = Vector3.zero;
+    //        ScoreboardScreen.SetActive(false);
+    //    }
+    //}
 
     public void TriggerLevelFailedScoreboard()
     {
         //triggered with next button
-#if UNITY_EDITOR
 
-        LevelFailedLeaderBoard();
 
-#elif UNITY_ANDROID //check interstitial ad condition
+#if UNITY_ANDROID && !UNITY_EDITOR //check interstitial ad condition
         
         SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
 
@@ -168,13 +165,13 @@ public class GamePlayScreenUI : MonoBehaviour
         {
             IronSourceAdManager.Instance.ShowInterstitialAd();
             IronSourceAdManager.Instance.interstitialAd.OnAdClosed += InterstitialOnAdClosedEvent;
+            IronSourceAdManager.Instance.interstitialAd.OnAdDisplayFailed += InterstitialAd_OnAdDisplayFailed;
+
             return;
         }
 
-        //reached here - interstitial ad condition not true , so show level failed scoreboard without the ad
-
-        LevelFailedLeaderBoard();
 #endif
+        LevelFailedLeaderBoard();
 
     }
     private void LevelFailedLeaderBoard()
@@ -190,6 +187,14 @@ public class GamePlayScreenUI : MonoBehaviour
 
         //LevelManager.Instance.AddLevelStatsToProfile();
         //SaveLoadManager.Instance.SaveGame();
+    }
+    private void InterstitialAd_OnAdDisplayFailed(com.unity3d.mediation.LevelPlayAdDisplayInfoError obj)
+    {
+        //incase ad load fails , continue with level complete
+        Debug.Log("level end interstitial ad display failed");
+        LevelFailedLeaderBoard();
+
+        IronSourceAdManager.Instance.interstitialAd.OnAdDisplayFailed -= InterstitialAd_OnAdDisplayFailed;
     }
     private void InterstitialOnAdClosedEvent(LevelPlayAdInfo info)
     {

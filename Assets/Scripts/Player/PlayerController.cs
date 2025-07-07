@@ -93,7 +93,7 @@ public class PlayerController : MonoBehaviour
         playerState = State.IDLE;
         collider = GetComponent<CircleCollider2D>();
         GamePlayScreenUI.Instance.UpdateBulletTimeUI(bulletTimeAbility);
-        
+        UpdateDragSens();
     }
     private void OnEnable()
     {
@@ -159,7 +159,10 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-  
+    public void UpdateDragSens()
+    {
+        dragSensitivity = SaveLoadManager.Instance.playerProfile.dragSens;
+    }
     private void LeftDragging(Vector2 mousePos)
     {
         if (playerState == State.STICK)

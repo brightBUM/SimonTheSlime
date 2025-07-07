@@ -35,7 +35,8 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
                 unlockedPodSkins = new List<int>() { 0 },
                 levelStars = new List<int>(debugUnlock + 1), //assign 0 stars for all the debug unlock levels
                 nanas = GameManger.Instance.gameConfig.nanasCount,
-                melons = GameManger.Instance.gameConfig.melonsCount
+                melons = GameManger.Instance.gameConfig.melonsCount,
+                dragSens = 3.0f
             };
 
             for(int i=0;i<3;i++)
@@ -246,10 +247,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
         SaveGame();
     }
 
-    public void ToggleLeftRightControls()
-    {
-        playerProfile.leftControls = !playerProfile.leftControls;
-    }
+    
 }
 [System.Serializable]
 public class PlayerProfile
@@ -268,9 +266,9 @@ public class PlayerProfile
     public int pageUnlockProgress;
     public List<int> levelStars;
     public List<VolumeControl> volumeControls;
+    public float dragSens;
     public string lastrewardedAdTime;
     public int interStitialAdCount;
-    public bool leftControls = true;
 }
 
 [System.Serializable]

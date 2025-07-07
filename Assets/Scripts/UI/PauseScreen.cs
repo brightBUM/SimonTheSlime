@@ -1,4 +1,6 @@
+using System;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -8,15 +10,12 @@ public class PauseScreen : MonoBehaviour
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] Image[] volumeStateUI;
     [SerializeField] Slider[] volumeValueUI;
-    [SerializeField] Slider holdTimeSlider;
-    [SerializeField] Slider doubleTapTimeSlider;
-    [SerializeField] TextMeshProUGUI holdtimeText;
-    [SerializeField] TextMeshProUGUI doubleTapText;
+    [SerializeField] Slider dragSensSlider;
+    [SerializeField] TextMeshProUGUI dragSensValueText;
     [SerializeField] PlayerInput playerInput;
     [SerializeField] Sprite toggleOnUI;
     [SerializeField] Sprite toggleOffUI;
-    [SerializeField] Button leftControlButton;
-    [SerializeField] Button rightControlButton;
+    
     // Start is called before the first frame update
     private void OnEnable()
     {
@@ -24,6 +23,7 @@ public class PauseScreen : MonoBehaviour
         Debug.Log("loading audio prefs");
         //holdTimeSlider.onValueChanged.AddListener(delegate { SetHoldTime(); });
         //doubleTapTimeSlider.onValueChanged.AddListener(delegate { SetDoubleTapTime(); });
+
     }
     
     public void LoadSettings()
@@ -31,14 +31,15 @@ public class PauseScreen : MonoBehaviour
         for (int i = 0; i < volumeStateUI.Length; i++)
         {
             volumeStateUI[i].sprite = SaveLoadManager.Instance.GetVolumeControls(i).volumeState ? toggleOnUI : toggleOffUI;
-            volumeValueUI[i].value = SaveLoadManager.Instance.GetVolumeControls(i).volumeValue;
-            //audioMixer.SetFloat("MasterVolume", Mathf.Log10(volumeValueUI[0].value) * 20f);
-            //audioMixer.SetFloat("MusicVolume", Mathf.Log10(volumeValueUI[1].value) * 20f);
-            //audioMixer.SetFloat("SFXVolume", Mathf.Log10(volumeValueUI[2].value) * 20f);
 
         }
+        for (int i = 0; i < volumeValueUI.Length; i++)
+        {
+            volumeValueUI[i].value = SaveLoadManager.Instance.GetVolumeControls(i).volumeValue;
+        }
 
-        SetLeftRightControls();
+        dragSensSlider .value = SaveLoadManager.Instance.playerProfile.dragSens;
+
     }
 
     public void SetVolumeToggle(int index)
@@ -52,15 +53,22 @@ public class PauseScreen : MonoBehaviour
         {
             case 0:
                 audioMixer.SetFloat("MasterVolume", convertedValue);
-                volumeValueUI[0].value = volumeControl.volumeValue;
+
+                if (volumeValueUI.Length>0)
+                    volumeValueUI[0].value = volumeControl.volumeValue;
+
                 break;
             case 1:
                 audioMixer.SetFloat("MusicVolume", convertedValue);
-                volumeValueUI[1].value = volumeControl.volumeValue;
+
+                if (volumeValueUI.Length > 0)
+                    volumeValueUI[1].value = volumeControl.volumeValue;
                 break;
             case 2:
                 audioMixer.SetFloat("SFXVolume", convertedValue);
-                volumeValueUI[2].value = volumeControl.volumeValue;
+
+                if (volumeValueUI.Length > 0)
+                    volumeValueUI[2].value = volumeControl.volumeValue;
                 break;
         }
 
@@ -82,35 +90,31 @@ public class PauseScreen : MonoBehaviour
         audioMixer.SetFloat("SFXVolume", Mathf.Log10(value) * 20f);
         SaveLoadManager.Instance.SetVolumeValue(2, value);
     }
-
-    public void SetHoldTime()
-    { 
-        playerInput.minHoldingTime = holdTimeSlider.value;
-        holdtimeText.text = holdTimeSlider.value.ToString("N2");
-    }
-    public void SetDoubleTapTime()
+    public void SetDragSens(float value)
     {
-        playerInput.doubleTapMaxTime = doubleTapTimeSlider.value;
-        doubleTapText.text = doubleTapTimeSlider.value.ToString("N2");
+        float rounded = (float)Math.Round(value, 1);
+        dragSensValueText.text = rounded.ToString();
+        SaveLoadManager.Instance.playerProfile.dragSens = rounded;
     }
+
+    
+    
     public void SaveSettings()
     {
         SaveLoadManager.Instance.SaveGame();
     }
 
-    public void ToggleLeftRightControls()
-    {
-        SaveLoadManager.Instance.ToggleLeftRightControls();
-        SetLeftRightControls();
-    }
-    private void SetLeftRightControls()
-    {
-        var leftControl = SaveLoadManager.Instance.playerProfile.leftControls;
-        leftControlButton.interactable = !leftControl;
-        rightControlButton.interactable = leftControl;
-    }
+   
+    
     private void OnDisable()
     {
+        //find if playerController available
+        var playerController = FindAnyObjectByType<PlayerController>();
+        if(playerController != null)
+        {
+            playerController.UpdateDragSens();
+        }
+
         SaveSettings();
     }
 }
