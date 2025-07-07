@@ -33,8 +33,8 @@ public class WatchAdRewardUI : MonoBehaviour
         //calculate last elapsed time reward ad was opened
         var span = (DateTime.Now - SaveLoadManager.Instance.GetLastRewardedAdTime());
 
-        Debug.Log($"now time : {DateTime.Now},last time = " +
-            $"{SaveLoadManager.Instance.GetLastRewardedAdTime()},span days : {span.Days} ");
+        //Debug.Log($"now time : {DateTime.Now},last time = " +
+        //    $"{SaveLoadManager.Instance.GetLastRewardedAdTime()},span days : {span.Days} ");
 
         if (span.Days >= 1)
         {

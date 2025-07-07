@@ -6,7 +6,8 @@ public class IronSourceAdManager : MonoBehaviour
     private LevelPlayBannerAd bannerAd;
     public LevelPlayInterstitialAd interstitialAd;
     public static IronSourceAdManager Instance;
-#if UNITY_ANDROID
+
+#if UNITY_ANDROID && !UNITY_EDITOR
     string appKey = "85460dcd";
     string bannerAdUnitId = "thnfvcsog13bhn08";
     string interstitialAdUnitId = "aeyqi3vqlv6o8sh9";

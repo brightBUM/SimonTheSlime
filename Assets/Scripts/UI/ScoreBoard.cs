@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using Unity.Services.LevelPlay;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -47,20 +48,129 @@ public class ScoreBoard : MonoBehaviour
         AnimateCounter(collectedBananas, 0, 65, 0.3f);
 
     }
+    #region LevelButton
     private void OnLevelClick()
     {
+#if UNITY_ANDROID && !UNITY_EDITOR //check interstitial ad condition
+        SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
+
+        if (SaveLoadManager.Instance.CheckInterstitialAdCondition())
+        {
+            IronSourceAdManager.Instance.ShowInterstitialAd();
+            IronSourceAdManager.Instance.interstitialAd.OnAdClosed += Level_InterstitialOnAdClosedEvent;
+            IronSourceAdManager.Instance.interstitialAd.OnAdDisplayFailed += Level_InterstitialAd_OnAdDisplayFailed;
+            return;
+        }
+#endif
+
         GamePlayScreenUI.Instance.GotoLevelSelectionScreen();
+
     }
+    private void Level_InterstitialAd_OnAdDisplayFailed(com.unity3d.mediation.LevelPlayAdDisplayInfoError obj)
+    {
+        //incase ad load fails , continue with level complete
+        Debug.Log("scoreboard Level button interstitial ad display failed");
+        GamePlayScreenUI.Instance.GotoLevelSelectionScreen();
+
+        IronSourceAdManager.Instance.interstitialAd.OnAdDisplayFailed -= Level_InterstitialAd_OnAdDisplayFailed;
+    }
+
+    private void Level_InterstitialOnAdClosedEvent(LevelPlayAdInfo info)
+    {
+        // on intersitial ad watched and closed , reset count
+        SaveLoadManager.Instance.playerProfile.interStitialAdCount = 0;
+
+        GamePlayScreenUI.Instance.GotoLevelSelectionScreen();
+
+        IronSourceAdManager.Instance.LoadInterstitialAd();
+        IronSourceAdManager.Instance.interstitialAd.OnAdClosed -= Level_InterstitialOnAdClosedEvent;
+    }
+
+    #endregion
+
+    #region ReplayButton
     private void OnReplayClick()
     {
+
+#if UNITY_ANDROID && !UNITY_EDITOR //check interstitial ad condition
+        SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
+
+        if (SaveLoadManager.Instance.CheckInterstitialAdCondition())
+        {
+            IronSourceAdManager.Instance.ShowInterstitialAd();
+            IronSourceAdManager.Instance.interstitialAd.OnAdClosed += Replay_InterstitialOnAdClosedEvent;
+            IronSourceAdManager.Instance.interstitialAd.OnAdDisplayFailed += Replay_InterstitialAd_OnAdDisplayFailed;
+            return;
+        }
+#endif
         GamePlayScreenUI.Instance.ReplayScene();
     }
+    private void Replay_InterstitialAd_OnAdDisplayFailed(com.unity3d.mediation.LevelPlayAdDisplayInfoError obj)
+    {
+        //incase ad load fails 
+        Debug.Log("scoreboard Replay button interstitial ad display failed");
+
+        GamePlayScreenUI.Instance.ReplayScene();
+
+        IronSourceAdManager.Instance.interstitialAd.OnAdDisplayFailed -= Replay_InterstitialAd_OnAdDisplayFailed;
+    }
+
+    private void Replay_InterstitialOnAdClosedEvent(LevelPlayAdInfo info)
+    {
+        // on intersitial ad watched and closed , reset count
+        SaveLoadManager.Instance.playerProfile.interStitialAdCount = 0;
+
+        GamePlayScreenUI.Instance.ReplayScene();
+
+        IronSourceAdManager.Instance.LoadInterstitialAd();
+        IronSourceAdManager.Instance.interstitialAd.OnAdClosed -= Replay_InterstitialOnAdClosedEvent;
+    }
+    #endregion
+
+    #region NextButton
     private void OnNextClick()
+    {
+
+#if UNITY_ANDROID && !UNITY_EDITOR //check interstitial ad condition
+        SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
+
+        if (SaveLoadManager.Instance.CheckInterstitialAdCondition())
+        {
+            IronSourceAdManager.Instance.ShowInterstitialAd();
+            IronSourceAdManager.Instance.interstitialAd.OnAdClosed += Next_InterstitialOnAdClosedEvent;
+            IronSourceAdManager.Instance.interstitialAd.OnAdDisplayFailed += Next_InterstitialAd_OnAdDisplayFailed;
+            return;
+        }
+#endif
+
+        GotoNextAfterAd();
+    }
+    private void Next_InterstitialAd_OnAdDisplayFailed(com.unity3d.mediation.LevelPlayAdDisplayInfoError obj)
+    {
+        //incase ad load fails , continue with level complete
+        Debug.Log("scoreboard Next button interstitial ad display failed");
+        GotoNextAfterAd();
+
+        IronSourceAdManager.Instance.interstitialAd.OnAdDisplayFailed -= Next_InterstitialAd_OnAdDisplayFailed;
+    }
+
+    private void Next_InterstitialOnAdClosedEvent(LevelPlayAdInfo info)
+    {
+        // on intersitial ad watched and closed , reset count
+        SaveLoadManager.Instance.playerProfile.interStitialAdCount = 0;
+
+        GotoNextAfterAd();
+
+        IronSourceAdManager.Instance.LoadInterstitialAd();
+        IronSourceAdManager.Instance.interstitialAd.OnAdClosed -= Next_InterstitialOnAdClosedEvent;
+    }
+
+    private void GotoNextAfterAd()
     {
         //if last level of a page goto level select screen instead of next level
         var levelIndex = LevelManager.Instance.levelIndex;
         var pageUnlock = SaveLoadManager.Instance.playerProfile.pageUnlockProgress;
-        if ((levelIndex == 5 && pageUnlock ==0 )|| (levelIndex == 11 && pageUnlock == 1))
+        if ((levelIndex == 5 && pageUnlock == 0) || (levelIndex == 11 && pageUnlock == 1))
         {
             LevelManager.Instance.UnlockNextLevel();
             GamePlayScreenUI.Instance.GotoLevelSelectionScreen();
@@ -70,6 +180,7 @@ public class ScoreBoard : MonoBehaviour
             GamePlayScreenUI.Instance.GotoNextLevel();
         }
     }
+    #endregion
     public void AnimateCounter(TextMeshProUGUI counterText, int from, int to, float time)
     {
         int currentValue = from;

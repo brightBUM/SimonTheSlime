@@ -1,4 +1,3 @@
-using Unity.Services.LevelPlay;
 using DG.Tweening;
 using UnityEngine;
 using Cinemachine;
@@ -45,45 +44,7 @@ public class LevelEnd : MonoBehaviour
                 SoundManager.Instance.PlayLevelCompleteSFx();
                 GamePlayScreenUI.Instance.ShowLevelCompleteScreen();
 
-#if UNITY_ANDROID //check interstitial ad condition
-                Debug.Log("level end - android code");
-                SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
-
-                if (SaveLoadManager.Instance.CheckInterstitialAdCondition())
-                {
-                    IronSourceAdManager.Instance.ShowInterstitialAd();
-                    IronSourceAdManager.Instance.interstitialAd.OnAdClosed += InterstitialOnAdClosedEvent;
-                    IronSourceAdManager.Instance.interstitialAd.OnAdDisplayFailed += InterstitialAd_OnAdDisplayFailed;
-                }
-                else
-                {
-                    SoundManager.Instance.PlayLevelCompleteSFx();
-                    GamePlayScreenUI.Instance.ShowLevelCompleteScreen();
-                }
-#endif
             });
         }
-    }
-
-    private void InterstitialAd_OnAdDisplayFailed(com.unity3d.mediation.LevelPlayAdDisplayInfoError obj)
-    {
-        //incase ad load fails , continue with level complete
-        Debug.Log("level end interstitial ad display failed");
-        //SoundManager.Instance.PlayLevelCompleteSFx();
-        //GamePlayScreenUI.Instance.ShowLevelCompleteScreen();
-
-        IronSourceAdManager.Instance.interstitialAd.OnAdDisplayFailed -= InterstitialAd_OnAdDisplayFailed;
-    }
-
-    private void InterstitialOnAdClosedEvent(LevelPlayAdInfo info)
-    {
-        // on intersitial ad watched and closed , display level complete
-        SaveLoadManager.Instance.playerProfile.interStitialAdCount = 0;
-
-        //SoundManager.Instance.PlayLevelCompleteSFx();
-        //GamePlayScreenUI.Instance.ShowLevelCompleteScreen();
-
-        IronSourceAdManager.Instance.LoadInterstitialAd();
-        IronSourceAdManager.Instance.interstitialAd.OnAdClosed -= InterstitialOnAdClosedEvent;
     }
 }
