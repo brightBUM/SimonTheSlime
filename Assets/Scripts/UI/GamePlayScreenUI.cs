@@ -8,6 +8,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Services.LevelPlay;
+using UnityEngine.Events;
 
 public class GamePlayScreenUI : MonoBehaviour
 {
@@ -52,6 +53,7 @@ public class GamePlayScreenUI : MonoBehaviour
     public Action poundReleaseAction;
     public Action dashButtonAction;
     public Action grappleButtonAction;
+    public UnityEvent EnableThanksScreen;
     private TweenerCore<float, float, FloatOptions> tween;
     public bool BulletTimeActive => timerFillUI.fillAmount < 1f;
     private void OnEnable()

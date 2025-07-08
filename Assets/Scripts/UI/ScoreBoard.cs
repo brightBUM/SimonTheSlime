@@ -130,6 +130,12 @@ public class ScoreBoard : MonoBehaviour
     #region NextButton
     private void OnNextClick()
     {
+        if(LevelManager.Instance.levelIndex == 14)
+        {
+            //show thanks screen for last level
+            GamePlayScreenUI.Instance.EnableThanksScreen?.Invoke();
+            return;
+        }
 
 #if UNITY_ANDROID && !UNITY_EDITOR //check interstitial ad condition
         SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
