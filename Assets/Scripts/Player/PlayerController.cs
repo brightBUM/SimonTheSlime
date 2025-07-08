@@ -126,6 +126,25 @@ public class PlayerController : MonoBehaviour
             lastPos = transform.position;
             playerAnimation.ghostDummyVisual.transform.rotation = Quaternion.Euler(0, 0, rot);
         }
+
+        if (playerState == State.GRAPPLE)
+        {
+            Vector2 directionToPoint = (grapplePoint - (Vector2)transform.position).normalized;
+            Vector2 velocityDir = rb.velocity.normalized;
+
+            float dot = Vector2.Dot(directionToPoint, velocityDir);
+
+            var distance = Vector2.Distance(transform.position, grapplePoint);
+            // If dot < 0, it means player passed the point
+            if (dot < 0 || distance < 1.0f)
+            {
+                GrappleRangeShrink.Invoke();
+                rb.velocity = Vector2.zero;
+                Physics2D.gravity = Vector2.zero;
+                playerAnimation.SetGrappleGrab();
+                playerState = State.GRAPPLEHANG;
+            }
+        }
     }
     // Update is called once per frame
     void Update()
