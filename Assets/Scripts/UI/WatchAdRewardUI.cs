@@ -58,17 +58,15 @@ public class WatchAdRewardUI : MonoBehaviour
 #if UNITY_ANDROID && !UNITY_EDITOR
         IronSourceAdManager.Instance.ShowRewardedAd();
         IronSourceRewardedVideoEvents.onAdRewardedEvent += IronSourceRewardedVideoEvents_onAdRewardedEvent;
+        return;
 #endif
 
-#if UNITY_EDITOR
-        
         rewardPamel.SetActive(true);
 
         SaveLoadManager.Instance.MainMenuAdRewarded();
         CalculateRewardLockUnlock();
 
         Debug.Log("main menu rewarded ad complete");
-#endif
 
     }
 
@@ -95,9 +93,9 @@ public class WatchAdRewardUI : MonoBehaviour
     public void GetUnlockProgress(TimeSpan timeSpan)
     {
         //gets time remain from Last unlock 
-        text.text = timeSpan.Hours+"H";
+        text.text = (24 - timeSpan.Hours)+ "H";
         //show that as fill amount for banana icon
-        bananaIcon.fillAmount = (float)(24- timeSpan.Hours) / (float)24;
+        bananaIcon.fillAmount = (float)(timeSpan.Hours) / (float)24;
     }
 
     private void OnDisable()
