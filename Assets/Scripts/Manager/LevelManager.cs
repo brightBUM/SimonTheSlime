@@ -166,6 +166,11 @@ public class LevelManager : MonoBehaviour
         SaveLoadManager.Instance.playerProfile.screws += collectedScrews;
         SaveLoadManager.Instance.playerProfile.batteries += collectedBatteries;
     }
+    public void LevelFailStatsToProfile()
+    {
+        SaveLoadManager.Instance.playerProfile.nanas += collectedBananas;
+        SaveLoadManager.Instance.playerProfile.melons += collectedMelons;
+    }
     public void PlayerInputToggle(bool value)
     {
         if (playerController != null)

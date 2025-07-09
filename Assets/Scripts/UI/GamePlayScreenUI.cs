@@ -187,8 +187,8 @@ public class GamePlayScreenUI : MonoBehaviour
         ScoreboardScreen.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBounce);
         UpdateLevelCompleteUI();
 
-        //LevelManager.Instance.AddLevelStatsToProfile();
-        //SaveLoadManager.Instance.SaveGame();
+        LevelManager.Instance.LevelFailStatsToProfile();
+        SaveLoadManager.Instance.SaveGame();
     }
     private void InterstitialAd_OnAdDisplayFailed(com.unity3d.mediation.LevelPlayAdDisplayInfoError obj)
     {
