@@ -1,7 +1,6 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class ParallaxLooper : MonoBehaviour
 {
     public Transform[] backgrounds;   // Assign 3 background transforms
