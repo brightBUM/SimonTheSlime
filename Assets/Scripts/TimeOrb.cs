@@ -7,13 +7,18 @@ using UnityEngine;
 public class TimeOrb : MonoBehaviour
 {
     [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] Transform visual;
+    [SerializeField] float shakeStrength = 10f;
+    [SerializeField] float jumpOffset = 1f;
     Color iconColor;
-    Tween tween;
+    Tween bgTween;
+    Tween visualTween;
+    Tween jumpTween;
     // Start is called before the first frame update
     void Start()
     {
         iconColor = spriteRenderer.color;
-        tween = DOTween.To(() => iconColor.a, x => iconColor.a = x, 0, 0.5f).SetLoops(-1).SetEase(Ease.OutSine).OnUpdate(() =>
+        bgTween = DOTween.To(() => iconColor.a, x => iconColor.a = x, 0, 0.5f).SetLoops(-1).SetEase(Ease.OutSine).OnUpdate(() =>
         {
             if(spriteRenderer!=null)
             {
@@ -21,11 +26,14 @@ public class TimeOrb : MonoBehaviour
             }
             else
             {
-                tween.Kill();
+                bgTween.Kill();
             }
             
         });
 
+        var visualTransform = spriteRenderer.transform;
+        jumpTween = visualTransform.DOMoveY(visualTransform.position.y + jumpOffset, 0.5f).SetLoops(-1,LoopType.Yoyo);
+        visualTween = visual.DOShakeRotation(0.5f,new Vector3(0,0, shakeStrength),10,45).SetLoops(-1);
     }
 
 
@@ -43,9 +51,17 @@ public class TimeOrb : MonoBehaviour
 
     private void OnDestroy()
     {
-        if(tween!=null && tween.IsActive())
+        if(bgTween!=null && bgTween.IsActive())
         {
-            tween.Kill();
+            bgTween.Kill();
+        }
+        if(visualTween!=null && visualTween.IsActive())
+        {
+            visualTween.Kill();
+        }
+        if(jumpTween!=null && jumpTween.IsActive())
+        {
+            jumpTween.Kill();
         }
     }
 }
