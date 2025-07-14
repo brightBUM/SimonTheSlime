@@ -23,6 +23,10 @@ namespace CutScene
             //set audioclip from soundManager;
             startScale = transform.localScale;
         }
+        public virtual Tween CustomTween()
+        {
+            return null;
+        }
     }
 }
 

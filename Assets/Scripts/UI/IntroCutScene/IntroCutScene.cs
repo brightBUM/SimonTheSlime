@@ -165,6 +165,16 @@ namespace CutScene
                     currentTween++;
                     break;
 
+                case TweenType.CUSTOM:
+                    var tween4 = tweenObject.CustomTween();
+                    cutSceneAudio.PlayTweenObjectSounds(tweenObject.clip);
+                    if (tween4 != null)
+                    {
+                        yield return tween4.WaitForCompletion();
+                    }
+                    currentTween++;
+                    break;
+
                 default:
                     break;
             }
@@ -192,6 +202,7 @@ namespace CutScene
     {
         MOVING,
         SCALING,
-        ROTATING
+        ROTATING,
+        CUSTOM
     }
 }
