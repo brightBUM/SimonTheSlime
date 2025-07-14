@@ -25,11 +25,20 @@ namespace CutScene
         {
             //check for save file 
             SaveLoadManager.Instance.skipCutScene += CheckForSaveLoad;
+            SizeGridToCamView();
 
         }
         private void OnEnable()
         {
             skipButton.onClick.AddListener(SkipEscape);
+        }
+
+        private void SizeGridToCamView()
+        {
+            var gridLayoutGroup = GetComponent<GridLayoutGroup>();
+            float camHeight = 2f * Camera.main.orthographicSize;
+            float camWidth = camHeight * Camera.main.aspect;
+            gridLayoutGroup.cellSize = new Vector2(camWidth, camHeight);
         }
         private void LoadMainMenu()
         {
