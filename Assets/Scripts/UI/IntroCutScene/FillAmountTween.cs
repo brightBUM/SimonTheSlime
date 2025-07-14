@@ -1,17 +1,19 @@
 using CutScene;
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
-public class FillAmountTween : TweenObject
+
+namespace CutScene
 {
-    [SerializeField] Image img;
-    [SerializeField] float target;
-    public override Tween CustomTween()
+    public class FillAmountTween : TweenObject
     {
-        return DOTween.To(() => img.fillAmount, x => img.fillAmount = x, target, duration);
+        [SerializeField] Image img;
+        [SerializeField] float target;
+        public override Tween CustomTween()
+        {
+            return DOTween.To(() => img.fillAmount, x => img.fillAmount = x, target, duration);
+        }
     }
 }
+
