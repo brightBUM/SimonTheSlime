@@ -62,6 +62,12 @@ public class LevelManager : MonoBehaviour
 
         //clear the pound splash object pool on level load || bug caused by delayed despawn
         ObjectPoolManager.Instance.ResetPool(0);
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+        Application.targetFrameRate = 60;
+        
+#endif
+
     }
     private void Update()
     {

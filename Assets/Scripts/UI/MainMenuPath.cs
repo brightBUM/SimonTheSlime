@@ -16,14 +16,21 @@ public class MainMenuPath : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        title.DOScale(1.1f, 0.3f).SetLoops(-1, LoopType.Yoyo);
-
-        for (int i = 0; i < wayPoints.Length; i++)
+        if (title != null)
         {
-            positions[i] = wayPoints[i].position;
+            title.DOScale(1.1f, 0.3f).SetLoops(-1, LoopType.Yoyo);
         }
 
-        rectTransform.DOPath(positions, duration,PathType.CatmullRom).SetEase(easeType).SetLoops(-1,LoopType.Yoyo);
+        if (wayPoints != null)
+        {
+            for (int i = 0; i < wayPoints.Length; i++)
+            {
+                positions[i] = wayPoints[i].position;
+            }
+        }
+        
+
+        rectTransform?.DOPath(positions, duration,PathType.CatmullRom).SetEase(easeType).SetLoops(-1,LoopType.Yoyo);
     }
 
     // Update is called once per frame
