@@ -90,8 +90,12 @@ namespace CutScene
         }
         IEnumerator StartCutScene()
         {
+            var startPos = scenes[0].transform.position;
+            startPos.z = -10;
+            camTransform.position = startPos;
+
             //loop through all scenes 
-            for(int i=0;i<scenes.Count;i++)
+            for (int i=0;i<scenes.Count;i++)
             {
                 //scenes[i].gameObject.SetActive(true);
                 yield return StartCoroutine(ProcessScene(i));
