@@ -17,14 +17,16 @@ public class CutSceneAudio : MonoBehaviour
     }
     public void PlayTweenObjectSounds(AudioClip clip)
     {
-        if(clip == null)
-        {
-            audioSource.clip = popSounds[Random.Range(0, popSounds.Length)];
-        }
-        else
-        {
-            audioSource.clip = clip;
-        }
+        //if(clip == null)
+        //{
+        //    audioSource.clip = popSounds[Random.Range(0, popSounds.Length)];
+        //}
+        //else
+        //{
+        //    audioSource.clip = clip;
+
+        //}
+        audioSource.clip = clip;
         audioSource.Play();
         
     }
