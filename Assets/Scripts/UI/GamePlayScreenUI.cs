@@ -159,7 +159,7 @@ public class GamePlayScreenUI : MonoBehaviour
         //triggered with next button
 
 
-#if UNITY_ANDROID && !UNITY_EDITOR //check interstitial ad condition
+#if UNITY_ANDROID && UNITY_EDITOR //check interstitial ad condition
         
         SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
 
@@ -168,7 +168,7 @@ public class GamePlayScreenUI : MonoBehaviour
             IronSourceAdManager.Instance.ShowInterstitialAd();
             IronSourceAdManager.Instance.interstitialAd.OnAdClosed += InterstitialOnAdClosedEvent;
             IronSourceAdManager.Instance.interstitialAd.OnAdDisplayFailed += InterstitialAd_OnAdDisplayFailed;
-
+            IronSourceAdManager.Instance.interstitialAd.OnAdLoadFailed += InterstitialAd_OnAdLoadFailed;
             return;
         }
 
@@ -176,6 +176,16 @@ public class GamePlayScreenUI : MonoBehaviour
         LevelFailedLeaderBoard();
 
     }
+
+    private void InterstitialAd_OnAdLoadFailed(com.unity3d.mediation.LevelPlayAdError obj)
+    {
+        //incase ad load fails , continue with level complete
+        Debug.Log("level end interstitial ad display failed");
+        LevelFailedLeaderBoard();
+
+        IronSourceAdManager.Instance.interstitialAd.OnAdLoadFailed -= InterstitialAd_OnAdLoadFailed;
+    }
+
     private void LevelFailedLeaderBoard()
     {
         GameManger.Instance.TogglePauseGame(false);
@@ -267,12 +277,11 @@ public class GamePlayScreenUI : MonoBehaviour
 #elif UNITY_ANDROID
         //trigger rewarded ad  here
         IronSourceAdManager.Instance.ShowRewardedAd();
-        IronSourceRewardedVideoEvents.onAdClosedEvent += RewardedVideoOnAdClosedEvent;
+        IronSourceRewardedVideoEvents.onAdRewardedEvent += IronSourceRewardedVideoEvents_onAdRewardedEvent;
 #endif
-
     }
 
-    private void RewardedVideoOnAdClosedEvent(IronSourceAdInfo info)
+    private void IronSourceRewardedVideoEvents_onAdRewardedEvent(IronSourcePlacement arg1, IronSourceAdInfo arg2)
     {
         retryScreen.SetActive(false);
         gameplayScreen.SetActive(true);
@@ -293,9 +302,10 @@ public class GamePlayScreenUI : MonoBehaviour
         {"level", LevelManager.Instance.levelIndex+1 }
     });
 
-        IronSourceRewardedVideoEvents.onAdClosedEvent -= RewardedVideoOnAdClosedEvent;
+        IronSourceRewardedVideoEvents.onAdRewardedEvent -= IronSourceRewardedVideoEvents_onAdRewardedEvent;
 
     }
+
 
     private void UpdateDashAbilityUI(float value)
     {
