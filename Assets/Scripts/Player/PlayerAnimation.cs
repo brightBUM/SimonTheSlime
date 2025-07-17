@@ -28,7 +28,7 @@ public class PlayerAnimation : MonoBehaviour
     SpriteTrailRenderer.SpriteTrailRenderer spriteTrailRenderer;
     [SerializeField] Material originalMaterial;
     float timer = 1f;
-    
+    bool skinAnimate;
     public SpriteRenderer ghostDummyVisual;
     // Start is called before the first frame update
     void Start()
@@ -43,6 +43,8 @@ public class PlayerAnimation : MonoBehaviour
         spriteRenderer.material.SetFloat("_Saturation", skin.saturation);
         spriteRenderer.material.SetColor("_Tint", skin.tintColor);
         spriteRenderer.material.SetFloat("_Invert", skin.invert);
+
+        skinAnimate = GameManger.Instance.ShouldAnimate();
     }
 
     // Update is called once per frame
@@ -52,6 +54,13 @@ public class PlayerAnimation : MonoBehaviour
         {
             animator.SetFloat("velocity", playerController.Velocity);
             //normalTrail.keys
+        }
+
+        if(skinAnimate)
+        {
+            float speed = 3f;
+            float oscillatingValue = Mathf.Sin(Time.time * speed); // oscillates between -1 and 1
+            spriteRenderer.material.SetFloat("_Hue", oscillatingValue);
         }
     }
     public void FlipSprite(Vector2 aimDirection)

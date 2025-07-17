@@ -79,6 +79,17 @@ public class GameManger : MonoBehaviour
     {
         return charSkinSO.podList[SaveLoadManager.Instance.playerProfile.equippedPod];
     }
+    public bool ShouldAnimate()
+    {
+        if(SaveLoadManager.Instance.playerProfile.equippedSkin == 7)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     public Skin GetSkinByIndex(bool isPod,int skinIndex)
     {
         if(isPod)

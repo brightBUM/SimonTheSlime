@@ -7,6 +7,8 @@ public class CharSkinLoad : MonoBehaviour
 {
     SpriteRenderer spriteRenderer;
     public bool isPod = false;
+    Material material;
+    bool skinAnimate;
     // Start is called before the first frame update
     private void OnEnable()
     {
@@ -18,7 +20,6 @@ public class CharSkinLoad : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         var image = GetComponent<Image>();
 
-        Material material;
         if (spriteRenderer != null)
         {
             material = spriteRenderer.material;
@@ -41,9 +42,18 @@ public class CharSkinLoad : MonoBehaviour
         {
             var skin = GameManger.Instance?.GetCharSkinColor();
             SetSkinToMaterial(skin, material);
+            skinAnimate = GameManger.Instance.ShouldAnimate();
         }
     }
-
+    private void Update()
+    {
+        if(skinAnimate)
+        {
+            float speed = 3f;
+            float oscillatingValue = Mathf.Sin(Time.time * speed); // oscillates between -1 and 1
+            material.SetFloat("_Hue", oscillatingValue);
+        }
+    }
     private void SetSkinToMaterial(Skin skin,Material material)
     {
         material.SetFloat("_Hue", skin.hueshift);
