@@ -55,16 +55,19 @@ public class ScoreBoard : MonoBehaviour
 
         if (SaveLoadManager.Instance.CheckInterstitialAdCondition())
         {
-            IronSourceAdManager.Instance.ShowInterstitialAd();
-            IronSourceAdManager.Instance.interstitialAd.OnAdClosed        += Level_InterstitialOnAdClosedEvent;
-            IronSourceAdManager.Instance.interstitialAd.OnAdDisplayFailed += Level_InterstitialAd_OnAdDisplayFailed;
-            IronSourceAdManager.Instance.interstitialAd.OnAdLoadFailed    += Level_InterstitialAd_OnAdLoadFailed;
-            return;
+            var IronSourceInstance = IronSourceAdManager.Instance;
+            if (IronSourceInstance.IsInterstitialAdReady())
+            {
+                IronSourceAdManager.Instance.ShowInterstitialAd();
+                IronSourceAdManager.Instance.interstitialAd.OnAdClosed += Level_InterstitialOnAdClosedEvent;
+                IronSourceAdManager.Instance.interstitialAd.OnAdDisplayFailed += Level_InterstitialAd_OnAdDisplayFailed;
+                IronSourceAdManager.Instance.interstitialAd.OnAdLoadFailed += Level_InterstitialAd_OnAdLoadFailed;
+                return;
+            }
         }
 #endif
-
+        // if Ad not ready or Ad condition not true 
         GamePlayScreenUI.Instance.GotoLevelSelectionScreen();
-
     }
 
     private void Level_InterstitialAd_OnAdLoadFailed(com.unity3d.mediation.LevelPlayAdError obj)
@@ -101,18 +104,23 @@ public class ScoreBoard : MonoBehaviour
     private void OnReplayClick()
     {
 
-#if UNITY_ANDROID && !UNITY_EDITOR //check interstitial ad condition
+#if UNITY_ANDROID && UNITY_EDITOR //check interstitial ad condition
         SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
 
         if (SaveLoadManager.Instance.CheckInterstitialAdCondition())
         {
-            IronSourceAdManager.Instance.ShowInterstitialAd();
-            IronSourceAdManager.Instance.interstitialAd.OnAdClosed += Replay_InterstitialOnAdClosedEvent;
-            IronSourceAdManager.Instance.interstitialAd.OnAdDisplayFailed += Replay_InterstitialAd_OnAdDisplayFailed;
-            IronSourceAdManager.Instance.interstitialAd.OnAdLoadFailed += Replay_InterstitialAd_OnAdLoadFailed;
-            return;
+            var IronSourceInstance = IronSourceAdManager.Instance;
+            if (IronSourceInstance.IsInterstitialAdReady())
+            {
+                IronSourceAdManager.Instance.ShowInterstitialAd();
+                IronSourceAdManager.Instance.interstitialAd.OnAdClosed += Replay_InterstitialOnAdClosedEvent;
+                IronSourceAdManager.Instance.interstitialAd.OnAdDisplayFailed += Replay_InterstitialAd_OnAdDisplayFailed;
+                IronSourceAdManager.Instance.interstitialAd.OnAdLoadFailed += Replay_InterstitialAd_OnAdLoadFailed;
+                return;
+            }
         }
 #endif
+        // if Ad not ready or Ad condition not true 
         GamePlayScreenUI.Instance.ReplayScene();
     }
 
@@ -162,14 +170,18 @@ public class ScoreBoard : MonoBehaviour
 
         if (SaveLoadManager.Instance.CheckInterstitialAdCondition())
         {
-            IronSourceAdManager.Instance.ShowInterstitialAd();
-            IronSourceAdManager.Instance.interstitialAd.OnAdClosed += Next_InterstitialOnAdClosedEvent;
-            IronSourceAdManager.Instance.interstitialAd.OnAdDisplayFailed += Next_InterstitialAd_OnAdDisplayFailed;
-            IronSourceAdManager.Instance.interstitialAd.OnAdLoadFailed += Next_InterstitialAd_OnAdLoadFailed;
-            return;
+            var IronSourceInstance = IronSourceAdManager.Instance;
+            if (IronSourceInstance.IsInterstitialAdReady())
+            {
+                IronSourceInstance.ShowInterstitialAd();
+                IronSourceInstance.interstitialAd.OnAdClosed += Next_InterstitialOnAdClosedEvent;
+                IronSourceInstance.interstitialAd.OnAdDisplayFailed += Next_InterstitialAd_OnAdDisplayFailed;
+                IronSourceInstance.interstitialAd.OnAdLoadFailed += Next_InterstitialAd_OnAdLoadFailed;
+                return;
+            }
         }
 #endif
-
+        // if Ad not ready or Ad condition not true 
         GotoNextAfterAd();
     }
 

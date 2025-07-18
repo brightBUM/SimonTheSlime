@@ -102,6 +102,10 @@ public class IronSourceAdManager : MonoBehaviour
         interstitialAd.LoadAd();
         Debug.Log("iron source load interstitial ad");
     }
+    public bool IsInterstitialAdReady()
+    {
+        return interstitialAd.IsAdReady();
+    }
     public void ShowInterstitialAd()
     {
         if (interstitialAd.IsAdReady())
