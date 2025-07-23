@@ -13,6 +13,7 @@ public class CharSkinSO : ScriptableObject
 public class Skin
 {
     public string skinName;
+    public int melonCost = 10;
     public Color tintColor;
     public float hueshift;
     public float saturation;

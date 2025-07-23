@@ -80,13 +80,15 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
         var product = purchaseEvent.purchasedProduct;
         Debug.Log("Processing Purchase -" + product.definition.id);
 
+        var playerProfile = SaveLoadManager.Instance.playerProfile;
         foreach (var item in bananaItems)
         {
             if (product.definition.id == item.id)
             {
-                Debug.Log("nanas before : " + SaveLoadManager.Instance.playerProfile.nanas);
-                SaveLoadManager.Instance.playerProfile.nanas += item.value;
-                Debug.Log("nanas after : " + SaveLoadManager.Instance.playerProfile.nanas);
+                int endBananas = playerProfile.nanas + item.value;
+                ShopManager.instance.UpdateCurrencyUI(0, playerProfile.nanas, endBananas);
+                playerProfile.nanas = endBananas;
+                //Debug.Log("nanas after : " + SaveLoadManager.Instance.playerProfile.nanas);
             }
         }
 
@@ -94,13 +96,11 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
         {
             if (product.definition.id == item.id)
             {
-                Debug.Log("melons before : " + SaveLoadManager.Instance.playerProfile.melons);
-                SaveLoadManager.Instance.playerProfile.melons += item.value;
-                Debug.Log("melons after : " + SaveLoadManager.Instance.playerProfile.melons);
+                int endMelons = playerProfile.melons + item.value;
+                ShopManager.instance.UpdateCurrencyUI(1, playerProfile.melons, endMelons);
+                playerProfile.melons = endMelons;
             }
         }
-
-        ShopManager.instance.UpdateCurrencyUI();
 
         return PurchaseProcessingResult.Complete;
     }

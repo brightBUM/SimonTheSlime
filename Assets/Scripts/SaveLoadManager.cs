@@ -103,10 +103,12 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     }
     public bool PurchaseSkin(CharSkinBase charSkinBase)
     {
-        if(playerProfile.melons>=10)
+        var skinCost = GameManger.Instance.GetSkinByIndex(charSkinBase.isPod,charSkinBase.skinNum).melonCost;
+        if(playerProfile.melons>=skinCost)
         {
-            playerProfile.melons -= 10;
-            ShopManager.instance.UpdateCurrencyUI();
+            int endMelons = playerProfile.melons - skinCost;
+            ShopManager.instance.UpdateCurrencyUI(1, playerProfile.melons, endMelons);
+            playerProfile.melons = endMelons;
 
             if(charSkinBase.isPod)
             {

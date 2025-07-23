@@ -82,6 +82,7 @@ public class CharSkinBase : MonoBehaviour
         {
             // not enough melons
             // tween a button shake
+            ShopManager.instance.NoMelonsFeedBack();
         }
     }
 
