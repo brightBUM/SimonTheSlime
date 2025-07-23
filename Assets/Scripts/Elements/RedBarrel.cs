@@ -31,8 +31,10 @@ public class RedBarrel : MonoBehaviour
             {
                 spriteRenderer.material = originalMaterial;
             });
+
             //add rb force
-            playerController.ExplodeOnContact(explodeForce);
+            //playerController.ExplodeOnContact(explodeForce);
+
             //cam shake 
             LevelManager.Instance.ShakeCamera.OnExplosion();
             //particles , SFX
