@@ -45,14 +45,10 @@ public class IronSourceAdManager : MonoBehaviour
 
     private void EnableAds()
     {
-        //IronSourceRewardedVideoEvents.onAdClosedEvent += RewardedVideoOnAdClosedEvent;
-        //IronSourceRewardedVideoEvents.onAdRewardedEvent += RewardedVideoOnAdRewardedEvent;
         bannerAd = new LevelPlayBannerAd(bannerAdUnitId);
 
         interstitialAd = new LevelPlayInterstitialAd(interstitialAdUnitId);
         interstitialAd.LoadAd();
-
-
     }
     void RewardedVideoOnAdClosedEvent(IronSourceAdInfo adInfo)
     {

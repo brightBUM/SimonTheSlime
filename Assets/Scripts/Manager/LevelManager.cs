@@ -9,6 +9,7 @@ using UnityEngine.Tilemaps;
 
 public class LevelManager : MonoBehaviour
 {
+    [SerializeField] AudioSource levelMusicSource;
     [SerializeField] CameraShake camShake;
     [SerializeField] LevelStart levelStart;
     [SerializeField] Transform collectiblesParent;
@@ -59,6 +60,12 @@ public class LevelManager : MonoBehaviour
         //Debug.Log("combo count : " + comboCount);
         OnLootDrop += EnemyLootDrop;
         GameManger.Instance?.ToggleMenuMusic(false);
+
+        var index = levelIndex >= 4 ? levelIndex % 4 : levelIndex;
+        var audioclip = SoundManager.Instance.GetLevelMusic(index);
+        levelMusicSource.clip = audioclip;
+        Debug.Log($" audioClip = {audioclip.name}, audioclip Index : {index}");
+        levelMusicSource.Play();
 
         //clear the pound splash object pool on level load || bug caused by delayed despawn
         ObjectPoolManager.Instance.ResetPool(0);

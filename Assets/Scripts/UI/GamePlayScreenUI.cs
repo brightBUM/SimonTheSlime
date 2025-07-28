@@ -159,17 +159,21 @@ public class GamePlayScreenUI : MonoBehaviour
         //triggered with next button
 
 
-#if UNITY_ANDROID && UNITY_EDITOR //check interstitial ad condition
+#if UNITY_ANDROID && !UNITY_EDITOR //check interstitial ad condition
         
         SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
 
         if (SaveLoadManager.Instance.CheckInterstitialAdCondition())
         {
-            IronSourceAdManager.Instance.ShowInterstitialAd();
-            IronSourceAdManager.Instance.interstitialAd.OnAdClosed += InterstitialOnAdClosedEvent;
-            IronSourceAdManager.Instance.interstitialAd.OnAdDisplayFailed += InterstitialAd_OnAdDisplayFailed;
-            IronSourceAdManager.Instance.interstitialAd.OnAdLoadFailed += InterstitialAd_OnAdLoadFailed;
-            return;
+            var IronSourceInstance = IronSourceAdManager.Instance;
+            if (IronSourceInstance.IsInterstitialAdReady())
+            {
+                IronSourceInstance.ShowInterstitialAd();
+                IronSourceInstance.interstitialAd.OnAdClosed += InterstitialOnAdClosedEvent;
+                IronSourceInstance.interstitialAd.OnAdDisplayFailed += InterstitialAd_OnAdDisplayFailed;
+                IronSourceInstance.interstitialAd.OnAdLoadFailed += InterstitialAd_OnAdLoadFailed;
+                return;
+            }
         }
 
 #endif

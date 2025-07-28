@@ -35,6 +35,14 @@ public class SoundManager : MonoBehaviour
     private AudioSource activeSource;
 
     public static SoundManager Instance;
+
+    private List<string> levelAudioPath = new List<string>
+    {
+        "lv1 Funky Chunk",
+        "lv2 Funky Boxstep",
+        "lv3 Funin and Sunin",
+        "lv4 Funk Game Loop"
+    };
     private void Awake()
     {
         Instance = this;
@@ -45,7 +53,11 @@ public class SoundManager : MonoBehaviour
         ghostSource.clip = ghostRespawnSFx;
         //gateUnlockSource.clip = gateUnlockLoopSFx;
     }
-    
+    public AudioClip GetLevelMusic(int index)
+    {
+        AudioClip audioClip = (AudioClip)Resources.Load("Audio/" + levelAudioPath[index]);
+        return audioClip;
+    }
     private void PlayClip(AudioClip clip)
     {
         activeSource = GetIdleSource();
