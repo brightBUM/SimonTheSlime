@@ -17,7 +17,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField] ComboUI ComboUIPrefab;
     [SerializeField] LootDrop[] lootDropPrefab;
     private float lootDelay = 0.25f;
-    public float targetTime = 45f;
     public int levelIndex = 0;
     public float levelTimer;
     public bool startLevelTimer = false;
@@ -27,6 +26,7 @@ public class LevelManager : MonoBehaviour
     [HideInInspector] public int collectedScrews;
     [HideInInspector] public int collectedBatteries;
     [HideInInspector] public int collectedMelons;
+    public float targetTime;
     private int levelScore;
     private BaseRespawn baseRespawn;
     public int retryCount = 1;
@@ -69,6 +69,9 @@ public class LevelManager : MonoBehaviour
 
         //clear the pound splash object pool on level load || bug caused by delayed despawn
         ObjectPoolManager.Instance.ResetPool(0);
+
+        //get level target time from game config
+        targetTime = GameManger.Instance.gameConfig.levelTargetTime[0][levelIndex]; //assigning first world for now
 
 #if UNITY_ANDROID && !UNITY_EDITOR
         Application.targetFrameRate = 60;
