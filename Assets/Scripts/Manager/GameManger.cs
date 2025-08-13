@@ -1,5 +1,6 @@
 using CutScene;
 using DG.Tweening;
+using GameAnalyticsSDK;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -39,6 +40,9 @@ public class GameManger : MonoBehaviour
         SaveLoadManager.Instance.InitFileSystem();
         SetMixervalueFromFile();
         ToggleMenuMusic(false);
+
+        //init GA
+        GameAnalytics.Initialize();
 
 #if UNITY_ANDROID && !UNITY_EDITOR
         Application.targetFrameRate = 60;
