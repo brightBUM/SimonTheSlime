@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1725311650262177589}
   - component: {fileID: 1889717800315292240}
   - component: {fileID: 1757239128432537717}
+  - component: {fileID: 7397505836997413655}
   m_Layer: 8
   m_Name: Sticky Player Prefab
   m_TagString: Untagged
@@ -206,6 +207,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingHealth: 1
+--- !u!114 &7397505836997413655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 976255675401089588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1b740789e23c1d48941e4814facdff0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  segmentPrefab: {fileID: 173211279870286380, guid: 2c9294ed152d1314095bccba0c8a7595, type: 3}
+  segmentCount: 5
+  segmentSpacing: 2
+  segments: []
+  playerSprite: {fileID: 5188138789766007719}
 --- !u!1 &1689100418148886690
 GameObject:
   m_ObjectHideFlags: 0

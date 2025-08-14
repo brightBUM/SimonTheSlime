@@ -11,6 +11,7 @@ public class GameManger : MonoBehaviour
     [SerializeField] AudioMixer audioMixer;
     [SerializeField] AudioSource menuAudioSource;
     [SerializeField] CharSkinSO charSkinSO;
+    [SerializeField] Sprite[] creatureSprites;
     public GameConfig gameConfig;
 
     public bool IsPaused { get; set; }
@@ -110,6 +111,21 @@ public class GameManger : MonoBehaviour
         });
     }
 
+    public Sprite GetCreatureSprite(CreatureType creatureType)
+    {
+        switch(creatureType)
+        {
+            case CreatureType.Common:
+                return creatureSprites[0];
+            case CreatureType.Rare:
+                return creatureSprites[1];
+            case CreatureType.Epic:
+                return creatureSprites[2];
+            default :
+                return null;
+
+        }
+    }
     public void TogglePauseGame()
     {
         IsPaused = !IsPaused;

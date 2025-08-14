@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class LootDrop : MonoBehaviour
 {
-    [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] protected SpriteRenderer spriteRenderer;
     [SerializeField] Transform radialVisual;
     [SerializeField] float upForce = 5f;
     public static Action<Sprite, Vector3> OnCollection;
@@ -15,7 +15,7 @@ public class LootDrop : MonoBehaviour
     Rigidbody2D rb;
     Vector2[] dir = {new Vector2(1,1),
                      new Vector2(-1,1)};
-    public void Init()
+    public virtual void Init()
     {
         radialVisual.DOScale(1.1f, 0.5f).SetLoops(-1, LoopType.Yoyo);
 
@@ -29,7 +29,7 @@ public class LootDrop : MonoBehaviour
                                          GetComponent<BoxCollider2D>().enabled = true;
                                      });
     }
-    private void Update()
+    protected virtual void Update()
     {
         //if (Input.GetKeyDown(KeyCode.Space))
         //{
@@ -40,7 +40,7 @@ public class LootDrop : MonoBehaviour
         radialVisual.rotation = Quaternion.Euler(0, 0, zRotation);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
