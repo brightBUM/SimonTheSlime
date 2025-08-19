@@ -61,7 +61,11 @@ public class LevelManager : MonoBehaviour
         OnLootDrop += EnemyLootDrop;
         GameManger.Instance?.ToggleMenuMusic(false);
 
+        if (levelIndex <= 0)
+            levelIndex = 0;
+
         var index = levelIndex >= 4 ? levelIndex % 4 : levelIndex;
+
         var audioclip = SoundManager.Instance.GetLevelMusic(index);
         levelMusicSource.clip = audioclip;
         Debug.Log($" audioClip = {audioclip.name}, audioclip Index : {index}");
