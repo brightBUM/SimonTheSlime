@@ -67,6 +67,8 @@ public class TilemapMerger : MonoBehaviour
         camConfiner.InvalidateCache();
 
         //spawn player
+        var playerSpawnPos = FindAnyObjectByType<ChunkEntryPoint>().transform.position; 
+        playerPrefab.transform.position = playerSpawnPos;
         playerPrefab.SetActive(true);
     }
     public void Merge(Tilemap targetTilemap)
@@ -105,7 +107,7 @@ public class TilemapMerger : MonoBehaviour
 
         // Copy size and offset from the chunk’s collider
         newCollider.size = chunkHandler.camBounds.size;
-        newCollider.offset = chunkHandler.camBounds.offset + (Vector2)nextChunkPos;
+        newCollider.offset = chunkHandler.camBounds.offset + (Vector2)spawnPos;
 
         //copy other settings like isTrigger, usedByComposite, etc.
         newCollider.isTrigger = chunkHandler.camBounds.isTrigger;

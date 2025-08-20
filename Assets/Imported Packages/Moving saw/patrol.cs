@@ -18,7 +18,7 @@ public class patrol : MonoBehaviour
             return;
         spr = GetComponent<SpriteRenderer>();
         direction = Vector2.up;
-        target = firstTarget.position;
+        target = firstTarget.localPosition;
     }
 
     void Update()
@@ -27,9 +27,9 @@ public class patrol : MonoBehaviour
         if (_PlatSpeed <= 0)
             return;
 
-        if (Vector2.Distance(transform.position, target) > 0.5f)
+        if (Vector2.Distance(transform.localPosition, target) > 0.5f)
         {
-            transform.position = Vector2.MoveTowards(transform.position, target, _PlatSpeed * Time.deltaTime);
+            transform.localPosition = Vector2.MoveTowards(transform.localPosition, target, _PlatSpeed * Time.deltaTime);
         }
         else
         {
@@ -41,15 +41,15 @@ public class patrol : MonoBehaviour
    
     private Vector3 GetTarget()
     {
-        var dis1 = Vector2.Distance(transform.position, ptA.position);
-        var dis2 = Vector2.Distance(transform.position, ptB.position);
+        var dis1 = Vector2.Distance(transform.localPosition, ptA.localPosition);
+        var dis2 = Vector2.Distance(transform.localPosition, ptB.localPosition);
         if (dis1 > 1f)
         {
-            return ptA.position;
+            return ptA.localPosition;
         }
         else if (dis2 > 1f)
         {
-            return ptB.position;
+            return ptB.localPosition;
         }
         return Vector3.zero;
 
