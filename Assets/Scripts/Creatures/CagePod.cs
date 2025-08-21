@@ -1,6 +1,4 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CagePod : MonoBehaviour
@@ -17,20 +15,21 @@ public class CagePod : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
+    }
+    public void Init(CreatureType creatureType)
+    {
+
         //get random creature assignment
+        this.creatureType = creatureType;
 
         //for now manual assignment
         creatureVisual.sprite = GameManger.Instance.GetCreatureSprite(creatureType);
 
         //bobbing Visual
         bobTween = creatureVisual.transform.DOMoveY(creatureVisual.transform.position.y + bobOffset, 1f)
-            .SetLoops(-1,LoopType.Yoyo).SetEase(Ease.OutSine);
-    }
+            .SetLoops(-1, LoopType.Yoyo).SetEase(Ease.OutSine);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -56,5 +55,11 @@ public class CagePod : MonoBehaviour
             }
         }
             
+    }
+
+    private void OnDestroy()
+    {
+        bobTween.Kill();
+
     }
 }
