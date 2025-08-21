@@ -56,7 +56,7 @@ public class TilemapMerger : MonoBehaviour
             //remove the chunk's leftover after merge
             chunkHandler.ClearChunkLeftOver();
 
-            nextChunkPos = chunkHandler.chunkShift;
+            nextChunkPos = chunkHandler.GetChunkShift();
             spawnPos += nextChunkPos;
         }
 
