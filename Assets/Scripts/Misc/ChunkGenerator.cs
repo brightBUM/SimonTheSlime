@@ -1,7 +1,9 @@
 using Cinemachine;
+using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Tilemaps;
+using UnityEditorInternal.VersionControl;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -19,11 +21,15 @@ public class ChunkGenerator : MonoBehaviour
 
     private List<GameObject> chunksToSpawn;
 
+    private List<Transform> cagePodPositions;
+
     [SerializeField] GameObject playerPrefab;
 
     [SerializeField] CinemachineConfiner2D camConfiner;
 
     [SerializeField] Transform generatorParent;
+
+    [SerializeField] WeightedRNG weightedRNG;
 
     [SerializeField] bool debugGeneration;
    
@@ -37,35 +43,55 @@ public class ChunkGenerator : MonoBehaviour
 
     private void Generate()
     {
+
         //get randomized chunks to spawn
         int chunkSize = Random.Range(5, 9); // no. of chunks to be spawned 5-8 , excluding entry & exit chunk
 
         Debug.Log($"chunkSize - {chunkSize}");
 
         chunksToSpawn = new List<GameObject>();
+        cagePodPositions = new List<Transform>();
         //entry chunk
-        chunksToSpawn.Add(RandomItemFromListSize(entryChunks));
+        chunksToSpawn.Add(Utility.RandomItemFromList(entryChunks));
+
+        // make working copies of the lists so inspector lists remain intact
+        List<GameObject> availableRight = new List<GameObject>(rightChunks);
+        List<GameObject> availableUp = new List<GameObject>(upChunks);
+        List<GameObject> availableDown = new List<GameObject>(downChunks);
 
         for (int i = 0; i < chunkSize; i++)
         {
-            var chunkDirection = Random.Range(0, 3); // 0,1,2 for chunk directions
+            // collect directions that still have something left
+            List<int> validDirections = new List<int>();
+            if (availableRight.Count > 0) validDirections.Add(0);
+            if (availableUp.Count > 0) validDirections.Add(1);
+            if (availableDown.Count > 0) validDirections.Add(2);
+
+            if (validDirections.Count == 0)
+            {
+                Debug.LogWarning("No chunks left to spawn!");
+                break;
+            }
+
+            // pick a random valid direction
+            int chunkDirection = validDirections[Random.Range(0, validDirections.Count)];
 
             switch (chunkDirection)
             {
                 case 0:
-                    chunksToSpawn.Add(RandomItemFromListSize(rightChunks));
+                    chunksToSpawn.Add(Utility.RandomUniqueItemFromList(availableRight));
                     break;
                 case 1:
-                    chunksToSpawn.Add(RandomItemFromListSize(upChunks));
+                    chunksToSpawn.Add(Utility.RandomUniqueItemFromList(availableUp));
                     break;
                 case 2:
-                    chunksToSpawn.Add(RandomItemFromListSize(downChunks));
+                    chunksToSpawn.Add(Utility.RandomUniqueItemFromList(availableDown));
                     break;
             }
         }
 
         //exit chunk
-        chunksToSpawn.Add(RandomItemFromListSize(exitChunk));
+        chunksToSpawn.Add(Utility.RandomItemFromList(exitChunk));
 
         //execute merge on those
         StartCoroutine(SpawnChunks());
@@ -80,17 +106,19 @@ public class ChunkGenerator : MonoBehaviour
     {
         playerPrefab.SetActive(false);
 
-        Debug.Log($"child count : {generatorParent.childCount}");
+        //Debug.Log($"child count : {generatorParent.childCount}");
         //clear
         foreach(Transform child in generatorParent)
         {
-            if (debugGeneration)
-                Debug.Break();
+            //if (debugGeneration)
+            //    Debug.Break();
             Destroy(child.gameObject);
         }
 
         baseTilemap.ClearAllTiles();
         chunksToSpawn.Clear();
+        cagePodPositions.Clear();
+        weightedRNG.ClearItems();
         var colliders = baseCamBounds.GetComponents<BoxCollider2D>();
         foreach (var c in colliders)
         {
@@ -126,6 +154,9 @@ public class ChunkGenerator : MonoBehaviour
             if (debugGeneration)
                 Debug.Break();
 
+            //get cagePod Position
+            cagePodPositions.Add(chunkHandler.podSpawnPoint);
+
             //merge cameraBounds
             MergeCamBounds(chunkHandler);
 
@@ -145,16 +176,16 @@ public class ChunkGenerator : MonoBehaviour
         camConfiner.enabled = true;
         camConfiner.InvalidateCache();
 
+        //spawn CagePods b/w chunks
+        weightedRNG.SpawnPods(cagePodPositions, chunksToSpawn.Count - 2); // -2 exclude entry & exit chunks
+
         //spawn player
         var playerSpawnPos = FindAnyObjectByType<ChunkEntryPoint>().transform.position;
         playerPrefab.transform.position = playerSpawnPos;
         playerPrefab.SetActive(true);
     }
 
-    public GameObject RandomItemFromListSize(List<GameObject> listItems)
-    {
-        return listItems[Random.Range(0, listItems.Count)];
-    }
+    
     public void Merge(Tilemap targetTilemap)
     {
         //merge target Tilemap into Base Tilemap

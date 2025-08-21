@@ -309,6 +309,37 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 3.742649, y: 17.529018}
   m_EdgeRadius: 0
+--- !u!1 &4214005451502085174
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2687174315483442871}
+  m_Layer: 0
+  m_Name: CagePodSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2687174315483442871
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4214005451502085174}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -25.919998, y: 34.96, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4862142649015169954}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4992009684884051945
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,6 +390,7 @@ MonoBehaviour:
   tilemap: {fileID: 4777009092590275224}
   camBounds: {fileID: 4718105502450235520}
   chunkDirection: 1
+  podSpawnPoint: {fileID: 2687174315483442871}
   debugChunkSize: 0
 --- !u!1 &5757784973330148137
 GameObject:
@@ -392,6 +424,7 @@ Transform:
   - {fileID: 6297013251491490100}
   - {fileID: 4379626950440261203}
   - {fileID: 8812064446655119183}
+  - {fileID: 2687174315483442871}
   m_Father: {fileID: 6998586757629089598}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6511142436706550205

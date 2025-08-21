@@ -15,6 +15,7 @@ public class ChunkHandler : MonoBehaviour
     public Tilemap tilemap;
     public BoxCollider2D camBounds;
     public ChunkDirection chunkDirection;
+    public Transform podSpawnPoint;
     public bool debugChunkSize;
 
     private Vector3 chunkShift = new Vector3(72,36);

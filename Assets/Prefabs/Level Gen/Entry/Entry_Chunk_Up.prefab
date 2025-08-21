@@ -811,6 +811,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be9cf06c0a25cfd4e9e2036677233300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3706004977089675721
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7027451823126417952}
+  m_Layer: 0
+  m_Name: CagePodSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7027451823126417952
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3706004977089675721}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -22.419998, y: 34.96, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3666814733987654911}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3789055630787845270
 GameObject:
   m_ObjectHideFlags: 0
@@ -7919,6 +7950,7 @@ Transform:
   - {fileID: 6041547758079402383}
   - {fileID: 7239073455899661994}
   - {fileID: 5919211249405874281}
+  - {fileID: 7027451823126417952}
   m_Father: {fileID: 1807603126182548162}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5907421157348732859
@@ -8233,6 +8265,7 @@ MonoBehaviour:
   tilemap: {fileID: 6896387649673679816}
   camBounds: {fileID: 3317058289034078740}
   chunkDirection: 1
+  podSpawnPoint: {fileID: 7027451823126417952}
   debugChunkSize: 0
 --- !u!1 &7283481311918038362
 GameObject:

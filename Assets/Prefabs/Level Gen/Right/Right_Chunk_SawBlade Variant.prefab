@@ -30,7 +30,39 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9018472486331051350}
+  - {fileID: 3674448669582077948}
   m_Father: {fileID: 3903533832190036362}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7593877918870122230
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3674448669582077948}
+  m_Layer: 0
+  m_Name: CagePodSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3674448669582077948
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7593877918870122230}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 29.830002, y: -7.04, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6329900293051442634}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6294101320023847353
 PrefabInstance:
@@ -179,6 +211,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1194224364493568698, guid: 458be0f724b3b244e9fd7806522b34d5, type: 3}
+      propertyPath: podSpawnPoint
+      value: 
+      objectReference: {fileID: 3674448669582077948}
     - target: {fileID: 1194224364493568698, guid: 458be0f724b3b244e9fd7806522b34d5, type: 3}
       propertyPath: debugChunkSize
       value: 0
@@ -2208,7 +2244,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 4408623496361437400, guid: 458be0f724b3b244e9fd7806522b34d5, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6792634567837192756, guid: 458be0f724b3b244e9fd7806522b34d5, type: 3}
       insertIndex: -1

@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &152188412132612129
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3145228418558481816}
+  m_Layer: 0
+  m_Name: CagePodSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3145228418558481816
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152188412132612129}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 22.830002, y: -1.04, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5636501926412382651}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &543642904078188136
 GameObject:
   m_ObjectHideFlags: 0
@@ -3009,8 +3040,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemap: {fileID: 3711918519970690967}
-  chunkShift: {x: 72, y: 0, z: 0}
   camBounds: {fileID: 5332981676674553066}
+  chunkDirection: 0
+  podSpawnPoint: {fileID: 3145228418558481816}
+  debugChunkSize: 0
 --- !u!1 &9066941417362219532
 GameObject:
   m_ObjectHideFlags: 0
@@ -3216,6 +3249,7 @@ Transform:
   - {fileID: 7342099194689475009}
   - {fileID: 1993392149544664643}
   - {fileID: 665265778235308114}
+  - {fileID: 3145228418558481816}
   m_Father: {fileID: 2006788865330645311}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1957180984589826106

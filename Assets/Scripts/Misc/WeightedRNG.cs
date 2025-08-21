@@ -29,7 +29,8 @@ public class WeightedRNG : MonoBehaviour
         {
             //clear old 
             ClearItems();
-            for (int i = 0; i < 5; i++)
+            var spawnSize = Random.Range(2, 6);
+            for (int i = 0; i < spawnSize; i++)
             {
                 //spawn weighted items;
                 GetRandomRarity();
@@ -38,7 +39,7 @@ public class WeightedRNG : MonoBehaviour
         }
     }
 
-    private void ClearItems()
+    public void ClearItems()
     {
         for (int i = 0; i < spawnedItems.Count; i++)
         {
@@ -46,6 +47,31 @@ public class WeightedRNG : MonoBehaviour
         }
         spawnedItems.Clear();
         pos = new Vector3(-25f, 0f, 0);
+    }
+
+    public void SpawnPods(List<Transform> cagePodTransforms,int chunkSize)
+    {
+        int podSpawnCount = 0;
+        switch(chunkSize)
+        {
+            case 5:
+                podSpawnCount = 2; break;
+            case 6:
+            case 7:
+                podSpawnCount = 3; break;
+            case 8:
+                podSpawnCount = 5; break;
+            default:
+                podSpawnCount = 2; break;
+                
+        }
+
+        for (int i = 0; i < podSpawnCount; i++)
+        {
+            //spawn weighted items;
+            pos = Utility.RandomUniqueItemFromList(cagePodTransforms).position;
+            GetRandomRarity();
+        }
     }
     public void GetRandomRarity()
     {
@@ -63,18 +89,21 @@ public class WeightedRNG : MonoBehaviour
     {
         var item = Instantiate(cagePodPrefab,pos,Quaternion.identity);
         item.Init(CreatureType.Common);
+        item.name += " Common";
         spawnedItems.Add(item);
     }
     private void Rare()
     {
         var item = Instantiate(cagePodPrefab, pos, Quaternion.identity);
         item.Init(CreatureType.Rare);
+        item.name += " Rare";
         spawnedItems.Add(item);
     }
     private void Epic()
     {
         var item = Instantiate(cagePodPrefab, pos, Quaternion.identity);
         item.Init(CreatureType.Epic);
+        item.name += " Epic";
         spawnedItems.Add(item);
     }
     //// Example test
