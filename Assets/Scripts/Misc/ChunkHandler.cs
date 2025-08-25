@@ -19,6 +19,42 @@ public class ChunkHandler : MonoBehaviour
     public bool debugChunkSize;
 
     private Vector3 chunkShift = new Vector3(72,36);
+
+    public void Init()
+    {
+        //get tile theme
+        var originalRuleTile = TileAssetHandler.Instance.originalRuleTile;
+        var replacementRuleTile = TileAssetHandler.Instance.GetThemedRuleTile();
+
+        if (tilemap == null || originalRuleTile == null || replacementRuleTile == null)
+        {
+            Debug.LogWarning("Missing references on TilemapThemer.");
+            return;
+        }
+
+        //return if its same as base
+        if (originalRuleTile == replacementRuleTile)
+            return;
+
+        BoundsInt bounds = tilemap.cellBounds;
+        TileBase[] allTiles = tilemap.GetTilesBlock(bounds);
+
+        for (int x = 0; x < bounds.size.x; x++)
+        {
+            for (int y = 0; y < bounds.size.y; y++)
+            {
+                Vector3Int pos = new Vector3Int(x + bounds.xMin, y + bounds.yMin, 0);
+                TileBase tile = allTiles[x + y * bounds.size.x];
+
+                if (tile == originalRuleTile)
+                {
+                    tilemap.SetTile(pos, replacementRuleTile);
+                }
+            }
+        }
+
+        Debug.Log("TileChunk  reskinned!");
+    }
     public void ClearChunkLeftOver()
     {
         //remove grid and tilemap gameobject all together

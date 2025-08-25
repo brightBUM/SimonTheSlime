@@ -149,6 +149,9 @@ public class ChunkGenerator : MonoBehaviour
             //get tilemap references from handler scripts
             var chunkHandler = chunkObj.GetComponent<ChunkHandler>();
 
+            //change chunk's tile theme after spawn
+            chunkHandler.Init();
+
             Merge(chunkHandler.tilemap);
 
             if (debugGeneration)

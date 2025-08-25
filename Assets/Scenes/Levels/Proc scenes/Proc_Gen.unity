@@ -7336,27 +7336,27 @@ Tilemap:
       e33: 6.59e-43
   - m_RefCount: 0
     m_Data:
-      e00: -5.8110337e+13
+      e00: 0
       e01: 0
-      e02: 2.0330424e-19
-      e03: 2.0330424e-19
-      e10: 4.5908e-41
+      e02: 2.0328811e-19
+      e03: 2.0328811e-19
+      e10: 0
       e11: 0
-      e12: 7.96e-43
-      e13: 7.96e-43
-      e20: -1.5333892e+14
-      e21: -0.000020133331
-      e22: -3.3150924e-27
-      e23: -0.000020133331
-      e30: 4.5908e-41
-      e31: 7.96e-43
-      e32: 7.96e-43
-      e33: 7.96e-43
+      e12: 8.14e-43
+      e13: 8.14e-43
+      e20: 9.51939e-31
+      e21: 2.6348936e-29
+      e22: -9.650427e-19
+      e23: 2.6348936e-29
+      e30: 4.591e-41
+      e31: 8.18e-43
+      e32: 8.14e-43
+      e33: 8.18e-43
   m_TileColorArray:
   - m_RefCount: 0
-    m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
+    m_Data: {r: 4.42e-41, g: 4.42e-41, b: 4.42e-41, a: 4.42e-41}
   - m_RefCount: 0
-    m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
+    m_Data: {r: 4.42e-41, g: 4.42e-41, b: 4.42e-41, a: 4.42e-41}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -7567,6 +7567,54 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8768014156198879276, guid: 0ee956aef053e4843a18a3f1f5df06ec, type: 3}
   m_PrefabInstance: {fileID: 1823133574}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1859589859
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1859589860}
+  - component: {fileID: 1859589861}
+  m_Layer: 0
+  m_Name: Tile Asset Handler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1859589860
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1859589859}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.79595, y: 8.631694, z: 0.06071905}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1859589861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1859589859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 609ed2dddedd59848b792a7d8775c20b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  originalRuleTile: {fileID: 11400000, guid: f71f73102f58b73409921817bb441092, type: 2}
+  powerStationRuleTile: {fileID: 11400000, guid: 3da29d13beb5131488d0d7a670935364, type: 2}
+  GreenZoneRuleTile: {fileID: 11400000, guid: 2cd1c840d9ec5b04585bc6b2e8080a88, type: 2}
+  assetTheme: 0
 --- !u!1 &1937392165
 GameObject:
   m_ObjectHideFlags: 0
@@ -8288,6 +8336,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 2069099937}
+  - {fileID: 1859589860}
   - {fileID: 1497385872}
   - {fileID: 1155648085}
   - {fileID: 1082718673}
