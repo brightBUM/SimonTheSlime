@@ -136,6 +136,11 @@ public class ChunkGenerator : MonoBehaviour
     }
     IEnumerator SpawnChunks()
     {
+
+        //set Background
+        TileAssetHandler.Instance.SetBackground();
+
+
         foreach (var chunk in chunksToSpawn)
         {
             //spawn tilemap Prefabs
