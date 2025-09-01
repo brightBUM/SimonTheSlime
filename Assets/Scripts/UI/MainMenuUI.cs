@@ -30,6 +30,9 @@ public class MainMenuUI : MonoBehaviour
             //show banner ad only the first time
             IronSourceAdManager.Instance.LoadBannerAd();
         }
+
+        //initialise page snap scroll
+        GetComponent<PageSnapScroll>().Init();
     }
 
     public void ActivatePanel(int index)

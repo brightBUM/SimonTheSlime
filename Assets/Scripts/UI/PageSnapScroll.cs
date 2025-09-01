@@ -1,145 +1,161 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using DG.Tweening;
+using System.Collections;
 
-public class PageSnapScroll : MonoBehaviour,IBeginDragHandler, IEndDragHandler
+public class PageSnapScroll : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 {
+    public enum ScrollDirection { Horizontal, Vertical }
+    [Header("Setup")]
     public ScrollRect scrollRect;
     public Transform content;
-    public int itemsPerPage = 5;
+    public ScrollDirection scrollDirection = ScrollDirection.Horizontal;
+    public int itemsPerPage = 1;
+    public int startPageNum = 0;
 
     private int totalItems;
     private int totalPages;
     private float[] pagePositions;
     private float dragStartPos;
     private int pageNum;
-    bool shifting;
-    void Start()
-    {
-        
-    }
+    private bool shifting;
+
     public void Init()
     {
         totalItems = content.childCount;
         totalPages = Mathf.CeilToInt((float)totalItems / itemsPerPage);
         pagePositions = new float[totalPages];
 
-        var layoutGroup = content.GetComponent<HorizontalLayoutGroup>();
-        var item = content.GetChild(0) as RectTransform;
-        float itemWidth = item.rect.width;
-        float spacing = layoutGroup.spacing;
+        float itemSize, spacing, viewSize, pageSize, totalContentSize, scrollableSize;
 
-        float viewWidth = scrollRect.viewport.rect.width;
-        float pageWidth = (itemWidth + spacing) * itemsPerPage;
+        if (scrollDirection == ScrollDirection.Horizontal)
+        {
+            var layoutGroup = content.GetComponent<HorizontalLayoutGroup>();
+            var item = content.GetChild(0) as RectTransform;
+            itemSize = item.rect.width;
+            spacing = layoutGroup.spacing;
+            viewSize = scrollRect.viewport.rect.width;
+        }
+        else
+        {
+            var layoutGroup = content.GetComponent<VerticalLayoutGroup>();
+            var item = content.GetChild(0) as RectTransform;
+            itemSize = item.rect.height;
+            spacing = layoutGroup.spacing;
+            viewSize = scrollRect.viewport.rect.height;
+        }
 
-        float totalContentWidth = (itemWidth + spacing) * totalItems - spacing;
-        float scrollableWidth = totalContentWidth - viewWidth;
-
-        //Debug.Log($" Pagepositions : {pagePositions[i]}");
+        pageSize = (itemSize + spacing) * itemsPerPage;
+        totalContentSize = (itemSize + spacing) * totalItems - spacing;
+        scrollableSize = totalContentSize - viewSize;
 
         for (int i = 0; i < totalPages; i++)
         {
-            // Calculate center of each page
-            float pageCenter = ((itemWidth + spacing) * itemsPerPage * i) + (pageWidth / 2f) - (viewWidth / 2f);
-            float normalized = scrollableWidth <= 0 ? 0 : pageCenter / scrollableWidth;
+            float pageCenter = ((itemSize + spacing) * itemsPerPage * i) + (pageSize / 2f) - (viewSize / 2f);
+            float normalized = scrollableSize <= 0 ? 0 : pageCenter / scrollableSize;
             pagePositions[i] = Mathf.Clamp01(normalized);
         }
 
         StartCoroutine(SnapToStartAfterLayout());
     }
-    private System.Collections.IEnumerator SnapToStartAfterLayout()
+
+    private IEnumerator SnapToStartAfterLayout()
     {
-        // Wait one frame for layout to finish
         yield return null;
 
-        // Now set position immediately (no smooth scroll)
-        scrollRect.horizontalNormalizedPosition = pagePositions[0];
+        if (scrollDirection == ScrollDirection.Horizontal)
+            scrollRect.horizontalNormalizedPosition = pagePositions[startPageNum];
+        else
+            scrollRect.verticalNormalizedPosition = pagePositions[startPageNum];
     }
+
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (shifting)
-            return;
+        if (shifting) return;
 
-        float dragEndPos = scrollRect.horizontalNormalizedPosition;
-        float swipeDelta = dragStartPos-dragEndPos;
-        float threshold = 0.05f; // Adjust this value to make swipes more or less sensitive
+        float dragEndPos = (scrollDirection == ScrollDirection.Horizontal) ?
+            scrollRect.horizontalNormalizedPosition : scrollRect.verticalNormalizedPosition;
+
+        float swipeDelta = dragStartPos - dragEndPos;
+        float threshold = 0.05f;
 
         int currentPage = 0;
         float closest = float.MaxValue;
 
-        // Find current page
         for (int i = 0; i < pagePositions.Length; i++)
         {
-
             float dist = Mathf.Abs(dragStartPos - pagePositions[i]);
             if (dist < closest)
             {
                 closest = dist;
                 currentPage = i;
-
-                //Debug.Log($"closest : {closest} , dist : {dist} , currentPage : {currentPage}");
             }
         }
 
-        // Determine next page based on swipe
         int targetPage = currentPage;
         if (swipeDelta > threshold && currentPage > 0)
-        {
-            targetPage = currentPage - 1; // swipe right (previous page)
-        }
+            targetPage = currentPage - 1;
         else if (swipeDelta < -threshold && currentPage < totalPages - 1)
-        {
-            targetPage = currentPage + 1; // swipe left (next page)
-        }
+            targetPage = currentPage + 1;
+
         pageNum = targetPage;
 
         StopAllCoroutines();
-        MoveTopage(targetPage);
+        MoveToPage(targetPage);
     }
+
     public void NextPage()
     {
-        if (shifting)
-            return;
-        pageNum = pageNum + 1;
-        pageNum = Mathf.Clamp(pageNum, 0, pagePositions.Length - 1);
-
-        MoveTopage(pageNum);
+        if (shifting) return;
+        pageNum = Mathf.Clamp(pageNum + 1, 0, pagePositions.Length - 1);
+        MoveToPage(pageNum);
     }
+
     public void PrevPage()
     {
-        if (shifting)
-            return;
-
-        pageNum = pageNum - 1;
-        pageNum = Mathf.Clamp(pageNum, 0, pagePositions.Length - 1);
-        MoveTopage(pageNum);
+        if (shifting) return;
+        pageNum = Mathf.Clamp(pageNum - 1, 0, pagePositions.Length - 1);
+        MoveToPage(pageNum);
     }
-    public void MoveTopage(int num)
+
+    public void MoveToPage(int num)
     {
         StartCoroutine(SmoothScrollTo(pagePositions[num]));
     }
-    System.Collections.IEnumerator SmoothScrollTo(float target)
-    {
-        //Debug.Log("Scroll rect HNP target: " + target);
 
+    private IEnumerator SmoothScrollTo(float target)
+    {
         float duration = 0.3f;
         float elapsed = 0f;
-        float start = scrollRect.horizontalNormalizedPosition;
+        float start = (scrollDirection == ScrollDirection.Horizontal) ?
+            scrollRect.horizontalNormalizedPosition : scrollRect.verticalNormalizedPosition;
+
         shifting = true;
+
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            scrollRect.horizontalNormalizedPosition = Mathf.Lerp(start, target, elapsed / duration);
+            float t = Mathf.Lerp(start, target, elapsed / duration);
+
+            if (scrollDirection == ScrollDirection.Horizontal)
+                scrollRect.horizontalNormalizedPosition = t;
+            else
+                scrollRect.verticalNormalizedPosition = t;
+
             yield return null;
         }
+
         shifting = false;
 
-        scrollRect.horizontalNormalizedPosition = target;
+        if (scrollDirection == ScrollDirection.Horizontal)
+            scrollRect.horizontalNormalizedPosition = target;
+        else
+            scrollRect.verticalNormalizedPosition = target;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        dragStartPos = scrollRect.horizontalNormalizedPosition;
+        dragStartPos = (scrollDirection == ScrollDirection.Horizontal) ?
+            scrollRect.horizontalNormalizedPosition : scrollRect.verticalNormalizedPosition;
     }
 }
