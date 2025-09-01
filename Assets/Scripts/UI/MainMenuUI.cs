@@ -16,6 +16,8 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] WatchAdRewardUI watchAdRewardUI;
     [Header("Chest System")]
     [SerializeField] GameObject chestSystemPanel;
+    [SerializeField] PageSnapScroll pageSnapScroll;
+    [SerializeField] Transform inventoryPanel;
     [Header("Char Upgrades")]
     [SerializeField] GameObject charUpgradePanel;
 
