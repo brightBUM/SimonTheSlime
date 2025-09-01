@@ -7,12 +7,19 @@ using UnityEngine.UI;
 
 public class MainMenuUI : MonoBehaviour
 {
+    [Header("Main Menu")]
     [SerializeField] List<GameObject> panels;
     [SerializeField] Transform contentParent;
     [SerializeField] GameObject registrationPanel;
     [SerializeField] TMP_InputField nameField;
     [SerializeField] TMP_InputField ageField;
     [SerializeField] WatchAdRewardUI watchAdRewardUI;
+    [Header("Chest System")]
+    [SerializeField] GameObject chestSystemPanel;
+    [Header("Char Upgrades")]
+    [SerializeField] GameObject charUpgradePanel;
+
+
     private void OnEnable()
     {
         //check if game loaded for first time
@@ -68,5 +75,6 @@ public class MainMenuUI : MonoBehaviour
     {
         GameManger.Instance.TermsAndConditions();
     }
+
 
 }
