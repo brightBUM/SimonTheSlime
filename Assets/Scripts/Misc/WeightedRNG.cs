@@ -8,9 +8,6 @@ public class WeightedRNG : MonoBehaviour
     [SerializeField] private int rareWeight = 25;
     [SerializeField] private int epicWeight = 5;
     [SerializeField] CagePod cagePodPrefab;
-    //[SerializeField] GameObject commonItem;
-    //[SerializeField] GameObject rareItem;
-    //[SerializeField] GameObject epicItem;
 
     List<CagePod> spawnedItems;
     Vector3 pos;

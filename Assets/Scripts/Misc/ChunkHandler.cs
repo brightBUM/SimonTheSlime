@@ -1,5 +1,3 @@
-
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -52,8 +50,6 @@ public class ChunkHandler : MonoBehaviour
                 }
             }
         }
-
-        Debug.Log("TileChunk  reskinned!");
     }
     public void ClearChunkLeftOver()
     {

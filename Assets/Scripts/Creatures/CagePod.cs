@@ -12,14 +12,9 @@ public class CagePod : MonoBehaviour
     [SerializeField] float bobOffset;
 
     Tween bobTween;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    
     public void Init(CreatureType creatureType)
     {
-
         //get random creature assignment
         this.creatureType = creatureType;
 
@@ -29,7 +24,6 @@ public class CagePod : MonoBehaviour
         //bobbing Visual
         bobTween = creatureVisual.transform.DOMoveY(creatureVisual.transform.position.y + bobOffset, 1f)
             .SetLoops(-1, LoopType.Yoyo).SetEase(Ease.OutSine);
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

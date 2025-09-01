@@ -1,9 +1,6 @@
 using Cinemachine;
-using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Tilemaps;
-using UnityEditorInternal.VersionControl;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -43,7 +40,6 @@ public class ChunkGenerator : MonoBehaviour
 
     private void Generate()
     {
-
         //get randomized chunks to spawn
         int chunkSize = Random.Range(5, 9); // no. of chunks to be spawned 5-8 , excluding entry & exit chunk
 
@@ -106,12 +102,9 @@ public class ChunkGenerator : MonoBehaviour
     {
         playerPrefab.SetActive(false);
 
-        //Debug.Log($"child count : {generatorParent.childCount}");
         //clear
         foreach(Transform child in generatorParent)
         {
-            //if (debugGeneration)
-            //    Debug.Break();
             Destroy(child.gameObject);
         }
 
@@ -136,10 +129,8 @@ public class ChunkGenerator : MonoBehaviour
     }
     IEnumerator SpawnChunks()
     {
-
         //set Background
         TileAssetHandler.Instance.SetBackground();
-
 
         foreach (var chunk in chunksToSpawn)
         {
