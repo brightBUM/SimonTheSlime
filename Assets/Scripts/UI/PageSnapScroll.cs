@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
+using System;
 
 public class PageSnapScroll : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 {
@@ -12,6 +13,7 @@ public class PageSnapScroll : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     public ScrollDirection scrollDirection = ScrollDirection.Horizontal;
     public int itemsPerPage = 1;
     public int startPageNum = 0;
+    public Action<int> OnPageMoved;
 
     private int totalItems;
     private int totalPages;
@@ -120,6 +122,7 @@ public class PageSnapScroll : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 
     public void MoveToPage(int num)
     {
+        OnPageMoved?.Invoke(num);
         StartCoroutine(SmoothScrollTo(pagePositions[num]));
     }
 

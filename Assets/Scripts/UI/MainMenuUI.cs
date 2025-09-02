@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] GameObject chestSystemPanel;
     [SerializeField] PageSnapScroll pageSnapScroll;
     [SerializeField] Transform inventoryPanel;
+    [SerializeField] Transform showPos;
+    [SerializeField] Transform hidePos;
     [Header("Char Upgrades")]
     [SerializeField] GameObject charUpgradePanel;
 
@@ -34,9 +37,23 @@ public class MainMenuUI : MonoBehaviour
         }
 
         //initialise page snap scroll
-        GetComponent<PageSnapScroll>().Init();
+        pageSnapScroll.Init();
+        pageSnapScroll.OnPageMoved += PageMoved;
     }
 
+    private void PageMoved(int num)
+    {
+        if(num>=3)
+        {
+            //hide inventory
+            inventoryPanel.DOMove(hidePos.position, 0.5f).SetEase(Ease.OutBack);
+        }
+        else if(num<3)
+        {
+            inventoryPanel.DOMove(showPos.position, 0.5f).SetEase(Ease.OutBack);
+
+        }
+    }
     public void ActivatePanel(int index)
     {
         foreach (Transform child in contentParent)
@@ -81,5 +98,9 @@ public class MainMenuUI : MonoBehaviour
         GameManger.Instance.TermsAndConditions();
     }
 
+    private void OnDisable()
+    {
+        pageSnapScroll.OnPageMoved -= PageMoved;
 
+    }
 }
