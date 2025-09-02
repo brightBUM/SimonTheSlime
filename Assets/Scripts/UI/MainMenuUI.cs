@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR;
 
 public class MainMenuUI : MonoBehaviour
 {
@@ -18,9 +19,18 @@ public class MainMenuUI : MonoBehaviour
     [Header("Chest System")]
     [SerializeField] GameObject chestSystemPanel;
     [SerializeField] PageSnapScroll pageSnapScroll;
+    [Header("Inventory")]
     [SerializeField] Transform inventoryPanel;
-    [SerializeField] Transform showPos;
-    [SerializeField] Transform hidePos;
+    [SerializeField] Transform invShowPos;
+    [SerializeField] Transform invHidePos;
+    [Header("Creature Page")]
+    [SerializeField] SwipeDetection creaturePanelSwipe;
+    [SerializeField] Transform creaturePanel;
+    [SerializeField] Transform crOpenTransform;
+    [SerializeField] Transform crCloseTransform;
+    [SerializeField] Transform crHideTransform;
+    [SerializeField] GameObject openArrow;
+    [SerializeField] GameObject closeArrow;
     [Header("Char Upgrades")]
     [SerializeField] GameObject charUpgradePanel;
 
@@ -39,20 +49,64 @@ public class MainMenuUI : MonoBehaviour
         //initialise page snap scroll
         pageSnapScroll.Init();
         pageSnapScroll.OnPageMoved += PageMoved;
-    }
 
+        creaturePanelSwipe.OnOpenPanel += OnCreaturePanelOpen;
+        creaturePanelSwipe.OnClosePanel += OnCreaturePanelClosed;
+    }
+    private void OnCreaturePanelOpen(Action done)
+    {
+        HideInventory();
+        creaturePanel.DOMove(crOpenTransform.position, 0.5f).OnComplete(() =>
+        {
+            done?.Invoke();
+            openArrow.SetActive(false);
+            closeArrow.SetActive(true);
+        });
+    }
+    private void OnCreaturePanelClosed(Action done)
+    {
+        ShowInventory();
+        creaturePanel.DOMove(crCloseTransform.position, 0.5f).OnComplete(() =>
+        {
+            done?.Invoke();
+            closeArrow.SetActive(false);
+            openArrow.SetActive(true);
+        });
+    }
     private void PageMoved(int num)
     {
         if(num>=3)
         {
             //hide inventory
-            inventoryPanel.DOMove(hidePos.position, 0.5f).SetEase(Ease.OutBack);
+            HideInventory();
+            creaturePanel.DOMove(crHideTransform.position,0.5f).SetEase(Ease.OutBack).OnComplete(() =>
+            {
+                openArrow.SetActive(false);
+                closeArrow.SetActive(true);
+            }); ;
         }
         else if(num<3)
         {
-            inventoryPanel.DOMove(showPos.position, 0.5f).SetEase(Ease.OutBack);
-
+            ShowInventory();
+            creaturePanel.DOMove(crCloseTransform.position, 0.5f).SetEase(Ease.OutBack).OnComplete(() =>
+            {
+                closeArrow.SetActive(false);
+                openArrow.SetActive(true);
+            }); ;
         }
+    }
+
+    private void HideInventory()
+    {
+        inventoryPanel.DOMove(invHidePos.position, 0.5f).SetEase(Ease.OutBack);
+    }
+    private void ShowInventory()
+    {
+        inventoryPanel.DOMove(invShowPos.position, 0.5f).SetEase(Ease.OutBack);
+    }
+    private void CloseCreaturePage()
+    {
+
     }
     public void ActivatePanel(int index)
     {
@@ -66,12 +120,10 @@ public class MainMenuUI : MonoBehaviour
         if (index == 2)
         {
             FirebaseAnalyticsManager.Instance.LogEvent("No. of clickes on Store", new Dictionary<string, object>
-    {
-        { "screen", "MAIN MENU" }
-    });
+            {
+                { "screen", "MAIN MENU" }
+            });
         }
-
-
     }
 
     public void SaveProfileInfo()
@@ -100,7 +152,8 @@ public class MainMenuUI : MonoBehaviour
 
     private void OnDisable()
     {
-        pageSnapScroll.OnPageMoved -= PageMoved;
-
+        pageSnapScroll.OnPageMoved      -= PageMoved;
+        creaturePanelSwipe.OnOpenPanel  -= OnCreaturePanelOpen;
+        creaturePanelSwipe.OnClosePanel -= OnCreaturePanelClosed;
     }
 }
