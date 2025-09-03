@@ -148,7 +148,7 @@ public class DynamicWater : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
-        Splash(collision, rb.velocity.y * collisionVelocityFactor);
+        Splash(collision, rb.linearVelocity.y * collisionVelocityFactor);
         if(collision.gameObject.layer==8)
         {
             SoundManager.Instance.PlayAcidSplashSFx();

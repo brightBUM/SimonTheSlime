@@ -204,7 +204,7 @@ namespace magar
         private void BlastItself()
         {
            
-            rb.velocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
             rb.simulated = false;
             OnBlastInitiatedEvent?.Invoke();    
             StartCoroutine(DamageCoroutine());
