@@ -63,12 +63,15 @@
   <ItemGroup>
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\IPlatformInterstitialAd.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\IronSourceBannerEvents.cs" />
+    <Compile Include="Assets\LevelPlay\Runtime\Platforms\iOS\IosLevelPlayAdSize.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\ThreadUtil.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\Android\AndroidAgent.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\IUnitySegment.cs" />
+    <Compile Include="Assets\LevelPlay\Runtime\Platforms\Editor\EditorIntersitialAd.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\Unsupported\UnsupportedRewardedAd.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\IUnityLevelPlayInterstitial.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\Android\IronSourceInitializationAndroid.cs" />
+    <Compile Include="Assets\LevelPlay\Runtime\Platforms\Editor\EditorAds\Scripts\BannerPrefab.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Api\LevelPlayConfiguration.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\IUnityLevelPlayBanner.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\Android\UnityLevelPlayInitListener.cs" />
@@ -79,7 +82,9 @@
     <Compile Include="Assets\LevelPlay\Runtime\IUnityImpressionData.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Api\ILevelPlayBannerAd.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\IronSourceEventsDispatcher.cs" />
+    <Compile Include="Assets\LevelPlay\Runtime\Platforms\Editor\EditorAds\Scripts\AdPrefab.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Api\LevelPlay.cs" />
+    <Compile Include="Assets\LevelPlay\Runtime\Platforms\Editor\EditorAds\Scripts\InterstitialPrefab.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\iOS\iOSAgent.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Api\LevelPlayBannerAd.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\iOS\IosNativeObject.cs" />
@@ -87,9 +92,13 @@
     <Compile Include="Assets\LevelPlay\Runtime\IUnityInitialization.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Api\LevelPlayBannerPosition.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\IronSourceImpressionData.cs" />
+    <Compile Include="Assets\LevelPlay\Runtime\Platforms\Editor\EditorRewardedAd.cs" />
+    <Compile Include="Assets\LevelPlay\Runtime\Platforms\Editor\EditorLevelPlaySdk.cs" />
+    <Compile Include="Assets\LevelPlay\Runtime\Platforms\Editor\EditorBannerAd.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\Unsupported\UnsupportedBannerAd.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\Android\IronSourceSegmentAndroid.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\Android\IronSourceInterstitialLevelPlayAndroid.cs" />
+    <Compile Include="Assets\LevelPlay\Runtime\Platforms\Android\IUnityLevelPlayImpressionDataListener.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\Android\IUnityRewardedAdListener.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\IronSourceInitilizer.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\Android\AndroidBannerAd.cs" />
@@ -101,6 +110,7 @@
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\IPlatformBannerAd.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\Android\UnityBannerAdListener.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\Android\AndroidLevelPlaySdk.cs" />
+    <Compile Include="Assets\LevelPlay\Runtime\Platforms\Android\UnityLevelPlayImpressionDataListener.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Api\LevelPlayAdSize.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Api\LevelPlayAdFormat.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\IronSourceUtils.cs" />
@@ -113,19 +123,24 @@
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\iOS\IosInterstitialAd.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\IronSourceConstants.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\IUnityLevelPlayRewardedVideo.cs" />
+    <Compile Include="Assets\LevelPlay\Runtime\Api\LevelPlayImpressionData.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\IronSourceError.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\Android\IronSourceBannerLevelPlayAndroid.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Api\LevelPlayAdError.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\Android\AndroidRewardedAd.cs" />
+    <Compile Include="Assets\LevelPlay\Runtime\Api\LevelPlaySegment.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\Android\IronSourceImpressionDataAndroid.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Api\ILevelPlayRewardedAd.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\IPlatformRewardedAd.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\Android\IUnityLevelPlayInitListener.cs" />
+    <Compile Include="Assets\LevelPlay\Runtime\Platforms\Unsupported\UnsupportedLevelPlayAdSize.cs" />
+    <Compile Include="Assets\LevelPlay\Runtime\Platforms\Editor\EditorAds\Scripts\RewardedPrefab.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\Android\IronSourceRewardedVideoLevelPlayAndroid.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Api\LevelPlayReward.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\IUnityLevelPlayRewardedVideoManual.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Api\LevelPlayAdDisplayInfoError.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Constants.cs" />
+    <Compile Include="Assets\LevelPlay\Runtime\Platforms\Android\AndroidLevelPlayAdSize.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\Android\IUnityBannerAdListener.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\iOS\IosRewardedAdListener.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Api\LevelPlayRewardedAd.cs" />
@@ -134,11 +149,14 @@
     <Compile Include="Assets\LevelPlay\Runtime\IronSourceInterstitialEvents.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\Android\UnityInterstitialAdListener.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Api\LevelPlayAdInfo.cs" />
+    <Compile Include="Assets\LevelPlay\Runtime\Platforms\IPlatformLevelPlayAdSize.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\IronSourceConfig.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\WaterfallConfiguration.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\Android\IronSourceRewardedVideoLevelPlayManualAndroid.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\Unsupported\UnsupportedPlatformAgent.cs" />
+    <Compile Include="Assets\LevelPlay\Runtime\Tools\ObjectUtility.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\Android\UnityRewardedAdListener.cs" />
+    <Compile Include="Assets\LevelPlay\Runtime\Platforms\Editor\EditorLevelPlayAdSize.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Platforms\iOS\IosRewardedAd.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\IronSourceEvents.cs" />
     <Compile Include="Assets\LevelPlay\Runtime\Tools\LevelPlayLogger.cs" />
@@ -617,6 +635,10 @@
       <HintPath>Assets\Plugins\Sirenix\Assemblies\Sirenix.Reflection.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Google.VersionHandler">
+      <HintPath>Assets\ExternalDependencyManager\Editor\Google.VersionHandler.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Google.IOSResolver">
       <HintPath>Assets\ExternalDependencyManager\Editor\1.2.185\Google.IOSResolver.dll</HintPath>
       <Private>False</Private>
@@ -637,14 +659,6 @@
       <HintPath>Assets\ExternalDependencyManager\Editor\1.2.185\Google.VersionHandlerImpl.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="unityplastic">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@50ac96531b63\Lib\Editor\unityplastic.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Plastic.Antlr3.Runtime">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@50ac96531b63\Lib\Editor\Unity.Plastic.Antlr3.Runtime.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Sirenix.Serialization.Config">
       <HintPath>Assets\Plugins\Sirenix\Assemblies\Sirenix.Serialization.Config.dll</HintPath>
       <Private>False</Private>
@@ -659,18 +673,6 @@
     </Reference>
     <Reference Include="Google.JarResolver">
       <HintPath>Assets\ExternalDependencyManager\Editor\1.2.185\Google.JarResolver.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Plastic.Newtonsoft.Json">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@50ac96531b63\Lib\Editor\Unity.Plastic.Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="log4netPlastic">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@50ac96531b63\Lib\Editor\log4netPlastic.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Google.VersionHandler">
-      <HintPath>Assets\ExternalDependencyManager\Editor\Google.VersionHandler.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Sirenix.OdinInspector.Attributes">

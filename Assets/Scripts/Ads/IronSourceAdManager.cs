@@ -8,9 +8,9 @@ public class IronSourceAdManager : MonoBehaviour
     public static IronSourceAdManager Instance;
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-    string appKey = "85460dcd";
-    string bannerAdUnitId = "thnfvcsog13bhn08";
-    string interstitialAdUnitId = "aeyqi3vqlv6o8sh9";
+    string appKey = "21c87ea5d";
+    string bannerAdUnitId = "rq9jn6t8h4mdqh43";
+    string interstitialAdUnitId = "wgtkbxwatw27k8bb";
 #else
     string appKey = "unexpected_platform";
     string bannerAdUnitId = "unexpected_platform";

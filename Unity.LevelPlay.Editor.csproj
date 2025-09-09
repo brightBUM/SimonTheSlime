@@ -83,8 +83,10 @@
     <Compile Include="Assets\LevelPlay\Editor\Versioning\AdapterVersion.cs" />
     <Compile Include="Assets\LevelPlay\Editor\Service\IXmlDocumentFactory.cs" />
     <Compile Include="Assets\LevelPlay\Editor\IronSourceMediatedNetworkSettingsInspector.cs" />
+    <Compile Include="Assets\LevelPlay\Editor\Analytics\GameObjectAnalyticsSender.cs" />
     <Compile Include="Assets\LevelPlay\Editor\IntegrationManager\UIComponents\SharedComponents\IntegrationManagerButton.cs" />
     <Compile Include="Assets\LevelPlay\Editor\IntegrationManager\UIComponents\SharedComponents\NetworkBoxComponentIS.cs" />
+    <Compile Include="Assets\LevelPlay\Editor\IosAdsSupport\Source\ISkAdNetworkSource.cs" />
     <Compile Include="Assets\LevelPlay\Editor\LevelPlayPackmanQuerier.cs" />
     <Compile Include="Assets\LevelPlay\Editor\IntegrationManager\UIComponents\IDrawable.cs" />
     <Compile Include="Assets\LevelPlay\Editor\IronSourceMediationSettingsInspector.cs" />
@@ -97,8 +99,10 @@
     <Compile Include="Assets\LevelPlay\Editor\IronSourceBuildPostprocessor.cs" />
     <Compile Include="Assets\LevelPlay\Editor\Service\LevelPlayGameServiceEnabler.cs" />
     <Compile Include="Assets\LevelPlay\Editor\Analytics\LevelPlayEditorAnalytics.cs" />
+    <Compile Include="Assets\LevelPlay\Editor\IosAdsSupport\Parser\SkAdNetworkXmlParser.cs" />
     <Compile Include="Assets\LevelPlay\Editor\IntegrationManager\UIComponents\CoreComponents\NetworksComponent.cs" />
     <Compile Include="Assets\LevelPlay\Editor\IntegrationManager\PackageVersionNativeCompatibility.cs" />
+    <Compile Include="Assets\LevelPlay\Editor\Service\INetworkManagerSettingsService.cs" />
     <Compile Include="Assets\LevelPlay\Editor\Analytics\EditorAnalyticsSender.cs" />
     <Compile Include="Assets\LevelPlay\Editor\IronSourceManifestProcessor.cs" />
     <Compile Include="Assets\LevelPlay\Editor\Service\IOnLoadService.cs" />
@@ -109,9 +113,11 @@
     <Compile Include="Assets\LevelPlay\Editor\IntegrationManager\IntegrationManagerDownloader.cs" />
     <Compile Include="Assets\LevelPlay\Editor\IntegrationManager\UIComponents\SharedComponents\IntegrationManagerCoreHeader.cs" />
     <Compile Include="Assets\LevelPlay\Editor\IronSourceEditorCoroutines.cs" />
+    <Compile Include="Assets\LevelPlay\Editor\IosAdsSupport\Source\SkAdNetworkRemoteSource.cs" />
     <Compile Include="Assets\LevelPlay\Editor\Service\XmlDocumentFactory.cs" />
     <Compile Include="Assets\LevelPlay\Editor\IronSourceMenu.cs" />
     <Compile Include="Assets\LevelPlay\Editor\Service\IDirectoryService.cs" />
+    <Compile Include="Assets\LevelPlay\Editor\IntegrationManager\NetworkManagerSettings.cs" />
     <Compile Include="Assets\LevelPlay\Editor\MobileDependencyResolverInstaller.cs" />
     <Compile Include="Assets\LevelPlay\Editor\IntegrationManager\Theme.cs" />
     <Compile Include="Assets\LevelPlay\Editor\IntegrationManager\UIComponents\SharedComponents\NetworkBoxComponent.cs" />
@@ -126,8 +132,10 @@
     <Compile Include="Assets\LevelPlay\Editor\AdapterData\AdapterSetCreator.cs" />
     <Compile Include="Assets\LevelPlay\Editor\IntegrationManager\UIComponents\SharedComponents\IntegrationManagerRecommendedBox.cs" />
     <Compile Include="Assets\LevelPlay\Editor\Service\IFileService.cs" />
+    <Compile Include="Assets\LevelPlay\Editor\Service\NetworkManagerSettingsService.cs" />
     <Compile Include="Assets\LevelPlay\Editor\Versioning\UnityPackageVersion.cs" />
     <Compile Include="Assets\LevelPlay\Editor\Versioning\ILevelPlayNetworkManager.cs" />
+    <Compile Include="Assets\LevelPlay\Editor\IosAdsSupport\PostProcessBuildPlist.cs" />
     <Compile Include="Assets\LevelPlay\Editor\Versioning\AdapterIosVersion.cs" />
     <Compile Include="Assets\LevelPlay\Editor\Service\IronSourceSdk\IIronSourceSdkInstaller.cs" />
     <Compile Include="Assets\LevelPlay\Editor\Service\PackageTypeService.cs" />
@@ -139,15 +147,19 @@
     <Compile Include="Assets\LevelPlay\Editor\Service\WebRequestService.cs" />
     <Compile Include="Assets\LevelPlay\Editor\IntegrationManager\UIComponents\SharedComponents\IntegrationManagerMinorHeaderText.cs" />
     <Compile Include="Assets\LevelPlay\Editor\Utilities\EnvironmentVariables.cs" />
+    <Compile Include="Assets\LevelPlay\Editor\IntegrationManager\UIComponents\CoreComponents\SkadNetworkIdComponent.cs" />
     <Compile Include="Assets\LevelPlay\Editor\Service\LevelPlayLogger.cs" />
     <Compile Include="Assets\LevelPlay\Editor\IntegrationManager\UIComponents\CoreComponents\MessageDisplayComponent.cs" />
     <Compile Include="Assets\LevelPlay\Editor\IntegrationManager\UIComponents\SharedComponents\IntegrationManagerNormalText.cs" />
+    <Compile Include="Assets\LevelPlay\Editor\EditorConstants.cs" />
     <Compile Include="Assets\LevelPlay\Editor\Service\IronSourceSdk\SdkInstaller.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\LevelPlay\Editor\IronSourceSDKDependencies.xml" />
     <None Include="Assets\LevelPlay\Editor\Unity.LevelPlay.Editor.asmdef" />
+    <None Include="Assets\LevelPlay\Editor\ISUnityAdsAdapterDependencies.xml" />
     <None Include="Assets\LevelPlay\Editor\IronSourceAdQualityDependencies.xml" />
+    <None Include="Assets\LevelPlay\Editor\ISAdMobAdapterDependencies.xml" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -638,6 +650,10 @@
       <HintPath>Assets\Plugins\Sirenix\Assemblies\Sirenix.Reflection.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Google.VersionHandler">
+      <HintPath>Assets\ExternalDependencyManager\Editor\Google.VersionHandler.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Google.IOSResolver">
       <HintPath>Assets\ExternalDependencyManager\Editor\1.2.185\Google.IOSResolver.dll</HintPath>
       <Private>False</Private>
@@ -658,14 +674,6 @@
       <HintPath>Assets\ExternalDependencyManager\Editor\1.2.185\Google.VersionHandlerImpl.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="unityplastic">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@50ac96531b63\Lib\Editor\unityplastic.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Plastic.Antlr3.Runtime">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@50ac96531b63\Lib\Editor\Unity.Plastic.Antlr3.Runtime.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Sirenix.Serialization.Config">
       <HintPath>Assets\Plugins\Sirenix\Assemblies\Sirenix.Serialization.Config.dll</HintPath>
       <Private>False</Private>
@@ -680,18 +688,6 @@
     </Reference>
     <Reference Include="Google.JarResolver">
       <HintPath>Assets\ExternalDependencyManager\Editor\1.2.185\Google.JarResolver.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Plastic.Newtonsoft.Json">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@50ac96531b63\Lib\Editor\Unity.Plastic.Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="log4netPlastic">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@50ac96531b63\Lib\Editor\log4netPlastic.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Google.VersionHandler">
-      <HintPath>Assets\ExternalDependencyManager\Editor\Google.VersionHandler.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Sirenix.OdinInspector.Attributes">

@@ -617,8 +617,8 @@
     <Compile Include="Library\PackageCache\com.unity.shadergraph@0e6324a629e1\Editor\Data\Nodes\Utility\PreviewNode.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@0e6324a629e1\Editor\Data\Graphs\GradientMaterialSlot.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@0e6324a629e1\Editor\Data\Nodes\Input\Texture\SampleTexture2DLODNode.cs" />
-    <Compile Include="Library\PackageCache\com.unity.shadergraph@0e6324a629e1\Editor\Data\Graphs\SamplerStateShaderProperty.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@0e6324a629e1\Editor\Data\Nodes\Procedural\Noise\GradientNoiseNode.cs" />
+    <Compile Include="Library\PackageCache\com.unity.shadergraph@0e6324a629e1\Editor\Data\Graphs\SamplerStateShaderProperty.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@0e6324a629e1\Editor\Serialization\SerializationExtensions.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@0e6324a629e1\Editor\Data\Interfaces\IMayRequireVertexSkinning.cs" />
     <Compile Include="Library\PackageCache\com.unity.shadergraph@0e6324a629e1\Editor\Generation\GraphCode.cs" />
@@ -1370,6 +1370,10 @@
       <HintPath>Assets\Plugins\Sirenix\Assemblies\Sirenix.Reflection.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Google.VersionHandler">
+      <HintPath>Assets\ExternalDependencyManager\Editor\Google.VersionHandler.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Google.IOSResolver">
       <HintPath>Assets\ExternalDependencyManager\Editor\1.2.185\Google.IOSResolver.dll</HintPath>
       <Private>False</Private>
@@ -1390,14 +1394,6 @@
       <HintPath>Assets\ExternalDependencyManager\Editor\1.2.185\Google.VersionHandlerImpl.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="unityplastic">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@50ac96531b63\Lib\Editor\unityplastic.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Plastic.Antlr3.Runtime">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@50ac96531b63\Lib\Editor\Unity.Plastic.Antlr3.Runtime.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Sirenix.Serialization.Config">
       <HintPath>Assets\Plugins\Sirenix\Assemblies\Sirenix.Serialization.Config.dll</HintPath>
       <Private>False</Private>
@@ -1412,18 +1408,6 @@
     </Reference>
     <Reference Include="Google.JarResolver">
       <HintPath>Assets\ExternalDependencyManager\Editor\1.2.185\Google.JarResolver.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Unity.Plastic.Newtonsoft.Json">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@50ac96531b63\Lib\Editor\Unity.Plastic.Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="log4netPlastic">
-      <HintPath>Library\PackageCache\com.unity.collab-proxy@50ac96531b63\Lib\Editor\log4netPlastic.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Google.VersionHandler">
-      <HintPath>Assets\ExternalDependencyManager\Editor\Google.VersionHandler.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Sirenix.OdinInspector.Attributes">
