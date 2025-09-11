@@ -98,7 +98,7 @@ namespace magar
                 if (IsTargetVisible(currentTarget))
                 {
                     // Stop moving when target detected and visible
-                    rb.velocity = Vector2.zero;
+                    rb.linearVelocity = Vector2.zero;
 
                     // Handle shooting
                     if (Time.time > lastShootTime + shootInterval)

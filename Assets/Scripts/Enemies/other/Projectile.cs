@@ -28,7 +28,7 @@ public class Projectile : MonoBehaviour
     {
         if (rb != null)
         {
-            rb.velocity = direction * speed;
+            rb.linearVelocity = direction * speed;
         }
     }
  /*   private void OnCollisionEnter2D(Collision2D collision)

@@ -20,7 +20,7 @@ public enum State
 }
 public class PlayerController : MonoBehaviour
 {
-    public float Velocity => rb.velocity.y;
+    public float Velocity => rb.linearVelocity.y;
     public State playerState;
     public StickSide stickSide;
     public Action<Vector2> SquishEffect;
@@ -130,7 +130,7 @@ public class PlayerController : MonoBehaviour
         if (playerState == State.GRAPPLE)
         {
             Vector2 directionToPoint = (grapplePoint - (Vector2)transform.position).normalized;
-            Vector2 velocityDir = rb.velocity.normalized;
+            Vector2 velocityDir = rb.linearVelocity.normalized;
 
             float dot = Vector2.Dot(directionToPoint, velocityDir);
 
@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour
             if (dot < 0 || distance < 1.0f)
             {
                 GrappleRangeShrink.Invoke();
-                rb.velocity = Vector2.zero;
+                rb.linearVelocity = Vector2.zero;
                 Physics2D.gravity = Vector2.zero;
                 playerAnimation.SetGrappleGrab();
                 playerState = State.GRAPPLEHANG;
@@ -169,7 +169,7 @@ public class PlayerController : MonoBehaviour
                 //Debug.Log("grapple distance : " + distance);
                 //rb.velocity = rb.velocity.normalized * grappledOffSpeed;
                 GrappleRangeShrink.Invoke();
-                rb.velocity = Vector2.zero;
+                rb.linearVelocity = Vector2.zero;
                 Physics2D.gravity = Vector2.zero;
                 playerAnimation.SetGrappleGrab();
                 playerState = State.GRAPPLEHANG;
@@ -336,7 +336,7 @@ public class PlayerController : MonoBehaviour
         {
             playerState = State.LAUNCHED;
             forceDir = Vector2.ClampMagnitude(forceDir, maxForce);
-            rb.velocity = forceDir;
+            rb.linearVelocity = forceDir;
             playerAnimation.ToggleTrailRenderer(true);
             playerAnimation.SetLaunch();
            
@@ -347,7 +347,7 @@ public class PlayerController : MonoBehaviour
             playerState = State.LAUNCHED;
             forceDir = Vector2.ClampMagnitude(forceDir, maxForce);
 
-            rb.velocity = forceDir;
+            rb.linearVelocity = forceDir;
 
         }
         else if (playerState == State.STICK || playerState == State.GRAPPLEHANG)
@@ -417,13 +417,13 @@ public class PlayerController : MonoBehaviour
     {
         //slam transit animation in mid air
         Physics2D.gravity = Vector2.zero;
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
         playerAnimation.SetRoll();
         playerState = State.POUND;
         
         yield return new WaitForSeconds(0.2f);
 
-        rb.velocity = Vector2.down * poundForce;
+        rb.linearVelocity = Vector2.down * poundForce;
         ResetGravity();
         playerAnimation.PoundTrailEffect();
     }
@@ -431,7 +431,7 @@ public class PlayerController : MonoBehaviour
     {
         playerState = State.LAUNCHED;
         forceDir = Vector2.ClampMagnitude(forceDir, maxForce);
-        rb.velocity = forceDir;
+        rb.linearVelocity = forceDir;
         playerAnimation.SetRelaunch();
         playerAnimation.ToggleTrailRenderer(true);
     }
@@ -441,7 +441,7 @@ public class PlayerController : MonoBehaviour
         bulletTimeAbility--;
         playerState = State.TIMEDILATION;
         Physics2D.gravity = Vector2.zero;
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
         Time.timeScale = bulletTimeScale;
         //to avoid physics lag during SloMo
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
@@ -459,14 +459,14 @@ public class PlayerController : MonoBehaviour
     public void SetToFirstBounce()
     {
         //playerState = State.BOUNCE;
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
         Physics2D.gravity = Vector2.down*3f;
         playerAnimation.SetRoll();
     }
     public void SetToIdle()
     {
         playerState = State.IDLE;
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
         playerAnimation.SetIdle();
         playerAnimation.ToggleTrailRenderer(false);
         playerAnimation.ResetVelocity();
@@ -512,7 +512,7 @@ public class PlayerController : MonoBehaviour
         }
 
         playerState = State.SQUISHED;
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
         //playerAnimation.SetSquish();
         StartCoroutine(DelayedRespawn());
     }
@@ -529,7 +529,7 @@ public class PlayerController : MonoBehaviour
     {
         playerState = State.STICK;
         this.stickSide = stickSide;
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
         playerAnimation.SetStick((int)stickSide+1);
         playerAnimation.ToggleTrailRenderer(false);
         SoundManager.Instance.PlayStickSFx();
@@ -563,7 +563,7 @@ public class PlayerController : MonoBehaviour
     }
     private void PushPound()
     {
-        rb.velocity += Vector2.down * 20f;
+        rb.linearVelocity += Vector2.down * 20f;
     }
     public Vector2 GetPosition(Vector2 vel,float t)
     {
@@ -575,7 +575,7 @@ public class PlayerController : MonoBehaviour
         playerAnimation.DeathEffect();
         lerpAmount = 0;
         playerState = State.GHOST;
-        rb.velocity = new Vector2(0, rb.velocity.y);
+        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
         rb.AddForce(Vector2.up * onHitUpForce, ForceMode2D.Impulse);
 
         //trigger retry screen here (also pause the game )
@@ -694,11 +694,11 @@ public class PlayerController : MonoBehaviour
         //Vector2 initialVelocity = rb.velocity;
         if(dashTimer<=0 && playerState == State.LAUNCHED)
         {
-            var lastVelocity = rb.velocity;
+            var lastVelocity = rb.linearVelocity;
             playerAnimation.ToggleSpriteTrailRenderer(true);
             var dir = playerAnimation.GetSpriteFlipX() ? -Vector2.right:Vector2.right;
             Physics2D.gravity = Vector2.zero;
-            rb.velocity = dir * dashAmount;
+            rb.linearVelocity = dir * dashAmount;
             //rb.AddForce(dir * dashAmount, ForceMode2D.Impulse);
             playerState = State.DASH;
 
@@ -712,7 +712,7 @@ public class PlayerController : MonoBehaviour
             });
             DOVirtual.DelayedCall(dashDuration, () =>
             {
-                rb.velocity = Vector2.ClampMagnitude(rb.velocity,maxForce);
+                rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity,maxForce);
                 ResetGravity();
                 if (playerState == State.DASH)
                     playerState = State.LAUNCHED;
@@ -725,7 +725,7 @@ public class PlayerController : MonoBehaviour
     {
         if(grappleReady && playerState == State.LAUNCHED)
         {
-            rb.velocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
             Physics2D.gravity = Vector2.zero;
 
             var grappleDirection = grapplePoint - (Vector2)transform.position;
@@ -740,7 +740,7 @@ public class PlayerController : MonoBehaviour
             {
                 if(playerState!=State.GRAPPLEHANG)
                 {
-                    rb.velocity = grappleDirection.normalized * grapplePullSpeed;
+                    rb.linearVelocity = grappleDirection.normalized * grapplePullSpeed;
                 }
                 playerAnimation.ToggleTrailRenderer(false);   
                 LevelManager.Instance.ShakeCamera.OnGrapple();
