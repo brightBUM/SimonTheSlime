@@ -49,6 +49,10 @@ public class IronSourceAdManager : MonoBehaviour
 
         interstitialAd = new LevelPlayInterstitialAd(interstitialAdUnitId);
         interstitialAd.LoadAd();
+
+        //keep the rewarded video ad ready for main menu daily reward
+        IronSource.Agent.loadRewardedVideo();
+
     }
     void RewardedVideoOnAdClosedEvent(IronSourceAdInfo adInfo)
     {

@@ -1,11 +1,7 @@
-using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class LevelManager : MonoBehaviour
 {
@@ -71,7 +67,8 @@ public class LevelManager : MonoBehaviour
         ObjectPoolManager.Instance.ResetPool(0);
 
         //get level target time from game config
-        targetTime = GameManger.Instance.gameConfig.levelTargetTime[0][levelIndex]; //assigning first world for now
+        //targetTime = GameManger.Instance.gameConfig.levelTargetTime[0][levelIndex]; //assigning first world for now
+        targetTime = 60f + (levelIndex / 5) * 30f;
 
 #if UNITY_ANDROID && !UNITY_EDITOR
         Application.targetFrameRate = 60;
