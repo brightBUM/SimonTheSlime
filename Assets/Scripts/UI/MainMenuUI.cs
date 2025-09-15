@@ -8,6 +8,7 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] List<GameObject> panels;
     [SerializeField] Transform contentParent;
     [SerializeField] GameObject registrationPanel;
+    [SerializeField] GameObject NoAdsButton;
     [SerializeField] TMP_InputField nameField;
     [SerializeField] TMP_InputField ageField;
     [SerializeField] WatchAdRewardUI watchAdRewardUI;
@@ -21,8 +22,22 @@ public class MainMenuUI : MonoBehaviour
             //show banner ad only the first time
             IronSourceAdManager.Instance.LoadBannerAd();
         }
+
+        //update no ads button UI
+        if(IronSourceAdManager.Instance.NoAdsPurchased)
+        {
+            DisableNoAdsButton();
+        }
+    }
+    public void DisableNoAdsButton()
+    {
+        NoAdsButton.SetActive(false);
     }
 
+    public void RemoveAdsPurchase()
+    {
+        PurchaseManager.Instance.NoAdsPurchaseButton();
+    }
     public void ActivatePanel(int index)
     {
         foreach (Transform child in contentParent)
@@ -42,7 +57,7 @@ public class MainMenuUI : MonoBehaviour
 
 
     }
-
+    
     public void SaveProfileInfo()
     {
         if (Int32.TryParse(ageField.text, out int age))

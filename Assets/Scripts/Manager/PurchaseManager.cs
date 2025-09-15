@@ -10,9 +10,20 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
     IStoreController myStoreController;
     public List<ConsumableItem> bananaItems;
     public List<ConsumableItem> melonItems;
-    private void OnEnable()
+    public NonConsumableItem noAdsPurchaseItem;
+    
+    public static PurchaseManager Instance;
+    private void Awake()
     {
-        
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
     void Start()
     {
@@ -67,6 +78,8 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
         {
             builder.AddProduct(item.id, ProductType.Consumable);
         }
+
+        builder.AddProduct(noAdsPurchaseItem.id, ProductType.NonConsumable);
         UnityPurchasing.Initialize(this, builder);
         
     }
@@ -74,6 +87,23 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
     {
         Debug.Log("Unity Purchase initialization success");
         this.myStoreController = controller;
+        CheckNonConsumableReceipt();
+    }
+
+    private void CheckNonConsumableReceipt()
+    {
+        if(myStoreController != null)
+        {
+            var product = myStoreController.products.WithID(noAdsPurchaseItem.id);
+            if(product != null)
+            {
+                if(product.hasReceipt)
+                {
+                    //remove ads, update in adManager
+                    IronSourceAdManager.Instance.NoAdsPurchased = true;
+                }
+            }
+        }
     }
     public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
     {
@@ -102,6 +132,14 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
             }
         }
 
+        // Non-consumable: No Ads
+        if (product.definition.id == noAdsPurchaseItem.id)
+        {
+            IronSourceAdManager.Instance.NoAdsPurchased = true;
+            FindAnyObjectByType<MainMenuUI>()?.DisableNoAdsButton();
+            Debug.Log("No Ads purchase successful - ads removed");
+        }
+
         return PurchaseProcessingResult.Complete;
     }
     public void PurchaseBananasButton(int index)
@@ -111,6 +149,10 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
     public void PurchaseGemsButton(int index)
     {
         myStoreController.InitiatePurchase(melonItems[index].id);
+    }
+    public void NoAdsPurchaseButton()
+    {
+        myStoreController.InitiatePurchase(noAdsPurchaseItem.id);
     }
     public void OnInitializeFailed(InitializationFailureReason error)
     {
@@ -159,4 +201,12 @@ public class ConsumableItem
     [Header("UI references")]
     public TextMeshProUGUI valueText;
     public Text priceText;
+}
+[Serializable]
+public class NonConsumableItem
+{
+    public string id;
+    public string name;
+    public string description;
+    public float price;
 }

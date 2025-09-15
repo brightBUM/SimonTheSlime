@@ -104,7 +104,7 @@ public class ScoreBoard : MonoBehaviour
     private void OnReplayClick()
     {
 
-#if UNITY_ANDROID && UNITY_EDITOR //check interstitial ad condition
+#if UNITY_ANDROID && !UNITY_EDITOR //check interstitial ad condition
         SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
 
         if (SaveLoadManager.Instance.CheckInterstitialAdCondition())

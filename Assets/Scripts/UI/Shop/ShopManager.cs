@@ -127,6 +127,12 @@ public class ShopManager : MonoBehaviour
             }
         }
     }
-        
-    
+    public void PurchaseNanasPack(int index)
+    {
+        PurchaseManager.Instance.PurchaseBananasButton(index);
+    }
+    public void PurchaseMelonPack(int index)
+    {
+        PurchaseManager.Instance.PurchaseGemsButton(index);
+    }
 }

@@ -6,7 +6,7 @@ public class IronSourceAdManager : MonoBehaviour
     private LevelPlayBannerAd bannerAd;
     public LevelPlayInterstitialAd interstitialAd;
     public static IronSourceAdManager Instance;
-
+    public bool NoAdsPurchased { get; set; }
 #if UNITY_ANDROID && !UNITY_EDITOR
     string appKey = "21c87ea5d";
     string bannerAdUnitId = "rq9jn6t8h4mdqh43";
@@ -80,6 +80,8 @@ public class IronSourceAdManager : MonoBehaviour
     #region BannerAds
     public void LoadBannerAd()
     {
+        if (NoAdsPurchased)
+            return;
 
 #if UNITY_ANDROID && !UNITY_EDITOR
         bannerAd.LoadAd();
@@ -108,6 +110,9 @@ public class IronSourceAdManager : MonoBehaviour
     }
     public void ShowInterstitialAd()
     {
+        if(NoAdsPurchased)
+            return;
+
         if (interstitialAd.IsAdReady())
         {
             interstitialAd.ShowAd();
