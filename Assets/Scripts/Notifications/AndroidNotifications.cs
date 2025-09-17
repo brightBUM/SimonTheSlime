@@ -1,13 +1,16 @@
+
+#if UNITY_ANDROID
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Notifications.Android;
 using UnityEngine.Android;
 using System;
-
+#endif
+#if UNITY_ANDROID
 public class AndroidNotifications : MonoBehaviour
 {
-#if UNITY_ANDROID
+
     public void RequestAuthorization()
     {
         if (!Permission.HasUserAuthorizedPermission("android.permission.POST_NOTIFICATIONS"))
@@ -40,5 +43,7 @@ public class AndroidNotifications : MonoBehaviour
 
         AndroidNotificationCenter.SendNotification(notification, "default_channel");
     }
-#endif
+
 }
+
+#endif

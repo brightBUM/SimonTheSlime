@@ -1,13 +1,15 @@
+#if UNITY_ANDROID
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
 
 
-#if UNITY_ANDROID
+
 using Unity.Notifications.Android;
 using UnityEngine.Android;
-#endif
+
+
 
 public class NotificationManager : MonoBehaviour
 {
@@ -15,7 +17,7 @@ public class NotificationManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-#if UNITY_ANDROID
+
 
         androidNotifications.RequestAuthorization();
         androidNotifications.RequestNotificationChannel();
@@ -36,13 +38,13 @@ public class NotificationManager : MonoBehaviour
         {
             androidNotifications.SendNotification("Slunkey Missing", "Slunkey is missing you! Swing back in and complete the levels..", missingFireTime);
         }
-#endif
+
     }
 
 
     private void OnApplicationPause(bool pause)
     {
-#if UNITY_ANDROID
+
         if(pause)
         {
             Debug.Log("app pause");
@@ -50,6 +52,8 @@ public class NotificationManager : MonoBehaviour
             var fireTime = System.DateTime.Now.AddSeconds(5); // 5 sec for testing build
             androidNotifications.SendNotification("Slunkey Close", "Slunkey is so close to completing next level! One more run to victory.", fireTime);
         }
-#endif
+
     }
 }
+
+#endif
