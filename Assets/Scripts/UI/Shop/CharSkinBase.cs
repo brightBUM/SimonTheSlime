@@ -1,13 +1,12 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 
 public class CharSkinBase : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI skinNameText;
+    [SerializeField] TextMeshProUGUI skinCostText;
     [SerializeField] GameObject purchaseButton;
     [SerializeField] GameObject unlockedObject;
     [SerializeField] GameObject selectedObject;
@@ -24,7 +23,9 @@ public class CharSkinBase : MonoBehaviour
     {
         yield return new WaitUntil(()=>ShopManager.instance.Init);
 
-        skinNameText.text = GameManger.Instance.GetSkinByIndex(isPod,skinNum).skinName;
+        var skin = GameManger.Instance.GetSkinByIndex(isPod, skinNum);
+        skinNameText.text = skin.skinName;
+        skinCostText.text = skin.melonCost.ToString();
         SetShopButtons();
     }
     private void SetShopButtons()

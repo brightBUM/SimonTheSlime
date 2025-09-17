@@ -248,6 +248,7 @@
     <Compile Include="Assets\Scripts\Player\PlayerAnimation.cs" />
     <Compile Include="Assets\Scripts\Test.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\ILRD\Fyber\GAFyberIntegration.cs" />
+    <Compile Include="Assets\Scripts\Manager\RemoteConfig.cs" />
     <Compile Include="Assets\Scripts\UI\IntroCutScene\IntroCutScene.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\ILRD\HyperBid\GAHyperBidIntegration.cs" />
     <Compile Include="Assets\Fx\Epic Toon FX\Demo\Scripts\ETFXMouseOrbit.cs" />
@@ -271,6 +272,7 @@
     <None Include="Assets\Material\Skins\HUEShader.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
     <None Include="Assets\Firebase\Plugins\x86_64\FirebaseCppAnalytics.dll" />
+    <None Include="Assets\Firebase\Plugins\iOS\Firebase.RemoteConfig.dll" />
     <None Include="Assets\GameAnalytics\Plugins\WSA\x86\GameAnalytics.UWP.dll" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\Firebase\Plugins\Firebase.TaskExtension.dll" />
@@ -285,6 +287,7 @@
     <None Include="Assets\GameAnalytics\Plugins\Windows\x64\sqlite3.dll" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\Firebase\Plugins\x86_64\FirebaseCppApp-13_2_0.dll" />
+    <None Include="Assets\Firebase\m2repository\com\google\firebase\firebase-config-unity\maven-metadata.xml" />
     <None Include="Assets\Firebase\m2repository\com\google\firebase\firebase-analytics-unity\maven-metadata.xml" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
@@ -295,6 +298,8 @@
     <None Include="Assets\ThirdParty\JMO Assets\Cartoon FX\Shaders\CFXM_MobileParticleAdd_Alpha8.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\Firebase\Plugins\Firebase.Platform.dll" />
+    <None Include="Assets\Firebase\Plugins\x86_64\FirebaseCppRemoteConfig.dll" />
+    <None Include="Assets\Firebase\Plugins\Firebase.RemoteConfig.dll" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\Material\CustomUnlitColorCutoff.shader" />
@@ -789,6 +794,10 @@
     </Reference>
     <Reference Include="Sirenix.OdinInspector.Editor">
       <HintPath>Assets\Plugins\Sirenix\Assemblies\Sirenix.OdinInspector.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Firebase.RemoteConfig">
+      <HintPath>Assets\Firebase\Plugins\Firebase.RemoteConfig.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Firebase.TaskExtension">

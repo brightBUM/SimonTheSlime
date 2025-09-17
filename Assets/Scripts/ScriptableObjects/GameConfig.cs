@@ -19,9 +19,9 @@ public class GameConfig : SerializedScriptableObject
     public int mainMenuRewardedAdNanas;
     public int RetryNanasCost = 100;
 
-    [Header("Level Stats")]
-    [OdinSerialize]
-    public Dictionary<int, List<int>> levelTargetTime;
+    //[Header("Level Stats")]
+    //[OdinSerialize]
+    //public Dictionary<int, List<int>> levelTargetTime;
 
     [Header("Level Parts")]
     public List<int> parts;

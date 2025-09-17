@@ -9,9 +9,11 @@ public class FirebaseAnalyticsManager : Singleton<FirebaseAnalyticsManager>
     public FirebaseAnalyticsManager instance;
     // Firebase App instance
     private FirebaseApp firebaseApp;
+    
     // Initialize Firebase
     void Start()
     {
+
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
             if (task.Result == DependencyStatus.Available)

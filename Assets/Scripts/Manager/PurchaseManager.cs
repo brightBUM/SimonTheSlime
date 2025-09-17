@@ -1,13 +1,11 @@
 ﻿using System;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Purchasing;
 using UnityEngine.Purchasing.Extension;
 using System.Collections.Generic;
 public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
 {
-    IStoreController myStoreController;
+    public IStoreController myStoreController;
     public List<ConsumableItem> bananaItems;
     public List<ConsumableItem> melonItems;
     public NonConsumableItem noAdsPurchaseItem;
@@ -30,41 +28,6 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
         //adGemValueText.text = RemoteConfig.instance.configData.adGemValue + " gems";
 
         SetupBuilder();
-        AssignRemoteConfigValues();
-    }
-
-    private void AssignRemoteConfigValues()
-    {
-        //var remotePurchases = RemoteConfig.instance.configData.remotePurchases;
-        //for (int i = 0; i < 4; i++)
-        //{
-        //    consumableItems[i].price = remotePurchases[i].price;
-        //    consumableItems[i].mainGem = remotePurchases[i].mainGem;
-        //    consumableItems[i].extraGem = remotePurchases[i].extraGem;
-        //}
-        UpdateUI();
-    }
-    private void UpdateUI()
-    {
-        foreach (var item in bananaItems)
-        {
-            var product = myStoreController.products.WithID(item.id);
-            var localizedPrice = product.metadata.localizedPriceString;
-            //Debug.Log("localized prize : "+localizedPrice);
-
-            item.valueText.text = item.value.ToString() + " Nanas";
-            item.priceText.text = localizedPrice;
-        }
-
-        foreach (var item in melonItems)
-        {
-            var product = myStoreController.products.WithID(item.id);
-            var localizedPrice = product.metadata.localizedPriceString;
-            //Debug.Log("localized prize : " + localizedPrice);
-
-            item.valueText.text = item.value.ToString() + " Gems";
-            item.priceText.text = localizedPrice;
-        }
     }
     
     private void SetupBuilder()
@@ -198,9 +161,7 @@ public class ConsumableItem
     public string description;
     public float price;
     public int value;
-    [Header("UI references")]
-    public TextMeshProUGUI valueText;
-    public Text priceText;
+    
 }
 [Serializable]
 public class NonConsumableItem
