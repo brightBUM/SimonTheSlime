@@ -51,6 +51,8 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
 
             //main menu rewarded ad ready
             this.lastRewardedAdTime = DateTime.Now.AddHours(-25);
+            //date time conversion
+            playerProfile.lastrewardedAdTime = lastRewardedAdTime.ToString("o"); // "o" = ISO 8601 format
 
             SaveGame();
             Debug.Log("New save file created @" + filePath);
@@ -76,8 +78,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     }
     public void SaveGame() 
     {
-        //date time conversion
-        playerProfile.lastrewardedAdTime = lastRewardedAdTime.ToString("o"); // "o" = ISO 8601 format
+       
 
         string data = JsonUtility.ToJson(playerProfile);
         File.WriteAllText(filePath, data);
@@ -235,6 +236,8 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     public void SetLastRewardedAdTime(DateTime dateTime)
     {
         this.lastRewardedAdTime = dateTime;
+        //date time conversion
+        playerProfile.lastrewardedAdTime = lastRewardedAdTime.ToString("o"); // "o" = ISO 8601 format
     }
 
     public bool CheckInterstitialAdCondition()

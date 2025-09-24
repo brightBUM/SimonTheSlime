@@ -47,7 +47,7 @@ public class RemoteConfig : MonoBehaviour
         remoteConfig.ActivateAsync()
           .ContinueWithOnMainThread(
             task => {
-                Debug.Log($"Remote data loaded and ready for use. Last fetch time {info.FetchTime}.");
+                Debug.Log($"Remote data loaded and ready for use. Last fetch time {info.FetchTime.ToLocalTime()}.");
 
                 //print("remote config parameter");
                 //foreach (var item in remoteConfig.AllValues)

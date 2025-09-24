@@ -36,7 +36,11 @@ public class MainMenuUI : MonoBehaviour
 
     public void RemoveAdsPurchase()
     {
+
+#if UNITY_ANDROID && !UNITY_EDITOR
         PurchaseManager.Instance.NoAdsPurchaseButton();
+#endif
+
     }
     public void ActivatePanel(int index)
     {
