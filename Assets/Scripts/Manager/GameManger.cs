@@ -44,7 +44,7 @@ public class GameManger : MonoBehaviour
         //init GA
         GameAnalytics.Initialize();
 
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
         Application.targetFrameRate = 60;
         
 #endif

@@ -53,7 +53,7 @@ public class WatchAdRewardUI : MonoBehaviour
 
     public void ShowMainMenuRewardedAd()
     {
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
         IronSourceAdManager.Instance.ShowRewardedAd();
         IronSourceRewardedVideoEvents.onAdRewardedEvent += IronSourceRewardedVideoEvents_onAdRewardedEvent;
         return;

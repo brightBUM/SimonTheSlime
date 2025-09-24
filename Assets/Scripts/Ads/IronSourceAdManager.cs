@@ -11,6 +11,12 @@ public class IronSourceAdManager : MonoBehaviour
     string appKey = "21c87ea5d";
     string bannerAdUnitId = "rq9jn6t8h4mdqh43";
     string interstitialAdUnitId = "wgtkbxwatw27k8bb";
+
+#elif UNITY_IOS && !UNITY_EDITOR
+    string appKey = "8545d445";
+    string bannerAdUnitId = "iep3rxsyp9na3rw8";
+    string interstitialAdUnitId = "wmgt0712uuux8ju4";
+
 #else
     string appKey = "unexpected_platform";
     string bannerAdUnitId = "unexpected_platform";
@@ -31,6 +37,8 @@ public class IronSourceAdManager : MonoBehaviour
     public void Start()
     {
         IronSource.Agent.validateIntegration();
+
+        LevelPlay.ValidateIntegration();
 
         LevelPlay.Init(appKey, adFormats: new[] { com.unity3d.mediation.LevelPlayAdFormat.REWARDED });
 

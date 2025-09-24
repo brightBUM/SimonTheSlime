@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviour
         respawnPlayer += RespawnPlayer;
         ContinuePound += ContinuePounding;
 
-#if UNITY_ANDROID
+#if UNITY_IOS
         GamePlayScreenUI.Instance.poundAbilityAction += RightClicked;
         GamePlayScreenUI.Instance.poundReleaseAction += RightClickReleased;
         GamePlayScreenUI.Instance.dashButtonAction += ActivateDashTime;
@@ -678,7 +678,7 @@ public class PlayerController : MonoBehaviour
     public void ActivateDoubleTapAbility()
     {
 
-#if UNITY_ANDROID
+#if UNITY_IOS
         if(grappleReady)
         {
             ActivateGrapple();
@@ -800,7 +800,7 @@ public class PlayerController : MonoBehaviour
         respawnPlayer -= RespawnPlayer;
         ContinuePound -= ContinuePounding;
 
-#if UNITY_ANDROID
+#if UNITY_IOS
         GamePlayScreenUI.Instance.poundAbilityAction += RightClicked;
         GamePlayScreenUI.Instance.poundReleaseAction += RightClickReleased;
         GamePlayScreenUI.Instance.dashButtonAction    -= ActivateDashTime;

@@ -42,7 +42,7 @@ public class PlayerInput : MonoBehaviour
 
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN
         MouseInput();
-#elif UNITY_ANDROID
+#elif UNITY_ANDROID || UNITY_IOS
         TouchInput();
 #endif
 

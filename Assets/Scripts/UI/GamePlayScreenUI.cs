@@ -159,7 +159,7 @@ public class GamePlayScreenUI : MonoBehaviour
         //triggered with next button
 
 
-#if UNITY_ANDROID && !UNITY_EDITOR //check interstitial ad condition
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR //check interstitial ad condition
         
         SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
 
@@ -278,7 +278,7 @@ public class GamePlayScreenUI : MonoBehaviour
         GameManger.Instance.TogglePauseGame(false);
         LevelManager.Instance.TriggerPlayerRespawn();
         LevelManager.Instance.adRespawnCount++;
-#elif UNITY_ANDROID
+#elif (UNITY_ANDROID || UNITY_IOS)
         //trigger rewarded ad  here
         IronSourceAdManager.Instance.ShowRewardedAd();
         IronSourceRewardedVideoEvents.onAdRewardedEvent += IronSourceRewardedVideoEvents_onAdRewardedEvent;

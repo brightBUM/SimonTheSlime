@@ -38,7 +38,7 @@ public class LevelSelectPod : MonoBehaviour,IPointerEnterHandler,IPointerClickHa
         {
 
             //for mobile touch , have delayed load
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_IOS && !UNITY_EDITOR
 
             var pointer = LevelSelectionScreen.Instance.GetPlayerPointer();
             pointer.localScale = Vector3.zero;

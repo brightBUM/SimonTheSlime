@@ -50,7 +50,7 @@ public class ScoreBoard : MonoBehaviour
     #region LevelButton
     private void OnLevelClick()
     {
-#if UNITY_ANDROID && !UNITY_EDITOR //check interstitial ad condition
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR //check interstitial ad condition
         SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
 
         if (SaveLoadManager.Instance.CheckInterstitialAdCondition())
@@ -104,7 +104,7 @@ public class ScoreBoard : MonoBehaviour
     private void OnReplayClick()
     {
 
-#if UNITY_ANDROID && !UNITY_EDITOR //check interstitial ad condition
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR //check interstitial ad condition
         SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
 
         if (SaveLoadManager.Instance.CheckInterstitialAdCondition())
@@ -165,7 +165,7 @@ public class ScoreBoard : MonoBehaviour
             return;
         }
 
-#if UNITY_ANDROID && !UNITY_EDITOR //check interstitial ad condition
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR //check interstitial ad condition
         SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
 
         if (SaveLoadManager.Instance.CheckInterstitialAdCondition())
