@@ -65,11 +65,11 @@ public class ShopManager : MonoBehaviour
     private void UpdatePacksUIFromRemote()
     {
         var purchaseManager = PurchaseManager.Instance;
-        if (purchaseManager == null || !RemoteConfig.Instance.IsFetchSucess)
+        if (purchaseManager == null /*|| !RemoteConfig.Instance.IsFetchSucess*/)
             return;
 
-        var bananaPackValues = RemoteConfig.Instance.configData.skinsandPacks.bananaPackValue;
-        var melonPackValues = RemoteConfig.Instance.configData.skinsandPacks.gemsPackValue;
+        // var bananaPackValues = RemoteConfig.Instance.configData.skinsandPacks.bananaPackValue;
+        // var melonPackValues = RemoteConfig.Instance.configData.skinsandPacks.gemsPackValue;
 
         for (int i = 0; i < purchaseManager.bananaItems.Count; i++)
         {
@@ -78,7 +78,7 @@ public class ShopManager : MonoBehaviour
             //Debug.Log("localized prize : "+localizedPrice);
             //value from remote date
 
-            bananaPackValueText[i].text = bananaPackValues[i].ToString() + " Nanas";
+            // bananaPackValueText[i].text = bananaPackValues[i].ToString() + " Nanas";
             bananaPackPriceText[i].text = localizedPrice;
         }
 
@@ -88,7 +88,7 @@ public class ShopManager : MonoBehaviour
             var localizedPrice = product.metadata.localizedPriceString;
             //Debug.Log("localized prize : "+localizedPrice);
 
-            melonPackValueText[i].text = melonPackValues[i].ToString() + " Nanas";
+            //melonPackValueText[i].text = melonPackValues[i].ToString() + " Melons";
             melonPackPriceText[i].text = localizedPrice;
         }
     }

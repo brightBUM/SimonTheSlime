@@ -76,23 +76,23 @@ public class GameManger : MonoBehaviour
             menuAudioSource?.Pause();
         }
     }
-    public void SetConfigDataFromRemote(ConfigData remoteConfig)
-    {
-        gameConfig.mainMenuRewardedAdNanas = remoteConfig.DailyRewardAdValue;
-        gameConfig.RetryNanasCost = remoteConfig.RetryNanasCost;
-        gameConfig.perfectJumpBase = remoteConfig.PerfectJumpBase;
-        gameConfig.interstitialAdCheckPerLevel = remoteConfig.InterstitialAdPerLevel;
+    // public void SetConfigDataFromRemote(ConfigData remoteConfig)
+    // {
+    //     gameConfig.mainMenuRewardedAdNanas = remoteConfig.DailyRewardAdValue;
+    //     gameConfig.RetryNanasCost = remoteConfig.RetryNanasCost;
+    //     gameConfig.perfectJumpBase = remoteConfig.PerfectJumpBase;
+    //     gameConfig.interstitialAdCheckPerLevel = remoteConfig.InterstitialAdPerLevel;
 
-        for(int i = 0;i<charSkinSO.skinList.Count;i++)
-        {
-            charSkinSO.skinList[i].melonCost = remoteConfig.skinsandPacks.charSkinCost[i];
-        }
+    //     for(int i = 0;i<charSkinSO.skinList.Count;i++)
+    //     {
+    //         charSkinSO.skinList[i].melonCost = remoteConfig.skinsandPacks.charSkinCost[i];
+    //     }
 
-        for(int i = 0;i<charSkinSO.podList.Count;i++)
-        {
-            charSkinSO.podList[i].melonCost = remoteConfig.skinsandPacks.podSkinCost[i];
-        }
-    }
+    //     for(int i = 0;i<charSkinSO.podList.Count;i++)
+    //     {
+    //         charSkinSO.podList[i].melonCost = remoteConfig.skinsandPacks.podSkinCost[i];
+    //     }
+    // }
     public void SetRewardedAdValueFromRemote(int remoteValue)
     {
         //Debug.Log($"SO value :{gameConfig.mainMenuRewardedAdNanas} , remote value : {remoteValue}");
