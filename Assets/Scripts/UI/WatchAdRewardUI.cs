@@ -60,6 +60,8 @@ public class WatchAdRewardUI : MonoBehaviour
 #if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
         IronSourceAdManager.Instance.ShowRewardedAd();
         IronSourceRewardedVideoEvents.onAdRewardedEvent += IronSourceRewardedVideoEvents_onAdRewardedEvent;
+        IronSourceRewardedVideoEvents.onAdOpenedEvent += IronSourceRewardedVideoEvents_onAdOpenedEvent;
+        IronSourceRewardedVideoEvents.onAdClosedEvent += IronSourceRewardedVideoEvents_onAdClosedEvent;
         return;
 #endif
         var rewardValue = GameManger.Instance.gameConfig.mainMenuRewardedAdNanas;
@@ -71,6 +73,20 @@ public class WatchAdRewardUI : MonoBehaviour
 
         Debug.Log("main menu rewarded ad complete");
 
+    }
+
+    private void IronSourceRewardedVideoEvents_onAdClosedEvent(IronSourceAdInfo obj)
+    {
+        GameManger.Instance.RestoreAudio();
+        IronSourceRewardedVideoEvents.onAdClosedEvent -= IronSourceRewardedVideoEvents_onAdClosedEvent;
+
+    }
+
+    private void IronSourceRewardedVideoEvents_onAdOpenedEvent(IronSourceAdInfo obj)
+    {
+
+        GameManger.Instance.SetAudioMute();
+        IronSourceRewardedVideoEvents.onAdOpenedEvent -= IronSourceRewardedVideoEvents_onAdOpenedEvent;
     }
 
     private void IronSourceRewardedVideoEvents_onAdRewardedEvent(IronSourcePlacement arg1, IronSourceAdInfo arg2)

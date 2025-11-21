@@ -282,7 +282,22 @@ public class GamePlayScreenUI : MonoBehaviour
         //trigger rewarded ad  here
         IronSourceAdManager.Instance.ShowRewardedAd();
         IronSourceRewardedVideoEvents.onAdRewardedEvent += IronSourceRewardedVideoEvents_onAdRewardedEvent;
+        IronSourceRewardedVideoEvents.onAdOpenedEvent += IronSourceRewardedVideoEvents_onAdOpenedEvent;
+        IronSourceRewardedVideoEvents.onAdClosedEvent += IronSourceRewardedVideoEvents_onAdClosedEvent;
 #endif
+
+    }
+
+    private void IronSourceRewardedVideoEvents_onAdClosedEvent(IronSourceAdInfo obj)
+    {
+        GameManger.Instance.RestoreAudio();
+        IronSourceRewardedVideoEvents.onAdClosedEvent -= IronSourceRewardedVideoEvents_onAdClosedEvent;
+    }
+
+    private void IronSourceRewardedVideoEvents_onAdOpenedEvent(IronSourceAdInfo obj)
+    {
+        GameManger.Instance.SetAudioMute();
+        IronSourceRewardedVideoEvents.onAdOpenedEvent -= IronSourceRewardedVideoEvents_onAdOpenedEvent;
     }
 
     private void IronSourceRewardedVideoEvents_onAdRewardedEvent(IronSourcePlacement arg1, IronSourceAdInfo arg2)
