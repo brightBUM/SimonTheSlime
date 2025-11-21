@@ -136,7 +136,16 @@ public class GameManger : MonoBehaviour
             ToggleMenuMusic(false);
         });
     }
-
+    public void SetAudioMute()
+    {
+        audioMixer.SetFloat("MasterVolume", -80f);
+    }
+    public void RestoreAudio()
+    {
+        var value = SaveLoadManager.Instance.GetVolumeControls(0).volumeValue;
+        audioMixer.SetFloat("MasterVolume", Mathf.Log10(value) * 20f);
+        
+    }
     public void TogglePauseGame()
     {
         IsPaused = !IsPaused;
