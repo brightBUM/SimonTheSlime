@@ -37,7 +37,7 @@ public class MainMenuUI : MonoBehaviour
     public void RemoveAdsPurchase()
     {
 
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if (UNITY_ANDROID || UNITY_IOS) && !UNITY_EDITOR
         PurchaseManager.Instance.NoAdsPurchaseButton();
 #endif
 

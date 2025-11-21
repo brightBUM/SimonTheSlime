@@ -13,9 +13,9 @@ public class IronSourceAdManager : MonoBehaviour
     string interstitialAdUnitId = "wgtkbxwatw27k8bb";
 
 #elif UNITY_IOS && !UNITY_EDITOR
-    string appKey = "8545d445";
-    string bannerAdUnitId = "iep3rxsyp9na3rw8";
-    string interstitialAdUnitId = "wmgt0712uuux8ju4";
+    string appKey = "23a50278d";
+    string bannerAdUnitId = "41uorduefc8zrsdt";
+    string interstitialAdUnitId = "h3l4jiisruadxt5y";
 
 #else
     string appKey = "unexpected_platform";

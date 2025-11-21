@@ -170,10 +170,27 @@ public class ShopManager : MonoBehaviour
             }
         }
     }
-    public void PurchaseNanasPack(int index)
+  public void PurchaseNanasPack(int index)
+{
+    if (PurchaseManager.Instance == null)
     {
-        PurchaseManager.Instance.PurchaseBananasButton(index);
+        Debug.LogError("PurchaseManager.Instance is NULL!");
+        return;
     }
+    if (PurchaseManager.Instance.myStoreController == null)
+    {
+        Debug.LogError("myStoreController is NULL! Did IAP finish initializing?");
+        return;
+    }
+    if (PurchaseManager.Instance.bananaItems == null || index >= PurchaseManager.Instance.bananaItems.Count)
+    {
+        Debug.LogError($"bananaItems invalid. Count: {PurchaseManager.Instance.bananaItems?.Count ?? 0}, index: {index}");
+        return;
+    }
+
+    PurchaseManager.Instance.PurchaseBananasButton(index);
+}
+
     public void PurchaseMelonPack(int index)
     {
         PurchaseManager.Instance.PurchaseGemsButton(index);

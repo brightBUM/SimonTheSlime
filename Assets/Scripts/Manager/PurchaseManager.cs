@@ -22,16 +22,13 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
         {
             Destroy(gameObject);
         }
-    }
-    void Start()
-    {
-        //adGemValueText.text = RemoteConfig.instance.configData.adGemValue + " gems";
 
-        SetupBuilder();
+         SetupBuilder();
     }
-    
+  
     private void SetupBuilder()
     {
+          Debug.Log("PURCHASE MANAGER SETUP BEFORE");
         var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
         foreach (var item in bananaItems)
         {
@@ -41,9 +38,11 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
         {
             builder.AddProduct(item.id, ProductType.Consumable);
         }
-
+       
         builder.AddProduct(noAdsPurchaseItem.id, ProductType.NonConsumable);
         UnityPurchasing.Initialize(this, builder);
+
+         Debug.Log("PURCHASE MANAGER SETUP AFTER");
         
     }
     public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
