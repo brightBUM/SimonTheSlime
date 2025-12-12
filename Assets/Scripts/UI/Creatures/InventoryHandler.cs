@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+//class that populates inventory slots
 public class InventoryHandler : MonoBehaviour
 {
 

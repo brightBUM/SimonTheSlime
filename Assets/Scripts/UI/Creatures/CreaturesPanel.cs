@@ -8,8 +8,11 @@ public class CreaturesPanel : MonoBehaviour
     [SerializeField] GameObject rarePanel;
     [SerializeField] GameObject epicPanel;
 
-    
 
+    private void Start()
+    {
+        //populate the creature pages based on saveload data
+    }
     public void TogglePanel(int index)
     {
         var panels = new List<GameObject>() { commonPanel, rarePanel, epicPanel };

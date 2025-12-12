@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,7 +36,8 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
                 levelStars = new List<int>(debugUnlock + 1), //assign 0 stars for all the debug unlock levels
                 nanas = GameManger.Instance.gameConfig.nanasCount,
                 melons = GameManger.Instance.gameConfig.melonsCount,
-                dragSens = 3.5f
+                dragSens = 3.5f,
+                recoveryPodData = new List<RecoveryPodData>()
             };
 
             for(int i=0;i<3;i++)
@@ -48,6 +49,18 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
             {
                 playerProfile.levelStars.Add(0);
             }
+
+            //give 2 free pods when game starts
+            for (int i = 0; i < 2; i++)
+            {
+                playerProfile.recoveryPodData.Add(new RecoveryPodData
+                {
+                    podLevel = 1,
+                    isUnlocked = true,
+                    creatureType = 0
+                });
+            }
+                
 
             //main menu rewarded ad ready
             this.lastRewardedAdTime = DateTime.Now.AddHours(-25);
@@ -249,7 +262,36 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
         SaveGame();
     }
 
-    
+    //recoveryPodData
+    public TimeSpan GetAssignPodRemainingTime(int podId)
+    {
+        return playerProfile.recoveryPodData[podId].GetRemainingTime();
+    }
+    public void BuyNewPod()
+    {
+        playerProfile.recoveryPodData.Add(new RecoveryPodData
+        {
+            podLevel = 1,
+            isUnlocked = true,
+            creatureType = 0
+        });
+        SaveGame();
+    }
+    public void UpgradePod(int podId)
+    {
+        playerProfile.recoveryPodData[podId].UpgradePodLevel();
+        SaveGame();
+    }
+    public void AssignCreature(int podId,int creatureType)
+    {
+        playerProfile.recoveryPodData[podId].AssignCreature(creatureType);
+        SaveGame();
+    }
+    public void CompleteRecovery(int podId)
+    {
+        playerProfile.recoveryPodData[podId].ClearPod();
+        SaveGame();
+    }
 }
 [System.Serializable]
 public class PlayerProfile
@@ -271,6 +313,7 @@ public class PlayerProfile
     public float dragSens;
     public string lastrewardedAdTime;
     public int interStitialAdCount;
+    public List<RecoveryPodData> recoveryPodData;
 }
 
 [System.Serializable]
@@ -279,3 +322,5 @@ public class VolumeControl
     public float volumeValue = 1.0f;
     public bool volumeState = true;
 }
+
+

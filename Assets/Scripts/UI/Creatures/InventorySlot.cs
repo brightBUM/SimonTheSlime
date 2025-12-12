@@ -8,11 +8,12 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 {
     [SerializeField] private Image creatureImage;   // Icon in the slot
     [SerializeField] private GameObject pickedUpPrefab; // Prefab for dragged object
-
+    public CreatureType creatureType;
     private GameObject draggedIcon;
     private RectTransform draggedRect;
     private Canvas parentCanvas;
-
+    private Sprite storedSprite;
+    private bool droppedOnValidSlot;
     void Awake()
     {
         parentCanvas = GetComponentInParent<Canvas>();
@@ -22,15 +23,18 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         if (creatureImage.sprite == null) return;
 
-        // Hide original
+        storedSprite = creatureImage.sprite;
         creatureImage.enabled = false;
+        droppedOnValidSlot = false;
 
-        // Create floating icon
+        // Create floating ghost icon
         draggedIcon = Instantiate(pickedUpPrefab, parentCanvas.transform);
-        draggedIcon.GetComponent<Image>().sprite = creatureImage.sprite;
-
+        draggedIcon.GetComponent<Image>().sprite = storedSprite;
+        draggedIcon.GetComponent<Image>().raycastTarget = false;
         draggedRect = draggedIcon.GetComponent<RectTransform>();
         draggedRect.position = eventData.position;
+
+        
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -49,8 +53,28 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         if (draggedIcon != null)
             Destroy(draggedIcon);
 
-        //else
-        // Restore slot image if drop failed
-        creatureImage.enabled = true;
+        // If drop failed, restore slot
+        if (!droppedOnValidSlot)
+        {
+            creatureImage.enabled = true;
+            creatureImage.sprite = storedSprite;
+        }
+        else
+        {
+            // Clear inventory slot when successfully placed in equip slot
+            ClearSlot();
+        }
+    }
+
+    public void ClearSlot()
+    {
+        //destroy slot from scroll area
+        //Debug.Log("clear slot");
+        Destroy(gameObject);
+    }
+    public void MarkAsDropped()
+    {
+        droppedOnValidSlot = true;
+        //remove creature from saveload 
     }
 }
