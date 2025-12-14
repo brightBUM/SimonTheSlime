@@ -131,6 +131,7 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
         completeSetup.SetActive(false);
         vacantSetup.SetActive(true);
         SaveLoadManager.Instance.CompleteRecovery(podId);
+        SaveLoadManager.Instance.SaveGame();
     }
 
     private void OnDisable()
@@ -180,7 +181,7 @@ public class RecoveryPodData
 {
     public int podLevel = 0;
     public int creatureType;
-    public long timeAssignedTicks; // for save/load safe serialization
+    public long timeAssignedTicks;         // for save/load safe serialization
     public bool isUnlocked = false;        // did the player buy this pod slot?
 
     public DateTime TimeAssigned
@@ -207,7 +208,7 @@ public class RecoveryPodData
     }
     public bool IsComplete() => creatureType != default && GetRemainingTime() <= TimeSpan.Zero;
 
-    // 🔑 The state logic
+    // The state logic
     public PodState GetPodState()
     {
         if (!isUnlocked)
@@ -222,14 +223,14 @@ public class RecoveryPodData
         return PodState.Assigned;
     }
 
-    // Call when assigning a creature
+    
     public void AssignCreature(int type)
     {
         creatureType = type+1; // for enum conversion
         TimeAssigned = DateTime.UtcNow;
     }
 
-    // Call when claiming recovered creature
+    // claiming recovered creature
     public void ClearPod()
     {
         creatureType = default;

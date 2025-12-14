@@ -8,7 +8,10 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 {
     [SerializeField] private Image creatureImage;   // Icon in the slot
     [SerializeField] private GameObject pickedUpPrefab; // Prefab for dragged object
-    public CreatureType creatureType;
+    [SerializeField] GameObject buySetup;
+    [SerializeField] GameObject ownedSetup;
+    public int creatureType;
+    public int slotId;
     private GameObject draggedIcon;
     private RectTransform draggedRect;
     private Canvas parentCanvas;
@@ -18,7 +21,45 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         parentCanvas = GetComponentInParent<Canvas>();
     }
+    public void Init(int slotId,InventoryState state)
+    {
+        //from save load
+        this.slotId = slotId;
+        if(state == InventoryState.vacant)
+        {
+            //vacant 
+            ownedSetup.SetActive(true);
+            ClearSlot();
+        }
+        else if(state == InventoryState.buy)
+        {
+            buySetup.SetActive(true);
+        }
+        else
+        {
+            ownedSetup.SetActive(true);
+            AssignToSlot(state);
+        }
 
+    }
+    public void BuySlot()
+    {
+        buySetup.SetActive(false);
+        ownedSetup.SetActive(true);
+        ClearSlot();
+        SaveLoadManager.Instance.BuyInventorySlot(slotId);
+    }
+    public void AssignToSlot(InventoryState inventoryState)
+    {
+        var creatureType = (CreatureType)((int)inventoryState);
+        creatureImage.sprite = GameManger.Instance.GetCreatureSprite(creatureType);
+        GetComponent<Image>().raycastTarget = true;
+    }
+    public void ClearSlot()
+    {
+        GetComponent<Image>().raycastTarget = false; //prevent from drag and drop
+
+    }
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (creatureImage.sprite == null) return;
@@ -66,15 +107,10 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
     }
 
-    public void ClearSlot()
-    {
-        //destroy slot from scroll area
-        //Debug.Log("clear slot");
-        Destroy(gameObject);
-    }
     public void MarkAsDropped()
     {
         droppedOnValidSlot = true;
         //remove creature from saveload 
+        SaveLoadManager.Instance.RemoveCreatureFromInventory(slotId);
     }
 }

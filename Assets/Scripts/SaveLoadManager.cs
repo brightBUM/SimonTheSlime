@@ -37,7 +37,8 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
                 nanas = GameManger.Instance.gameConfig.nanasCount,
                 melons = GameManger.Instance.gameConfig.melonsCount,
                 dragSens = 3.5f,
-                recoveryPodData = new List<RecoveryPodData>()
+                recoveryPodData = new List<RecoveryPodData>(),
+                inventoryData = new List<InventoryState>()
             };
 
             for(int i=0;i<3;i++)
@@ -60,7 +61,13 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
                     creatureType = 0
                 });
             }
-                
+
+            //5 slot inventory
+            playerProfile.inventoryData.Add(InventoryState.common);
+            playerProfile.inventoryData.Add(InventoryState.rare);
+            playerProfile.inventoryData.Add(InventoryState.vacant);
+            playerProfile.inventoryData.Add(InventoryState.buy);
+            playerProfile.inventoryData.Add(InventoryState.buy);
 
             //main menu rewarded ad ready
             this.lastRewardedAdTime = DateTime.Now.AddHours(-25);
@@ -290,7 +297,28 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     public void CompleteRecovery(int podId)
     {
         playerProfile.recoveryPodData[podId].ClearPod();
-        SaveGame();
+    }
+
+    //inventory data
+    public bool IsInventorySlotAvailable()
+    {
+        return playerProfile.inventoryData.Contains(InventoryState.vacant);
+    }
+    public void AddCreatureToInventory(int creature)
+    {
+        int index = playerProfile.inventoryData.IndexOf(InventoryState.vacant); //gets first available slot
+        if (index == -1)
+            return; // inventory full
+
+        playerProfile.inventoryData[index] = (InventoryState)creature;
+    }
+    public void BuyInventorySlot(int index)
+    {
+        playerProfile.inventoryData[index] = InventoryState.vacant;
+    }
+    public void RemoveCreatureFromInventory(int index)
+    {
+        playerProfile.inventoryData[index] = InventoryState.vacant;
     }
 }
 [System.Serializable]
@@ -314,6 +342,7 @@ public class PlayerProfile
     public string lastrewardedAdTime;
     public int interStitialAdCount;
     public List<RecoveryPodData> recoveryPodData;
+    public List<InventoryState> inventoryData;
 }
 
 [System.Serializable]
