@@ -108,10 +108,11 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
             // get creature Type
             OnCreatureAssigned((int)inventorySlot.creatureType);
 
-            Debug.Log("drop validated");
-
-            // Optionally clear inventory slot
+            // clear inventory slot
             inventorySlot.MarkAsDropped();
+
+            //save after transfer
+            SaveLoadManager.Instance.SaveGame();
         }
     }
     //Assign creature to Pod

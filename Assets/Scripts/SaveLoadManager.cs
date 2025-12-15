@@ -292,7 +292,6 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     public void AssignCreature(int podId,int creatureType)
     {
         playerProfile.recoveryPodData[podId].AssignCreature(creatureType);
-        SaveGame();
     }
     public void CompleteRecovery(int podId)
     {
@@ -319,6 +318,27 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     public void RemoveCreatureFromInventory(int index)
     {
         playerProfile.inventoryData[index] = InventoryState.vacant;
+        //rearrange after removal
+        CompactInventory();
+    }
+    public Action InventoryArranged;
+    public void CompactInventory()
+    {
+        playerProfile.inventoryData.Sort((a, b) =>
+        {
+            return a.CompareTo(b);
+        });
+
+        //var inventoryData = playerProfile.inventoryData;
+        //var occupied = inventoryData.FindAll(x => x != InventoryState.vacant);
+        //int vacantCount = inventoryData.Count - occupied.Count;
+
+        //inventoryData.Clear();
+        //inventoryData.AddRange(occupied);
+
+        //for (int i = 0; i < vacantCount; i++)
+        //    inventoryData.Add(InventoryState.vacant);
+        //InventoryArranged.Invoke();
     }
 }
 [System.Serializable]

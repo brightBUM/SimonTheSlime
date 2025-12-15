@@ -51,15 +51,11 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     }
     public void AssignToSlot(InventoryState inventoryState)
     {
-        var creatureType = (CreatureType)((int)inventoryState);
-        creatureImage.sprite = GameManger.Instance.GetCreatureSprite(creatureType);
+        creatureType = ((int)inventoryState);
+        creatureImage.sprite = GameManger.Instance.GetCreatureSprite((CreatureType)creatureType);
         GetComponent<Image>().raycastTarget = true;
     }
-    public void ClearSlot()
-    {
-        GetComponent<Image>().raycastTarget = false; //prevent from drag and drop
-
-    }
+    
     public void OnBeginDrag(PointerEventData eventData)
     {
         if (creatureImage.sprite == null) return;
@@ -106,7 +102,13 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             ClearSlot();
         }
     }
+    public void ClearSlot()
+    {
+        creatureImage.sprite = null;
+        creatureImage.enabled = false;
+        GetComponent<Image>().raycastTarget = false; //prevent from drag and drop
 
+    }
     public void MarkAsDropped()
     {
         droppedOnValidSlot = true;
