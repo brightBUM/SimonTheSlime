@@ -3,7 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SaveLoadManager : Singleton<SaveLoadManager>
+public class SaveLoadManager : MonoBehaviour
 {
     private string fileName = "GameSave.json";
     private string filePath;
@@ -12,7 +12,19 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     public bool firstLoad = false;
     public DateTime lastRewardedAdTime;
     int debugUnlock = 0;
-    
+    public static SaveLoadManager Instance;
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     public void InitFileSystem()
     {
         filePath = Application.persistentDataPath + "/" + fileName;
@@ -295,6 +307,7 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     }
     public void CompleteRecovery(int podId)
     {
+
         playerProfile.recoveryPodData[podId].ClearPod();
     }
 
@@ -314,20 +327,24 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     public void BuyInventorySlot(int index)
     {
         playerProfile.inventoryData[index] = InventoryState.vacant;
+        RearrangeInventory();
     }
+
+    public Action InventoryArranged;
+
     public void RemoveCreatureFromInventory(int index)
     {
         playerProfile.inventoryData[index] = InventoryState.vacant;
-        //rearrange after removal
-        CompactInventory();
+        RearrangeInventory();
     }
-    public Action InventoryArranged;
-    public void CompactInventory()
+    public void RearrangeInventory()
     {
+        //rearrange after removal
         playerProfile.inventoryData.Sort((a, b) =>
         {
             return a.CompareTo(b);
         });
+        InventoryArranged.Invoke();
 
         //var inventoryData = playerProfile.inventoryData;
         //var occupied = inventoryData.FindAll(x => x != InventoryState.vacant);
@@ -338,7 +355,13 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
 
         //for (int i = 0; i < vacantCount; i++)
         //    inventoryData.Add(InventoryState.vacant);
-        //InventoryArranged.Invoke();
+        ;
+    }
+
+    //creature collection data
+    public void AddToCreatureDex(CreatureType creatureType)
+    {
+        //
     }
 }
 [System.Serializable]

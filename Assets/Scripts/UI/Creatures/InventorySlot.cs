@@ -44,10 +44,13 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     }
     public void BuySlot()
     {
+        //to-do 
+        //decrement currency
         buySetup.SetActive(false);
         ownedSetup.SetActive(true);
         ClearSlot();
         SaveLoadManager.Instance.BuyInventorySlot(slotId);
+        SaveLoadManager.Instance.SaveGame();
     }
     public void AssignToSlot(InventoryState inventoryState)
     {
@@ -104,6 +107,8 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     }
     public void ClearSlot()
     {
+        Debug.Log("clear slot " );
+
         creatureImage.sprite = null;
         creatureImage.enabled = false;
         GetComponent<Image>().raycastTarget = false; //prevent from drag and drop
@@ -114,5 +119,8 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         droppedOnValidSlot = true;
         //remove creature from saveload 
         SaveLoadManager.Instance.RemoveCreatureFromInventory(slotId);
+
+        if (draggedIcon != null)
+            Destroy(draggedIcon);
     }
 }

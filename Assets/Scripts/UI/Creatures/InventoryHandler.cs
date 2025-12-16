@@ -35,6 +35,30 @@ public class InventoryHandler : MonoBehaviour
 
         }
     }
+    [ContextMenu("AddCollective")]
+    public void AddCollectiveCreatures()
+    {
+        for(int i = 0;i<2;i++)
+        {
+            if(SaveLoadManager.Instance.IsInventorySlotAvailable())
+            {
+                AddCreature((CreatureType)2);
+            }
+            else
+            {
+                Debug.Log("inventory full ");
+                //to - do
+                //implement full text dotween pop up
+            }
+        }
+        SaveLoadManager.Instance.RearrangeInventory();
+        SaveLoadManager.Instance.SaveGame();
+
+    }
+    public void AddCreature(CreatureType creatureType)
+    {
+        SaveLoadManager.Instance.AddCreatureToInventory((int)creatureType);
+    }
     public void ReArrangeInventory()
     {
         foreach(Transform child in parent)

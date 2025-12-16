@@ -38,9 +38,13 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
         upgradeButton.onClick. AddListener(UpgradePod);
         completeButton.onClick.AddListener(RecoverCreature);
     }
-    public void Init(PodState podState)
+    public void Init(int index,RecoveryPodData recoveryPodData = null)
     {
-        this.podState = podState;
+        this.podId = index;
+
+        if(recoveryPodData!=null)
+            this.podState = recoveryPodData.GetPodState();
+
         var setups = new GameObject[] { buySetup, vacantSetup, assignedSetup, completeSetup };
         foreach(var item in setups)
         {
@@ -50,12 +54,14 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
         {
             case PodState.Buy:
                 buySetup.SetActive(true);
+                //cost to buy
                 break;
             case PodState.Upgrade:
-                vacantSetup.SetActive(true);
+                ShowUpgradeState();
                 break;
             case PodState.Assigned:
                 assignedSetup.SetActive(true);
+                creatureImage.sprite = GameManger.Instance.GetCreatureSprite((CreatureType)(recoveryPodData.creatureType-1));  //-1 to counter for the saveload setup
                 break;
             case PodState.Recovered:
                 completeSetup.SetActive(true);
@@ -74,12 +80,20 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
             if(recoverPodData[podId].IsComplete())
             {
                 podState = PodState.Recovered;
+                assignedSetup.SetActive(false);
+                completeSetup.SetActive(true);
             }
 
         }
     }
 
-
+    private void ShowUpgradeState()
+    {
+        vacantSetup.SetActive(true);
+        //to do - show level of pod
+        //upgrade speed
+        //cost to upgrade
+    }
     //unlock / buy this pod
     public void BuyPod()
     {
@@ -129,10 +143,21 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
     //recovery complete
     public void RecoverCreature()
     {
+        podState = PodState.Upgrade;
         completeSetup.SetActive(false);
-        vacantSetup.SetActive(true);
+        ShowUpgradeState();
+
+        //add it to creature collection
+        var creatureType = (CreatureType)SaveLoadManager.Instance.playerProfile.recoveryPodData[podId].creatureType - 1;
+
+        //to do implement - random draw logic
+        //get creature stats from creatures scriptable object
+        //if new -- new pop up animation ,add to creature panel
+        //else -- simple pop up
+
         SaveLoadManager.Instance.CompleteRecovery(podId);
         SaveLoadManager.Instance.SaveGame();
+
     }
 
     private void OnDisable()
@@ -150,10 +175,10 @@ public static class RecoveryTimeConfig
     private static readonly Dictionary<int, TimeSpan> baseTimes =
         new Dictionary<int, TimeSpan>
         {
-            { 0, TimeSpan.FromHours(0) },
-            { 1, TimeSpan.FromHours(3) },
-            { 2,   TimeSpan.FromHours(6) },
-            { 3,   TimeSpan.FromHours(12) }
+            { 0, TimeSpan.FromSeconds(0) },
+            { 1, TimeSpan.FromSeconds(3) },
+            { 2,   TimeSpan.FromSeconds(5) },
+            { 3,   TimeSpan.FromSeconds(10) }
         };
 
     public static TimeSpan GetBaseTime(int type)

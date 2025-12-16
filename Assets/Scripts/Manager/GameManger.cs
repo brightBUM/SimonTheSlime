@@ -74,6 +74,7 @@ public class GameManger : MonoBehaviour
     }
     public Skin GetCharSkinColor()
     {
+
         return charSkinSO.skinList[SaveLoadManager.Instance.playerProfile.equippedSkin];
     }
     public Skin GetPodSkinColor()

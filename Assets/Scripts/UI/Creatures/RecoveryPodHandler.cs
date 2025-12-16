@@ -15,12 +15,12 @@ public class RecoveryPodHandler : MonoBehaviour
             if (i < recoveryPodData.Count)
             {
                 //pod bought , get pod state
-                recoveryPods[i].Init(recoveryPodData[i].GetPodState());
+                recoveryPods[i].Init(i,recoveryPodData[i]);
             }
             else
             {
                 //all other in buy state
-                recoveryPods[i].Init(PodState.Buy);
+                recoveryPods[i].Init(i);
             }
         }
     }
