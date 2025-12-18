@@ -27,7 +27,6 @@ public class CreatureReveal : MonoBehaviour
     {
         //get creature from drawn pool
 
-
         float alpha = 0.0f;
 
         DOTween.To(() => alpha, x => alpha = x, 1, 1f).OnUpdate(() =>
@@ -49,7 +48,10 @@ public class CreatureReveal : MonoBehaviour
            
         });
     }
+    public void TriggerExistingReveal()
+    {
 
+    }
     
 
 }
