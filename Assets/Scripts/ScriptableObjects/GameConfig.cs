@@ -26,5 +26,9 @@ public class GameConfig : SerializedScriptableObject
     [Header("Level Parts")]
     public List<int> parts;
 
+    [Header("Creature Data")]
+    public List<CreatureData> commonData;
+    public List<CreatureData> rareData;
+    public List<CreatureData> epicData;
 
 }

@@ -37,6 +37,7 @@ public class SaveLoadManager : MonoBehaviour
         }
         else
         {
+            var gameConfig = GameManger.Instance.gameConfig;
             //create a new save file with default values;
             playerProfile = new PlayerProfile
             {
@@ -46,8 +47,8 @@ public class SaveLoadManager : MonoBehaviour
                 unlockedCharSkins = new List<int>() { 0 },
                 unlockedPodSkins = new List<int>() { 0 },
                 levelStars = new List<int>(debugUnlock + 1), //assign 0 stars for all the debug unlock levels
-                nanas = GameManger.Instance.gameConfig.nanasCount,
-                melons = GameManger.Instance.gameConfig.melonsCount,
+                nanas = gameConfig.nanasCount,
+                melons = gameConfig.melonsCount,
                 dragSens = 3.5f,
                 recoveryPodData = new List<RecoveryPodData>(),
                 inventoryData = new List<InventoryState>()
@@ -80,6 +81,18 @@ public class SaveLoadManager : MonoBehaviour
             playerProfile.inventoryData.Add(InventoryState.vacant);
             playerProfile.inventoryData.Add(InventoryState.buy);
             playerProfile.inventoryData.Add(InventoryState.buy);
+
+            //creature unlock state
+            List<CreatureData> allCreatureData = new List<CreatureData>();
+            allCreatureData.AddRange(gameConfig.commonData);
+            allCreatureData.AddRange(gameConfig.rareData);
+            allCreatureData.AddRange(gameConfig.epicData);
+
+            //mark all as locked state 
+            foreach(var creatureData in allCreatureData)
+            {
+                playerProfile.creatureUnlockStates.Add(new CreatureUnlockState(creatureData.creatureId,false));
+            }
 
             //main menu rewarded ad ready
             this.lastRewardedAdTime = DateTime.Now.AddHours(-25);
@@ -386,6 +399,7 @@ public class PlayerProfile
     public int interStitialAdCount;
     public List<RecoveryPodData> recoveryPodData;
     public List<InventoryState> inventoryData;
+    public List<CreatureUnlockState> creatureUnlockStates;
 }
 
 [System.Serializable]

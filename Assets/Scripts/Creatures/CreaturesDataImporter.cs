@@ -1,6 +1,7 @@
-using UnityEngine;
-using UnityEditor;
+using System.Collections.Generic;
 using System.IO;
+using UnityEditor;
+using UnityEngine;
 
 public class CreatureDataImporter
 {
@@ -18,6 +19,14 @@ public class CreatureDataImporter
 
         string[] lines = File.ReadAllLines(CsvPath);
 
+        // Track running index per tier
+        Dictionary<string, int> tierCounters = new()
+        {
+            { "Common", 0 },
+            { "Rare", 0 },
+            { "Epic", 0 }
+        };
+
         // Skip header
         for (int i = 1; i < lines.Length; i++)
         {
@@ -29,16 +38,26 @@ public class CreatureDataImporter
             string tier = columns[0].Trim();
             string name = columns[1].Trim();
 
+            tierCounters[tier]++;
+
             string folderPath = $"{BaseOutputPath}/{tier}";
             EnsureFolderExists(folderPath);
 
             string assetPath = $"{folderPath}/{name}.asset";
-
             CreatureData data = AssetDatabase.LoadAssetAtPath<CreatureData>(assetPath);
+
+            bool isNewAsset = false;
             if (data == null)
             {
                 data = ScriptableObject.CreateInstance<CreatureData>();
                 AssetDatabase.CreateAsset(data, assetPath);
+                isNewAsset = true;
+            }
+
+            // Assign ID only once (never overwrite)
+            if (string.IsNullOrEmpty(data.creatureId))
+            {
+                data.creatureId = GenerateCreatureId(tier, tierCounters[tier]);
             }
 
             data.creatureName = name;
@@ -48,7 +67,7 @@ public class CreatureDataImporter
             data.info = columns[4].Trim();
             data.unq_info = columns[5].Trim();
 
-            // Optional: Auto-assign sprite if naming matches
+            // Optional sprite auto-link
             data.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(
                 $"Assets/Creatures/Sprites/{name}.png"
             );
@@ -59,9 +78,12 @@ public class CreatureDataImporter
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
 
-        Debug.Log("Creature data imported into tier folders successfully!");
+        Debug.Log("Creature data imported with stable IDs!");
     }
-
+    private static string GenerateCreatureId(string tier, int index)
+    {
+        return $"C_{tier.ToUpper()}_{index:D3}";
+    }
     private static void EnsureFolderExists(string path)
     {
         if (AssetDatabase.IsValidFolder(path))
