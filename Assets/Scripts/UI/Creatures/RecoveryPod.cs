@@ -147,18 +147,37 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
         completeSetup.SetActive(false);
         ShowUpgradeState();
 
+        var saveLoadInstance = SaveLoadManager.Instance;
+
         //add it to creature collection
-        var creatureType = (CreatureType)SaveLoadManager.Instance.playerProfile.recoveryPodData[podId].creatureType - 1;
+        var creatureType = (CreatureType)saveLoadInstance.playerProfile.recoveryPodData[podId].creatureType - 1;
 
         //to do implement - random draw logic
+        var creaturePool = GameManger.Instance.gameConfig.GetCreatureList((int)creatureType);
+        var randomItem = UnityEngine.Random.Range(0, creaturePool.Count);
         //get creature stats from creatures scriptable object
+        var creatureData = creaturePool[randomItem];
         //if new -- new pop up animation ,add to creature panel
-        //else -- simple pop up
+        if(!saveLoadInstance.IsCreatureUnlocked(creatureData.creatureId))
+        {
+            // trigger new reveal
+            // 
+            CreaturesPanel.Instance.creatureReveal.TriggerNewReveal(creatureData);
+            saveLoadInstance.UnlockCreature(creatureData.creatureId);
+        }
+        else
+        {
+            // else -- simple pop up (To-do)
+            //trigger same reveal for now
+            CreaturesPanel.Instance.creatureReveal.TriggerNewReveal(creatureData);
 
-        SaveLoadManager.Instance.CompleteRecovery(podId);
-        SaveLoadManager.Instance.SaveGame();
+        }
+
+        saveLoadInstance.CompleteRecovery(podId);
+        saveLoadInstance.SaveGame();
 
     }
+    
 
     private void OnDisable()
     {

@@ -8,7 +8,7 @@ public class CreatureRecoveredUI : MonoBehaviour
     [SerializeField] Button button;
     [SerializeField] Image image;
     [SerializeField] TextMeshProUGUI nameText;
-    CreaturesPanel creaturesPanel;
+    //CreaturesPanel creaturesPanel;
     string creatureId;
     private void OnEnable()
     {
@@ -19,13 +19,12 @@ public class CreatureRecoveredUI : MonoBehaviour
     //    this.creaturesPanel = creaturesPanel;
     //    this.creatureId = id;
     //}
-    public void EnableButton(CreaturesPanel creaturesPanel, string id)
+    public void EnableButton(string id)
     {
         button.interactable = true;
-        this.creaturesPanel = creaturesPanel;
         this.creatureId = id;
 
-        var creatureList = GameManger.Instance.gameConfig.GetCreatureList(creaturesPanel.activePanel);
+        var creatureList = GameManger.Instance.gameConfig.GetCreatureList(CreaturesPanel.Instance.activePanel);
         var creatureData = creatureList.Find(x => x.creatureId == creatureId);
 
         image.sprite = creatureData.sprite;
@@ -42,7 +41,7 @@ public class CreatureRecoveredUI : MonoBehaviour
     }
     public void OpenCreatureInfoPage()
     {
-        creaturesPanel.ShowCreatureInfo(creatureId);
+        CreaturesPanel.Instance.ShowCreatureInfo(creatureId);
     }
     private void OnDisable()
     {

@@ -13,6 +13,8 @@ public class SaveLoadManager : MonoBehaviour
     public DateTime lastRewardedAdTime;
     int debugUnlock = 0;
     public static SaveLoadManager Instance;
+    public Dictionary<string, bool> unlockMap;
+
     private void Awake()
     {
         if (Instance == null)
@@ -92,7 +94,7 @@ public class SaveLoadManager : MonoBehaviour
             //mark all as locked state 
             foreach(var creatureData in allCreatureData)
             {
-                playerProfile.creatureUnlockStates.Add(new CreatureUnlockState(creatureData.creatureId,true));
+                playerProfile.creatureUnlockStates.Add(new CreatureUnlockState(creatureData.creatureId,false));
             }
 
             //main menu rewarded ad ready
@@ -102,6 +104,12 @@ public class SaveLoadManager : MonoBehaviour
             Debug.Log("New save file created @" + filePath);
             skipCutScene(false);
             firstLoad = true;
+        }
+
+        unlockMap = new Dictionary<string, bool>();
+        foreach (var item in SaveLoadManager.Instance.playerProfile.creatureUnlockStates)
+        {
+            unlockMap[item.id] = item.acquired;
         }
     }
 
@@ -373,9 +381,14 @@ public class SaveLoadManager : MonoBehaviour
     }
 
     //creature collection data
-    public void AddToCreatureDex(CreatureType creatureType)
+    public void UnlockCreature(string creatureId)
     {
-        //
+        unlockMap[creatureId] = true;
+        playerProfile.creatureUnlockStates.Find(x => x.id == creatureId).acquired = true;
+    }
+    public bool IsCreatureUnlocked(string creatureId)
+    {
+        return unlockMap[creatureId];
     }
 }
 [System.Serializable]

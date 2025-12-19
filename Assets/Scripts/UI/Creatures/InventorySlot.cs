@@ -107,7 +107,6 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     }
     public void ClearSlot()
     {
-        Debug.Log("clear slot " );
 
         creatureImage.sprite = null;
         creatureImage.enabled = false;

@@ -24,14 +24,12 @@ public class SwipeDetection : MonoBehaviour, IPointerDownHandler, IPointerUpHand
     public void OnPointerDown(PointerEventData eventData)
     {
         startPos = eventData.position;
-        Debug.Log("startPos: " + startPos);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         endPos = eventData.position;
         float deltaX = endPos.x - startPos.x;
-        Debug.Log("swipe X : " + deltaX);
         if (Mathf.Abs(deltaX) > swipeThreshold && !shifting)
         {
             shifting = true;

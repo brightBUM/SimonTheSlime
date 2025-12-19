@@ -12,16 +12,23 @@ public class CreaturesPanel : MonoBehaviour
     [SerializeField] List<CreatureRecoveredUI> rareButtons;
     [SerializeField] List<CreatureRecoveredUI> epicButtons;
     [SerializeField] CreatureInfoPanel creatureInfoPanel;
-    Dictionary<string, bool> unlockMap;
+    public CreatureReveal creatureReveal;
     public int activePanel; //which tab is currently show - common,rare,epic collections
+    public static CreaturesPanel Instance;
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     private void Start()
     {
-        //populate the creature pages based on saveload data
-        unlockMap = new Dictionary<string, bool>();
-        foreach (var item in SaveLoadManager.Instance.playerProfile.creatureUnlockStates)
-        {
-            unlockMap[item.id] = item.acquired;
-        }
+       
         TogglePanel(0); //show common by default
     }
     public void TogglePanel(int index)
@@ -63,9 +70,9 @@ public class CreaturesPanel : MonoBehaviour
 
         for (int i = 0; i < creatureListData.Count; i++)
         {
-            if (unlockMap[creatureListData[i].creatureId])
+            if (SaveLoadManager.Instance.IsCreatureUnlocked(creatureListData[i].creatureId))
             {
-                buttons[i].EnableButton(this, creatureListData[i].creatureId);
+                buttons[i].EnableButton(creatureListData[i].creatureId);
             }
             else
             {

@@ -10,11 +10,14 @@ public class CreatureReveal : MonoBehaviour
     [SerializeField] TextMeshProUGUI nameText;
     [SerializeField] Image image;
     [SerializeField] Transform glowEffect;
-
+    [SerializeField] Transform closeButton;
+    Vector3 titlePos;
+    Vector3 namePos;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        titlePos = titleText.anchoredPosition;
+        namePos = nameText.rectTransform.anchoredPosition;
     }
 
     // Update is called once per frame
@@ -23,9 +26,11 @@ public class CreatureReveal : MonoBehaviour
         
     }
     [ContextMenu("Trigger Reveal")]
-    public void TriggerNewReveal()
+    public void TriggerNewReveal(CreatureData creatureData)
     {
         //get creature from drawn pool
+        image.sprite = creatureData.sprite;
+        nameText.text = creatureData.name;
 
         float alpha = 0.0f;
 
@@ -42,7 +47,10 @@ public class CreatureReveal : MonoBehaviour
                 //nameText.rectTransform.DOScale(1f, 0.5f).SetEase(Ease.OutBounce);
                 nameText.transform.localScale = Vector3.one;
                 nameText.rectTransform.DOAnchorPosY(90.1f, 0.5f).SetEase(Ease.OutExpo);
-                image.transform.DOScale(1f, 0.5f).SetEase(Ease.OutExpo);
+                image.transform.DOScale(1f, 0.5f).SetEase(Ease.OutExpo).OnComplete(() =>
+                {
+                    closeButton.DOScale(1.0f, 0.25f).SetEase(Ease.OutBounce);
+                });
                 
             });
            
@@ -52,6 +60,16 @@ public class CreatureReveal : MonoBehaviour
     {
 
     }
-    
+    public void CloseAndReset()
+    {
+        panelImage.color = new Color(panelImage.color.r, panelImage.color.g, panelImage.color.b, 0f);
+        closeButton.localScale = Vector3.zero;
+
+        titleText.anchoredPosition = titlePos;
+        nameText.rectTransform.anchoredPosition = namePos;
+        image.transform.localScale = Vector3.zero;
+
+        
+    }
 
 }
