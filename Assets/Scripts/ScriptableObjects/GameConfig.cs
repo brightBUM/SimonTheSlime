@@ -31,4 +31,20 @@ public class GameConfig : SerializedScriptableObject
     public List<CreatureData> rareData;
     public List<CreatureData> epicData;
 
+    public List<CreatureData> GetCreatureList(int index)
+    {
+        switch(index)
+        {
+            case 0:
+                return commonData;
+            case 1:
+                return rareData;
+            case 2:
+                return epicData;
+            
+        }
+
+        Debug.LogError("invalid index request");
+        return null;
+    }
 }

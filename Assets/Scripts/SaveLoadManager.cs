@@ -51,7 +51,8 @@ public class SaveLoadManager : MonoBehaviour
                 melons = gameConfig.melonsCount,
                 dragSens = 3.5f,
                 recoveryPodData = new List<RecoveryPodData>(),
-                inventoryData = new List<InventoryState>()
+                inventoryData = new List<InventoryState>(),
+                creatureUnlockStates = new List<CreatureUnlockState>()
             };
 
             for(int i=0;i<3;i++)
@@ -91,7 +92,7 @@ public class SaveLoadManager : MonoBehaviour
             //mark all as locked state 
             foreach(var creatureData in allCreatureData)
             {
-                playerProfile.creatureUnlockStates.Add(new CreatureUnlockState(creatureData.creatureId,false));
+                playerProfile.creatureUnlockStates.Add(new CreatureUnlockState(creatureData.creatureId,true));
             }
 
             //main menu rewarded ad ready

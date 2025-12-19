@@ -8,49 +8,81 @@ public class CreaturesPanel : MonoBehaviour
     [SerializeField] GameObject commonPanel;
     [SerializeField] GameObject rarePanel;
     [SerializeField] GameObject epicPanel;
-    [SerializeField] Button[] commonButtons;
-    [SerializeField] Button[] rareButtons;
-    [SerializeField] Button[] epicButtons;
-    
-
+    [SerializeField] List<CreatureRecoveredUI> commonButtons;
+    [SerializeField] List<CreatureRecoveredUI> rareButtons;
+    [SerializeField] List<CreatureRecoveredUI> epicButtons;
+    [SerializeField] CreatureInfoPanel creatureInfoPanel;
+    Dictionary<string, bool> unlockMap;
+    public int activePanel; //which tab is currently show - common,rare,epic collections
     private void Start()
     {
         //populate the creature pages based on saveload data
+        unlockMap = new Dictionary<string, bool>();
+        foreach (var item in SaveLoadManager.Instance.playerProfile.creatureUnlockStates)
+        {
+            unlockMap[item.id] = item.acquired;
+        }
+        TogglePanel(0); //show common by default
     }
     public void TogglePanel(int index)
     {
+        activePanel = index;
         var panels = new List<GameObject>() { commonPanel, rarePanel, epicPanel };
 
         foreach (GameObject go in panels)
         {
             go.SetActive(false);
         }
-
+        ShowCreaturesUnlockedByType(index);
         panels[index].SetActive(true);
     }
 
-    public void GetCreaturesDataByType(int creatureType)
+    public void ShowCreaturesUnlockedByType(int creatureType)
     {
-        //unlock map
-        var unlockMap = new Dictionary<string, bool>();
-        foreach(var item in SaveLoadManager.Instance.playerProfile.creatureUnlockStates)
-        {
-            unlockMap[item.id] = item.acquired;
-        }
-        
+        CreatureType creature = (CreatureType)creatureType;
         //show only unlocked one's
-        var commonData = GameManger.Instance.gameConfig.commonData;
-        for(int i=0; i< commonData.Count; i++)
+        switch(creature)
         {
-            var acquired = unlockMap[commonData[i].creatureId];   
-            commonButtons[i].interactable = acquired;
-            commonButtons[i].image.sprite = commonData[i].sprite;
-            commonButtons[i].image.color = Color.white;
+            case CreatureType.Common:
+                ActivateButtons(commonButtons);
+                break;
+            case CreatureType.Rare:
+                ActivateButtons(rareButtons);
+                break;
+            case CreatureType.Epic:
+                ActivateButtons(epicButtons);
+                break;
+            default: 
+                break;
         }
 
     }
+    public void ActivateButtons(List<CreatureRecoveredUI> buttons)
+    {
+        var creatureListData = GameManger.Instance.gameConfig.GetCreatureList(activePanel);
 
-    
+        for (int i = 0; i < creatureListData.Count; i++)
+        {
+            if (unlockMap[creatureListData[i].creatureId])
+            {
+                buttons[i].EnableButton(this, creatureListData[i].creatureId);
+            }
+            else
+            {
+                buttons[i].ShowShadowButton(creatureListData[i].sprite);
+            }
+            
+        }
+    }
+    public void ShowCreatureInfo(string creatureId)
+    {
+
+        var creatureList = GameManger.Instance.gameConfig.GetCreatureList(activePanel);
+        var creatureData = creatureList.Find(x => x.creatureId == creatureId);
+        creatureInfoPanel.SetInfoData(creatureData);
+
+        creatureInfoPanel.gameObject.SetActive(true);   
+    }
 }
 
 [System.Serializable]
