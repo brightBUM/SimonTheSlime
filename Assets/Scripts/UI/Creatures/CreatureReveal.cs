@@ -47,7 +47,7 @@ public class CreatureReveal : MonoBehaviour
                 //nameText.rectTransform.DOScale(1f, 0.5f).SetEase(Ease.OutBounce);
                 nameText.transform.localScale = Vector3.one;
                 nameText.rectTransform.DOAnchorPosY(90.1f, 0.5f).SetEase(Ease.OutExpo);
-                image.transform.DOScale(1f, 0.5f).SetEase(Ease.OutExpo).OnComplete(() =>
+                glowEffect.transform.DOScale(1f, 0.5f).SetEase(Ease.OutExpo).OnComplete(() =>
                 {
                     closeButton.DOScale(1.0f, 0.25f).SetEase(Ease.OutBounce);
                 });
@@ -67,7 +67,7 @@ public class CreatureReveal : MonoBehaviour
 
         titleText.anchoredPosition = titlePos;
         nameText.rectTransform.anchoredPosition = namePos;
-        image.transform.localScale = Vector3.zero;
+        glowEffect.transform.localScale = Vector3.zero;
 
         
     }

@@ -38,11 +38,11 @@ public class InventoryHandler : MonoBehaviour
     [ContextMenu("AddCollective")]
     public void AddCollectiveCreatures()
     {
-        for(int i = 0;i<2;i++)
+        for(int i = 0;i<4;i++)
         {
             if(SaveLoadManager.Instance.IsInventorySlotAvailable())
             {
-                AddCreature((CreatureType)2);
+                AddCreature((CreatureType)0);
             }
             else
             {

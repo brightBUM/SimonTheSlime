@@ -25,7 +25,7 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] Transform invHidePos;
     [Header("Creature Page")]
     [SerializeField] SwipeDetection creaturePanelSwipe;
-    [SerializeField] Transform creaturePanel;
+    [SerializeField] CreaturesPanel creaturePanel;
     [SerializeField] Transform crOpenTransform;
     [SerializeField] Transform crCloseTransform;
     [SerializeField] Transform crHideTransform;
@@ -56,9 +56,10 @@ public class MainMenuUI : MonoBehaviour
     private void OnCreaturePanelOpen(Action done)
     {
         HideInventory();
-        creaturePanel.DOMove(crOpenTransform.position, 0.5f).OnComplete(() =>
+        creaturePanel.transform.DOMove(crOpenTransform.position, 0.5f).OnComplete(() =>
         {
             done?.Invoke();
+            creaturePanel.TogglePanel(0); //auto refresh from common tab
             openArrow.SetActive(false);
             closeArrow.SetActive(true);
         });
@@ -66,7 +67,7 @@ public class MainMenuUI : MonoBehaviour
     private void OnCreaturePanelClosed(Action done)
     {
         ShowInventory();
-        creaturePanel.DOMove(crCloseTransform.position, 0.5f).OnComplete(() =>
+        creaturePanel.transform.DOMove(crCloseTransform.position, 0.5f).OnComplete(() =>
         {
             done?.Invoke();
             closeArrow.SetActive(false);
@@ -79,7 +80,7 @@ public class MainMenuUI : MonoBehaviour
         {
             //hide inventory
             HideInventory();
-            creaturePanel.DOMove(crHideTransform.position,0.5f).SetEase(Ease.OutBack).OnComplete(() =>
+            creaturePanel.transform.DOMove(crHideTransform.position,0.5f).SetEase(Ease.OutBack).OnComplete(() =>
             {
                 openArrow.SetActive(false);
                 closeArrow.SetActive(true);
@@ -88,7 +89,7 @@ public class MainMenuUI : MonoBehaviour
         else if(num<3)
         {
             ShowInventory();
-            creaturePanel.DOMove(crCloseTransform.position, 0.5f).SetEase(Ease.OutBack).OnComplete(() =>
+            creaturePanel.transform.DOMove(crCloseTransform.position, 0.5f).SetEase(Ease.OutBack).OnComplete(() =>
             {
                 closeArrow.SetActive(false);
                 openArrow.SetActive(true);
