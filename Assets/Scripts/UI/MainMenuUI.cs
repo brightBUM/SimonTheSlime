@@ -17,7 +17,7 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] TMP_InputField ageField;
     [SerializeField] WatchAdRewardUI watchAdRewardUI;
     [Header("Chest System")]
-    [SerializeField] GameObject chestSystemPanel;
+    [SerializeField] ScrollPageSizer scrollPageSizer;
     [SerializeField] PageSnapScroll pageSnapScroll;
     [Header("Inventory")]
     [SerializeField] Transform inventoryPanel;
@@ -45,6 +45,9 @@ public class MainMenuUI : MonoBehaviour
             //show banner ad only the first time
             IronSourceAdManager.Instance.LoadBannerAd();
         }
+
+        //resize the layout w.r.t to screen size
+        scrollPageSizer.Apply();
 
         //initialise page snap scroll
         pageSnapScroll.Init();
