@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,9 +6,12 @@ using UnityEngine.UI;
 public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [SerializeField] private Image creatureImage;   // Icon in the slot
+    [SerializeField] private Image imageBG;   
+    [SerializeField] private Image selectableImage;   
     [SerializeField] private GameObject pickedUpPrefab; // Prefab for dragged object
     [SerializeField] GameObject buySetup;
     [SerializeField] GameObject ownedSetup;
+    [SerializeField] Color[] bgColors;
     public int creatureType;
     public int slotId;
     private GameObject draggedIcon;
@@ -29,6 +31,7 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         {
             //vacant 
             ownedSetup.SetActive(true);
+            imageBG.enabled = false;
             ClearSlot();
         }
         else if(state == InventoryState.buy)
@@ -55,8 +58,11 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void AssignToSlot(InventoryState inventoryState)
     {
         creatureType = ((int)inventoryState);
+        creatureImage.enabled = true;
         creatureImage.sprite = GameManger.Instance.GetCreatureSprite((CreatureType)creatureType);
-        GetComponent<Image>().raycastTarget = true;
+        selectableImage.raycastTarget = true;
+        imageBG.enabled = true;
+        imageBG.color = bgColors[creatureType];
     }
     
     public void OnBeginDrag(PointerEventData eventData)
@@ -110,8 +116,8 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         creatureImage.sprite = null;
         creatureImage.enabled = false;
-        GetComponent<Image>().raycastTarget = false; //prevent from drag and drop
-
+        selectableImage.raycastTarget = false; //prevent from drag and drop
+        imageBG.enabled = false;
     }
     public void MarkAsDropped()
     {
