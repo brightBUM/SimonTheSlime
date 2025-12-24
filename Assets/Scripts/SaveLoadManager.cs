@@ -78,12 +78,14 @@ public class SaveLoadManager : MonoBehaviour
                 });
             }
 
-            //5 slot inventory
+            //8 slot inventory
             playerProfile.inventoryData.Add(InventoryState.common);
             playerProfile.inventoryData.Add(InventoryState.rare);
             playerProfile.inventoryData.Add(InventoryState.vacant);
-            playerProfile.inventoryData.Add(InventoryState.buy);
-            playerProfile.inventoryData.Add(InventoryState.buy);
+            for(int i=0;i < 5;i++)
+            {
+                playerProfile.inventoryData.Add(InventoryState.buy);
+            }
 
             //creature unlock state
             List<CreatureData> allCreatureData = new List<CreatureData>();
