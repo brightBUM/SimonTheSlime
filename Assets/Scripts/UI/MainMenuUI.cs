@@ -29,8 +29,7 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] Transform crOpenTransform;
     [SerializeField] Transform crCloseTransform;
     [SerializeField] Transform crHideTransform;
-    [SerializeField] GameObject openArrow;
-    [SerializeField] GameObject closeArrow;
+    
     [Header("Char Upgrades")]
     [SerializeField] GameObject charUpgradePanel;
 
@@ -63,8 +62,7 @@ public class MainMenuUI : MonoBehaviour
         {
             done?.Invoke();
             creaturePanel.TogglePanel(0); //auto refresh from common tab
-            openArrow.SetActive(false);
-            closeArrow.SetActive(true);
+            
         });
     }
     private void OnCreaturePanelClosed(Action done)
@@ -73,8 +71,7 @@ public class MainMenuUI : MonoBehaviour
         creaturePanel.transform.DOMove(crCloseTransform.position, 0.5f).OnComplete(() =>
         {
             done?.Invoke();
-            closeArrow.SetActive(false);
-            openArrow.SetActive(true);
+            
         });
     }
     private void PageMoved(int num)
@@ -83,20 +80,12 @@ public class MainMenuUI : MonoBehaviour
         {
             //hide inventory
             HideInventory();
-            creaturePanel.transform.DOMove(crHideTransform.position,0.5f).SetEase(Ease.OutBack).OnComplete(() =>
-            {
-                openArrow.SetActive(false);
-                closeArrow.SetActive(true);
-            }); ;
+            creaturePanel.transform.DOMove(crHideTransform.position, 0.5f).SetEase(Ease.OutBack);
         }
         else if(num<3)
         {
             ShowInventory();
-            creaturePanel.transform.DOMove(crCloseTransform.position, 0.5f).SetEase(Ease.OutBack).OnComplete(() =>
-            {
-                closeArrow.SetActive(false);
-                openArrow.SetActive(true);
-            }); ;
+            creaturePanel.transform.DOMove(crCloseTransform.position, 0.5f).SetEase(Ease.OutBack);
         }
     }
 
