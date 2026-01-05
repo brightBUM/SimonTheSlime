@@ -16,6 +16,9 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] TMP_InputField nameField;
     [SerializeField] TMP_InputField ageField;
     [SerializeField] WatchAdRewardUI watchAdRewardUI;
+    [Header("Char UI Pod")]
+    [SerializeField] RectTransform canvasRect ;
+    [SerializeField] RectTransform itemRect ;
     [Header("Chest System")]
     [SerializeField] ScrollPageSizer scrollPageSizer;
     [SerializeField] PageSnapScroll pageSnapScroll;
@@ -51,9 +54,29 @@ public class MainMenuUI : MonoBehaviour
         //initialise page snap scroll
         pageSnapScroll.Init();
         pageSnapScroll.OnPageMoved += PageMoved;
+        pageSnapScroll.SnapToStartComplete += CharacterUIReparent;
 
         creaturePanelSwipe.OnOpenPanel += OnCreaturePanelOpen;
         creaturePanelSwipe.OnClosePanel += OnCreaturePanelClosed;
+
+    }
+
+    public void CharacterUIReparent()
+    {
+        // store current world position (after layout has settled)
+        Vector3 worldPos = itemRect.position;
+        Quaternion worldRot = itemRect.rotation;
+        Vector3 worldScale = itemRect.lossyScale;
+
+        // reparent (keep world position)
+        itemRect.SetParent(canvasRect, true);
+
+        // restore (usually position is enough; rotation if needed)
+        itemRect.position = worldPos;
+        itemRect.rotation = worldRot;
+
+        // then set draw order
+        itemRect.SetSiblingIndex(1);
     }
     private void OnCreaturePanelOpen(Action done)
     {
@@ -76,7 +99,24 @@ public class MainMenuUI : MonoBehaviour
     }
     private void PageMoved(int num)
     {
-        if(num>=3)
+        if(num==4)
+        {
+            //char upgrade panel
+            //characterUI.parent = mainParent;
+            //characterUI.localPosition = characterUIAnchorPoint_1.localPosition;
+            itemRect.SetSiblingIndex(3);
+        }
+        else if(num == 3)
+        {
+            //main menu panel
+            //characterUI.parent = mainMenuParent;
+            //characterUI.localPosition = characterUIAnchorPoint_2.localPosition;
+            itemRect.SetSiblingIndex(1);
+
+        }
+
+
+        if (num>=3)
         {
             //hide inventory
             HideInventory();
@@ -87,6 +127,8 @@ public class MainMenuUI : MonoBehaviour
             ShowInventory();
             creaturePanel.transform.DOMove(crCloseTransform.position, 0.5f).SetEase(Ease.OutBack);
         }
+
+
     }
 
     private void HideInventory()
@@ -145,7 +187,9 @@ public class MainMenuUI : MonoBehaviour
 
     private void OnDisable()
     {
+        pageSnapScroll.SnapToStartComplete -= CharacterUIReparent;
         pageSnapScroll.OnPageMoved      -= PageMoved;
+
         creaturePanelSwipe.OnOpenPanel  -= OnCreaturePanelOpen;
         creaturePanelSwipe.OnClosePanel -= OnCreaturePanelClosed;
     }

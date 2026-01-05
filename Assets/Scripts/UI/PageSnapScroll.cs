@@ -14,7 +14,7 @@ public class PageSnapScroll : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     public int itemsPerPage = 1;
     public int startPageNum = 0;
     public Action<int> OnPageMoved;
-
+    public Action SnapToStartComplete;
     private int totalItems;
     private int totalPages;
     private float[] pagePositions;
@@ -69,9 +69,13 @@ public class PageSnapScroll : MonoBehaviour, IBeginDragHandler, IEndDragHandler
             scrollRect.horizontalNormalizedPosition = pagePositions[startPageNum];
         else
             scrollRect.verticalNormalizedPosition = pagePositions[startPageNum];
-    }
 
-    public void OnEndDrag(PointerEventData eventData)
+        //fire snaptostart event complete
+        SnapToStartComplete.Invoke();
+
+}
+
+public void OnEndDrag(PointerEventData eventData)
     {
         if (shifting) return;
 
