@@ -81,8 +81,10 @@ public class SaveLoadManager : MonoBehaviour
             //8 slot inventory
             playerProfile.inventoryData.Add(InventoryState.common);
             playerProfile.inventoryData.Add(InventoryState.rare);
+            playerProfile.inventoryData.Add(InventoryState.rare);
+            playerProfile.inventoryData.Add(InventoryState.epic);
             playerProfile.inventoryData.Add(InventoryState.vacant);
-            for(int i=0;i < 5;i++)
+            for(int i=0;i < 3;i++)
             {
                 playerProfile.inventoryData.Add(InventoryState.buy);
             }
@@ -96,7 +98,7 @@ public class SaveLoadManager : MonoBehaviour
             //mark all as locked state 
             foreach(var creatureData in allCreatureData)
             {
-                playerProfile.creatureUnlockStates.Add(new CreatureUnlockState(creatureData.creatureId,false));
+                playerProfile.creatureUnlockStates.Add(new CreatureUnlockState(creatureData.creatureId,true));
             }
 
             //main menu rewarded ad ready

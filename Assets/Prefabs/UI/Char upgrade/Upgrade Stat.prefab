@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 8848487550202628120}
   - component: {fileID: 837000023523210793}
   - component: {fileID: 3200832543613465120}
+  - component: {fileID: 3588616727154626942}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: 'Upgrade Button '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,6 +77,50 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3588616727154626942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 154418252036434381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 3200832543613465120}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &179674365655612628
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,6 +132,7 @@ GameObject:
   - component: {fileID: 8289854494438598766}
   - component: {fileID: 5483592549463860437}
   - component: {fileID: 8877705933975537362}
+  - component: {fileID: 2688140296413599288}
   m_Layer: 5
   m_Name: Upgrade Stat
   m_TagString: Untagged
@@ -144,7 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.627451}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.78431374}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -161,6 +207,26 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2688140296413599288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179674365655612628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20e8ffd85695ddc42b6e1f0f14242cf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeName: {fileID: 4209713443935865332}
+  description: {fileID: 5412246499994646565}
+  costUI: {fileID: 360208423243737961}
+  valueUI: {fileID: 38372925290821604}
+  upgrades:
+  - {fileID: 2649921423833169275}
+  - {fileID: 6395468061286245243}
+  - {fileID: 3507758185198079522}
 --- !u!1 &425876861556107047
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,7 +389,7 @@ GameObject:
   - component: {fileID: 1388889876706004051}
   - component: {fileID: 1504513041532896460}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -548,7 +614,7 @@ GameObject:
   - component: {fileID: 3628906166013776400}
   - component: {fileID: 6585780867646204716}
   m_Layer: 5
-  m_Name: Image
+  m_Name: currency Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -623,7 +689,7 @@ GameObject:
   - component: {fileID: 8717542938676806085}
   - component: {fileID: 38372925290821604}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Value Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -758,7 +824,7 @@ GameObject:
   - component: {fileID: 1713411585401119899}
   - component: {fileID: 7459414418045501308}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: Upgrade images shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -899,7 +965,7 @@ GameObject:
   - component: {fileID: 6700154401920537244}
   - component: {fileID: 5412246499994646565}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: Description Text (TMP) (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1035,7 +1101,7 @@ GameObject:
   - component: {fileID: 1044389731355050180}
   - component: {fileID: 8129310526959095406}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Border
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1110,7 +1176,7 @@ GameObject:
   - component: {fileID: 7641506001746381117}
   - component: {fileID: 360208423243737961}
   m_Layer: 5
-  m_Name: Text (TMP) (2)
+  m_Name: Cost Text (TMP) (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1320,7 +1386,7 @@ GameObject:
   - component: {fileID: 7755647604574052525}
   - component: {fileID: 1853409474433047077}
   m_Layer: 5
-  m_Name: GameObject (1)
+  m_Name: Upgrade images
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1386,7 +1452,7 @@ GameObject:
   - component: {fileID: 7472475121081911244}
   - component: {fileID: 4209713443935865332}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Upgrade Name Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

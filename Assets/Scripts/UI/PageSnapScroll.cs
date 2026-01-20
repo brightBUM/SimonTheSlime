@@ -47,13 +47,13 @@ public class PageSnapScroll : MonoBehaviour, IBeginDragHandler, IEndDragHandler
             viewSize = scrollRect.viewport.rect.height;
         }
 
-        pageSize = (itemSize + spacing) * itemsPerPage;
+        pageSize = (itemSize ) * itemsPerPage;
         totalContentSize = (itemSize + spacing) * totalItems - spacing;
         scrollableSize = totalContentSize - viewSize;
 
         for (int i = 0; i < totalPages; i++)
         {
-            float pageCenter = ((itemSize + spacing) * itemsPerPage * i) + (pageSize / 2f) - (viewSize / 2f);
+            float pageCenter = ((itemSize + spacing) * itemsPerPage * i) /*+ (pageSize / 2f) - (viewSize / 2f)*/;
             float normalized = scrollableSize <= 0 ? 0 : pageCenter / scrollableSize;
             pagePositions[i] = Mathf.Clamp01(normalized);
         }
