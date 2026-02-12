@@ -11,6 +11,8 @@ public class PlayerInput : MonoBehaviour
     public Action mouseReleased;
     public Action RespawnToCheckPoint;
     public Action DoubleTapAbility;
+    public Action Freeze;
+    public Action UnFreeze;
     //public Action<Vector2> mouseClicked;
     public Action<Vector2> mouseDragging;
 
@@ -26,6 +28,8 @@ public class PlayerInput : MonoBehaviour
     public float minHoldingTime = 0.4f;
     private float holdtimer;
     private bool isSwipeDown;
+
+    public bool IsGhostControl { get; set; }
     //private bool leftControl;
     // Start is called before the first frame update
     void Start()
@@ -37,7 +41,7 @@ public class PlayerInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManger.Instance.IsPaused)
+        if (GameManger.Instance.IsPaused || IsGhostControl)
             return;
 
 #if UNITY_EDITOR || UNITY_STANDALONE_WIN

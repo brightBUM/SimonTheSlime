@@ -17,5 +17,8 @@ public struct RecordedInput
     public float time;
     public InputType type;
     public Vector2 value;
+    public bool pauseBefore;
 }
+
+
 

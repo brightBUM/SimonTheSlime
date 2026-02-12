@@ -43,7 +43,7 @@ public class GameManger : MonoBehaviour
         ToggleMenuMusic(false);
 
         //init GA
-        GameAnalytics.Initialize();
+        //GameAnalytics.Initialize();
 
 #if UNITY_ANDROID && !UNITY_EDITOR
         Application.targetFrameRate = 60;

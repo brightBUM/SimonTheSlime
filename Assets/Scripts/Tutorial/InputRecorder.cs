@@ -12,8 +12,8 @@ public class InputRecorder : MonoBehaviour
     float recordInterval;
     float nextRecordTime;
     
-    [ContextMenu("RecordInput")]
-    private void StartInputRecording()
+  
+    public void StartInputRecording()
     {
         startTime = Time.time;
         recordInterval = 1f / recordFPS;
@@ -36,6 +36,7 @@ public class InputRecorder : MonoBehaviour
         playerInput.mouseReleased += MouseReleased;
         playerInput.PoundAbility  += PoundActive;
         playerInput.PoundReleased  += PoundRelease;
+        playerInput.DashAbility += Dash;
     }
 
     private void PoundActive()
@@ -44,6 +45,15 @@ public class InputRecorder : MonoBehaviour
         {
             time = Time.time - startTime,
             type = InputType.SlamActive,
+            value = Vector2.zero
+        });
+    }
+    private void Dash()
+    {
+        recordedInputs.Add(new RecordedInput
+        {
+            time = Time.time - startTime,
+            type = InputType.Dash,
             value = Vector2.zero
         });
     }
@@ -85,7 +95,7 @@ public class InputRecorder : MonoBehaviour
     }
     
 
-    [ContextMenu("SetRecordedInput")]
+    
     public void SetTutorialDataSO()
     {
         tutorialDataSO.inputs = recordedInputs;

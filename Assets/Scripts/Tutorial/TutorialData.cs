@@ -5,4 +5,7 @@ using UnityEngine;
 public class TutorialData : ScriptableObject
 {
     public List<RecordedInput> inputs;
+    public GameObject uiPrompt;
+    public float uiPromptDelay;
+    public float endDelay;
 }
