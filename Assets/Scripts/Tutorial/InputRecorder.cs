@@ -37,6 +37,7 @@ public class InputRecorder : MonoBehaviour
         playerInput.PoundAbility  += PoundActive;
         playerInput.PoundReleased  += PoundRelease;
         playerInput.DashAbility += Dash;
+        playerInput.GrappleAbility += Grapple;
     }
 
     private void PoundActive()
@@ -94,7 +95,15 @@ public class InputRecorder : MonoBehaviour
         });
     }
     
-
+    private void Grapple()
+    {
+        recordedInputs.Add(new RecordedInput
+        {
+            time = Time.time - startTime,
+            type = InputType.Grapple,
+            value = Vector2.zero
+        });
+    }
     
     public void SetTutorialDataSO()
     {
@@ -103,10 +112,12 @@ public class InputRecorder : MonoBehaviour
 
     private void OnDisable()
     {
-        playerInput.mouseDragging -= MouseDragging;
-        playerInput.mouseReleased -= MouseReleased;
-        playerInput.PoundAbility  -= PoundActive;
-        playerInput.PoundReleased -= PoundRelease;
+        playerInput.mouseDragging  -= MouseDragging;
+        playerInput.mouseReleased  -= MouseReleased;
+        playerInput.PoundAbility   -= PoundActive;
+        playerInput.PoundReleased  -= PoundRelease;
+        playerInput.GrappleAbility -= Grapple;
+
     }
 
 }

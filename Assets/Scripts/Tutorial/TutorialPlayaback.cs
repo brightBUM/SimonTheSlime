@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class TutorialPlayback : MonoBehaviour
 {
-    public GameObject UIPromptObject;
     public TutorialData data;
     public PlayerInput ghostInput;
     float timer;
@@ -15,6 +14,7 @@ public class TutorialPlayback : MonoBehaviour
     bool isPaused;
 
     public Action OnPlayFinished ;
+    public Action<bool> ToggleUIAnimationEvent;
     public void Init()
     {
         PlayInput(data.inputs[index]);
@@ -69,6 +69,9 @@ public class TutorialPlayback : MonoBehaviour
             case InputType.Position:
                 ghostInput.transform.position = input.value;
                 break;
+            case InputType.Grapple:
+                ghostInput.GrappleAbility();
+                break;
         }
     }
 
@@ -85,6 +88,10 @@ public class TutorialPlayback : MonoBehaviour
     IEnumerator OnPlaybackFinished(float time)
     {
         Debug.Log("on playback finish");
+        if(data.resumeWithPause)
+        {
+            ToggleUIAnimationEvent.Invoke(false);
+        }
 
         yield return new WaitForSeconds(time);
 
@@ -99,14 +106,16 @@ public class TutorialPlayback : MonoBehaviour
     }
     IEnumerator TutorialPrompt()
     {
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(data.pauseTransitionTime);
 
-        UIPromptObject.SetActive(true);
+        ToggleUIAnimationEvent.Invoke(true);
 
-        yield return new WaitForSeconds(data.uiPromptDelay);
+        if(!data.resumeWithPause)
+        {
+            yield return new WaitForSeconds(data.uiAnimationDuration);
 
-        UIPromptObject.SetActive(false);
-
+            ToggleUIAnimationEvent.Invoke(false);
+        }
 
         ResumeTutorial();
     }
@@ -119,6 +128,4 @@ public class TutorialPlayback : MonoBehaviour
         PlayInput(data.inputs[index]);
         index++;
     }
-
-   
 }

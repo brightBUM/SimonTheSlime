@@ -5,7 +5,8 @@ using UnityEngine;
 public class TutorialData : ScriptableObject
 {
     public List<RecordedInput> inputs;
-    public GameObject uiPrompt;
-    public float uiPromptDelay;
-    public float endDelay;
+    public float pauseTransitionTime = 0.25f;
+    public float uiAnimationDuration = 1.5f;
+    public float endDelay = 1f;
+    public bool resumeWithPause;
 }

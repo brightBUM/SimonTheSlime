@@ -1,5 +1,6 @@
 using Cinemachine;
 using DG.Tweening;
+using System;
 using TMPro;
 using UnityEditor.Tilemaps;
 using UnityEngine;
@@ -7,7 +8,7 @@ using UnityEngine;
 public class TutorialManager : MonoBehaviour
 {
     [Header("UI references")]
-    [SerializeField] GameObject mainTutorialPanel;
+    [SerializeField] GameObject UIAnimation;
     [SerializeField] RectTransform titlePanel;
     [SerializeField] RectTransform buttonPanel;
     [SerializeField] RectTransform titleTarget;
@@ -23,6 +24,7 @@ public class TutorialManager : MonoBehaviour
 
     Vector3 originalTitlePos;
     Vector3 originalButtonPanelPos;
+   
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -41,12 +43,15 @@ public class TutorialManager : MonoBehaviour
     private void OnEnable()
     {
         tutorialPlayback.OnPlayFinished += EndTutorial;
+        tutorialPlayback.ToggleUIAnimationEvent += ToggleUIAnimation;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.TryGetComponent<PlayerInput>(out PlayerInput player))
         {
+            LevelManager.Instance.IsTutorialActive = true;
+
             originalPlayer = player;
             originalPlayer.enabled = false;
             
@@ -99,10 +104,18 @@ public class TutorialManager : MonoBehaviour
         {
             ghostPlayer.enabled = false;
         });
+
+        LevelManager.Instance.IsTutorialActive = false;
+
+    }
+    private void ToggleUIAnimation(bool value)
+    {
+        UIAnimation.SetActive(value);
     }
     private void OnDisable()
     {
         tutorialPlayback.OnPlayFinished -= EndTutorial;
+        tutorialPlayback.ToggleUIAnimationEvent -= ToggleUIAnimation;
 
     }
 }
