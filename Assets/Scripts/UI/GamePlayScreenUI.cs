@@ -498,10 +498,16 @@ public class GamePlayScreenUI : MonoBehaviour
     
     public void DashViaButton()
     {
+        if (LevelManager.Instance.IsTutorialActive)
+            return;
+        
         dashButtonAction.Invoke();    
     }
     public void GrappleViaButton()
     {
+        if (LevelManager.Instance.IsTutorialActive)
+            return;
+
         grappleButtonAction.Invoke();
     }
     private void OnDisable()

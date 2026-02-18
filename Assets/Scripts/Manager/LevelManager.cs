@@ -34,6 +34,12 @@ public class LevelManager : MonoBehaviour
     public CameraShake ShakeCamera => camShake;
     public Action<int , Vector3> OnLootDrop;
     ComboUI ComboParent;
+
+    public bool IsTutorialActive
+    {
+        get;  set;
+    }
+
     private void Awake()
     {
         if (Instance == null)
