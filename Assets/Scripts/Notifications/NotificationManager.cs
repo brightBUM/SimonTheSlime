@@ -18,7 +18,10 @@ using Unity.Notifications.iOS;
 
 public class NotificationManager : MonoBehaviour
 {
+    
+#if UNITY_ANDROID
     [SerializeField] AndroidNotifications androidNotifications;
+#endif
     [SerializeField] IOSNotifications iosNotifications;
     // Start is called before the first frame update
     void Start()
