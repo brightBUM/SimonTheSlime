@@ -10,15 +10,23 @@ public class TutorialPlayback : MonoBehaviour
     float timer;
     int index;
 
-    bool finished;
+    public bool finished;
     bool isPaused;
 
     public Action OnPlayFinished ;
     public Action<bool> ToggleUIAnimationEvent;
     public void Init()
     {
-        PlayInput(data.inputs[index]);
-        index++;
+        if(data.inputs.Count>0)
+        {
+            PlayInput(data.inputs[index]);
+            index++;
+        }
+        else
+        {
+            Debug.LogError("Tutorial Data error/missing , name - " + data.name);
+        }
+        
     }
     void Update()
     {

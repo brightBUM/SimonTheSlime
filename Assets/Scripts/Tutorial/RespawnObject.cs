@@ -2,14 +2,18 @@ using UnityEngine;
 
 public class RespawnObject : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] GameObject prefab;
+
+    private void OnEnable()
     {
         
-    }
 
-    // Update is called once per frame
-    void Update()
+    }
+    private void RespawnAfterTutorial()
+    {
+
+    }
+    private void OnDisable()
     {
         
     }

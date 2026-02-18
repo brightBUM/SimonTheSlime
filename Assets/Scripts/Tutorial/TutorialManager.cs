@@ -1,8 +1,6 @@
 using Cinemachine;
 using DG.Tweening;
-using System;
 using TMPro;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
@@ -29,11 +27,13 @@ public class TutorialManager : MonoBehaviour
     void Start()
     {
         //play tutorial only for the first time
-        //if (LevelManager.Instance.levelIndex <= SaveLoadManager.Instance.GetLevelUnlockData())
-        //{
-        //    this.enabled = false;
-        //    return;
-        //}
+        var starsInCurrentLevel = SaveLoadManager.Instance.GetLevelStarData(LevelManager.Instance.levelIndex);
+        if (starsInCurrentLevel > 0)
+        {
+            GetComponent<BoxCollider2D>().enabled = false;
+            this.enabled = false;
+            return;
+        }
 
         originalTitlePos = titlePanel.anchoredPosition;
         originalButtonPanelPos = buttonPanel.anchoredPosition;
@@ -50,6 +50,9 @@ public class TutorialManager : MonoBehaviour
     {
         if(collision.TryGetComponent<PlayerInput>(out PlayerInput player))
         {
+            if (tutorialPlayback.finished)
+                return;
+
             LevelManager.Instance.IsTutorialActive = true;
 
             originalPlayer = player;
