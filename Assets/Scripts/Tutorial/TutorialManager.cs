@@ -57,6 +57,7 @@ public class TutorialManager : MonoBehaviour
             LevelManager.Instance.IsTutorialActive = true;
 
             originalPlayer = player;
+            originalPlayer.CancelHorizontal.Invoke();
             originalPlayer.enabled = false;
             
             ghostPlayer.gameObject.SetActive(true);
