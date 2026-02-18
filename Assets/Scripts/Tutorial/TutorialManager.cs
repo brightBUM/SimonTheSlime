@@ -22,7 +22,8 @@ public class TutorialManager : MonoBehaviour
 
     Vector3 originalTitlePos;
     Vector3 originalButtonPanelPos;
-   
+    bool tutorialChoiceMade = false; // bug fix - to prevent Multi touch b/w Skip & Next
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -85,12 +86,18 @@ public class TutorialManager : MonoBehaviour
     }
     public void NextButton()
     {
+        if (tutorialChoiceMade) return;
+        tutorialChoiceMade = true;
+
         tutorialPlayback.gameObject.SetActive(true);
         TweenPanels(false);
         ghostPlayerCanvas.SetActive(false);
     }
     public void SkipButton()
     {
+        if (tutorialChoiceMade) return;
+        tutorialChoiceMade = true;
+
         ghostPlayerCanvas.SetActive(false);
         TweenPanels(false);
         EndTutorial();
@@ -109,7 +116,6 @@ public class TutorialManager : MonoBehaviour
         });
 
         LevelManager.Instance.IsTutorialActive = false;
-
     }
     private void ToggleUIAnimation(bool value)
     {
