@@ -13,6 +13,7 @@ public class PlayerInput : MonoBehaviour
     public Action DoubleTapAbility;
     public Action Freeze;
     public Action UnFreeze;
+    public Action CancelHorizontal;
     //public Action<Vector2> mouseClicked;
     public Action<Vector2> mouseDragging;
 
