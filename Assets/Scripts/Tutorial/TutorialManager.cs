@@ -23,7 +23,7 @@ public class TutorialManager : MonoBehaviour
     Vector3 originalTitlePos;
     Vector3 originalButtonPanelPos;
     bool tutorialChoiceMade = false; // bug fix - to prevent Multi touch b/w Skip & Next
-
+    bool tutorialSkipped = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -49,9 +49,9 @@ public class TutorialManager : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.TryGetComponent<PlayerInput>(out PlayerInput player))
+        if (collision.TryGetComponent<PlayerInput>(out PlayerInput player))
         {
-            if (tutorialPlayback.finished)
+            if (tutorialPlayback.finished || tutorialSkipped)
                 return;
 
             LevelManager.Instance.IsTutorialActive = true;
@@ -101,6 +101,7 @@ public class TutorialManager : MonoBehaviour
 
         ghostPlayerCanvas.SetActive(false);
         TweenPanels(false);
+        tutorialSkipped = true;
         EndTutorial();
     }
 
