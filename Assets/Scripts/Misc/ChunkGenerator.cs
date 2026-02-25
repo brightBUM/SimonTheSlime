@@ -1,8 +1,10 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.U2D;
 
 public class ChunkGenerator : MonoBehaviour
 {
@@ -28,11 +30,18 @@ public class ChunkGenerator : MonoBehaviour
 
     [SerializeField] WeightedRNG weightedRNG;
 
+    [SerializeField] Transform parallaxCeiling;
+    [SerializeField] Transform parallaxFloor;
+
     [SerializeField] bool debugGeneration;
    
     Vector3 nextChunkPos = Vector3.zero;
     Vector3 spawnPos = Vector3.zero;
 
+    int highestChunkIndex = 0;
+    int lowestChunkIndex = 0;
+    float highestY = float.MinValue;
+    float lowestY = float.MaxValue;
     private void Start()
     {
         Generate();
@@ -132,7 +141,7 @@ public class ChunkGenerator : MonoBehaviour
         //set Background
         TileAssetHandler.Instance.SetBackground();
 
-        foreach (var chunk in chunksToSpawn)
+        foreach (var (chunk, index) in chunksToSpawn.Select((c, i) => (c, i)))
         {
             //spawn tilemap Prefabs
             var chunkObj = Instantiate(chunk,spawnPos,Quaternion.identity,generatorParent);
@@ -149,6 +158,11 @@ public class ChunkGenerator : MonoBehaviour
             chunkHandler.Init();
 
             Merge(chunkHandler.tilemap);
+
+            // Track highest and lowest chunk Y
+            float chunkY = spawnPos.y;
+            if (chunkY > highestY) { highestY = chunkY; highestChunkIndex = index; }
+            if (chunkY < lowestY) { lowestY = chunkY; lowestChunkIndex = index; }
 
             if (debugGeneration)
                 Debug.Break();
@@ -182,6 +196,11 @@ public class ChunkGenerator : MonoBehaviour
         var playerSpawnPos = FindAnyObjectByType<ChunkEntryPoint>().transform.position;
         playerPrefab.transform.position = playerSpawnPos;
         playerPrefab.SetActive(true);
+
+        //set transforms at height and lowest for FG parallax
+        parallaxCeiling.position = new Vector3(0, highestY, 0);
+        parallaxFloor.position = new Vector3(0, lowestY, 0);
+
     }
 
     
