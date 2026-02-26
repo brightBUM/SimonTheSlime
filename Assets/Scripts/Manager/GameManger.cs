@@ -12,6 +12,8 @@ public class GameManger : MonoBehaviour
     [SerializeField] AudioSource menuAudioSource;
     [SerializeField] CharSkinSO charSkinSO;
     [SerializeField] Sprite[] creatureSprites;
+    [SerializeField] Color[] creatureColors;
+
     public GameConfig gameConfig;
 
     public bool IsPaused { get; set; }
@@ -124,6 +126,21 @@ public class GameManger : MonoBehaviour
                 return creatureSprites[2];
             default :
                 return null;
+
+        }
+    }
+    public Color GetCreatureColor(CreatureType creatureType)
+    {
+        switch (creatureType)
+        {
+            case CreatureType.Common:
+                return creatureColors[0];
+            case CreatureType.Rare:
+                return creatureColors[1];
+            case CreatureType.Epic:
+                return creatureColors[2];
+            default:
+                return Color.white;
 
         }
     }

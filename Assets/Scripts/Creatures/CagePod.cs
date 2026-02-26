@@ -9,6 +9,7 @@ public class CagePod : MonoBehaviour
     [SerializeField] GameObject breakVFX;
     [SerializeField] CreatureDrop creaturePrefab;
     [SerializeField] SpriteRenderer creatureVisual;
+    [SerializeField] SpriteRenderer glassVisual;
     [SerializeField] float bobOffset;
 
     Tween bobTween;
@@ -20,7 +21,7 @@ public class CagePod : MonoBehaviour
 
         //for now manual assignment
         creatureVisual.sprite = GameManger.Instance.GetCreatureSprite(creatureType);
-
+        glassVisual.color = GameManger.Instance.GetCreatureColor(creatureType);
         //bobbing Visual
         bobTween = creatureVisual.transform.DOMoveY(creatureVisual.transform.position.y + bobOffset, 1f)
             .SetLoops(-1, LoopType.Yoyo).SetEase(Ease.OutSine);

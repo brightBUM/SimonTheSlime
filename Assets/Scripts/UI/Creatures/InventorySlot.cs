@@ -11,7 +11,6 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [SerializeField] private GameObject pickedUpPrefab; // Prefab for dragged object
     [SerializeField] GameObject buySetup;
     [SerializeField] GameObject ownedSetup;
-    [SerializeField] Color[] bgColors;
     public int creatureType;
     public int slotId;
     private GameObject draggedIcon;
@@ -62,7 +61,7 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         creatureImage.sprite = GameManger.Instance.GetCreatureSprite((CreatureType)creatureType);
         selectableImage.raycastTarget = true;
         imageBG.enabled = true;
-        imageBG.color = bgColors[creatureType];
+        imageBG.color = GameManger.Instance.GetCreatureColor((CreatureType)creatureType);
     }
     
     public void OnBeginDrag(PointerEventData eventData)
