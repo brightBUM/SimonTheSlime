@@ -19,6 +19,7 @@ public class MainMenuUI : MonoBehaviour
     [Header("Char UI Pod")]
     [SerializeField] RectTransform canvasRect ;
     [SerializeField] RectTransform itemRect ;
+    [SerializeField] Image linesObject;
     [Header("Chest System")]
     [SerializeField] ScrollPageSizer scrollPageSizer;
     [SerializeField] PageSnapScroll pageSnapScroll;
@@ -105,6 +106,7 @@ public class MainMenuUI : MonoBehaviour
             //characterUI.parent = mainParent;
             //characterUI.localPosition = characterUIAnchorPoint_1.localPosition;
             itemRect.SetSiblingIndex(3);
+            StartCoroutine(ToggleLines(0.3f, true));
         }
         else if(num == 3)
         {
@@ -112,6 +114,7 @@ public class MainMenuUI : MonoBehaviour
             //characterUI.parent = mainMenuParent;
             //characterUI.localPosition = characterUIAnchorPoint_2.localPosition;
             itemRect.SetSiblingIndex(1);
+            StartCoroutine(ToggleLines(0f, false));
 
         }
 
@@ -130,7 +133,29 @@ public class MainMenuUI : MonoBehaviour
 
 
     }
+    IEnumerator ToggleLines(float delay , bool value)
+    {
+        yield return new WaitForSeconds(delay);
 
+        if (value)
+        {
+            float timer = 0f;
+            float duration = 0.5f;
+            while (timer <= duration)
+            {
+                linesObject.fillAmount = (float)timer / duration;
+                timer += Time.deltaTime;
+                yield return null;
+            }
+        }
+        else
+        {
+            linesObject.fillAmount = 0f;
+
+        }
+
+
+    }
     private void HideInventory()
     {
         inventoryPanel.DOMove(invHidePos.position, 0.5f).SetEase(Ease.OutBack);

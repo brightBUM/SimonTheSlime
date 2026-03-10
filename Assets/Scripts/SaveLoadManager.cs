@@ -98,7 +98,7 @@ public class SaveLoadManager : MonoBehaviour
             //mark all as locked state 
             foreach(var creatureData in allCreatureData)
             {
-                playerProfile.creatureUnlockStates.Add(new CreatureUnlockState(creatureData.creatureId,true));
+                playerProfile.creatureUnlockStates.Add(new CreatureUnlockState(creatureData.creatureId,false));
             }
 
             //main menu rewarded ad ready
