@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class InputRecorder : MonoBehaviour
@@ -108,6 +109,11 @@ public class InputRecorder : MonoBehaviour
     public void SetTutorialDataSO()
     {
         tutorialDataSO.inputs = recordedInputs;
+
+#if UNITY_EDITOR
+        EditorUtility.SetDirty(tutorialDataSO);
+        AssetDatabase.SaveAssets();
+#endif
     }
 
     private void OnDisable()
