@@ -24,14 +24,14 @@ public class NotificationManager : MonoBehaviour
         AndroidNotificationCenter.CancelAllNotifications();
 
         //ready notification
-        var readyFireTime = System.DateTime.Today.AddHours(19).AddMinutes(5);
+        var readyFireTime = System.DateTime.Today.AddHours(16);
         if(DateTime.Compare(DateTime.Now,readyFireTime)<0)
         {
             androidNotifications.SendNotification("Slunkey Ready", "Slunkey is ready for a action.", readyFireTime);
         }
 
         //missing notification
-        var missingFireTime = System.DateTime.Today.AddHours(19).AddMinutes(10);
+        var missingFireTime = System.DateTime.Today.AddHours(22);
         if(DateTime.Compare(DateTime.Now, missingFireTime) < 0)
         {
             androidNotifications.SendNotification("Slunkey Missing", "Slunkey is missing you! Swing back in and complete the levels..", missingFireTime);
@@ -47,7 +47,7 @@ public class NotificationManager : MonoBehaviour
         {
             Debug.Log("app pause");
             AndroidNotificationCenter.CancelAllNotifications();
-            var fireTime = System.DateTime.Now.AddSeconds(5); // 5 sec for testing build
+            var fireTime = System.DateTime.Now.AddHours(1); 
             androidNotifications.SendNotification("Slunkey Close", "Slunkey is so close to completing next level! One more run to victory.", fireTime);
         }
 #endif
