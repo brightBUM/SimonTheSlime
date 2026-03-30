@@ -30,8 +30,8 @@ public class ChunkGenerator : MonoBehaviour
 
     [SerializeField] WeightedRNG weightedRNG;
 
-    [SerializeField] Transform parallaxCeiling;
-    [SerializeField] Transform parallaxFloor;
+    [SerializeField] Transform[] parallaxCeiling;
+    [SerializeField] Transform[] parallaxFloor;
 
     [SerializeField] bool debugGeneration;
    
@@ -198,8 +198,15 @@ public class ChunkGenerator : MonoBehaviour
         playerPrefab.SetActive(true);
 
         //set transforms at height and lowest for FG parallax
-        parallaxCeiling.position = new Vector3(0, highestY, 0);
-        parallaxFloor.position = new Vector3(0, lowestY, 0);
+        foreach (var ceilingTransform in parallaxCeiling)
+        {
+            ceilingTransform.position = new Vector3(0, highestY, 0);
+        }
+        foreach (var floorTransform in parallaxFloor)
+        {
+            floorTransform.position = new Vector3(0, lowestY, 0);
+        }
+        
 
     }
 
