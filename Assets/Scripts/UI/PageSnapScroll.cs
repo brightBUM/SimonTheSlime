@@ -71,7 +71,7 @@ public class PageSnapScroll : MonoBehaviour, IBeginDragHandler, IEndDragHandler
             scrollRect.verticalNormalizedPosition = pagePositions[startPageNum];
 
         //fire snaptostart event complete
-        SnapToStartComplete.Invoke();
+        SnapToStartComplete?.Invoke();
 
 }
 

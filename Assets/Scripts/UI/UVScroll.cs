@@ -8,6 +8,7 @@ public class UVScroll : MonoBehaviour
 {
     RawImage rawImage;
     [SerializeField] float scrollSpeed = 0.01f;
+    [SerializeField] Vector2 direction = Vector2.one;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +18,6 @@ public class UVScroll : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rawImage.uvRect = new Rect(rawImage.uvRect.position + Vector2.one * Time.deltaTime * scrollSpeed, rawImage.uvRect.size);
+        rawImage.uvRect = new Rect(rawImage.uvRect.position + direction * Time.deltaTime * scrollSpeed, rawImage.uvRect.size);
     }
 }

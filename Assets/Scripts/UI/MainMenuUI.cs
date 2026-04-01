@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.XR;
 
 public class MainMenuUI : MonoBehaviour
 {
@@ -53,9 +52,9 @@ public class MainMenuUI : MonoBehaviour
         scrollPageSizer.Apply();
 
         //initialise page snap scroll
+        pageSnapScroll.SnapToStartComplete += CharacterUIReparent;
         pageSnapScroll.Init();
         pageSnapScroll.OnPageMoved += PageMoved;
-        pageSnapScroll.SnapToStartComplete += CharacterUIReparent;
 
         creaturePanelSwipe.OnOpenPanel += OnCreaturePanelOpen;
         creaturePanelSwipe.OnClosePanel += OnCreaturePanelClosed;

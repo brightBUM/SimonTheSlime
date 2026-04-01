@@ -6,25 +6,31 @@ public class ParallaxLooper : MonoBehaviour
     public Transform[] backgrounds;   // Assign 3 background transforms
     public float parallaxSpeed = 0.5f;
     public float parallaxSpeedY = 1f;
-    public Transform player;
+    public Transform target;
 
     private float backgroundWidth;
     private Vector3 lastPlayerPosition;
 
     void Start()
     {
-        if(player==null)
+        if(target==null)
         {
-            player = Camera.main.transform;
+            target = Camera.main.transform;
         }
 
         backgroundWidth = backgrounds[0].GetComponent<SpriteRenderer>().bounds.size.x;
-        lastPlayerPosition = player.position;
+        lastPlayerPosition = target.position;
     }
-    
+    public void SetTarget(Transform target)
+    {
+        this.target = target;   
+    }
     private void Update()
     {
-        var delta = player.position - lastPlayerPosition;
+        if (target == null)
+            return;
+
+        var delta = target.position - lastPlayerPosition;
 
         // Move each background according to player delta and parallax speed
         foreach (Transform bg in backgrounds)
@@ -36,7 +42,7 @@ public class ParallaxLooper : MonoBehaviour
         // Loop backgrounds
         foreach (Transform bg in backgrounds)
         {
-            float distanceFromPlayer = bg.position.x - player.position.x;
+            float distanceFromPlayer = bg.position.x - target.position.x;
 
             if (distanceFromPlayer > backgroundWidth * 1.5f)
             {
@@ -52,7 +58,7 @@ public class ParallaxLooper : MonoBehaviour
             }
         }
 
-        lastPlayerPosition = player.position;
+        lastPlayerPosition = target.position;
     }
     
     Transform GetRightmostBackground()

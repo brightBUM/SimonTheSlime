@@ -137,7 +137,10 @@ public class GamePlayScreenUI : MonoBehaviour
             gameplayScreen.SetActive(true);
         }
     }
-    
+    public void ToggleGameplayScreen(bool value)
+    {
+        gameplayScreen.SetActive(value);
+    }
     //public void TriggerLevelCompleteScoreboard(bool value)
     //{
     //    if (value)

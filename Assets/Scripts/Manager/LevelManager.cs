@@ -1,11 +1,8 @@
-using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using TMPro;
+using System.Threading;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class LevelManager : MonoBehaviour
 {
@@ -16,6 +13,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] PlayerController playerController;
     [SerializeField] ComboUI ComboUIPrefab;
     [SerializeField] LootDrop[] lootDropPrefab;
+    public ParallaxLooper[] parallaxLoopers;
     private float lootDelay = 0.25f;
     public int levelIndex = 0;
     public float levelTimer;
@@ -75,13 +73,28 @@ public class LevelManager : MonoBehaviour
         ObjectPoolManager.Instance.ResetPool(0);
 
         //get level target time from game config
-        targetTime = GameManger.Instance.gameConfig.levelTargetTime[0][levelIndex]; //assigning first world for now
+        if(GameManger.Instance.gameConfig.levelTargetTime.Count!=0)
+        {
+            targetTime = GameManger.Instance.gameConfig.levelTargetTime[0][levelIndex]; //assigning first world for now
+        }
+        else
+        {
+            targetTime = 45 + 15 * (levelIndex / 6);
+        }
+
+        parallaxLoopers = FindObjectsByType<ParallaxLooper>(FindObjectsSortMode.None);
 
 #if UNITY_ANDROID && !UNITY_EDITOR
         Application.targetFrameRate = 60;
         
 #endif
 
+    }
+    public void ToggleLevelParallaxLayers(Transform target)
+    {
+        foreach (var layer in parallaxLoopers) {
+            layer.SetTarget(target);    
+        }
     }
     private void Update()
     {

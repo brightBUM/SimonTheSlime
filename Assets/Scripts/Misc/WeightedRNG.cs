@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WeightedRNG : MonoBehaviour
 {
@@ -82,26 +83,26 @@ public class WeightedRNG : MonoBehaviour
         else
             Epic();
     }
+    private void SpawnPod(CreatureType creatureType,string itemName)
+    {
+        var item = Instantiate(cagePodPrefab, pos, Quaternion.identity);
+        SceneManager.MoveGameObjectToScene(item.gameObject, gameObject.scene);
+        item.Init(creatureType);
+        item.name += itemName;
+        spawnedItems.Add(item);
+    }
     private void Common()
     {
-        var item = Instantiate(cagePodPrefab,pos,Quaternion.identity);
-        item.Init(CreatureType.Common);
-        item.name += " Common";
-        spawnedItems.Add(item);
+        SpawnPod(CreatureType.Common, " Common");
     }
     private void Rare()
     {
-        var item = Instantiate(cagePodPrefab, pos, Quaternion.identity);
-        item.Init(CreatureType.Rare);
-        item.name += " Rare";
-        spawnedItems.Add(item);
+        SpawnPod(CreatureType.Rare, " Rare");
     }
     private void Epic()
     {
-        var item = Instantiate(cagePodPrefab, pos, Quaternion.identity);
-        item.Init(CreatureType.Epic);
-        item.name += " Epic";
-        spawnedItems.Add(item);
+        SpawnPod(CreatureType.Epic, " Epic");
+
     }
     //// Example test
 

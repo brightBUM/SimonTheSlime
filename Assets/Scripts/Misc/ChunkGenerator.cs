@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,13 +45,16 @@ public class ChunkGenerator : MonoBehaviour
     float lowestY = float.MaxValue;
     private void Start()
     {
-        Generate();
+        if(playerPrefab==null)
+        {
+            playerPrefab = FindAnyObjectByType<PlayerController>().gameObject;
+        }
     }
 
-    private void Generate()
+    public void Generate(Action OnGenerateComplete)
     {
         //get randomized chunks to spawn
-        int chunkSize = Random.Range(5, 9); // no. of chunks to be spawned 5-8 , excluding entry & exit chunk
+        int chunkSize = UnityEngine.Random.Range(5, 9); // no. of chunks to be spawned 5-8 , excluding entry & exit chunk
 
         Debug.Log($"chunkSize - {chunkSize}");
 
@@ -79,7 +83,7 @@ public class ChunkGenerator : MonoBehaviour
             }
 
             // pick a random valid direction
-            int chunkDirection = validDirections[Random.Range(0, validDirections.Count)];
+            int chunkDirection = validDirections[UnityEngine.Random.Range(0, validDirections.Count)];
 
             switch (chunkDirection)
             {
@@ -99,7 +103,7 @@ public class ChunkGenerator : MonoBehaviour
         chunksToSpawn.Add(Utility.RandomItemFromList(exitChunk));
 
         //execute merge on those
-        StartCoroutine(SpawnChunks());
+        StartCoroutine(SpawnChunks(OnGenerateComplete));
     }
     [ContextMenu("Regenerate")]
     public void Regenerate()
@@ -134,9 +138,9 @@ public class ChunkGenerator : MonoBehaviour
         yield return null;
 
         //generate again
-        Generate();
+        //Generate();
     }
-    IEnumerator SpawnChunks()
+    IEnumerator SpawnChunks(Action OnGenerateComplete)
     {
         //set Background
         TileAssetHandler.Instance.SetBackground();
@@ -192,11 +196,6 @@ public class ChunkGenerator : MonoBehaviour
         //spawn CagePods b/w chunks
         weightedRNG.SpawnPods(cagePodPositions, chunksToSpawn.Count - 2); // -2 exclude entry & exit chunks
 
-        //spawn player
-        var playerSpawnPos = FindAnyObjectByType<ChunkEntryPoint>().transform.position;
-        playerPrefab.transform.position = playerSpawnPos;
-        playerPrefab.SetActive(true);
-
         //set transforms at height and lowest for FG parallax
         foreach (var ceilingTransform in parallaxCeiling)
         {
@@ -206,8 +205,14 @@ public class ChunkGenerator : MonoBehaviour
         {
             floorTransform.position = new Vector3(0, lowestY, 0);
         }
-        
 
+        OnGenerateComplete.Invoke();
+        //spawn player
+        var playerSpawnPos = FindAnyObjectByType<ChunkEntryPoint>().transform.position;
+        playerPrefab.transform.position = playerSpawnPos;
+        playerPrefab.GetComponent<Rigidbody2D>().gravityScale = 1f;
+        playerPrefab.SetActive(true);
+        camConfiner.GetComponent<CinemachineVirtualCamera>().Follow = playerPrefab.transform;
     }
 
     

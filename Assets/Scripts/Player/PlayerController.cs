@@ -546,7 +546,7 @@ public class PlayerController : MonoBehaviour
     }
     private void ContinuePounding(IPoundable poundable)
     {
-        if(poundable is BreakablePlatform)
+        if(poundable is BreakablePlatform || poundable is PipePlatform)
         {
             if (poundHeld)
             {
