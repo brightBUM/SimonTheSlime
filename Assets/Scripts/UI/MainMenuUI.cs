@@ -1,10 +1,8 @@
 using DG.Tweening;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MainMenuUI : MonoBehaviour
 {
@@ -12,6 +10,7 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] List<GameObject> panels;
     [SerializeField] Transform contentParent;
     [SerializeField] GameObject registrationPanel;
+    [SerializeField] GameObject NoAdsButton;
     [SerializeField] TMP_InputField nameField;
     [SerializeField] TMP_InputField ageField;
     [SerializeField] WatchAdRewardUI watchAdRewardUI;
@@ -47,7 +46,11 @@ public class MainMenuUI : MonoBehaviour
             //show banner ad only the first time
             IronSourceAdManager.Instance.LoadBannerAd();
         }
-
+         //update no ads button UI
+        if(IronSourceAdManager.Instance.NoAdsPurchased)
+        {
+            DisableNoAdsButton();
+        }
         //resize the layout w.r.t to screen size
         scrollPageSizer.Apply();
 
@@ -166,6 +169,20 @@ public class MainMenuUI : MonoBehaviour
     private void CloseCreaturePage()
     {
 
+       
+    }
+    public void DisableNoAdsButton()
+    {
+        NoAdsButton.SetActive(false);
+    }
+
+    public void RemoveAdsPurchase()
+    {
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+        PurchaseManager.Instance.NoAdsPurchaseButton();
+#endif
+
     }
     public void ActivatePanel(int index)
     {
@@ -184,7 +201,7 @@ public class MainMenuUI : MonoBehaviour
             });
         }
     }
-
+    
     public void SaveProfileInfo()
     {
         if (Int32.TryParse(ageField.text, out int age))

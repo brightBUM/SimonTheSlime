@@ -173,7 +173,7 @@ public class GamePlayScreenUI : MonoBehaviour
             {
                 IronSourceInstance.ShowInterstitialAd();
                 IronSourceInstance.interstitialAd.OnAdClosed += InterstitialOnAdClosedEvent;
-                IronSourceInstance.interstitialAd.OnAdDisplayFailed += InterstitialAd_OnAdDisplayFailed;
+                IronSourceInstance.interstitialAd.OnAdDisplayFailed += InterstitialAd_OnAdDisplayFailed; ;
                 IronSourceInstance.interstitialAd.OnAdLoadFailed += InterstitialAd_OnAdLoadFailed;
                 return;
             }
@@ -184,7 +184,7 @@ public class GamePlayScreenUI : MonoBehaviour
 
     }
 
-    private void InterstitialAd_OnAdLoadFailed(com.unity3d.mediation.LevelPlayAdError obj)
+    private void InterstitialAd_OnAdLoadFailed(LevelPlayAdError obj)
     {
         //incase ad load fails , continue with level complete
         Debug.Log("level end interstitial ad display failed");
@@ -207,7 +207,8 @@ public class GamePlayScreenUI : MonoBehaviour
         LevelManager.Instance.LevelFailStatsToProfile();
         SaveLoadManager.Instance.SaveGame();
     }
-    private void InterstitialAd_OnAdDisplayFailed(com.unity3d.mediation.LevelPlayAdDisplayInfoError obj)
+#pragma warning disable 0618
+    private void InterstitialAd_OnAdDisplayFailed(LevelPlayAdDisplayInfoError obj)
     {
         //incase ad load fails , continue with level complete
         Debug.Log("level end interstitial ad display failed");
@@ -486,10 +487,16 @@ public class GamePlayScreenUI : MonoBehaviour
     
     public void DashViaButton()
     {
+        if (LevelManager.Instance.IsTutorialActive)
+            return;
+        
         dashButtonAction.Invoke();    
     }
     public void GrappleViaButton()
     {
+        if (LevelManager.Instance.IsTutorialActive)
+            return;
+
         grappleButtonAction.Invoke();
     }
     private void OnDisable()

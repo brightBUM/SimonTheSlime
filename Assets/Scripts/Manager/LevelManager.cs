@@ -13,7 +13,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] PlayerController playerController;
     [SerializeField] ComboUI ComboUIPrefab;
     [SerializeField] LootDrop[] lootDropPrefab;
-    public ParallaxLooper[] parallaxLoopers;
+    
     private float lootDelay = 0.25f;
     public int levelIndex = 0;
     public float levelTimer;
@@ -36,6 +36,12 @@ public class LevelManager : MonoBehaviour
     public CameraShake ShakeCamera => camShake;
     public Action<int , Vector3> OnLootDrop;
     ComboUI ComboParent;
+
+    public bool IsTutorialActive
+    {
+        get;  set;
+    }
+
     private void Awake()
     {
         if (Instance == null)
@@ -72,17 +78,9 @@ public class LevelManager : MonoBehaviour
         //clear the pound splash object pool on level load || bug caused by delayed despawn
         ObjectPoolManager.Instance.ResetPool(0);
 
-        //get level target time from game config
-        if(GameManger.Instance.gameConfig.levelTargetTime.Count!=0)
-        {
-            targetTime = GameManger.Instance.gameConfig.levelTargetTime[0][levelIndex]; //assigning first world for now
-        }
-        else
-        {
-            targetTime = 45 + 15 * (levelIndex / 6);
-        }
-
-        parallaxLoopers = FindObjectsByType<ParallaxLooper>(FindObjectsSortMode.None);
+       
+        //targetTime = GameManger.Instance.gameConfig.levelTargetTime[0][levelIndex]; //assigning first world for now
+        targetTime = 60f + (levelIndex / 5) * 30f;
 
 #if UNITY_ANDROID && !UNITY_EDITOR
         Application.targetFrameRate = 60;

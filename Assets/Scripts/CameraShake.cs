@@ -10,18 +10,20 @@ public class CameraShake : MonoBehaviour
    
     [SerializeField] Shake[] shakeValues;
     private CinemachineBasicMultiChannelPerlin noiseChannel;
+    private float fixedZ;
     // Start is called before the first frame update
     void Start()
     {
         noiseChannel = virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-
+        fixedZ = virtualCamera.transform.position.z;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //private void LateUpdate()
+    //{
+    //    var pos = virtualCamera.transform.position;
+    //    pos.z = fixedZ;
+    //    virtualCamera.transform.position = pos;
+    //}
 
     private void ShakeCamera(Shake shakeValue)
     {

@@ -106,6 +106,9 @@ public class PlayerController : MonoBehaviour
         playerInput.GrappleAbility += ActivateGrapple;
         playerInput.RespawnToCheckPoint += ResetStates;
         playerInput.DoubleTapAbility += ActivateDoubleTapAbility;
+        playerInput.Freeze += FreezePlayer;
+        playerInput.UnFreeze += UnFreezePlayer;
+        playerInput.CancelHorizontal += CancelHorizontalVelocity;
         respawnPlayer += RespawnPlayer;
         ContinuePound += ContinuePounding;
 
@@ -786,6 +789,26 @@ public class PlayerController : MonoBehaviour
             ResetGravity();
         }
     }
+
+    Vector2 tempVelocity;
+    private void FreezePlayer()
+    {
+        tempVelocity = rb.linearVelocity;
+        rb.linearVelocity = Vector2.zero;
+        Physics2D.gravity = Vector2.zero;
+    }
+
+    private void UnFreezePlayer()
+    {
+        rb.linearVelocity = tempVelocity;
+        Physics2D.gravity = Vector2.up * gravity;
+
+    }
+    private void CancelHorizontalVelocity()
+    {
+        //to prevent the player from dying during tutorial trigger
+        rb.linearVelocity = new Vector2(0, rb.linearVelocityY);
+    }
     private void OnDisable()
     {
         playerInput.mouseReleased -= LeftReleased;
@@ -796,7 +819,9 @@ public class PlayerController : MonoBehaviour
         playerInput.GrappleAbility -= ActivateGrapple;
         playerInput.RespawnToCheckPoint -= ResetStates;
         playerInput.DoubleTapAbility -= ActivateDoubleTapAbility;
-
+        playerInput.Freeze -= FreezePlayer;
+        playerInput.UnFreeze -= UnFreezePlayer;
+        playerInput.CancelHorizontal -= CancelHorizontalVelocity;
         respawnPlayer -= RespawnPlayer;
         ContinuePound -= ContinuePounding;
 

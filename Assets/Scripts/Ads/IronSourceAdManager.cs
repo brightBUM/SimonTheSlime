@@ -5,16 +5,23 @@ public class IronSourceAdManager : MonoBehaviour
 {
     private LevelPlayBannerAd bannerAd;
     public LevelPlayInterstitialAd interstitialAd;
+    public LevelPlayRewardedAd rewardedAd;
     public static IronSourceAdManager Instance;
+    public bool NoAdsPurchased { get; set; }
+
+    public bool sdkInitialized;
+
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-    string appKey = "85460dcd";
-    string bannerAdUnitId = "thnfvcsog13bhn08";
-    string interstitialAdUnitId = "aeyqi3vqlv6o8sh9";
+    string appKey = "21c87ea5d";
+    string bannerAdUnitId = "rq9jn6t8h4mdqh43";
+    string interstitialAdUnitId = "wgtkbxwatw27k8bb";
+    string rewardedAdUnitId = "jy008whzgkdtz97k";
 #else
     string appKey = "unexpected_platform";
     string bannerAdUnitId = "unexpected_platform";
     string interstitialAdUnitId = "unexpected_platform";
+    string rewardedAdUnitId = "unexpected_platform";
 #endif
     private void Awake()
     {
@@ -30,58 +37,59 @@ public class IronSourceAdManager : MonoBehaviour
     }
     public void Start()
     {
-        IronSource.Agent.validateIntegration();
-
-        LevelPlay.Init(appKey, adFormats: new[] { com.unity3d.mediation.LevelPlayAdFormat.REWARDED });
+        LevelPlay.ValidateIntegration();
 
         LevelPlay.OnInitSuccess += SdkInitializationCompletedEvent;
         LevelPlay.OnInitFailed += SdkInitializationFailedEvent;
+
+        LevelPlay.Init(appKey);
     }
     void SdkInitializationCompletedEvent(LevelPlayConfiguration config)
     {
         Debug.Log("unity-script: I got SdkInitializationCompletedEvent with config: " + config);
         EnableAds();
+        sdkInitialized = true;
     }
 
     private void EnableAds()
     {
         bannerAd = new LevelPlayBannerAd(bannerAdUnitId);
 
+        //keep the rewarded video ad ready for main menu daily reward
         interstitialAd = new LevelPlayInterstitialAd(interstitialAdUnitId);
         interstitialAd.LoadAd();
+        interstitialAd.OnAdLoaded += InterstitialAd_OnAdLoaded;
+        interstitialAd.OnAdLoadFailed += InterstitialAd_OnAdLoadFailed;
+
+        rewardedAd = new LevelPlayRewardedAd(rewardedAdUnitId);
+        rewardedAd.LoadAd();
+        rewardedAd.OnAdLoadFailed += RewardedAd_OnAdLoadFailed;
+        rewardedAd.OnAdLoaded += RewardedAd_OnAdLoaded;
+
     }
-    void RewardedVideoOnAdClosedEvent(IronSourceAdInfo adInfo)
-    {
-        Debug.Log("unity-script: I got RewardedVideoOnAdClosedEvent With AdInfo " + adInfo);
-    }
-    void RewardedVideoOnAdRewardedEvent(IronSourcePlacement ironSourcePlacement, IronSourceAdInfo adInfo)
-    {
-        //Debug.Log("unity-script: I got RewardedVideoOnAdRewardedEvent With Placement" + ironSourcePlacement + "And AdInfo " + adInfo);
-        Debug.Log("rewarded ad complete");
-    }
-    void InterstitialOnAdClosedEvent(LevelPlayAdInfo adInfo)
-    {
-        Debug.Log("unity-script: I got InterstitialOnAdClosedEvent With AdInfo " + adInfo);
-    }
+
+    
+
     void SdkInitializationFailedEvent(LevelPlayInitError error)
     {
         Debug.Log("unity-script: I got SdkInitializationFailedEvent with error: " + error);
+        sdkInitialized = false;
     }
    
    
-    private void OnApplicationPause(bool pause)
-    {
-        IronSource.Agent.onApplicationPause(pause);
-    }
+    
     #region BannerAds
     public void LoadBannerAd()
     {
+        if (NoAdsPurchased)
+            return;
 
 #if UNITY_ANDROID && !UNITY_EDITOR
         bannerAd.LoadAd();
 #endif
         
     }
+    
     public void HideBannerAd()
     {
 
@@ -102,8 +110,20 @@ public class IronSourceAdManager : MonoBehaviour
     {
         return interstitialAd.IsAdReady();
     }
+    private void InterstitialAd_OnAdLoadFailed(LevelPlayAdError obj)
+    {
+        Debug.Log("interstitial ad load failed " + obj.ErrorMessage);
+    }
+
+    private void InterstitialAd_OnAdLoaded(LevelPlayAdInfo obj)
+    {
+        Debug.Log("interstitial ad load successfully ");
+    }
     public void ShowInterstitialAd()
     {
+        if(NoAdsPurchased)
+            return;
+
         if (interstitialAd.IsAdReady())
         {
             interstitialAd.ShowAd();
@@ -113,20 +133,36 @@ public class IronSourceAdManager : MonoBehaviour
             Debug.Log("Iron source - Interstitial ad not ready");
         }
     }
-   
+
     #endregion
 
     #region RewardedAds
-    
+
+    private void RewardedAd_OnAdLoaded(LevelPlayAdInfo obj)
+    {
+        Debug.Log("rewarded ad loaded successfully ");
+
+    }
+
+    private void RewardedAd_OnAdLoadFailed(LevelPlayAdError obj)
+    {
+        Debug.Log("rewarded ad load failed " + obj.ErrorMessage);
+
+    }
+    public bool IsRewardedAdReady()
+    {
+       return rewardedAd.IsAdReady();
+    }
     public void ShowRewardedAd()
     {
-        if (IronSource.Agent.isRewardedVideoAvailable())
+        if (rewardedAd.IsAdReady())
         {
-            IronSource.Agent.showRewardedVideo();
+            rewardedAd.ShowAd();
         }
         else
         {
             Debug.Log("Iron source - rewared ad not ready");
+            
         }
     }
 
@@ -136,5 +172,11 @@ public class IronSourceAdManager : MonoBehaviour
     {
         bannerAd?.DestroyAd();
         interstitialAd?.DestroyAd();
+        rewardedAd.DestroyAd();
+
+        interstitialAd.OnAdLoaded       -= InterstitialAd_OnAdLoaded;
+        interstitialAd.OnAdLoadFailed   -= InterstitialAd_OnAdLoadFailed;
+        rewardedAd.OnAdLoadFailed       -= RewardedAd_OnAdLoadFailed;
+        rewardedAd.OnAdLoaded           -= RewardedAd_OnAdLoaded;
     }
 }

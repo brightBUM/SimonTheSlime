@@ -8,11 +8,18 @@ public class SlamButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     private bool hold = false;
     public void OnPointerDown(PointerEventData eventData)
     {
+        //check to prevent button tap during tutorial 
+        if (LevelManager.Instance.IsTutorialActive)
+            return;
+
         hold = true;
         StartCoroutine(WhileTouching());
     }
     private IEnumerator WhileTouching()
     {
+        if (LevelManager.Instance.IsTutorialActive)
+            yield return null;
+
         while (hold)
         {
             GamePlayScreenUI.Instance.poundAbilityAction.Invoke();
@@ -23,6 +30,9 @@ public class SlamButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     }
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (LevelManager.Instance.IsTutorialActive)
+            return;
+
         hold = false;
     }
 

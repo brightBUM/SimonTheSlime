@@ -6,7 +6,6 @@ namespace Unity.Services.LevelPlay
 {
     class AndroidBannerAd : IPlatformBannerAd, IUnityBannerAdListener
     {
-        const string k_BannerSizeClassName = "com.ironsource.unity.androidbridge.BannerUtils";
         const string k_BannerAdClassName   = "com.ironsource.unity.androidbridge.BannerAd";
 
         const string k_FuncGetAdSize = "getAdSize";
@@ -78,7 +77,7 @@ namespace Unity.Services.LevelPlay
             OnAdLeftApplication?.Invoke(this, new com.unity3d.mediation.LevelPlayAdInfo(adInfo));
         }
 
-        public string AdId { get {return _mBannerAd.Call<string>(k_FuncGetAdId);} }
+        public string AdId => _mBannerAd.Call<string>(k_FuncGetAdId);
         public string AdUnitId { get; }
 
         public com.unity3d.mediation.LevelPlayAdSize AdSize { get; }
@@ -92,13 +91,15 @@ namespace Unity.Services.LevelPlay
 
         volatile bool _mDisposed;
 
-        [Obsolete("This constructor will be removed in version 9.0.0. Please use ILevelPlayBannerAd instead.")]
+        [Obsolete("Use ILevelPlayBannerAd instead.")]
         public AndroidBannerAd(string adUnitId, com.unity3d.mediation.LevelPlayAdSize adSize, com.unity3d.mediation.LevelPlayBannerPosition position, string placementName, bool displayOnLoad, bool respectSafeArea)
         {
             AdUnitId = adUnitId;
             AdSize = adSize;
             Position = position;
             PlacementName = placementName;
+
+            AndroidLevelPlayAdSize androidAdSize = (AndroidLevelPlayAdSize)AdSize.GetPlatformLevelPlayAdSize();
 
             ThreadUtil.Send(state =>
             {
@@ -108,14 +109,51 @@ namespace Unity.Services.LevelPlay
                     {
                         _mBannerAdListener = new UnityBannerAdListener(this);
                     }
-                    _mBannerAd = new AndroidJavaObject(k_BannerAdClassName, adUnitId,
-                        adSize.Description, adSize.Width, adSize.Height, adSize.CustomWidth,
-                        (int)position, placementName, displayOnLoad, respectSafeArea, _mBannerAdListener);
+
+                    _mBannerAd = new AndroidJavaObject(
+                        k_BannerAdClassName,
+                        adUnitId,
+                        androidAdSize.AndroidAdSize,
+                        position.Description, position.Position.x, position.Position.y,
+                        placementName,
+                        displayOnLoad,
+                        respectSafeArea,
+                        _mBannerAdListener);
                 }
                 catch (Exception e)
                 {
                     Debug.LogError(k_ErrorCreatingBanner);
                     Debug.LogException(e);
+                }
+            });
+        }
+
+        internal AndroidBannerAd(string adUnitId, Config config)
+        {
+            AdUnitId = adUnitId;
+            AdSize = config.AdSize;
+            Position = config.Position;
+            PlacementName = config.PlacementName;
+
+            ThreadUtil.Send(state =>
+            {
+                try
+                {
+                    if (_mBannerAdListener == null)
+                    {
+                        _mBannerAdListener = new UnityBannerAdListener(this);
+                    }
+
+                    _mBannerAd = new AndroidJavaObject(
+                        k_BannerAdClassName,
+                        adUnitId,
+                        config.ConfigJavaObject,
+                        _mBannerAdListener);
+                }
+                catch (Exception e)
+                {
+                    LevelPlayLogger.LogError(k_ErrorCreatingBanner);
+                    LevelPlayLogger.LogException(e);
                 }
             });
         }
@@ -256,6 +294,77 @@ namespace Unity.Services.LevelPlay
                 Debug.LogErrorFormat(k_ErrorDisposed, message, GetType().FullName);
             }
             return _mDisposed;
+        }
+
+        internal class Config : IPlatformBannerAd.IConfig
+        {
+            internal com.unity3d.mediation.LevelPlayAdSize AdSize { get; }
+            internal com.unity3d.mediation.LevelPlayBannerPosition Position { get; }
+            internal string PlacementName { get; }
+
+            internal AndroidJavaObject ConfigJavaObject { get; }
+
+            private Config(AndroidJavaObject config, com.unity3d.mediation.LevelPlayAdSize adSize, com.unity3d.mediation.LevelPlayBannerPosition position, string placementName)
+            {
+                ConfigJavaObject = config;
+                AdSize = adSize;
+                Position = position;
+                PlacementName = placementName;
+            }
+
+            internal class Builder : IPlatformBannerAd.IConfigBuilder
+            {
+                private const string KBuilderClass = "com.ironsource.unity.androidbridge.BannerAd$Config$Builder";
+                private readonly AndroidJavaObject m_BuilderJavaObject;
+                private com.unity3d.mediation.LevelPlayAdSize _size = com.unity3d.mediation.LevelPlayAdSize.BANNER;
+                private com.unity3d.mediation.LevelPlayBannerPosition _position = com.unity3d.mediation.LevelPlayBannerPosition.BottomCenter;
+                private string _placementName;
+
+                internal Builder()
+                {
+                    m_BuilderJavaObject = new AndroidJavaObject(KBuilderClass);
+                }
+
+                public void SetBidFloor(double bidFloor)
+                {
+                    m_BuilderJavaObject.Call("setBidFloor", bidFloor);
+                }
+
+                public void SetSize(com.unity3d.mediation.LevelPlayAdSize size)
+                {
+                    _size = size;
+                    var androidAdSize = ((AndroidLevelPlayAdSize)size.GetPlatformLevelPlayAdSize()).AndroidAdSize;
+                    m_BuilderJavaObject.Call("setSize", androidAdSize);
+                }
+
+                public void SetPosition(com.unity3d.mediation.LevelPlayBannerPosition position)
+                {
+                    _position = position;
+                    m_BuilderJavaObject.Call("setPosition", position.Description, position.Position.x, position.Position.y);
+                }
+
+                public void SetPlacementName(string placementName)
+                {
+                    _placementName = placementName;
+                    m_BuilderJavaObject.Call("setPlacementName", placementName);
+                }
+
+                public void SetDisplayOnLoad(bool displayOnLoad)
+                {
+                    m_BuilderJavaObject.Call("setDisplayOnLoad", displayOnLoad);
+                }
+
+                public void SetRespectSafeArea(bool respectSafeArea)
+                {
+                    m_BuilderJavaObject.Call("setRespectSafeArea", respectSafeArea);
+                }
+
+                public IPlatformBannerAd.IConfig Build()
+                {
+                    var androidConfig = m_BuilderJavaObject.Call<AndroidJavaObject>("build");
+                    return new Config(androidConfig, _size, _position, _placementName);
+                }
+            }
         }
     }
 }
