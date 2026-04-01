@@ -4,8 +4,10 @@ public class DungeonManager : MonoBehaviour
 {
     [SerializeField] Transform followDummy;
     [SerializeField] Transform parallaxParent;
+    [SerializeField] GameObject spotLightPrefab;
     public ParallaxLooper[] parallaxLoopers;
     public static DungeonManager Instance;
+    GameObject spotLightObject;
     private void Awake()
     {
         Instance = this;
@@ -15,7 +17,19 @@ public class DungeonManager : MonoBehaviour
         //ToggleLevelParallaxLayers(followDummy.transform);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    
+    public void SpawnSpotLight(Transform player)
+    {
+        spotLightObject = Instantiate(spotLightPrefab);
+        spotLightObject.transform.parent = player;
+        spotLightObject.transform.localPosition = Vector3.zero;
+        spotLightObject.SetActive(true);
+    }
+
+    public void RemoveSpotlight()
+    {
+        spotLightObject.transform.parent = null;
+        Destroy(spotLightObject);
+    }
     public void ToggleLevelParallaxLayers(Transform target)
     {
         foreach (var layer in parallaxLoopers)

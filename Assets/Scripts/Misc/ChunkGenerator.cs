@@ -212,6 +212,7 @@ public class ChunkGenerator : MonoBehaviour
         playerPrefab.transform.position = playerSpawnPos;
         playerPrefab.GetComponent<Rigidbody2D>().gravityScale = 1f;
         playerPrefab.SetActive(true);
+        DungeonManager.Instance.SpawnSpotLight(playerPrefab.transform);
         camConfiner.GetComponent<CinemachineVirtualCamera>().Follow = playerPrefab.transform;
     }
 
