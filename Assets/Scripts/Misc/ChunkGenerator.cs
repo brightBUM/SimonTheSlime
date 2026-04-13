@@ -23,7 +23,7 @@ public class ChunkGenerator : MonoBehaviour
 
     private List<Transform> cagePodPositions;
 
-    [SerializeField] GameObject playerPrefab;
+    [SerializeField] PlayerController playerRef;
 
     [SerializeField] CinemachineConfiner2D camConfiner;
 
@@ -45,9 +45,9 @@ public class ChunkGenerator : MonoBehaviour
     float lowestY = float.MaxValue;
     private void Start()
     {
-        if(playerPrefab==null)
+        if(playerRef==null)
         {
-            playerPrefab = FindAnyObjectByType<PlayerController>().gameObject;
+            playerRef = FindAnyObjectByType<PlayerController>();
         }
     }
 
@@ -113,7 +113,7 @@ public class ChunkGenerator : MonoBehaviour
 
     public IEnumerator ClearAndGenerate()
     {
-        playerPrefab.SetActive(false);
+        playerRef.gameObject.SetActive(false);
 
         //clear
         foreach(Transform child in generatorParent)
@@ -207,16 +207,26 @@ public class ChunkGenerator : MonoBehaviour
         }
 
         OnGenerateComplete.Invoke();
+        var chunkEntryPoint = FindAnyObjectByType<ChunkEntryPoint>();
+        chunkEntryPoint.TriggerEntry();
+        var playerSpawnPos = chunkEntryPoint.transform.position;
+        var playerAnimation = playerRef.GetComponentInChildren<PlayerAnimation>();
+        playerAnimation.ToggleSpriteOrder(-1);
+
+        yield return new WaitForSeconds(1.1f); //wait for entry pipe animation to finish
         //spawn player
-        var playerSpawnPos = FindAnyObjectByType<ChunkEntryPoint>().transform.position;
-        playerPrefab.transform.position = playerSpawnPos;
-        playerPrefab.GetComponent<Rigidbody2D>().gravityScale = 1f;
-        playerPrefab.SetActive(true);
-        DungeonManager.Instance.SpawnSpotLight(playerPrefab.transform);
-        camConfiner.GetComponent<CinemachineVirtualCamera>().Follow = playerPrefab.transform;
+        playerRef.transform.position = playerSpawnPos;
+        playerRef.GetComponentInParent<Rigidbody2D>().gravityScale = 1f;
+        playerRef.gameObject.SetActive(true);
+        DungeonManager.Instance.SpawnSpotLight(playerRef.transform);
+        camConfiner.GetComponent<CinemachineVirtualCamera>().Follow = playerRef.transform;
+
+        yield return new WaitForSeconds(1f);
+        playerAnimation.ToggleSpriteOrder(1);
+
     }
 
-    
+
     public void Merge(Tilemap targetTilemap)
     {
         //merge target Tilemap into Base Tilemap

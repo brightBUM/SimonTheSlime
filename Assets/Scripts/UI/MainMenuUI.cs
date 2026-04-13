@@ -1,8 +1,10 @@
 using DG.Tweening;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainMenuUI : MonoBehaviour
 {
@@ -14,6 +16,8 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] TMP_InputField nameField;
     [SerializeField] TMP_InputField ageField;
     [SerializeField] WatchAdRewardUI watchAdRewardUI;
+    [SerializeField] Transform spinWheelText;
+    [SerializeField] Transform spinWheelIcon;
     [Header("Char UI Pod")]
     [SerializeField] RectTransform canvasRect ;
     [SerializeField] RectTransform itemRect ;
@@ -62,6 +66,9 @@ public class MainMenuUI : MonoBehaviour
         creaturePanelSwipe.OnOpenPanel += OnCreaturePanelOpen;
         creaturePanelSwipe.OnClosePanel += OnCreaturePanelClosed;
 
+        //tween spin wheel
+        spinWheelText.transform.DOScale(1.1f, 0.25f).SetLoops(-1, LoopType.Yoyo);
+        spinWheelIcon.DORotate(new Vector3(0, 0, -45), 1f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutBack);
     }
 
     public void CharacterUIReparent()

@@ -3669,7 +3669,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1155648084}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 2
   m_BackGroundColor: {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 0}
@@ -9842,7 +9842,6 @@ MonoBehaviour:
   - {r: 0.972549, g: 0.6392157, b: 0.13725491, a: 1}
   gameConfig: {fileID: 11400000, guid: 4f39697cf25fe0c43a272261e6461ecb, type: 2}
   sceneLimitOffset: 18
-  sceneLoadOffset: 3
 --- !u!4 &1619654583
 Transform:
   m_ObjectHideFlags: 0
@@ -10846,7 +10845,7 @@ MonoBehaviour:
   m_Priority: 0
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 1628226065}
+  m_Follow: {fileID: 2069099937}
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 18
@@ -11136,9 +11135,18 @@ MonoBehaviour:
   entryChunks:
   - {fileID: 7819335128046085721, guid: c5a09a91bf6610144ac421cdeb76e889, type: 3}
   - {fileID: 7556709081524119978, guid: 7d6b55cd8769af444b654a3b7d90b367, type: 3}
-  rightChunks: []
-  downChunks: []
-  upChunks: []
+  rightChunks:
+  - {fileID: 1265841747629952231, guid: 458be0f724b3b244e9fd7806522b34d5, type: 3}
+  - {fileID: 1798840581247586354, guid: 09e04702ce18e704d8f7ce7b772d9698, type: 3}
+  - {fileID: 8789133306773264217, guid: e85547a0c4fc4924ba75f329c767cafa, type: 3}
+  downChunks:
+  - {fileID: 720275865689769039, guid: 7e16dde1b8288c3429ed3297c0089b5c, type: 3}
+  - {fileID: 721304553051478019, guid: 0162ecd7321c5964c95a7ef29bacd559, type: 3}
+  upChunks:
+  - {fileID: 3026354932101976722, guid: 5864a1f7e7525604b99a2753266b6800, type: 3}
+  - {fileID: 5294406283642812253, guid: 468cc06df5861b74fa48e0e16cfef624, type: 3}
+  - {fileID: 4992009684884051945, guid: 285cd9c1fedfcbc47a22b10bb214733b, type: 3}
+  - {fileID: 6743083822821900516, guid: 7af114848be725c4797e48d68304884e, type: 3}
   exitChunk:
   - {fileID: 2308764690206256403, guid: de15e0579407b8a428b2933f6eb67549, type: 3}
   playerPrefab: {fileID: 0}

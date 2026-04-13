@@ -169,6 +169,10 @@ public class PlayerAnimation : MonoBehaviour
     {
         trailRenderer.enabled = value;
     }
+    public void ToggleSpriteOrder(int value)
+    {
+        spriteRenderer.sortingOrder = value;
+    }
     public void ToggleSpriteRenderer(bool value)
     {
         spriteRenderer.enabled = value;

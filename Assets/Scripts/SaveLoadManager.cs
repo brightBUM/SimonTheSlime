@@ -11,7 +11,7 @@ public class SaveLoadManager : MonoBehaviour
     public PlayerProfile playerProfile;
     public bool firstLoad = false;
     public DateTime lastRewardedAdTime;
-    int debugUnlock = 0;
+    int debugUnlock = 5;
     public static SaveLoadManager Instance;
     public Dictionary<string, bool> unlockMap;
 
@@ -136,9 +136,7 @@ public class SaveLoadManager : MonoBehaviour
     }
     public void SaveGame() 
     {
-       
-
-        string data = JsonUtility.ToJson(playerProfile);
+        string data = JsonUtility.ToJson(playerProfile,true);
         File.WriteAllText(filePath, data);
         Debug.Log("Game saved");
     }
@@ -281,6 +279,7 @@ public class SaveLoadManager : MonoBehaviour
     public void SetVolumeValue(int index, float volume)
     {
         playerProfile.volumeControls[index].volumeValue = volume;
+        
     }
     public void SetVolumeState(int index, bool state)
     {

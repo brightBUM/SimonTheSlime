@@ -13,7 +13,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] PlayerController playerController;
     [SerializeField] ComboUI ComboUIPrefab;
     [SerializeField] LootDrop[] lootDropPrefab;
-    
+    public ParallaxLooper[] parallaxLoopers;
     private float lootDelay = 0.25f;
     public int levelIndex = 0;
     public float levelTimer;
@@ -81,6 +81,8 @@ public class LevelManager : MonoBehaviour
        
         //targetTime = GameManger.Instance.gameConfig.levelTargetTime[0][levelIndex]; //assigning first world for now
         targetTime = 60f + (levelIndex / 5) * 30f;
+
+        parallaxLoopers = FindObjectsByType<ParallaxLooper>(FindObjectsSortMode.None);
 
 #if UNITY_ANDROID && !UNITY_EDITOR
         Application.targetFrameRate = 60;

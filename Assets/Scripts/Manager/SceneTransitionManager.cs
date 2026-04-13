@@ -46,7 +46,7 @@ public class SceneTransitionManager : MonoBehaviour
     IEnumerator LoadSecretRoom()
     {
         // 1. Freeze player — keep camera ALIVE, brain must stay active
-        playerController.enabled = false;
+        //playerController.enabled = false;
         GamePlayScreenUI.Instance.ToggleGameplayScreen(false);
 
         // Freeze main scene parallax — null target so layers stop moving
@@ -82,6 +82,8 @@ public class SceneTransitionManager : MonoBehaviour
         while (!secretLoad.isDone)
             yield return null;
 
+        //Debug.Break();
+
         // 5. Generate chunks — wait for full completion before proceeding
         bool generateDone = false;
 
@@ -109,7 +111,7 @@ public class SceneTransitionManager : MonoBehaviour
         while (!generateDone)
             yield return null;
 
-        //Debug.Break();
+        
 
         // 6. Cut to secret room camera
         BlendToCamera(secretRoomVirtualCam, cut: true);
@@ -120,7 +122,7 @@ public class SceneTransitionManager : MonoBehaviour
         loadingVirtualCam = null;
 
         // 8. Unfreeze player
-        playerController.enabled = true;
+        //playerController.enabled = true;
         GamePlayScreenUI.Instance.ToggleGameplayScreen(true);
 
         Debug.Log("Transition to secret room complete");

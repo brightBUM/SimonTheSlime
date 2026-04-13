@@ -63,7 +63,9 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Misc\IronSourceStatus.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Enums.cs" />
+    <Compile Include="Assets\Scripts\Manager\SceneTransitionManager.cs" />
     <Compile Include="Assets\Scripts\Tutorial\TutorialData.cs" />
+    <Compile Include="Assets\SlimeDrop.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Scripts\CFXR_ParticleTextFontAsset.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Wrapper\GA_WebGLWrapper.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\IGameAnalyticsATTListener.cs" />
@@ -72,16 +74,22 @@
     <Compile Include="Assets\GameAnalytics\Plugins\Playmaker\SetCustomDimension.cs" />
     <Compile Include="Assets\Scripts\Enemies\response\Agent_Audio.cs" />
     <Compile Include="Assets\Fx\Epic Toon FX\Demo\Scripts\VFX Library\UICanvasManager.cs" />
+    <Compile Include="Assets\Scripts\UI\Char upgrade\UpgradeStateUI.cs" />
+    <Compile Include="Assets\Scripts\UI\Creatures\CreatureInfoPanel.cs" />
     <Compile Include="Assets\Scripts\Elements\Stickable.cs" />
     <Compile Include="Assets\Scripts\UI\TutorialHandler.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Playmaker\GetRemoteConfigsValueAsString.cs" />
     <Compile Include="Assets\Scripts\Elements\DynamicWater2Df.cs" />
     <Compile Include="Assets\Scripts\Elements\ActuatorPlatform.cs" />
+    <Compile Include="Assets\Scripts\Misc\DungeonManager.cs" />
+    <Compile Include="Assets\New Folder\Fortune Spin Wheel (Lucky Wheel)\Scripts\RewardData.cs" />
     <Compile Include="Assets\Scripts\UI\dumdum.cs" />
+    <Compile Include="Assets\Scripts\UI\Creatures\InventorySlot.cs" />
     <Compile Include="Assets\Scripts\Enemies\HorizontalMovingEnemy.cs" />
     <Compile Include="Assets\Fx\Epic Toon FX\Demo\Scripts\VFX Library\PEButtonScript.cs" />
     <Compile Include="Assets\Imported Packages\coin\Coin.cs" />
     <Compile Include="Assets\Scripts\Elements\AlternateLaserToggle.cs" />
+    <Compile Include="Assets\Scripts\UI\Creatures\InventoryHandler.cs" />
     <Compile Include="Assets\Scripts\Elements\LaserToggle.cs" />
     <Compile Include="Assets\Scripts\ParallaxLooper.cs" />
     <Compile Include="Assets\Scripts\Misc\CameraBoundSwitch.cs" />
@@ -96,6 +104,7 @@
     <Compile Include="Assets\Scripts\UI\IntroCutScene\TransitTween.cs" />
     <Compile Include="Assets\Fx\Epic Toon FX\Demo\Scripts\VFX Library\ParticleEffectsLibrary.cs" />
     <Compile Include="Assets\Fx\Epic Toon FX\Scripts\ETFXPitchRandomizer.cs" />
+    <Compile Include="Assets\New Folder\Fortune Spin Wheel (Lucky Wheel)\Scripts\Spin.cs" />
     <Compile Include="Assets\Scripts\UI\ButtonHightlight.cs" />
     <Compile Include="Assets\Scripts\Enemies\HorizontalPatrollingEnemy.cs" />
     <Compile Include="Assets\Scripts\Manager\Singleton.cs" />
@@ -103,8 +112,10 @@
     <Compile Include="Assets\Scripts\TimeOrb.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\ILRD\IronSource\GAIronSourceIntegration.cs" />
     <Compile Include="Assets\Scripts\Elements\BangablePlatform.cs" />
+    <Compile Include="Assets\Scripts\Creatures\CagePod.cs" />
     <Compile Include="Assets\Scripts\Elements\SwitchPlatform.cs" />
     <Compile Include="Assets\Fx\Epic Toon FX\Demo\Scripts\ETFXLoopScript.cs" />
+    <Compile Include="Assets\Scripts\Misc\TileAssetHandler.cs" />
     <Compile Include="Assets\Scripts\Manager\AnalyticsManager.cs" />
     <Compile Include="Assets\Fx\Epic Toon FX\Scripts\ETFXRotation.cs" />
     <Compile Include="Assets\Scripts\sound\SoundManager.cs" />
@@ -125,6 +136,7 @@
     <Compile Include="Assets\Scripts\Player\GrappleRope.cs" />
     <Compile Include="Assets\Imported Packages\Moving saw\SpinObject.cs" />
     <Compile Include="Assets\Fx\Epic Toon FX\Demo\Scripts\ETFXTarget.cs" />
+    <Compile Include="Assets\Scripts\UI\ScrollPageSizer.cs" />
     <Compile Include="Assets\Scripts\Parallax.cs" />
     <Compile Include="Assets\Imported Packages\Moving saw\patrol.cs" />
     <Compile Include="Assets\Scripts\UI\IntroCutScene\TweenObject.cs" />
@@ -132,6 +144,7 @@
     <Compile Include="Assets\GameAnalytics\Plugins\Playmaker\SendDesignEvent.cs" />
     <Compile Include="Assets\Fx\Epic Toon FX\Scripts\ETFXLightFade.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Events\GA_Debug.cs" />
+    <Compile Include="Assets\Scripts\Creatures\CreatureChain.cs" />
     <Compile Include="Assets\Scripts\UI\PauseScreen.cs" />
     <Compile Include="Assets\Scripts\Enemies\AirPatrolling_Enemy.cs" />
     <Compile Include="Assets\Scripts\UI\SlamButton.cs" />
@@ -145,7 +158,10 @@
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\ILRD\Aequus\GAAequusIntegration.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Wrapper\GA_MonoWrapper.cs" />
     <Compile Include="Assets\Imported Packages\Moving saw\CFX_AutoDestructShuriken.cs" />
+    <Compile Include="Assets\Scripts\Creatures\CreaturesDataImporter.cs" />
     <Compile Include="Assets\Scripts\Elements\DrawGateUnlock.cs" />
+    <Compile Include="Assets\Material\VerticalScroll.cs" />
+    <Compile Include="Assets\Scripts\Misc\ChunkEntryPoint.cs" />
     <Compile Include="Assets\Scripts\Manager\PurchaseManager.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerCollision.cs" />
     <Compile Include="Assets\Scripts\UI\LoadingBar.cs" />
@@ -156,11 +172,15 @@
     <Compile Include="Assets\Scripts\Player\SplineRespawn.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\ATT\GameAnalyticsATTClient.cs" />
     <Compile Include="Assets\ResponsiveGrid.cs" />
+    <Compile Include="Assets\Scripts\UI\Creatures\CreatureRecoveredUI.cs" />
     <Compile Include="Assets\Scripts\ParallaxSystem.cs" />
     <Compile Include="Assets\Scripts\Enemies\LootDrop.cs" />
     <Compile Include="Assets\Scripts\Elements\IPoundable.cs" />
+    <Compile Include="Assets\CrystalFramework\Utility\Demos\SafeAreaDemo.cs" />
+    <Compile Include="Assets\Scripts\Misc\PropLightToggle.cs" />
     <Compile Include="Assets\Scripts\ScriptableObjects\CharSkinSO.cs" />
     <Compile Include="Assets\Scripts\Thumper.cs" />
+    <Compile Include="Assets\Scripts\Elements\PipePlatform.cs" />
     <Compile Include="Assets\Imported Packages\Breakable PT\BreakablePlatform.cs" />
     <Compile Include="Assets\Scripts\LevelStart.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Wrapper\GA_TizenWrapper.cs" />
@@ -174,6 +194,7 @@
     <Compile Include="Assets\Scripts\Enemies\response\Agent_VisualResponse.cs" />
     <Compile Include="Assets\Scripts\UI\LevelSelectItem.cs" />
     <Compile Include="Assets\Scripts\Tutorial\RespawnObject.cs" />
+    <Compile Include="Assets\Scripts\UI\Creatures\RecoveryPod.cs" />
     <Compile Include="Assets\Scripts\Elements\AcidDrip.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Elements\ButtonPlatform.cs" />
@@ -181,9 +202,13 @@
     <Compile Include="Assets\Scripts\Enemies\response\Horizontal_patroller_enemy\HorizontalPatroller_AnimatorResponse.cs" />
     <Compile Include="Assets\Scripts\Ads\IronSourceAdManager.cs" />
     <Compile Include="Assets\Scripts\UI\ComboUI.cs" />
+    <Compile Include="Assets\Scripts\ScriptableObjects\CreatureData.cs" />
+    <Compile Include="Assets\Scripts\ScriptableObjects\Character Upgrades\UpgradeStats.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\GameAnalytics.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Events\GA_Design.cs" />
     <Compile Include="Assets\Scripts\SpriteTrailRenderer\IPoolable.cs" />
+    <Compile Include="Assets\New Folder\Fortune Spin Wheel (Lucky Wheel)\Scripts\FortuneSpinWheel.cs" />
+    <Compile Include="Assets\Scripts\Misc\ChunkGenerator.cs" />
     <Compile Include="Assets\Scripts\Elements\Banana.cs" />
     <Compile Include="Assets\Scripts\Elements\GoreSplatter.cs" />
     <Compile Include="Assets\Scripts\OrbRespawner.cs" />
@@ -195,9 +220,11 @@
     <Compile Include="Assets\Scripts\CameraShake.cs" />
     <Compile Include="Assets\Scripts\Utility\Utility.cs" />
     <Compile Include="Assets\Scripts\BgScrol.cs" />
+    <Compile Include="Assets\Scripts\UI\Creatures\SwipeDetection.cs" />
     <Compile Include="Assets\Scripts\Enemies\Generic\Interfaces_Generic.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Playmaker\SendAdEvent.cs" />
     <Compile Include="Assets\Scripts\UI\Shop\ShopManager.cs" />
+    <Compile Include="Assets\Scripts\Creatures\CreatureDrop.cs" />
     <Compile Include="Assets\Scripts\Elements\FlagCheckpoint.cs" />
     <Compile Include="Assets\Scripts\UI\UVScroll.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\ILRD\Max\GAMaxIntegration.cs" />
@@ -208,8 +235,10 @@
     <Compile Include="Assets\Scripts\Tutorial\TypeWriter.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\State\GAState.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Events\GA_Resource.cs" />
+    <Compile Include="Assets\Scripts\UI\Creatures\CreatureReveal.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Events\GA_Business.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Playmaker\SendBusinessEvent.cs" />
+    <Compile Include="Assets\Scripts\Misc\ChunkHandler.cs" />
     <Compile Include="Assets\Scripts\Misc\ComboGroup.cs" />
     <Compile Include="Assets\Imported Packages\Electric ball\CFX_LightIntensityFade.cs" />
     <Compile Include="Assets\Scripts\sound\AreaSound.cs" />
@@ -230,7 +259,9 @@
     <Compile Include="Assets\Scripts\Notifications\AndroidNotifications.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Scripts\CFXR_Effect.CameraShake.cs" />
     <Compile Include="Assets\Scripts\UnityPurchasing\generated\GooglePlayTangle.cs" />
+    <Compile Include="Assets\Scripts\UI\Creatures\CreaturesPanel.cs" />
     <Compile Include="Assets\Samples\In App Purchasing\4.10.0\01 Buying Consumables\BuyingConsumables.cs" />
+    <Compile Include="Assets\CrystalFramework\Utility\SafeArea.cs" />
     <Compile Include="Assets\Imported Packages\drop PT\DropPT.cs" />
     <Compile Include="Assets\Scripts\UI\GamePlayScreenUI.cs" />
     <Compile Include="Assets\Scripts\Manager\GameManger.cs" />
@@ -240,10 +271,12 @@
     <Compile Include="Assets\Scripts\Enemies\response\air_patrolling_enemy\air_patrolling_animator_response.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\ILRD\Mopub\GAMopubIntegration.cs" />
     <Compile Include="Assets\Scripts\UI\IntroCutScene\AnimateTween.cs" />
+    <Compile Include="Assets\Scripts\Misc\ChunkExitPoint.cs" />
     <Compile Include="Assets\Scripts\Enemies\Generic\LivingEntity.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Playmaker\GetABTestingId.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Scripts\CFXR_Effect.cs" />
     <Compile Include="Assets\Scripts\Enemies\other\Projectile.cs" />
+    <Compile Include="Assets\Scripts\Misc\WeightedRNG.cs" />
     <Compile Include="Assets\Scripts\FirebaseAnalyticsManager.cs" />
     <Compile Include="Assets\LevelPlay\Samples\UnityLevelPlaySample\Scripts\AdConfig.cs" />
     <Compile Include="Assets\Scripts\Elements\RedBarrel.cs" />
@@ -259,6 +292,7 @@
     <Compile Include="Assets\Scripts\Manager\RemoteConfig.cs" />
     <Compile Include="Assets\Scripts\UI\IntroCutScene\IntroCutScene.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\ILRD\HyperBid\GAHyperBidIntegration.cs" />
+    <Compile Include="Assets\Scripts\UI\Creatures\RecoveryPodHandler.cs" />
     <Compile Include="Assets\Scripts\Tutorial\RecorderInput.cs" />
     <Compile Include="Assets\Fx\Epic Toon FX\Demo\Scripts\ETFXMouseOrbit.cs" />
   </ItemGroup>
@@ -306,6 +340,7 @@
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\GameAnalytics\Plugins\WSA\x64\GameAnalytics.UWP.dll" />
     <None Include="Assets\Scripts\Tutorial\material\StencilCutout.shader" />
+    <None Include="Assets\CrystalFramework\Utility\Demos\SafeAreaDemo.txt" />
     <None Include="Assets\ThirdParty\JMO Assets\Cartoon FX\Shaders\CFXM_MobileParticleAdd_Alpha8.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\Firebase\Plugins\Firebase.Platform.dll" />
