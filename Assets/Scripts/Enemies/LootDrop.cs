@@ -17,7 +17,7 @@ public class LootDrop : MonoBehaviour
                      new Vector2(-1,1)};
     public virtual void Init()
     {
-        radialVisual.DOScale(1.1f, 0.5f).SetLoops(-1, LoopType.Yoyo);
+        radialVisual.DOScale(1.1f, 0.5f).SetLoops(-1, LoopType.Yoyo).SetLink(this.gameObject);
 
         var randDir = dir[UnityEngine.Random.Range(0, dir.Length)];
 

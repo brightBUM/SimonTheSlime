@@ -18,7 +18,7 @@ public class MainMenuPath : MonoBehaviour
     {
         if (title != null)
         {
-            title.DOScale(1.1f, 0.3f).SetLoops(-1, LoopType.Yoyo);
+            title.DOScale(1.1f, 0.3f).SetLoops(-1, LoopType.Yoyo).SetLink(this.gameObject);
         }
 
         if (wayPoints != null)
@@ -30,7 +30,10 @@ public class MainMenuPath : MonoBehaviour
         }
         
 
-        rectTransform?.DOPath(positions, duration,PathType.CatmullRom).SetEase(easeType).SetLoops(-1,LoopType.Yoyo);
+        rectTransform?.DOPath(positions, duration,PathType.CatmullRom)
+            .SetEase(easeType)
+            .SetLoops(-1,LoopType.Yoyo)
+            .SetLink(this.gameObject);
     }
 
     // Update is called once per frame

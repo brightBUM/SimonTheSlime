@@ -24,7 +24,9 @@ public class CagePod : MonoBehaviour
         glassVisual.color = GameManger.Instance.GetCreatureColor(creatureType);
         //bobbing Visual
         bobTween = creatureVisual.transform.DOMoveY(creatureVisual.transform.position.y + bobOffset, 1f)
-            .SetLoops(-1, LoopType.Yoyo).SetEase(Ease.OutSine);
+            .SetLoops(-1, LoopType.Yoyo)
+            .SetEase(Ease.OutSine)
+            .SetLink(this.gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -43,7 +43,7 @@ public class WatchAdRewardUI : MonoBehaviour
             //trigger flashing tween
             rewardReady = true;
             rewardText.text = rewardValue.ToString() + " Nanas";
-            rewardText.transform.DOScale(1.1f, 0.3f).SetLoops(-1, LoopType.Yoyo);
+            rewardText.transform.DOScale(1.1f, 0.3f).SetLoops(-1, LoopType.Yoyo).SetLink(this.gameObject);
             button.interactable = true;
         }
         else

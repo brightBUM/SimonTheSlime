@@ -104,4 +104,8 @@ public class TutorialHandler : MonoBehaviour
         
         
     }
+    void OnDestroy()
+    {
+        tween?.Kill();
+    }
 }

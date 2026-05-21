@@ -67,8 +67,11 @@ public class MainMenuUI : MonoBehaviour
         creaturePanelSwipe.OnClosePanel += OnCreaturePanelClosed;
 
         //tween spin wheel
-        spinWheelText.transform.DOScale(1.1f, 0.25f).SetLoops(-1, LoopType.Yoyo);
-        spinWheelIcon.DORotate(new Vector3(0, 0, -45), 1f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutBack);
+        spinWheelText.transform.DOScale(1.1f, 0.25f).SetLoops(-1, LoopType.Yoyo).SetLink(this.gameObject);
+        spinWheelIcon.DORotate(new Vector3(0, 0, -45), 1f)
+            .SetLoops(-1, LoopType.Yoyo)
+            .SetEase(Ease.InOutBack)
+            .SetLink(this.gameObject);
     }
 
     public void CharacterUIReparent()

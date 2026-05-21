@@ -29,7 +29,7 @@ public class TimeOrb : MonoBehaviour
         });
 
         var visualTransform = spriteRenderer.transform;
-        jumpTween = visualTransform.DOMoveY(visualTransform.position.y + jumpOffset, 0.5f).SetLoops(-1,LoopType.Yoyo);
+        jumpTween = visualTransform.DOMoveY(visualTransform.position.y + jumpOffset, 0.5f).SetLoops(-1,LoopType.Yoyo).SetLink(this.gameObject);
         visualTween = visual.DOShakeRotation(0.5f,new Vector3(0,0, shakeStrength),10,45).SetLoops(-1);
     }
 

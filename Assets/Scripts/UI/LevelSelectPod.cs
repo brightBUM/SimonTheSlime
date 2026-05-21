@@ -48,7 +48,8 @@ public class LevelSelectPod : MonoBehaviour,IPointerEnterHandler,IPointerClickHa
             {
                 SoundManager.Instance.PlayPoundSFx();
                 LevelSelectionScreen.Instance.LoadLevel(levelNum+3);
-            });
+            })
+            .SetLink(this.gameObject);
 #endif
 
 #if UNITY_EDITOR
@@ -68,7 +69,7 @@ public class LevelSelectPod : MonoBehaviour,IPointerEnterHandler,IPointerClickHa
             pointer.localScale = Vector3.zero;
             pointer.position = this.transform.position;
             pointer.SetParent(this.transform);
-            pointer.DOScale(1, 0.5f).SetEase(Ease.OutElastic);
+            pointer.DOScale(1, 0.5f).SetEase(Ease.OutElastic).SetLink(this.gameObject);
             SoundManager.Instance.PlayStickSFx();
         }
 #endif
