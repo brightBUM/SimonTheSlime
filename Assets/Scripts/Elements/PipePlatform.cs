@@ -1,4 +1,5 @@
 ﻿
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,15 +13,19 @@ public class PipePlatform : MonoBehaviour, IPoundable
     [SerializeField] Tilemap groundTilemap;
     [SerializeField] GameObject breakableTileChunk;
     [SerializeField] SpriteRenderer[] spriteRenderers;
-
+    [SerializeField] Transform snapPoint;
+    [SerializeField] Transform targetPos;
+    [SerializeField] BoxCollider2D poundCollider;
+    [SerializeField] BoxCollider2D triggerCollider;
     [Header("Break Settings")]
     [SerializeField] float explosionForce = 6f;
     [SerializeField] float upwardBias = 1.5f;
     [SerializeField] float spinForce = 250f;
     [SerializeField] float breakRowDelay = 0.06f;
     [Header("Rise Settings")]
+    [SerializeField] float snapDuration = 0.2f;   // time to snap to pipe X
+    [SerializeField] float pullDuration = 0.8f;   // time to rise to targetPos
     [SerializeField] float riseRowDelay = 0.1f;
-
     [SerializeField] int width = 3;
     [SerializeField] int maxDepth = 20;
 
@@ -54,6 +59,7 @@ public class PipePlatform : MonoBehaviour, IPoundable
 
     IEnumerator BreakTilesRowByRow(Vector3 impactWorldPos)
     {
+        Debug.Break();
         Vector3Int baseCell = groundTilemap.WorldToCell(
             impactWorldPos + Vector3.down * groundTilemap.cellSize.y
         );
@@ -140,7 +146,10 @@ public class PipePlatform : MonoBehaviour, IPoundable
         if(playerController!=null)
             StartCoroutine(RebuildTiles(playerController));
     }
-
+    public void RepositionPlayer()
+    {
+        playerController.transform.position = snapPoint.position;
+    }
     IEnumerator RebuildTiles(PlayerController player)
     {
         foreach (var sr in spriteRenderers)
@@ -172,9 +181,10 @@ public class PipePlatform : MonoBehaviour, IPoundable
         }
 
         // Snap player to bottom row start
-        Vector3 playerStart = groundTilemap.GetCellCenterWorld(
-            new Vector3Int(groundTilemap.WorldToCell(player.transform.position).x, lowestY, 0)
-        );
+        //Vector3 playerStart = groundTilemap.GetCellCenterWorld(
+        //    new Vector3Int(groundTilemap.WorldToCell(player.transform.position).x, lowestY, 0)
+        //);
+        Vector3 playerStart = snapPoint.position;
 
         player.transform.position = playerStart;
 
@@ -198,8 +208,8 @@ public class PipePlatform : MonoBehaviour, IPoundable
             }
 
             // 🔥 Move player UP one tile (THIS is the key)
-            Vector3 nextPos = player.transform.position + Vector3.up * (groundTilemap.cellSize.y+1f);
-
+            //Vector3 nextPos = player.transform.position + Vector3.up * (groundTilemap.cellSize.y+1f);
+            Vector3 nextPos = targetPos.position;
             StartCoroutine(MovePlayer(player.transform, nextPos));
 
             yield return new WaitForSeconds(riseRowDelay);
@@ -207,14 +217,27 @@ public class PipePlatform : MonoBehaviour, IPoundable
 
         cachedTiles.Clear();
 
-        // Restore player physics
+        //// Restore player physics
+        //rb.gravityScale = 1f;
+        //rb.AddForce(Vector2.up * 3f);
+
+        ////yield return new WaitForSeconds(1f);
+
+        //if (TryGetComponent<Collider2D>(out var col))
+        //    col.enabled = true;
+
+        playerController.enabled = true;
+        var playerInput = playerController.GetComponent<PlayerInput>();
+        playerInput.enabled = true;
+        playerInput.UnFreeze?.Invoke();
+        playerInput.CancelHorizontal?.Invoke();
         rb.gravityScale = 1f;
-        rb.AddForce(Vector2.up * 3f);
 
-        //yield return new WaitForSeconds(1f);
+        var playerAnimation = playerInput.GetComponentInChildren<PlayerAnimation>();
+        playerAnimation.ToggleSpriteOrder(1);
 
-        if (TryGetComponent<Collider2D>(out var col))
-            col.enabled = true;
+        poundCollider.enabled = true;
+        this.enabled = false;
     }
     IEnumerator MovePlayer(Transform player, Vector3 targetPos)
     {
@@ -277,9 +300,13 @@ public class PipePlatform : MonoBehaviour, IPoundable
             player.SetToIdle();
             player.ResetPound();
             player.GetComponent<Rigidbody2D>().gravityScale = 0f;
-            SceneTransitionManager.Instance.TriggerSecretRoomTransition();
+            LevelManager.Instance.sceneTransitionManager.TriggerSecretRoomTransition();
+
+            triggerCollider.enabled = false;
+            poundCollider.enabled = false;
         }
     }
+    
 
 #if UNITY_EDITOR
     void SnapToGrid()

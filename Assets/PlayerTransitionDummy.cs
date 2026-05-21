@@ -1,9 +1,13 @@
 ﻿using Cinemachine;
 using UnityEngine;
 
-public class SlimeDrop : MonoBehaviour
+public class PlayerTransitionDummy : MonoBehaviour
 {
     [SerializeField] float dropSpeed;
+    [SerializeField] VerticalScroll scroll_1;
+    [SerializeField] VerticalScroll scroll_2;
+    [SerializeField] Animator animator;
+    [SerializeField] TrailRenderer trailRenderer;
     public CinemachineVirtualCamera vcam;
     public TrailRenderer trail;
     public float minTrailTime = 0.2f;
@@ -14,15 +18,31 @@ public class SlimeDrop : MonoBehaviour
 
     private CinemachineFramingTransposer framing;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    Vector3 direction;
+    public void Init(bool down)
     {
         framing = vcam.GetCinemachineComponent<CinemachineFramingTransposer>();
-    }
+        if (down)
+        {
+            scroll_1.scrollSpeed = -5;
+            scroll_2.scrollSpeed = -8;
+            direction = Vector3.down;
+        }
+        else
+        {
+            scroll_1.scrollSpeed = 5;
+            scroll_2.scrollSpeed = 8;
+            animator.SetTrigger("sleep");
+            direction = Vector3.down;
+            trailRenderer.enabled = false;
+        }
 
+    }
     // Update is called once per frame
     void Update()
     {
-        transform.position += Vector3.down * dropSpeed * Time.deltaTime;
+
+        transform.position += direction * dropSpeed * Time.deltaTime;
         float t = (Mathf.Sin(Time.time * speed) + 1f) * 0.5f; // 0 → 1
 
         // Camera Y Damping

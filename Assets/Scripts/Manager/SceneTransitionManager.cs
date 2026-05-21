@@ -5,10 +5,8 @@ using Cinemachine;
 
 public class SceneTransitionManager : MonoBehaviour
 {
-    public static SceneTransitionManager Instance;
-
     [Header("Scene Names")]
-    public string mainSceneName = "Main";
+    //public string mainSceneName = "Main";
     public string loadingSceneName = "SceneTrans drop";
     public string secretRoomSceneName = "Proc_Gen";
 
@@ -19,9 +17,9 @@ public class SceneTransitionManager : MonoBehaviour
     [Header("Main Scene References")]
     public Camera mainCam;
     public Transform playerTransform;
-    public MonoBehaviour playerController;
+    public PlayerController playerController;
     public CinemachineVirtualCamera mainVirtualCam;
-
+    
     [Header("Camera Blending")]
     public float blendDuration = 1f;
 
@@ -29,18 +27,20 @@ public class SceneTransitionManager : MonoBehaviour
     private CinemachineVirtualCamera loadingVirtualCam;
     private CinemachineVirtualCamera secretRoomVirtualCam;
 
-    void Awake()
+   
+    public void Init(CinemachineVirtualCamera vCam, Camera mainCam, PlayerController playerController)
     {
-        if (Instance != null) { Destroy(gameObject); return; }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+        this.mainVirtualCam = vCam;
+        this.mainCam = mainCam;
+        this.playerController = playerController;
+        playerTransform = playerController.transform;
         SetBrainBlendDuration(blendDuration);
     }
-
     // ── Called when player breaks the platform ───────────────────────────────
     public void TriggerSecretRoomTransition()
     {
         StartCoroutine(LoadSecretRoom());
+        
     }
 
     IEnumerator LoadSecretRoom()
@@ -61,6 +61,8 @@ public class SceneTransitionManager : MonoBehaviour
         loadingVirtualCam = FindVirtualCamInScene(loadingSceneName);
         BlendToCamera(loadingVirtualCam, cut: true);
         OffsetSceneObjects(loadingSceneName, loadingSceneOffset);
+
+        FindAnyObjectByType<PlayerTransitionDummy>().Init(true);
 
         // 3. Begin loading secret room without activating it yet
         AsyncOperation secretLoad = SceneManager.LoadSceneAsync(secretRoomSceneName, LoadSceneMode.Additive);
@@ -136,9 +138,10 @@ public class SceneTransitionManager : MonoBehaviour
 
     IEnumerator UnloadSecretRoom()
     {
+        Debug.Break();
         playerController.enabled = false;
         GamePlayScreenUI.Instance.ToggleGameplayScreen(false);
-
+        DungeonManager.Instance.ToggleLevelParallaxLayers(null);
         // Freeze dungeon parallax
         //SetParallaxTarget(secretRoomSceneName, null);
 
@@ -147,7 +150,7 @@ public class SceneTransitionManager : MonoBehaviour
         OffsetSceneObjects(loadingSceneName, loadingSceneOffset);
         loadingVirtualCam = FindVirtualCamInScene(loadingSceneName);
         BlendToCamera(loadingVirtualCam, cut: true);
-
+        FindAnyObjectByType<PlayerTransitionDummy>().Init(false);
         // Minimum display time for loading screen on return
         float elapsed = 0f;
         float minLoadTime = 1f;
@@ -161,22 +164,27 @@ public class SceneTransitionManager : MonoBehaviour
         yield return SceneManager.UnloadSceneAsync(secretRoomSceneName);
         secretRoomVirtualCam = null;
 
+        var pipePlatform = FindAnyObjectByType<PipePlatform>();
+        
+        pipePlatform.RepositionPlayer();
+        
+        // Cut back to main cam
+        BlendToCamera(mainVirtualCam, cut: true);
+        yield return new WaitForSeconds(0.1f);
+
         // TODO: teleport player back to main scene return spawn
+        pipePlatform.TriggerRebuild();
         // playerTransform.position = mainReturnSpawn.position;
 
         // Restore main scene parallax — player is back in main scene world space
         //SetParallaxTarget(mainSceneName, playerTransform);
         //SetParallaxActive(mainSceneName, true);
 
-        // Cut back to main cam
-        BlendToCamera(mainVirtualCam, cut: true);
-        yield return new WaitForSeconds(0.1f);
-
         // Unload loading screen
         yield return SceneManager.UnloadSceneAsync(loadingSceneName);
         loadingVirtualCam = null;
 
-        playerController.enabled = true;
+        //playerController.enabled = true;
         GamePlayScreenUI.Instance.ToggleGameplayScreen(true);
 
         Debug.Log("Transition back to main scene complete");

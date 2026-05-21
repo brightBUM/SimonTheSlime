@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -36,7 +37,8 @@ public class LevelManager : MonoBehaviour
     public CameraShake ShakeCamera => camShake;
     public Action<int , Vector3> OnLootDrop;
     ComboUI ComboParent;
-
+    //references for scene transition manager
+    public SceneTransitionManager sceneTransitionManager;
     public bool IsTutorialActive
     {
         get;  set;
@@ -89,6 +91,24 @@ public class LevelManager : MonoBehaviour
         
 #endif
 
+        SpawnSceneTransitionManager();
+    }
+
+    private void SpawnSceneTransitionManager()
+    {
+        // Destroy any leftover manager from a previous session before spawning fresh
+        var existingSTManager = FindAnyObjectByType<SceneTransitionManager>();
+        if (existingSTManager != null)
+            Destroy(existingSTManager.gameObject);
+
+        //spawn scene transition manager
+        var go = new GameObject("SceneTransitionManager");
+        sceneTransitionManager = go.AddComponent<SceneTransitionManager>();
+        DontDestroyOnLoad(go);
+
+        var vCam = FindAnyObjectByType<CinemachineVirtualCamera>();
+        var cam = Camera.main;
+        sceneTransitionManager.Init(vCam, cam, playerController);
     }
     public void ToggleLevelParallaxLayers(Transform target)
     {
