@@ -4,7 +4,6 @@ using UnityEngine;
 public class CreatureChain : MonoBehaviour
 {
     public GameObject segmentPrefab;
-    public int segmentCount = 5;
     public float segmentSpacing = 0.5f;
 
     public List<Transform> segments = new List<Transform>();

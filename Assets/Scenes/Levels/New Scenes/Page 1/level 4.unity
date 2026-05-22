@@ -1277,6 +1277,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8388901347364485487, guid: ff82d0a53e2a32f43aa928440b4ccdb4, type: 3}
   m_PrefabInstance: {fileID: 132951860}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &195368884
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 195368885}
+  m_Layer: 0
+  m_Name: Inv Full text pos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &195368885
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195368884}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.43, y: 5.24, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 357542867}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &201679054
 GameObject:
   m_ObjectHideFlags: 0
@@ -2190,9 +2221,20 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7541733968418404670, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
+      propertyPath: inventoryFullCanvas
+      value: 
+      objectReference: {fileID: 14129680045801621, guid: 25139828b6204924380b7387d2a3f297, type: 3}
+    - target: {fileID: 7541733968418404670, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
+      propertyPath: invFullSpawnTransform
+      value: 
+      objectReference: {fileID: 195368885}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 5289766292405697462, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 195368885}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 6334032491021425923, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
       insertIndex: -1
@@ -2218,6 +2260,11 @@ MonoBehaviour:
   inventoryHandler: {fileID: 669523427}
   parent: {fileID: 1781821943}
   collectionImgPrefab: {fileID: 6005406764573597902, guid: bab61fb42ff09e447a8832ecbe422c3e, type: 3}
+--- !u!4 &357542867 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5289766292405697462, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
+  m_PrefabInstance: {fileID: 357542864}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &364293541
 GameObject:
   m_ObjectHideFlags: 0

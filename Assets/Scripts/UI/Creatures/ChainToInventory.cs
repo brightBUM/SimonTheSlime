@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +17,7 @@ public class ChainToInventory : MonoBehaviour
         
     }
    
-    public void CollectChain(CreatureChain creatureChain, Vector3 targetPos)
+    public void CollectChain(CreatureChain creatureChain, Vector3 targetPos,Action InventoryFullAction)
     {
         creatureChain.SpriteSortChain(-1);
         // Work on a copy so we can safely remove from the original list
@@ -71,9 +72,8 @@ public class ChainToInventory : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("inventory full ");
-                    //to - do
-                    //implement full text dotween pop up
+                    //Debug.Log("Inventory Full");
+                    InventoryFullAction?.Invoke();
                 }
             });
             duration += 0.25f;

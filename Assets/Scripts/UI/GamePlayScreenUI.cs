@@ -351,10 +351,6 @@ public class GamePlayScreenUI : MonoBehaviour
     [ContextMenu("LevelComplete")]
     public void ShowLevelCompleteScreen()
     {
-        gameplayScreen.SetActive(false);
-
-        //TriggerLevelCompleteScoreboard(true);
-        //UpdateLevelCompleteUI();
 
         //add level stats to profile
         LevelManager.Instance.AddLevelStatsToProfile();
