@@ -2193,8 +2193,31 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6334032491021425923, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 357542866}
   m_SourcePrefab: {fileID: 100100000, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
+--- !u!1 &357542865 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6334032491021425923, guid: a8e1f7a1e1e2bbf4f8aaa27bbfb2ac3e, type: 3}
+  m_PrefabInstance: {fileID: 357542864}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &357542866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 357542865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5c9538803d12d244a34e1e20efd2ec2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryHandler: {fileID: 669523427}
+  parent: {fileID: 1781821943}
+  collectionImgPrefab: {fileID: 6005406764573597902, guid: bab61fb42ff09e447a8832ecbe422c3e, type: 3}
 --- !u!1 &364293541
 GameObject:
   m_ObjectHideFlags: 0
@@ -4245,8 +4268,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -346, y: 12.168789}
-  m_SizeDelta: {x: 175, y: 675}
+  m_AnchoredPosition: {x: -232, y: 12.168823}
+  m_SizeDelta: {x: 175, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &669523427
 MonoBehaviour:
@@ -4260,8 +4283,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce52cbd5ea3e41747b2acb29a0cbb6a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotPrefab: {fileID: 2018134006602966422, guid: 52a82ee8e04bd314abe48123e513671b, type: 3}
+  slotPrefab: {fileID: 7225629122371964330, guid: a88e7cc9ee401ac4591ad5b0ccd71270, type: 3}
   parent: {fileID: 201679055}
+  inventorySlots: []
 --- !u!114 &669523428
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35634,6 +35658,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5269167023310143798, guid: 9e74fc8a4855f384da8d2e5b00524f90, type: 3}
+      propertyPath: invShowPos
+      value: 
+      objectReference: {fileID: 368760534}
+    - target: {fileID: 5269167023310143798, guid: 9e74fc8a4855f384da8d2e5b00524f90, type: 3}
       propertyPath: timerFillUI
       value: 
       objectReference: {fileID: 506307569}
@@ -35641,6 +35669,10 @@ PrefabInstance:
       propertyPath: greenWheelUI
       value: 
       objectReference: {fileID: 506307568}
+    - target: {fileID: 5269167023310143798, guid: 9e74fc8a4855f384da8d2e5b00524f90, type: 3}
+      propertyPath: inventoryPanel
+      value: 
+      objectReference: {fileID: 669523426}
     - target: {fileID: 5269167023310143798, guid: 9e74fc8a4855f384da8d2e5b00524f90, type: 3}
       propertyPath: aimReticleObject
       value: 

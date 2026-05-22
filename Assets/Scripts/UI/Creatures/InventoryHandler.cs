@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,8 @@ public class InventoryHandler : MonoBehaviour
 {
     [SerializeField] InventorySlot slotPrefab;
     [SerializeField] Transform parent;
+    public List<InventorySlot> inventorySlots = new List<InventorySlot>();
+    bool isSlotInteractable;
     // Start is called before the first frame update
     private void OnEnable()
     {
@@ -21,6 +24,8 @@ public class InventoryHandler : MonoBehaviour
     }
     void Start()
     {
+        isSlotInteractable = slotPrefab is InventorySlotInteractable;
+        
         PopulateInventory();
     }
     public void PopulateInventory()
@@ -30,9 +35,15 @@ public class InventoryHandler : MonoBehaviour
         for (int i = 0; i < inventoryData.Count; i++)
         {
             //populate the inventory
+            if(!isSlotInteractable && inventoryData[i]==InventoryState.buy)
+            {
+                //spawn only the owned slots for non interactable inventory 
+                //i.e only assigned and vacant ones
+                break;
+            }
             var spawnedSlot = Instantiate(slotPrefab, parent);
             spawnedSlot.Init(i, inventoryData[i]);
-
+            inventorySlots.Add(spawnedSlot);
         }
     }
     [ContextMenu("AddCollective")]

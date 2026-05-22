@@ -116,7 +116,7 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
         if (podState != PodState.Upgrade)
             return;
         // Check if we dragged something with an Image
-        var inventorySlot = eventData.pointerDrag?.GetComponent<InventorySlot>();
+        var inventorySlot = eventData.pointerDrag?.GetComponent<InventorySlotInteractable>();
         if (inventorySlot != null)
         {
             // get creature Type

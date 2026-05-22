@@ -1,6 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 using Cinemachine;
+using UnityEditor;
 
 public class LevelEnd : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class LevelEnd : MonoBehaviour
             //change player to roll/sleep state 
             playerController.gameObject.SetActive(false);
             sleepingPlayer.gameObject.SetActive(true);
+            var chainTargetPos = sleepingPlayer.transform.position;
             sleepingPlayer.DOLocalMoveY(yValue, 1f).SetEase(Ease.OutCubic);
 
             LevelManager.Instance.InvokeLevelCompleteAnalytics();
@@ -39,10 +41,14 @@ public class LevelEnd : MonoBehaviour
             //play level complete music 
             //spawn scoreboard menu
 
+
+            GamePlayScreenUI.Instance.ShowInventoryPanelAction?.Invoke();
             DOVirtual.DelayedCall(0.5f, () =>
             {
-                SoundManager.Instance.PlayLevelCompleteSFx();
-                GamePlayScreenUI.Instance.ShowLevelCompleteScreen();
+                var creatureChain = playerController.GetComponent<CreatureChain>();
+                GetComponent<ChainToInventory>().CollectChain(creatureChain , chainTargetPos);
+                //SoundManager.Instance.PlayLevelCompleteSFx();
+                //GamePlayScreenUI.Instance.ShowLevelCompleteScreen();
 
             });
         }

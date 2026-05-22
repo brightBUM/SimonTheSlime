@@ -45,6 +45,8 @@ public class GamePlayScreenUI : MonoBehaviour
     [SerializeField] GameObject gameplayScreen;
     [SerializeField] GameObject ScoreboardScreen;
     [SerializeField] GameObject retryScreen;
+    [SerializeField] Transform inventoryPanel;
+    [SerializeField] Transform invShowPos;
 
     Color defaultColor;
     public static GamePlayScreenUI Instance;
@@ -53,9 +55,14 @@ public class GamePlayScreenUI : MonoBehaviour
     public Action poundReleaseAction;
     public Action dashButtonAction;
     public Action grappleButtonAction;
+    public Action ShowInventoryPanelAction;
     public UnityEvent EnableThanksScreen;
     private TweenerCore<float, float, FloatOptions> tween;
     public bool BulletTimeActive => timerFillUI.fillAmount < 1f;
+    private void Awake()
+    {
+        Instance = this;
+    }
     private void OnEnable()
     {
         UpdateMidAirJumpUI += UpdateDashAbilityUI;
@@ -65,26 +72,9 @@ public class GamePlayScreenUI : MonoBehaviour
         dashButton.onClick.AddListener(DashViaButton);
         grappleButton.onClick.AddListener(GrappleViaButton);
         LootDrop.OnCollection += TweenCollection;
+        ShowInventoryPanelAction += ShowInventory;
     }
 
-    private void TweenCollection(Sprite sprite, Vector3 vector)
-    {
-        iconImage.gameObject.SetActive(true);
-        iconImage.sprite = sprite;
-        iconImage.preserveAspect = true;
-
-        var screenpos = Camera.main.WorldToScreenPoint(vector);
-        iconImage.transform.position = screenpos;
-        iconImage.transform.DOMove(bananaUI.transform.position, 1f).OnComplete(() =>
-        {
-            iconImage.gameObject.SetActive(false);
-        });
-    }
-
-    private void Awake()
-    {
-        Instance = this;
-    }
     
     void Start()
     {
@@ -116,6 +106,23 @@ public class GamePlayScreenUI : MonoBehaviour
         //{
         //    text.transform.localScale = Vector3.zero;
         //}
+    }
+    private void ShowInventory()
+    {
+        inventoryPanel.DOMove(invShowPos.position, 0.5f).SetEase(Ease.OutBack);
+    }
+    private void TweenCollection(Sprite sprite, Vector3 vector)
+    {
+        iconImage.gameObject.SetActive(true);
+        iconImage.sprite = sprite;
+        iconImage.preserveAspect = true;
+
+        var screenpos = Camera.main.WorldToScreenPoint(vector);
+        iconImage.transform.position = screenpos;
+        iconImage.transform.DOMove(bananaUI.transform.position, 1f).OnComplete(() =>
+        {
+            iconImage.gameObject.SetActive(false);
+        });
     }
     public void TogglePauseMenu()
     {
@@ -508,6 +515,7 @@ public class GamePlayScreenUI : MonoBehaviour
         grappleButton.onClick.RemoveListener(GrappleViaButton);
 
         LootDrop.OnCollection -= TweenCollection;
+        ShowInventoryPanelAction -= ShowInventory;
 
     }
 }

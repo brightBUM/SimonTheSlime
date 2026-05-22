@@ -80,11 +80,11 @@ public class SaveLoadManager : MonoBehaviour
 
             //8 slot inventory
             playerProfile.inventoryData.Add(InventoryState.common);
-            playerProfile.inventoryData.Add(InventoryState.rare);
-            playerProfile.inventoryData.Add(InventoryState.rare);
-            playerProfile.inventoryData.Add(InventoryState.epic);
+            //playerProfile.inventoryData.Add(InventoryState.rare);
+            //playerProfile.inventoryData.Add(InventoryState.rare);
+            //playerProfile.inventoryData.Add(InventoryState.epic);
             playerProfile.inventoryData.Add(InventoryState.vacant);
-            for(int i=0;i < 3;i++)
+            for(int i=0;i < 6;i++)
             {
                 playerProfile.inventoryData.Add(InventoryState.buy);
             }
@@ -344,9 +344,13 @@ public class SaveLoadManager : MonoBehaviour
     {
         return playerProfile.inventoryData.Contains(InventoryState.vacant);
     }
+    public int GetVacantInventorySlotIndex()
+    {
+        return playerProfile.inventoryData.IndexOf(InventoryState.vacant);
+    }
     public void AddCreatureToInventory(int creature)
     {
-        int index = playerProfile.inventoryData.IndexOf(InventoryState.vacant); //gets first available slot
+        int index = GetVacantInventorySlotIndex(); //gets first available slot
         if (index == -1)
             return; // inventory full
 

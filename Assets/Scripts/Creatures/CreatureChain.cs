@@ -8,7 +8,7 @@ public class CreatureChain : MonoBehaviour
     public float segmentSpacing = 0.5f;
 
     public List<Transform> segments = new List<Transform>();
-    List<CreatureType> creatureTypes = new List<CreatureType>();
+    public List<CreatureType> creatureTypes = new List<CreatureType>();
     public SpriteRenderer playerSprite;
     private Vector3 lastPosition;
     private Vector3 baseOffset;
@@ -78,9 +78,5 @@ public class CreatureChain : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
-    {
-
-        
-    }
+    
 }
