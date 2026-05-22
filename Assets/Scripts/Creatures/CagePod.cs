@@ -44,7 +44,7 @@ public class CagePod : MonoBehaviour
 
                 //spawn the creature prefab
                 var creatureDrop = Instantiate(creaturePrefab,transform.position,Quaternion.identity);
-                creatureDrop.SetCreatureType(creatureVisual.sprite);
+                creatureDrop.SetCreatureType(this.creatureType,creatureVisual.sprite);
                 creatureDrop.Init();
 
                 //disable the collider 

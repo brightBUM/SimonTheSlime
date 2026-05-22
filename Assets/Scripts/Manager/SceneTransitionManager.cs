@@ -55,7 +55,7 @@ public class SceneTransitionManager : MonoBehaviour
         // Ensure main vcam is active before blending away
         BlendToCamera(mainVirtualCam, cut: true);
 
-        Debug.Break();
+        //Debug.Break();
         // 2. Load loading screen, offset, cut to its camera
         yield return SceneManager.LoadSceneAsync(loadingSceneName, LoadSceneMode.Additive);
         loadingVirtualCam = FindVirtualCamInScene(loadingSceneName);

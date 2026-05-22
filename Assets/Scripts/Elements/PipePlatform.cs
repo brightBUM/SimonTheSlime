@@ -27,7 +27,7 @@ public class PipePlatform : MonoBehaviour, IPoundable
     [Header("Rise Settings")]
     [SerializeField] float snapDuration = 0.2f;   // time to snap to pipe X
     [SerializeField] float pullDuration = 0.8f;   // time to rise to targetPos
-    [SerializeField] float riseRowDelay = 0.2f;
+    [SerializeField] float riseRowDelay = 0.5f;
     [SerializeField] int width = 3;
     [SerializeField] int maxDepth = 20;
 
@@ -239,6 +239,8 @@ public class PipePlatform : MonoBehaviour, IPoundable
         var playerAnimation = playerInput.GetComponentInChildren<PlayerAnimation>();
         playerAnimation.ToggleSpriteOrder(1);
         playerAnimation.ToggleTrailRenderer(true);
+        playerController.GetComponent<CreatureChain>().SpriteSortChain(1);
+
 
         poundCollider.enabled = true;
         this.enabled = false;
@@ -268,7 +270,7 @@ public class PipePlatform : MonoBehaviour, IPoundable
     }
     IEnumerator MoveChunkToPosition(GameObject chunk, Vector3 targetPos, Vector3Int cellPos, TileBase tile)
     {
-        float duration = 0.2f;
+        float duration = UnityEngine.Random.Range(0.2f,0.3f);
         float t = 0f;
 
         Vector3 startPos = chunk.transform.position;

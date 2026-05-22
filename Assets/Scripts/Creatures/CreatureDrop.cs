@@ -11,8 +11,10 @@ public enum CreatureType
 
 public class CreatureDrop : LootDrop
 {
-    public void SetCreatureType(Sprite sprite)
+    public CreatureType creatureType;
+    public void SetCreatureType(CreatureType creatureType,Sprite sprite)
     {
+        this.creatureType = creatureType;
         spriteRenderer.sprite = sprite;
     }
     protected override void Update()
@@ -25,7 +27,7 @@ public class CreatureDrop : LootDrop
         //attach to last chain position for player controller
         if(collision.TryGetComponent<CreatureChain>(out CreatureChain creatureChain))
         {
-            creatureChain.AddToChain(spriteRenderer.sprite);
+            creatureChain.AddToChain(creatureType,spriteRenderer.sprite);
             Destroy(this.gameObject);
         }
     }

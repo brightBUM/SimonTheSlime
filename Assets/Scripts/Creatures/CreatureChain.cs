@@ -1,5 +1,3 @@
-using Sirenix.OdinInspector.Editor;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +8,7 @@ public class CreatureChain : MonoBehaviour
     public float segmentSpacing = 0.5f;
 
     public List<Transform> segments = new List<Transform>();
+    List<CreatureType> creatureTypes = new List<CreatureType>();
     public SpriteRenderer playerSprite;
     private Vector3 lastPosition;
     private Vector3 baseOffset;
@@ -18,26 +17,26 @@ public class CreatureChain : MonoBehaviour
     private float modeTimer = 0f;
     void Start()
     {
-        //// Instantiate and position the chain behind the player
-        //for (int i = 0; i < segmentCount; i++)
-        //{
-        //    GameObject seg = Instantiate(segmentPrefab, transform.position, Quaternion.identity);
-        //    seg.SetActive(true);
-        //    segments.Add(seg.transform);
-        //}
         lastPosition = transform.position;
         baseOffset = playerSprite.flipX ? Vector3.right : Vector3.left;
         targetOffset = baseOffset;
     }
 
-    public void AddToChain(Sprite sprite)
+    public void AddToChain(CreatureType creature,Sprite sprite)
     {
         GameObject seg = Instantiate(segmentPrefab, transform.position, Quaternion.identity);
         seg.SetActive(true);
         seg.GetComponentInChildren<SpriteRenderer>().sprite = sprite;
         segments.Add(seg.transform);
+        creatureTypes.Add(creature);
     }
-
+    public void SpriteSortChain(int value)
+    {
+        foreach(Transform seg in segments)
+        {
+            seg.GetComponentInChildren<SpriteRenderer>().sortingOrder = value;
+        }
+    }
     void Update()
     {
         if (segments.Count == 0) return;
