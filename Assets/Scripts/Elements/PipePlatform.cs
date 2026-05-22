@@ -17,6 +17,8 @@ public class PipePlatform : MonoBehaviour, IPoundable
     [SerializeField] Transform targetPos;
     [SerializeField] BoxCollider2D poundCollider;
     [SerializeField] BoxCollider2D triggerCollider;
+    [SerializeField] GameObject lightSprite;
+    [SerializeField] GameObject arrowSprite;
     [Header("Break Settings")]
     [SerializeField] float explosionForce = 6f;
     [SerializeField] float upwardBias = 1.5f;
@@ -25,7 +27,7 @@ public class PipePlatform : MonoBehaviour, IPoundable
     [Header("Rise Settings")]
     [SerializeField] float snapDuration = 0.2f;   // time to snap to pipe X
     [SerializeField] float pullDuration = 0.8f;   // time to rise to targetPos
-    [SerializeField] float riseRowDelay = 0.1f;
+    [SerializeField] float riseRowDelay = 0.2f;
     [SerializeField] int width = 3;
     [SerializeField] int maxDepth = 20;
 
@@ -46,20 +48,25 @@ public class PipePlatform : MonoBehaviour, IPoundable
 
     public void OnPlayerPounded(Action<IPoundable> ContinuePound)
     {
+        if (!this.enabled)
+            return;
+
+        if (TryGetComponent<Collider2D>(out var col))
+            col.enabled = false;
+
         ContinuePound(this);
 
         foreach (var sr in spriteRenderers)
             sr.sortingOrder = 10;
 
-        if (TryGetComponent<Collider2D>(out var col))
-            col.enabled = false;
+        
 
         StartCoroutine(BreakTilesRowByRow(transform.position));
     }
 
     IEnumerator BreakTilesRowByRow(Vector3 impactWorldPos)
     {
-        Debug.Break();
+        //Debug.Break();
         Vector3Int baseCell = groundTilemap.WorldToCell(
             impactWorldPos + Vector3.down * groundTilemap.cellSize.y
         );
@@ -191,6 +198,7 @@ public class PipePlatform : MonoBehaviour, IPoundable
         // Process rows
         foreach (var row in rows)
         {
+            //Debug.Break();
             // Spawn tiles
             foreach (var cellPos in row.Value)
             {
@@ -207,24 +215,19 @@ public class PipePlatform : MonoBehaviour, IPoundable
                 StartCoroutine(MoveChunkToPosition(chunk, targetPos, cellPos, data.tile));
             }
 
-            // 🔥 Move player UP one tile (THIS is the key)
-            //Vector3 nextPos = player.transform.position + Vector3.up * (groundTilemap.cellSize.y+1f);
-            Vector3 nextPos = targetPos.position;
+            // Move player UP one tile (THIS is the key)
+            Vector3 nextPos = player.transform.position + Vector3.up * (groundTilemap.cellSize.y + 1f);
+            //Vector3 nextPos = targetPos.position;
             StartCoroutine(MovePlayer(player.transform, nextPos));
 
             yield return new WaitForSeconds(riseRowDelay);
         }
 
+        StartCoroutine(MovePlayer(player.transform, targetPos.position));
         cachedTiles.Clear();
 
-        //// Restore player physics
-        //rb.gravityScale = 1f;
-        //rb.AddForce(Vector2.up * 3f);
-
-        ////yield return new WaitForSeconds(1f);
-
-        //if (TryGetComponent<Collider2D>(out var col))
-        //    col.enabled = true;
+        lightSprite.SetActive(false);
+        arrowSprite.SetActive(false);
 
         playerController.enabled = true;
         var playerInput = playerController.GetComponent<PlayerInput>();
@@ -235,9 +238,13 @@ public class PipePlatform : MonoBehaviour, IPoundable
 
         var playerAnimation = playerInput.GetComponentInChildren<PlayerAnimation>();
         playerAnimation.ToggleSpriteOrder(1);
+        playerAnimation.ToggleTrailRenderer(true);
 
         poundCollider.enabled = true;
         this.enabled = false;
+
+        LevelManager.Instance.ToggleLevelParallaxLayers(Camera.main.transform);
+        
     }
     IEnumerator MovePlayer(Transform player, Vector3 targetPos)
     {
@@ -297,7 +304,6 @@ public class PipePlatform : MonoBehaviour, IPoundable
         {
             Debug.Log("transition triggered");
             playerController = player;
-            player.SetToIdle();
             player.ResetPound();
             player.GetComponent<Rigidbody2D>().gravityScale = 0f;
             LevelManager.Instance.sceneTransitionManager.TriggerSecretRoomTransition();

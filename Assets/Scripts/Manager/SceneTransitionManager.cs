@@ -19,7 +19,7 @@ public class SceneTransitionManager : MonoBehaviour
     public Transform playerTransform;
     public PlayerController playerController;
     public CinemachineVirtualCamera mainVirtualCam;
-    
+
     [Header("Camera Blending")]
     public float blendDuration = 1f;
 
@@ -27,7 +27,7 @@ public class SceneTransitionManager : MonoBehaviour
     private CinemachineVirtualCamera loadingVirtualCam;
     private CinemachineVirtualCamera secretRoomVirtualCam;
 
-   
+
     public void Init(CinemachineVirtualCamera vCam, Camera mainCam, PlayerController playerController)
     {
         this.mainVirtualCam = vCam;
@@ -40,7 +40,7 @@ public class SceneTransitionManager : MonoBehaviour
     public void TriggerSecretRoomTransition()
     {
         StartCoroutine(LoadSecretRoom());
-        
+
     }
 
     IEnumerator LoadSecretRoom()
@@ -55,7 +55,7 @@ public class SceneTransitionManager : MonoBehaviour
         // Ensure main vcam is active before blending away
         BlendToCamera(mainVirtualCam, cut: true);
 
-        //Debug.Break();
+        Debug.Break();
         // 2. Load loading screen, offset, cut to its camera
         yield return SceneManager.LoadSceneAsync(loadingSceneName, LoadSceneMode.Additive);
         loadingVirtualCam = FindVirtualCamInScene(loadingSceneName);
@@ -99,7 +99,6 @@ public class SceneTransitionManager : MonoBehaviour
                 secretRoomVirtualCam = FindVirtualCamInScene(secretRoomSceneName);
 
                 //DungeonManager.Instance.SetParallaxPositions(secretRoomVirtualCam.transform);
-                DungeonManager.Instance.ToggleLevelParallaxLayers(Camera.main.transform);
 
                 generateDone = true;
             });
@@ -113,11 +112,11 @@ public class SceneTransitionManager : MonoBehaviour
         while (!generateDone)
             yield return null;
 
-        
 
         // 6. Cut to secret room camera
         BlendToCamera(secretRoomVirtualCam, cut: true);
         yield return new WaitForSeconds(0.1f);
+
 
         // 7. Unload loading screen
         yield return SceneManager.UnloadSceneAsync(loadingSceneName);
@@ -126,6 +125,7 @@ public class SceneTransitionManager : MonoBehaviour
         // 8. Unfreeze player
         //playerController.enabled = true;
         GamePlayScreenUI.Instance.ToggleGameplayScreen(true);
+
 
         Debug.Log("Transition to secret room complete");
     }
@@ -138,7 +138,6 @@ public class SceneTransitionManager : MonoBehaviour
 
     IEnumerator UnloadSecretRoom()
     {
-        Debug.Break();
         playerController.enabled = false;
         GamePlayScreenUI.Instance.ToggleGameplayScreen(false);
         DungeonManager.Instance.ToggleLevelParallaxLayers(null);
@@ -151,6 +150,10 @@ public class SceneTransitionManager : MonoBehaviour
         loadingVirtualCam = FindVirtualCamInScene(loadingSceneName);
         BlendToCamera(loadingVirtualCam, cut: true);
         FindAnyObjectByType<PlayerTransitionDummy>().Init(false);
+
+        var pipePlatform = FindAnyObjectByType<PipePlatform>();
+        pipePlatform.RepositionPlayer();
+
         // Minimum display time for loading screen on return
         float elapsed = 0f;
         float minLoadTime = 1f;
@@ -164,20 +167,26 @@ public class SceneTransitionManager : MonoBehaviour
         yield return SceneManager.UnloadSceneAsync(secretRoomSceneName);
         secretRoomVirtualCam = null;
 
-        var pipePlatform = FindAnyObjectByType<PipePlatform>();
-        
-        pipePlatform.RepositionPlayer();
-        
+        // Force main vcam to forget where it was — kills all interpolation history
+        mainVirtualCam.enabled = false;
+        yield return null; // one frame with it disabled
+        mainVirtualCam.enabled = true;
+        mainVirtualCam.PreviousStateIsValid = false;
+        yield return null; // one frame for it to initialize at player position
+
+
         // Cut back to main cam
         BlendToCamera(mainVirtualCam, cut: true);
-        yield return new WaitForSeconds(0.1f);
+        yield return null;
 
+
+        yield return new WaitForSeconds(0.2f); 
         // TODO: teleport player back to main scene return spawn
         pipePlatform.TriggerRebuild();
         // playerTransform.position = mainReturnSpawn.position;
 
         // Restore main scene parallax — player is back in main scene world space
-        //SetParallaxTarget(mainSceneName, playerTransform);
+        
         //SetParallaxActive(mainSceneName, true);
 
         // Unload loading screen
@@ -190,7 +199,7 @@ public class SceneTransitionManager : MonoBehaviour
         Debug.Log("Transition back to main scene complete");
     }
 
-    
+
 
     // ── Camera helpers ────────────────────────────────────────────────────────
     void BlendToCamera(CinemachineVirtualCamera targetCam, bool cut = false)

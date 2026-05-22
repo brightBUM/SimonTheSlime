@@ -212,6 +212,7 @@ public class ChunkGenerator : MonoBehaviour
         var playerSpawnPos = chunkEntryPoint.transform.position;
         var playerAnimation = playerRef.GetComponentInChildren<PlayerAnimation>();
         playerAnimation.ToggleSpriteOrder(-1);
+        playerAnimation.ResetIdle();
 
         yield return new WaitForSeconds(1.1f); //wait for entry pipe animation to finish
         //spawn player
@@ -223,6 +224,9 @@ public class ChunkGenerator : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         playerAnimation.ToggleSpriteOrder(1);
+
+        DungeonManager.Instance.EnableLevelParallaxLayers(true);
+        DungeonManager.Instance.ToggleLevelParallaxLayers(Camera.main.transform);
 
     }
 

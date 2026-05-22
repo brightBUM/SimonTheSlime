@@ -37,6 +37,13 @@ public class DungeonManager : MonoBehaviour
             layer.SetTarget(target);
         }
     }
+    public void EnableLevelParallaxLayers(bool value)
+    {
+        foreach (var layer in parallaxLoopers)
+        {
+            layer.enabled = value;
+        }
+    }
     public void SetParallaxPositions(Transform target)
     {
         foreach (var layer in parallaxLoopers)

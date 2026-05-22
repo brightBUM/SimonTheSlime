@@ -120,6 +120,10 @@ public class PlayerAnimation : MonoBehaviour
     {
         return spriteRenderer.flipX;
     }
+    public void ResetIdle()
+    {
+        animator.ResetTrigger("idle");
+    }
     public void ResetAll()
     {
         ResetVelocity();
@@ -169,6 +173,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         trailRenderer.enabled = value;
     }
+
     public void ToggleSpriteOrder(int value)
     {
         spriteRenderer.sortingOrder = value;

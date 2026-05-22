@@ -21,7 +21,8 @@ public class ChunkExitPoint : MonoBehaviour
             playerInput.Freeze?.Invoke();
             playerInput.enabled = false;
             var playerAnimation = playerInput.GetComponentInChildren<PlayerAnimation>();
-            playerAnimation.ToggleSpriteOrder(-1);
+            playerAnimation.ToggleSpriteOrder(-2);
+            playerAnimation.ToggleTrailRenderer(false);
             //snap pos - UFO suck effect to exit pipe
             Transform player = playerInput.transform;
             Vector3 snapTarget = new Vector3(snapPoint.position.x,
