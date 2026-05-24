@@ -428,6 +428,7 @@ public class PlayerController : MonoBehaviour
 
         rb.linearVelocity = Vector2.down * poundForce;
         ResetGravity();
+        playerAnimation.ForceTrailActive(); // if disabled due to creature chain
         playerAnimation.PoundTrailEffect();
     }
     private void RelaunchPlayer()

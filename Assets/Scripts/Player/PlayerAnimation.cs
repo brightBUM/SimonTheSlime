@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerAnimation : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class PlayerAnimation : MonoBehaviour
     float timer = 1f;
     bool skinAnimate;
     public SpriteRenderer ghostDummyVisual;
+    CreatureChain creatureChain;
     // Start is called before the first frame update
     void Start()
     {
@@ -45,6 +47,8 @@ public class PlayerAnimation : MonoBehaviour
         spriteRenderer.material.SetFloat("_Invert", skin.invert);
 
         skinAnimate = GameManger.Instance.ShouldAnimate();
+
+        creatureChain = playerController.GetComponent<CreatureChain>();
     }
 
     // Update is called once per frame
@@ -171,7 +175,20 @@ public class PlayerAnimation : MonoBehaviour
     }
     public void ToggleTrailRenderer(bool value)
     {
-        trailRenderer.enabled = value;
+        if(value)
+        {
+            //check if creature chain==0
+            if(creatureChain.segments.Count==0)
+                trailRenderer.enabled = value;
+        }
+        else
+        {
+            trailRenderer.enabled = value;
+        }
+    }
+    public void ForceTrailActive()
+    {
+        trailRenderer.enabled = true;
     }
 
     public void ToggleSpriteOrder(int value)
