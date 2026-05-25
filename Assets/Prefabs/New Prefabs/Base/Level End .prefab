@@ -1519,6 +1519,37 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &2323606280982984451
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4323114834801483488}
+  m_Layer: 0
+  m_Name: Inv Full text pos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4323114834801483488
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2323606280982984451}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.43, y: 5.24, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5289766292405697462}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2391407082445568899
 GameObject:
   m_ObjectHideFlags: 0
@@ -3964,6 +3995,7 @@ GameObject:
   - component: {fileID: 5289766292405697462}
   - component: {fileID: 5485991100092157460}
   - component: {fileID: 7541733968418404670}
+  - component: {fileID: 2485093859796209091}
   m_Layer: 0
   m_Name: 'Level End '
   m_TagString: Untagged
@@ -3989,6 +4021,7 @@ Transform:
   - {fileID: 8516342024384453360}
   - {fileID: 9198895736586130856}
   - {fileID: 7622497451010717776}
+  - {fileID: 4323114834801483488}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &5485991100092157460
@@ -4051,7 +4084,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sleepingPlayer: {fileID: 3792646638448423548}
   camCentre: {fileID: 7622497451010717776}
+  inventoryFullCanvas: {fileID: 14129680045801621, guid: 25139828b6204924380b7387d2a3f297, type: 3}
+  invFullSpawnTransform: {fileID: 4323114834801483488}
   yValue: 1.85
+--- !u!114 &2485093859796209091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6334032491021425923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5c9538803d12d244a34e1e20efd2ec2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectionImgPrefab: {fileID: 6005406764573597902, guid: bab61fb42ff09e447a8832ecbe422c3e, type: 3}
 --- !u!1 &6390235855271054643
 GameObject:
   m_ObjectHideFlags: 0

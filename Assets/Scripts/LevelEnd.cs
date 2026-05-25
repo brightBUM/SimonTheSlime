@@ -2,9 +2,7 @@ using Cinemachine;
 using DG.Tweening;
 using System;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
-using static UnityEngine.Rendering.HableCurve;
 
 public class LevelEnd : MonoBehaviour
 {
