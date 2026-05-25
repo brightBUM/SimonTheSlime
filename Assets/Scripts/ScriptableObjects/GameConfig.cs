@@ -31,6 +31,15 @@ public class GameConfig : SerializedScriptableObject
     public List<CreatureData> rareData;
     public List<CreatureData> epicData;
 
+    [Header("Inventory Data")]
+    [SerializeField] int inventorySize;
+    [SerializeField] int initialSlotsUnlocked;
+    public List<int> inventorySlotCost;
+
+    [Header("Recovery Pods Data")]
+    public List<int> podsCost;
+    public List<CurrencyAmount> podLevel_2_Cost;
+    public List<CurrencyAmount> podLevel_3_Cost;
     public List<CreatureData> GetCreatureList(int index)
     {
         switch(index)

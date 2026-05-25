@@ -18,9 +18,16 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
     [Header("BuySetup")]
     [SerializeField] GameObject buySetup;
     [SerializeField] Button buyButton;
+    [Header("Pod level ref")]
+    [SerializeField] GameObject[] podVisualLevels;
+    [SerializeField] GameObject[] levelsNums;
     [Header("Vacant Setup")]
+    [SerializeField] GameObject podLevelsSetup;
     [SerializeField] GameObject vacantSetup;
     [SerializeField] Button upgradeButton;
+    [SerializeField] Transform currencyItemParent;
+    [SerializeField] CurrencyItemUI currencyItemUI;
+    [SerializeField] TextMeshProUGUI speedUpgradeText;
     // current upgrade speed text
     // upgrade progress
     [Header("Assigned Setup")]
@@ -32,6 +39,9 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
     [SerializeField] GameObject completeSetup;
     [SerializeField] Button completeButton;
     public PodState podState;
+    public int podLevel;
+
+    private String[] upgradeTexts = { "1x >> 2x Speed", "2x >> 3x Speed", "Max Level" };
     private void OnEnable()
     {
         buyButton.onClick.     AddListener(BuyPod);
@@ -41,7 +51,6 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
     public void Init(int index,RecoveryPodData recoveryPodData = null)
     {
         this.podId = index;
-
         if(recoveryPodData!=null)
             this.podState = recoveryPodData.GetPodState();
 
@@ -50,13 +59,17 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
         {
             item.SetActive(false);
         }
+
+        
         switch (podState)
         {
             case PodState.Buy:
                 buySetup.SetActive(true);
+                podLevelsSetup.SetActive(false);
                 //cost to buy
                 break;
             case PodState.Upgrade:
+                this.podLevel = recoveryPodData.podLevel;
                 ShowUpgradeState();
                 break;
             case PodState.Assigned:
@@ -91,22 +104,78 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
     {
         vacantSetup.SetActive(true);
         //to do - show level of pod
+        ToggleItem(podVisualLevels,this.podLevel-1);
+        ToggleItem(levelsNums,this.podLevel-1);
         //upgrade speed
+        speedUpgradeText.text = upgradeTexts[this.podLevel-1];
+
         //cost to upgrade
+        CalculateCostToUpgrade();
     }
+
+    private void CalculateCostToUpgrade()
+    {
+        var gameManagerInstance = GameManger.Instance;
+        //get from game config
+        var costList = gameManagerInstance.GetRecoveryPodUpgradeAmount(this.podLevel);
+
+        if(costList!=null)
+        {
+            foreach(Transform child in currencyItemParent)
+            {
+                Destroy(child.gameObject);
+            }
+            foreach (var cost in costList)
+            {
+                //sprite from gameManager
+                var sprite = gameManagerInstance.GetCurrencyIcon((int)cost.currencyType);
+                //spawn on UI button
+                var currencyItemUIObject = Instantiate(currencyItemUI, currencyItemParent);
+                currencyItemUIObject.SetCurrencyData(sprite, cost.amount.ToString());
+            }
+        }
+        else
+        {
+            //if costList is null
+            if(podLevel==3)
+            {
+                upgradeButton.gameObject.SetActive(false);
+            }
+            else
+            {
+                Debug.LogWarning("invalid Pod Level Error");
+            }
+        }
+        
+    }
+    
     //unlock / buy this pod
     public void BuyPod()
     {
         buySetup.SetActive(false);
-        vacantSetup.SetActive(true);
+        podLevelsSetup.SetActive(true);
         podState = PodState.Upgrade;
+        ShowUpgradeState();
         SaveLoadManager.Instance.BuyNewPod();
+        this.podLevel = 1; 
     }
     //upgrade pod
     public void UpgradePod()
     {
+        if (this.podLevel < 3) //update local variable first , then saveload
+            podLevel++;
         //update text for the current upgrade progress
         SaveLoadManager.Instance.UpgradePod(podId);
+        ShowUpgradeState();
+    }
+
+    public void ToggleItem(GameObject[] items, int index)
+    {
+        foreach (var item in items)
+        {
+            item.SetActive(false);
+        }
+        items[index].SetActive(true);
     }
     public void OnPointerEnter(PointerEventData eventData) { Debug.Log("pointer entered"); }
     public void OnPointerExit(PointerEventData eventData) { Debug.Log("pointer exited"); }

@@ -45,7 +45,7 @@ public class GamePlayScreenUI : MonoBehaviour
     [SerializeField] GameObject gameplayScreen;
     [SerializeField] GameObject ScoreboardScreen;
     [SerializeField] GameObject retryScreen;
-    [SerializeField] Transform inventoryPanel;
+    public InventoryHandler inventoryPanel;
     [SerializeField] Transform invShowPos;
 
     Color defaultColor;
@@ -109,7 +109,7 @@ public class GamePlayScreenUI : MonoBehaviour
     }
     private void ShowInventory()
     {
-        inventoryPanel.DOMove(invShowPos.position, 0.5f).SetEase(Ease.OutBack);
+        inventoryPanel.transform.DOMove(invShowPos.position, 0.5f).SetEase(Ease.OutBack);
     }
     private void TweenCollection(Sprite sprite, Vector3 vector)
     {

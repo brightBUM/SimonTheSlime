@@ -8,8 +8,6 @@ using UnityEngine.UI;
 
 public class ChainToInventory : MonoBehaviour
 {
-    [SerializeField] InventoryHandler inventoryHandler;
-    [SerializeField] Transform parent;
     [SerializeField] Image collectionImgPrefab;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -40,9 +38,10 @@ public class ChainToInventory : MonoBehaviour
                 segment.transform.gameObject.SetActive(false);
                 if (SaveLoadManager.Instance.IsInventorySlotAvailable())
                 {
+                    var inventoryHandler = GamePlayScreenUI.Instance.inventoryPanel;
                     //Debug.Break();
                     //spawn ui collection Image
-                    Image flyImg = Instantiate(collectionImgPrefab, parent);
+                    Image flyImg = Instantiate(collectionImgPrefab, inventoryHandler.transform);
                     flyImg.sprite = GameManger.Instance.GetCreatureSprite(segment.type);
                     flyImg.raycastTarget = false;
                     RectTransform flyRect = flyImg.GetComponent<RectTransform>();
@@ -56,7 +55,7 @@ public class ChainToInventory : MonoBehaviour
                     Vector2 localPoint;
 
                     RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                        (RectTransform)parent,
+                        (RectTransform)inventoryHandler.transform,
                         RectTransformUtility.WorldToScreenPoint(null, targetRect.position),
                         null,
                         out localPoint
@@ -68,7 +67,7 @@ public class ChainToInventory : MonoBehaviour
                         //Debug.Break();
                         inventoryHandler.inventorySlots[slotIndex].Init(slotIndex, (InventoryState)segment.type);
                         flyRect.gameObject.SetActive(false);
-                    });
+                    }).SetLink(this.gameObject);
                 }
                 else
                 {

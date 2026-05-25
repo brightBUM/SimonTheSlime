@@ -15,6 +15,7 @@ public class GameManger : MonoBehaviour
     [SerializeField] CharSkinSO charSkinSO;
     [SerializeField] Sprite[] creatureSprites;
     [SerializeField] Color[] creatureColors;
+    [SerializeField] Sprite[] currencyIcons;
 
     public GameConfig gameConfig;
 
@@ -171,6 +172,10 @@ public class GameManger : MonoBehaviour
 
         }
     }
+    public Sprite GetCurrencyIcon(int index)
+    {
+        return currencyIcons[index];
+    }
     public void TogglePauseGame()
     {
         IsPaused = !IsPaused;
@@ -191,5 +196,27 @@ public class GameManger : MonoBehaviour
     {
         Application.OpenURL(termsAndConditionsURL);
     }
-
+    public List<CurrencyAmount> GetRecoveryPodUpgradeAmount(int podLevel)
+    {
+        if (podLevel == 1)
+            return gameConfig.podLevel_2_Cost;
+        else if (podLevel == 2)
+            return gameConfig.podLevel_3_Cost;
+        else
+            return null;
+    }
+}
+public enum CurrencyType
+{
+    Nanas,
+    cursedNanas,
+    Melons,
+    Screws,
+    Batteries
+}
+[System.Serializable]
+public struct CurrencyAmount
+{
+    public CurrencyType currencyType;
+    public int amount;
 }
