@@ -417,13 +417,29 @@ public class SaveLoadManager : MonoBehaviour
     }
     public void AddCurrency(CurrencyType type, int amount)
     {
+        
         switch (type)
         {
-            case CurrencyType.Nanas:       playerProfile.nanas       += amount;  break;
-            case CurrencyType.cursedNanas: playerProfile.cursedNanas += amount;  break;
-            case CurrencyType.Melons:      playerProfile.melons      += amount;  break;
-            case CurrencyType.Screws:      playerProfile.screws      += amount;  break;
-            case CurrencyType.Batteries:   playerProfile.batteries   += amount;  break;
+            case CurrencyType.Nanas:
+                CurrencyManager.OnCurrencyAddition?.Invoke(type, playerProfile.nanas, amount);
+                playerProfile.nanas += amount;  
+                break;
+            case CurrencyType.cursedNanas:
+                CurrencyManager.OnCurrencyAddition?.Invoke(type, playerProfile.cursedNanas, amount);
+                playerProfile.cursedNanas += amount;  
+                break;
+            case CurrencyType.Melons:   
+                CurrencyManager.OnCurrencyAddition?.Invoke(type, playerProfile.melons, amount);
+                playerProfile.melons      += amount;  
+                break;
+            case CurrencyType.Screws:
+                CurrencyManager.OnCurrencyAddition?.Invoke(type, playerProfile.screws, amount);
+                playerProfile.screws      += amount;  
+                break;
+            case CurrencyType.Batteries:
+                CurrencyManager.OnCurrencyAddition?.Invoke(type, playerProfile.batteries, amount);
+                playerProfile.batteries   += amount;  
+                break;
         }
     }
 

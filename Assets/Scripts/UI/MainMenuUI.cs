@@ -135,11 +135,13 @@ public class MainMenuUI : MonoBehaviour
         {
             //hide inventory
             HideInventory();
+            CurrencyManager.ToggleCurrencyPanel?.Invoke(false);
             creaturePanel.transform.DOMove(crHideTransform.position, 0.5f).SetEase(Ease.OutBack);
         }
         else if(num<3)
         {
             ShowInventory();
+            CurrencyManager.ToggleCurrencyPanel?.Invoke(true);
             creaturePanel.transform.DOMove(crCloseTransform.position, 0.5f).SetEase(Ease.OutBack);
         }
 
