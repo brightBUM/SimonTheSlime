@@ -400,6 +400,56 @@ public class SaveLoadManager : MonoBehaviour
     {
         return unlockMap[creatureId];
     }
+
+    //currencies
+    public int GetCurrency(CurrencyType type)
+    {
+        switch (type)
+        {
+            case CurrencyType.Nanas:       return playerProfile.nanas;
+            case CurrencyType.cursedNanas: return playerProfile.cursedNanas;
+            case CurrencyType.Melons:      return playerProfile.melons;
+            case CurrencyType.Screws:      return playerProfile.screws;
+            case CurrencyType.Batteries:   return playerProfile.batteries;
+        }
+
+        return 0;
+    }
+    public void AddCurrency(CurrencyType type, int amount)
+    {
+        switch (type)
+        {
+            case CurrencyType.Nanas:       playerProfile.nanas       += amount;  break;
+            case CurrencyType.cursedNanas: playerProfile.cursedNanas += amount;  break;
+            case CurrencyType.Melons:      playerProfile.melons      += amount;  break;
+            case CurrencyType.Screws:      playerProfile.screws      += amount;  break;
+            case CurrencyType.Batteries:   playerProfile.batteries   += amount;  break;
+        }
+    }
+
+    public bool CanAfford(List<CurrencyAmount> currencyAmounts)
+    {
+        foreach(CurrencyAmount currencyAmount in currencyAmounts)
+        {
+            if (GetCurrency(currencyAmount.currencyType) < currencyAmount.amount)
+                return false; //false even if one of the cost is not met
+        }
+        return true;
+    }
+    public bool CanPurchase(List<CurrencyAmount> currencyAmounts)
+    {
+        if(!CanAfford(currencyAmounts))
+        {
+            Debug.Log("currency cost not met");
+            return false;
+        }
+
+        foreach (CurrencyAmount currencyAmount in currencyAmounts)
+        {
+            AddCurrency(currencyAmount.currencyType, -currencyAmount.amount);
+        }
+        return true;
+    }
 }
 [System.Serializable]
 public class PlayerProfile
@@ -407,6 +457,7 @@ public class PlayerProfile
     public string profileName;
     public int age;
     public int nanas;
+    public int cursedNanas;
     public int melons;
     public int screws;
     public int batteries;
@@ -432,5 +483,7 @@ public class VolumeControl
     public float volumeValue = 1.0f;
     public bool volumeState = true;
 }
+
+
 
 

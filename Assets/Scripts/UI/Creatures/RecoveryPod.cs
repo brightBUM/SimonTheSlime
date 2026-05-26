@@ -35,8 +35,11 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
     [SerializeField] Image creatureImage;
     [SerializeField] TextMeshProUGUI timeRemainingText;
     [SerializeField] Button hardCurrencyFinishButton;
+    [SerializeField] Image glassImage;
+    [SerializeField] Color[] creatureColors;
     [Header("Complete Setup")]
     [SerializeField] GameObject completeSetup;
+    [SerializeField] Transform glowTransform;
     [SerializeField] Button completeButton;
     public PodState podState;
     public int podLevel;
@@ -74,6 +77,7 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
                 break;
             case PodState.Assigned:
                 assignedSetup.SetActive(true);
+                creatureImage.enabled = true;
                 creatureImage.sprite = GameManger.Instance.GetCreatureSprite((CreatureType)(recoveryPodData.creatureType-1));  //-1 to counter for the saveload setup
                 break;
             case PodState.Recovered:
@@ -95,6 +99,8 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
                 podState = PodState.Recovered;
                 assignedSetup.SetActive(false);
                 completeSetup.SetActive(true);
+                glowTransform.gameObject.SetActive(true);
+                //tween glow transform same as loot drop
             }
 
         }
@@ -162,11 +168,20 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
     //upgrade pod
     public void UpgradePod()
     {
-        if (this.podLevel < 3) //update local variable first , then saveload
-            podLevel++;
-        //update text for the current upgrade progress
-        SaveLoadManager.Instance.UpgradePod(podId);
-        ShowUpgradeState();
+        //check if canAfford
+        var costList = GameManger.Instance.GetRecoveryPodUpgradeAmount(this.podLevel);
+        if(SaveLoadManager.Instance.CanPurchase(costList))
+        {
+            if (this.podLevel < 3) //update local variable first , then saveload
+                podLevel++;
+            //update text for the current upgrade progress
+            SaveLoadManager.Instance.UpgradePod(podId);
+            ShowUpgradeState();
+        }
+        else
+        {
+            //currency panel tween
+        }
     }
 
     public void ToggleItem(GameObject[] items, int index)
@@ -203,8 +218,9 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
     {
         vacantSetup.SetActive(false);
         assignedSetup.SetActive(true);
+        creatureImage.enabled = true;
         creatureImage.sprite = GameManger.Instance.GetCreatureSprite((CreatureType)creatureType);
-        
+        glassImage.color = creatureColors[creatureType];
         SaveLoadManager.Instance.AssignCreature(podId,creatureType);
         
         podState = PodState.Assigned;
@@ -214,6 +230,9 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
     {
         podState = PodState.Upgrade;
         completeSetup.SetActive(false);
+        glowTransform.gameObject.SetActive(false);
+        creatureImage.enabled = false;
+        glassImage.color = Color.white;
         ShowUpgradeState();
 
         var saveLoadInstance = SaveLoadManager.Instance;
