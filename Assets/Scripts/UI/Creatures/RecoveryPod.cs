@@ -18,6 +18,7 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
     [Header("BuySetup")]
     [SerializeField] GameObject buySetup;
     [SerializeField] Button buyButton;
+    [SerializeField] TextMeshProUGUI buyText;
     [Header("Pod level ref")]
     [SerializeField] GameObject[] podVisualLevels;
     [SerializeField] GameObject[] levelsNums;
@@ -70,6 +71,7 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
                 buySetup.SetActive(true);
                 podLevelsSetup.SetActive(false);
                 //cost to buy
+                buyText.text = GetPodBuyCost().ToString();
                 break;
             case PodState.Upgrade:
                 this.podLevel = recoveryPodData.podLevel;
@@ -85,6 +87,11 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
                 break;
         }
         
+    }
+
+    private int GetPodBuyCost()
+    {
+        return GameManger.Instance.gameConfig.podsCost[this.podId];
     }
     private void Update()
     {
@@ -158,12 +165,30 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
     //unlock / buy this pod
     public void BuyPod()
     {
-        this.podLevel = 1; 
-        buySetup.SetActive(false);
-        podLevelsSetup.SetActive(true);
-        podState = PodState.Upgrade;
-        ShowUpgradeState();
-        SaveLoadManager.Instance.BuyNewPod();
+        //decrement cost
+        var cost = GetPodBuyCost();
+        List<CurrencyAmount> currencyList = new List<CurrencyAmount>
+        {
+            new CurrencyAmount
+            {
+                currencyType = CurrencyType.cursedNanas, amount = cost
+            }
+        };
+        if(SaveLoadManager.Instance.CanPurchase(currencyList))
+        {
+            this.podLevel = 1;
+            buySetup.SetActive(false);
+            podLevelsSetup.SetActive(true);
+            podState = PodState.Upgrade;
+            ShowUpgradeState();
+            SaveLoadManager.Instance.BuyNewPod();
+        }
+        else
+        {
+            CurrencyManager.TriggerNoCurrencyFeedBack(CurrencyType.cursedNanas);
+
+        }
+
     }
     //upgrade pod
     public void UpgradePod()
