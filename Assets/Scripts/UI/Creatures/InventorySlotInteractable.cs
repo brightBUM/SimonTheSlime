@@ -1,4 +1,6 @@
 
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -7,7 +9,7 @@ public class InventorySlotInteractable : InventorySlot, IBeginDragHandler, IDrag
 {
     [SerializeField] protected GameObject pickedUpPrefab; // Prefab for dragged object
     [SerializeField] GameObject buySetup;
-    
+    [SerializeField] TextMeshProUGUI buyText;
     private GameObject draggedIcon;
     private RectTransform draggedRect;
     private Canvas parentCanvas;
@@ -31,6 +33,8 @@ public class InventorySlotInteractable : InventorySlot, IBeginDragHandler, IDrag
         else if(state == InventoryState.buy)
         {
             buySetup.SetActive(true);
+            
+            buyText.text = GetSlotCost().ToString();
         }
         else
         {
@@ -39,15 +43,36 @@ public class InventorySlotInteractable : InventorySlot, IBeginDragHandler, IDrag
         }
 
     }
+    private int GetSlotCost()
+    {
+        return GameManger.Instance.gameConfig.inventorySlotCost[slotId];
+    }
     public void BuySlot()
     {
-        //to-do 
+        //to-do
         //decrement currency
-        buySetup.SetActive(false);
-        ownedSetup.SetActive(true);
-        ClearSlot();
-        SaveLoadManager.Instance.BuyInventorySlot(slotId);
-        SaveLoadManager.Instance.SaveGame();
+        var cost = GetSlotCost();
+        var saveLoadInstance = SaveLoadManager.Instance;
+        List<CurrencyAmount> currencyList = new List<CurrencyAmount>
+        {
+            new CurrencyAmount
+            {
+                currencyType = CurrencyType.cursedNanas, amount = cost
+            }
+        };
+        if (saveLoadInstance.CanPurchase(currencyList))
+        {
+            buySetup.SetActive(false);
+            ownedSetup.SetActive(true);
+            ClearSlot();
+            saveLoadInstance.BuyInventorySlot(slotId);
+            saveLoadInstance.SaveGame();
+        }
+        else
+        {
+            CurrencyManager.TriggerNoCurrencyFeedBack(CurrencyType.cursedNanas);
+        }
+        
     }
     
     

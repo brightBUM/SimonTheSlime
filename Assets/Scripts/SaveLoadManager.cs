@@ -9,6 +9,7 @@ public class SaveLoadManager : MonoBehaviour
     private string filePath;
     public Action<bool> skipCutScene;
     public PlayerProfile playerProfile;
+    public CurrencyAmount testCurrentAmmount;
     public bool firstLoad = false;
     public DateTime lastRewardedAdTime;
     int debugUnlock = 5;
@@ -469,6 +470,13 @@ public class SaveLoadManager : MonoBehaviour
             AddCurrency(currencyAmount.currencyType, -currencyAmount.amount);
         }
         return true;
+    }
+
+    [ContextMenu("AddTestCurrency")]
+    public void AddTestCurrencyAmount()
+    {
+        //shortcut currency addition only for testing in the editor
+        AddCurrency(testCurrentAmmount.currencyType, testCurrentAmmount.amount);    
     }
 }
 [System.Serializable]
