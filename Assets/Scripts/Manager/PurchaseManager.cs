@@ -78,10 +78,7 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
         {
             if (product.definition.id == item.id)
             {
-                int endBananas = playerProfile.nanas + item.value;
-                ShopManager.instance.UpdateCurrencyUI(0, playerProfile.nanas, endBananas);
-                playerProfile.nanas = endBananas;
-                //Debug.Log("nanas after : " + SaveLoadManager.Instance.playerProfile.nanas);
+                SaveLoadManager.Instance.AddCurrency(CurrencyType.Nanas, item.value);
             }
         }
 
@@ -89,9 +86,7 @@ public class PurchaseManager : MonoBehaviour, IDetailedStoreListener
         {
             if (product.definition.id == item.id)
             {
-                int endMelons = playerProfile.melons + item.value;
-                ShopManager.instance.UpdateCurrencyUI(1, playerProfile.melons, endMelons);
-                playerProfile.melons = endMelons;
+                SaveLoadManager.Instance.AddCurrency(CurrencyType.Melons, item.value);
             }
         }
 

@@ -19,13 +19,9 @@ public class GameConfig : SerializedScriptableObject
     public int mainMenuRewardedAdNanas;
     public int RetryNanasCost = 100;
 
-    //[Header("Level Stats")]
-    //[OdinSerialize]
-    //public Dictionary<int, List<int>> levelTargetTime;
 
-    [Header("Level Parts")]
-    public List<int> parts;
-
+    [Header("Level Page Unlock Costs")]
+    public UnlockCosts UnlockCosts;
     [Header("Creature Data")]
     public List<CreatureData> commonData;
     public List<CreatureData> rareData;
@@ -55,5 +51,28 @@ public class GameConfig : SerializedScriptableObject
 
         Debug.LogError("invalid index request");
         return null;
+    }
+}
+
+[System.Serializable]
+public class UnlockCosts
+{
+    public List<CurrencyAmount> page_1;
+    public List<CurrencyAmount> page_2;
+    public List<CurrencyAmount> page_3;
+
+    public List<CurrencyAmount> GetPageUnlockCost(int index)
+    {
+        switch(index)
+        {
+            case 0:
+                return page_1;
+            case 1:
+                return page_2;
+            case 2:
+                return page_3;
+            default: 
+                return null;
+        }
     }
 }

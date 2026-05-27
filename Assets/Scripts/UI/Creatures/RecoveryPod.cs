@@ -158,12 +158,12 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
     //unlock / buy this pod
     public void BuyPod()
     {
+        this.podLevel = 1; 
         buySetup.SetActive(false);
         podLevelsSetup.SetActive(true);
         podState = PodState.Upgrade;
         ShowUpgradeState();
         SaveLoadManager.Instance.BuyNewPod();
-        this.podLevel = 1; 
     }
     //upgrade pod
     public void UpgradePod()
@@ -180,7 +180,11 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
         }
         else
         {
-            //currency panel tween
+            //not affordable - currency panel tween
+            foreach(var cost in costList)
+            {
+                CurrencyManager.TriggerNoCurrencyFeedBack(cost.currencyType);
+            }
         }
     }
 

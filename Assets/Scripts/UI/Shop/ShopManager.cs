@@ -9,9 +9,6 @@ public class ShopManager : MonoBehaviour
     [Header("Tabs")]
     [SerializeField] Transform[] buttonsTabs;
     [SerializeField] Transform[] ScreenTabs;
-    [Header("Currency UI")]
-    [SerializeField] TextMeshProUGUI nanasText;
-    [SerializeField] TextMeshProUGUI melonsText;
     [Header("Packs UI")]
     [SerializeField] List<Text> melonPackPriceText;
     [SerializeField] List<TextMeshProUGUI> melonPackValueText;
@@ -39,29 +36,13 @@ public class ShopManager : MonoBehaviour
 
     private void OnEnable()
     {
-        UpdateCurrencyUI();
         UpdatePacksUIFromRemote();
+        //show currency panel
+        CurrencyManager.ToggleCurrencyPanel(true);
 
     }
-    public void UpdateCurrencyUI()
-    {
-        nanasText.text = SaveLoadManager.Instance.playerProfile.nanas.ToString();
-        melonsText.text = SaveLoadManager.Instance.playerProfile.melons.ToString();
 
-    }
-    public void UpdateCurrencyUI(int currencyNum,int from , int to)
-    {
-        if(currencyNum==0) // soft currency
-        {
-            Utility.AnimateCounter(nanasText, from, to, 1f);
 
-        }
-        else if(currencyNum==1) // hard currency
-        {
-            Utility.AnimateCounter(melonsText, from, to, 1f);
-        }
-
-    }
     private void UpdatePacksUIFromRemote()
     {
         var purchaseManager = PurchaseManager.Instance;
@@ -93,14 +74,6 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public void NoMelonsFeedBack()
-    {
-        if(!DOTween.IsTweening(melonsText.rectTransform))
-        {
-            melonsText.rectTransform.DOShakeAnchorPos(0.3f, 20);
-            SoundManager.Instance.PlayOutofBulletTimeSFX();
-        }
-    }
     public void AddToList(CharSkinBase charSkinBase)
     {
         if (charSkinBase.isPod)
@@ -119,6 +92,8 @@ public class ShopManager : MonoBehaviour
         podList.Clear();
         SaveLoadManager.Instance.SaveGame();
         charSkinLoad.RefreshSkin();
+        //hide currency panel
+        CurrencyManager.ToggleCurrencyPanel(false);
     }
     public void SetEquippedSkin(CharSkinBase charSkinBase)
     {

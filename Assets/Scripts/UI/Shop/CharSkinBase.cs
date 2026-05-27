@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -83,7 +84,7 @@ public class CharSkinBase : MonoBehaviour
         {
             // not enough melons
             // tween a button shake
-            ShopManager.instance.NoMelonsFeedBack();
+            CurrencyManager.TriggerNoCurrencyFeedBack(CurrencyType.Melons);
         }
     }
 

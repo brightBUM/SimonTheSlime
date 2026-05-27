@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,8 +31,6 @@ public class LevelSelectionScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //update currency UI
-        UpdateCurrencyUI();
 
         //spawn in 6 as a page 
         var pages = levelCount / 6;
@@ -59,14 +58,7 @@ public class LevelSelectionScreen : MonoBehaviour
     }
 
 
-    private void UpdateCurrencyUI()
-    {
-        var playerProfile = SaveLoadManager.Instance.playerProfile;
-        nanasText.text    = playerProfile.nanas.ToString();
-        melonsText.text   = playerProfile.melons.ToString();
-        screwsText.text   = playerProfile.screws.ToString();
-        batteryText.text  = playerProfile.batteries.ToString();
-    }
+   
     public void TweenToPage(float value)
     {
         panelParent.DOAnchorPosX(value,0.5f).SetEase(ease);
@@ -74,14 +66,16 @@ public class LevelSelectionScreen : MonoBehaviour
 
     public void UnlockNextPage()
     {
+        // no need to check can purchase for this , as the purchase button is interactable only when affordable
         var playerProfile = SaveLoadManager.Instance.playerProfile;
-
-        playerProfile.screws -= GameManger.Instance.gameConfig.parts[2 * playerProfile.pageUnlockProgress];
-        playerProfile.batteries -= GameManger.Instance.gameConfig.parts[2 * playerProfile.pageUnlockProgress+1];
-
-        playerProfile.pageUnlockProgress++;
-        UpdateCurrencyUI();
-        SaveLoadManager.Instance.SaveGame();
+        var costList = GameManger.Instance.gameConfig.UnlockCosts.GetPageUnlockCost(playerProfile.pageUnlockProgress+1);
+        
+        if(SaveLoadManager.Instance.CanPurchase(costList))
+        {
+            playerProfile.pageUnlockProgress++;
+            SaveLoadManager.Instance.SaveGame();
+        }
+        
     }
     public Transform GetPlayerPointer()
     {

@@ -161,13 +161,18 @@ public class SaveLoadManager : MonoBehaviour
     public bool PurchaseSkin(CharSkinBase charSkinBase)
     {
         var skinCost = GameManger.Instance.GetSkinByIndex(charSkinBase.isPod,charSkinBase.skinNum).melonCost;
-        if(playerProfile.melons>=skinCost)
-        {
-            int endMelons = playerProfile.melons - skinCost;
-            ShopManager.instance.UpdateCurrencyUI(1, playerProfile.melons, endMelons);
-            playerProfile.melons = endMelons;
+        
+        List<CurrencyAmount> currencyList = new List<CurrencyAmount> 
+        { 
+            new CurrencyAmount 
+            { 
+                currencyType = CurrencyType.Melons, amount = skinCost 
+            } 
+        };
 
-            if(charSkinBase.isPod)
+        if(CanPurchase(currencyList))
+        {
+            if (charSkinBase.isPod)
             {
                 playerProfile.unlockedPodSkins.Add(charSkinBase.skinNum);
 
@@ -179,7 +184,6 @@ public class SaveLoadManager : MonoBehaviour
 
             SaveGame();
             return true;
-            //unlock in shop & equip in game
         }
         return false;
     }

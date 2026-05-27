@@ -32,8 +32,12 @@ public class LevelPage : MonoBehaviour
         {
             //else on start show the update part to unlock text
             //get parts from scriptable object
-            var screwValue = GameManger.Instance.gameConfig.parts[2*num];
-            if(screwValue > 0)
+            var costList = GameManger.Instance.gameConfig.UnlockCosts.GetPageUnlockCost(num);
+            if (costList == null)
+                Debug.LogError("invalid level page / page unlock progress");
+            
+            var screwValue = costList[0].amount;
+            if (screwValue > 0)
             {
                 screwPart.SetActive(true);
                 screwRemainValue = screwValue - playerProfile.screws;
@@ -41,7 +45,7 @@ public class LevelPage : MonoBehaviour
                 screwText.text = screwValue.ToString();
             }
 
-            var batterValue = GameManger.Instance.gameConfig.parts[2 * num + 1];
+            var batterValue = costList[1].amount;
             if(batterValue > 0)
             {
                 batterPart.SetActive(true);

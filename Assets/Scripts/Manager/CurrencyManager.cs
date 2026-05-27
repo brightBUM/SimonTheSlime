@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ public class CurrencyManager : MonoBehaviour
     [SerializeField] Transform showPostion;
     public static Action<bool> ToggleCurrencyPanel;
     public static Action<CurrencyType, int, int> OnCurrencyAddition;
+    public static Action<CurrencyType> TriggerNoCurrencyFeedBack;
     Vector3 startPos;
     private void Start()
     {
@@ -24,6 +26,7 @@ public class CurrencyManager : MonoBehaviour
         FetchAllCurrency();
         ToggleCurrencyPanel += TweenPanel;
         OnCurrencyAddition += CounterText;
+        TriggerNoCurrencyFeedBack += NoCurrencyTweenFeedBack;
     }
     public void FetchAllCurrency()
     {
@@ -55,6 +58,30 @@ public class CurrencyManager : MonoBehaviour
                 break;
         }
     }
+    
+    private void NoCurrencyTweenFeedBack(CurrencyType currencyType)
+    {
+        switch (currencyType)
+        {
+            case CurrencyType.Nanas:
+                nanasText.rectTransform.DOShakeAnchorPos(0.3f, 20);
+                break;
+            case CurrencyType.cursedNanas:
+                cursedNanasText.rectTransform.DOShakeAnchorPos(0.3f, 20);
+                break;
+            case CurrencyType.Melons:
+                melonsText.rectTransform.DOShakeAnchorPos(0.3f, 20);
+                break;
+            case CurrencyType.Screws:
+                screwText.rectTransform.DOShakeAnchorPos(0.3f, 20);
+                break;
+            case CurrencyType.Batteries:
+                batteriesText.rectTransform.DOShakeAnchorPos(0.3f, 20);
+                break;
+        }
+        SoundManager.Instance.PlayOutofBulletTimeSFX();
+
+    }
 
     private void TweenPanel(bool value)
     {
@@ -66,6 +93,7 @@ public class CurrencyManager : MonoBehaviour
     {
         ToggleCurrencyPanel -= TweenPanel;
         OnCurrencyAddition -= CounterText;
+        TriggerNoCurrencyFeedBack -= NoCurrencyTweenFeedBack;
 
     }
 }
