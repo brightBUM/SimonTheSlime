@@ -94,6 +94,7 @@ public class MainMenuUI : MonoBehaviour
     private void OnCreaturePanelOpen(Action done)
     {
         HideInventory();
+        CurrencyManager.ToggleCurrencyPanel?.Invoke(false);
         creaturePanel.transform.DOMove(crOpenTransform.position, 0.5f).OnComplete(() =>
         {
             done?.Invoke();
@@ -104,6 +105,7 @@ public class MainMenuUI : MonoBehaviour
     private void OnCreaturePanelClosed(Action done)
     {
         ShowInventory();
+        CurrencyManager.ToggleCurrencyPanel?.Invoke(true);
         creaturePanel.transform.DOMove(crCloseTransform.position, 0.5f).OnComplete(() =>
         {
             done?.Invoke();

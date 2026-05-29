@@ -25,6 +25,7 @@ public class LevelManager : MonoBehaviour
     [HideInInspector] public int collectedScrews;
     [HideInInspector] public int collectedBatteries;
     [HideInInspector] public int collectedMelons;
+    [HideInInspector] public int collectedCursedNanas;
     public float targetTime;
     private int levelScore;
     private BaseRespawn baseRespawn;
@@ -218,11 +219,13 @@ public class LevelManager : MonoBehaviour
         SaveLoadManager.Instance.playerProfile.melons += collectedMelons;
         SaveLoadManager.Instance.playerProfile.screws += collectedScrews;
         SaveLoadManager.Instance.playerProfile.batteries += collectedBatteries;
+        SaveLoadManager.Instance.playerProfile.cursedNanas += collectedCursedNanas;
     }
     public void LevelFailStatsToProfile()
     {
         SaveLoadManager.Instance.playerProfile.nanas += collectedBananas;
         SaveLoadManager.Instance.playerProfile.melons += collectedMelons;
+        SaveLoadManager.Instance.playerProfile.cursedNanas += collectedCursedNanas;
     }
     public void PlayerInputToggle(bool value)
     {

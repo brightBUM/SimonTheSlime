@@ -75,7 +75,7 @@ public class PageSnapScroll : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 
 }
 
-public void OnEndDrag(PointerEventData eventData)
+    public void OnEndDrag(PointerEventData eventData)
     {
         if (shifting) return;
 
