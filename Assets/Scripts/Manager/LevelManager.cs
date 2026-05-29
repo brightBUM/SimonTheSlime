@@ -213,6 +213,10 @@ public class LevelManager : MonoBehaviour
         collectedBananas++;
         GamePlayScreenUI.Instance.UpdateBananaCount(GetLevelBananasCount());
     }
+    public void CollectCursedNanas()
+    {
+        collectedCursedNanas++;
+    }
     public void AddLevelStatsToProfile()
     {
         SaveLoadManager.Instance.playerProfile.nanas += collectedBananas;
