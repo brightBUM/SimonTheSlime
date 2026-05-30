@@ -38,6 +38,7 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
     [SerializeField] Button hardCurrencyFinishButton;
     [SerializeField] Image glassImage;
     [SerializeField] Color[] creatureColors;
+    [SerializeField] GameObject bubbleVFX;
     [Header("Complete Setup")]
     [SerializeField] GameObject completeSetup;
     [SerializeField] Transform glowTransform;
@@ -78,12 +79,14 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
                 ShowUpgradeState();
                 break;
             case PodState.Assigned:
-                assignedSetup.SetActive(true);
-                creatureImage.enabled = true;
-                creatureImage.sprite = GameManger.Instance.GetCreatureSprite((CreatureType)(recoveryPodData.creatureType-1));  //-1 to counter for the saveload setup
+                this.podLevel = recoveryPodData.podLevel;
+                OnCreatureAssigned(recoveryPodData.creatureType - 1); //-1 to counter for the saveload setup
+                SetPodVisualLevel();
                 break;
             case PodState.Recovered:
-                completeSetup.SetActive(true);
+                this.podLevel = recoveryPodData.podLevel;
+                OnRecoveryComplete(recoveryPodData.creatureType - 1);
+                SetPodVisualLevel();
                 break;
         }
         
@@ -106,26 +109,39 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
                 podState = PodState.Recovered;
                 assignedSetup.SetActive(false);
                 completeSetup.SetActive(true);
+                bubbleVFX.SetActive(false);
                 glowTransform.gameObject.SetActive(true);
                 //tween glow transform same as loot drop
             }
 
         }
     }
+    private void OnRecoveryComplete(int creatureType)
+    {
+        vacantSetup.SetActive(false);
+        completeSetup.SetActive(true);
+        creatureImage.enabled = true;
+        creatureImage.sprite = GameManger.Instance.GetCreatureSprite((CreatureType)creatureType);
+        glassImage.color = creatureColors[creatureType];
+        glowTransform.gameObject.SetActive(true);
 
+    }
     private void ShowUpgradeState()
     {
         vacantSetup.SetActive(true);
         //to do - show level of pod
-        ToggleItem(podVisualLevels,this.podLevel-1);
-        ToggleItem(levelsNums,this.podLevel-1);
+        SetPodVisualLevel();
         //upgrade speed
         speedUpgradeText.text = upgradeTexts[this.podLevel-1];
 
         //cost to upgrade
         CalculateCostToUpgrade();
     }
-
+    private void SetPodVisualLevel()
+    {
+        ToggleItem(podVisualLevels, this.podLevel - 1);
+        ToggleItem(levelsNums, this.podLevel - 1);
+    }
     private void CalculateCostToUpgrade()
     {
         var gameManagerInstance = GameManger.Instance;
@@ -238,6 +254,9 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
             // clear inventory slot
             inventorySlot.MarkAsDropped();
 
+            SaveLoadManager.Instance.AssignCreature(podId, (int)inventorySlot.creatureType);
+        
+            podState = PodState.Assigned;
             //save after transfer
             SaveLoadManager.Instance.SaveGame();
         }
@@ -250,9 +269,7 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
         creatureImage.enabled = true;
         creatureImage.sprite = GameManger.Instance.GetCreatureSprite((CreatureType)creatureType);
         glassImage.color = creatureColors[creatureType];
-        SaveLoadManager.Instance.AssignCreature(podId,creatureType);
-        
-        podState = PodState.Assigned;
+        bubbleVFX.SetActive(true);
     }
     //recovery complete
     public void RecoverCreature()
@@ -262,6 +279,7 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
         glowTransform.gameObject.SetActive(false);
         creatureImage.enabled = false;
         glassImage.color = Color.white;
+        bubbleVFX.SetActive(false);
         ShowUpgradeState();
 
         var saveLoadInstance = SaveLoadManager.Instance;
@@ -312,9 +330,9 @@ public static class RecoveryTimeConfig
         new Dictionary<int, TimeSpan>
         {
             { 0, TimeSpan.FromSeconds(0) },
-            { 1, TimeSpan.FromSeconds(3) },
-            { 2,   TimeSpan.FromSeconds(5) },
-            { 3,   TimeSpan.FromSeconds(10) }
+            { 1, TimeSpan.FromMinutes(1) },
+            { 2,   TimeSpan.FromMinutes(2) },
+            { 3,   TimeSpan.FromMinutes(3) }
         };
 
     public static TimeSpan GetBaseTime(int type)
