@@ -44,7 +44,7 @@ public class LevelManager : MonoBehaviour
     {
         get;  set;
     }
-
+    public bool InDungeon;
     private void Awake()
     {
         if (Instance == null)
@@ -188,13 +188,11 @@ public class LevelManager : MonoBehaviour
         if (collectedBananas >= targetbananas)
         {
             stars++;
-            //Debug.Log("nanas star awarded");
         }
 
         if (levelTimer <= targetTime)
         {
             stars++;
-            //Debug.Log("target time star awarded");
         }
 
         if (retryCount + adRespawnCount <= 1)
@@ -202,8 +200,6 @@ public class LevelManager : MonoBehaviour
             //Debug.Log("No respawn star awarded ");
             stars++;
         }
-
-        //Debug.Log(" star awarded : "+stars);
 
         return stars;
     }

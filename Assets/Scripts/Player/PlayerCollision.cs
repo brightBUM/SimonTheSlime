@@ -204,25 +204,35 @@ public class PlayerCollision : MonoBehaviour
 
         if (collision.collider.gameObject.layer == ObstacleLayer && playerController.playerState != State.GHOST)
         {
-            //hit with obstacle , respawn to last checkpoint
-
-            if(collision.gameObject.GetComponent<patrol>())
+            //if death in dungeon - death effect + scene transition to pipe platform
+            if(LevelManager.Instance.InDungeon)
             {
-                //LevelManager.Instance.ShakeCamera.OnHit();
-                var dir = this.transform.position- collision.transform.position;
-                var rot = Quaternion.Euler(0, 0, MathF.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
-                gorePrefab.transform.position = transform.position;
-                gorePrefab.transform.rotation = rot;
-                goreFx.Play();
-                //Debug.Break();
-                playerController.PlayerHitEffect();
+                playerController.TriggerDungeonDeath();
             }
             else
             {
+                //else ghost respawn 
+                //hit with obstacle , respawn to last checkpoint
                 LevelManager.Instance.ShakeCamera.OnHit();
                 playerController.PlayerHitEffect();
-                Debug.Log("player hit");
+
             }
+
+            //if (collision.gameObject.GetComponent<patrol>())
+            //{
+            //    //LevelManager.Instance.ShakeCamera.OnHit();
+            //    var dir = this.transform.position - collision.transform.position;
+            //    var rot = Quaternion.Euler(0, 0, MathF.Atan2(dir.y, dir.x) * Mathf.Rad2Deg);
+            //    gorePrefab.transform.position = transform.position;
+            //    gorePrefab.transform.rotation = rot;
+            //    goreFx.Play();
+            //    //Debug.Break();
+            //    playerController.PlayerHitEffect();
+            //}
+            //else
+            //{
+            //    Debug.Log("player hit");
+            //}
             
         }
     }

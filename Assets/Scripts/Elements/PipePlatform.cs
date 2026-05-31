@@ -237,6 +237,7 @@ public class PipePlatform : MonoBehaviour, IPoundable
         rb.gravityScale = 1f;
 
         var playerAnimation = playerInput.GetComponentInChildren<PlayerAnimation>();
+        playerAnimation.ToggleSpriteRenderer(true); //if disable by death effect in dungeon
         playerAnimation.ToggleSpriteOrder(1);
         playerAnimation.ToggleTrailRenderer(true);
         playerController.GetComponent<CreatureChain>().SpriteSortChain(1);
@@ -246,7 +247,7 @@ public class PipePlatform : MonoBehaviour, IPoundable
         this.enabled = false;
 
         LevelManager.Instance.ToggleLevelParallaxLayers(Camera.main.transform);
-        
+        LevelManager.Instance.InDungeon = false;
     }
     IEnumerator MovePlayer(Transform player, Vector3 targetPos)
     {
@@ -309,7 +310,7 @@ public class PipePlatform : MonoBehaviour, IPoundable
             player.ResetPound();
             player.GetComponent<Rigidbody2D>().gravityScale = 0f;
             LevelManager.Instance.sceneTransitionManager.TriggerSecretRoomTransition();
-
+            LevelManager.Instance.InDungeon = true;
             triggerCollider.enabled = false;
             poundCollider.enabled = false;
         }

@@ -574,6 +574,20 @@ public class PlayerController : MonoBehaviour
         var pos = (Vector2)transform.position + vel * t+0.5f*Vector2.up*gravity*t*t;
         return pos;
     }
+    public void TriggerDungeonDeath()
+    {
+        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+        rb.AddForce(Vector2.up * onHitUpForce, ForceMode2D.Impulse);
+        playerAnimation.DeathEffect();
+        playerInput.Freeze?.Invoke();
+        playerInput.enabled = false;
+        DOVirtual.DelayedCall(0.5f, () =>
+        {
+            DungeonManager.Instance.RemoveSpotlight();
+            LevelManager.Instance.sceneTransitionManager.ReturnToMainScene();
+            GetComponent<CreatureChain>().SpriteSortChain(-2);
+        });
+    }
     public void PlayerHitEffect()
     {
         playerAnimation.DeathEffect();
@@ -585,6 +599,7 @@ public class PlayerController : MonoBehaviour
         //trigger retry screen here (also pause the game )
         DOVirtual.DelayedCall(0.5f,() =>
         {
+            GetComponent<CreatureChain>().SpriteSortChain(-10);
             GamePlayScreenUI.Instance.ShowRetryScreen();
         });
     }
@@ -656,7 +671,7 @@ public class PlayerController : MonoBehaviour
                 SetToIdle();
                 ResetGravity();
                 playerAnimation.ToggleSpriteRenderer(true);
-                
+                GetComponent<CreatureChain>().SpriteSortChain(1);
             });
 
         });
