@@ -19,6 +19,7 @@ public class PipePlatform : MonoBehaviour, IPoundable
     [SerializeField] BoxCollider2D triggerCollider;
     [SerializeField] GameObject lightSprite;
     [SerializeField] GameObject arrowSprite;
+    [SerializeField] GameObject inventoryFullText;
     [Header("Break Settings")]
     [SerializeField] float explosionForce = 6f;
     [SerializeField] float upwardBias = 1.5f;
@@ -45,7 +46,18 @@ public class PipePlatform : MonoBehaviour, IPoundable
         }
 #endif
     }
-
+    private void Start()
+    {
+        //prevent entry to dungeon , if no vacant inventory slot
+        if(!SaveLoadManager.Instance.IsInventorySlotAvailable())
+        {
+            lightSprite.SetActive(false);
+            arrowSprite.SetActive(false);
+            inventoryFullText.SetActive(true);
+            this.enabled = false;
+        }
+        
+    }
     public void OnPlayerPounded(Action<IPoundable> ContinuePound)
     {
         if (!this.enabled)
@@ -60,7 +72,7 @@ public class PipePlatform : MonoBehaviour, IPoundable
             sr.sortingOrder = 10;
 
         
-
+        LevelManager.Instance.startLevelTimer = false; //pause level timer when entering dungeon
         StartCoroutine(BreakTilesRowByRow(transform.position));
     }
 
@@ -248,6 +260,7 @@ public class PipePlatform : MonoBehaviour, IPoundable
 
         LevelManager.Instance.ToggleLevelParallaxLayers(Camera.main.transform);
         LevelManager.Instance.InDungeon = false;
+        LevelManager.Instance.startLevelTimer = true; //continue level timer
     }
     IEnumerator MovePlayer(Transform player, Vector3 targetPos)
     {

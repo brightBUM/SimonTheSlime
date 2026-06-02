@@ -15,7 +15,7 @@ public class ScoreBoard : MonoBehaviour
     [SerializeField] Transform[] rightPanelTransforms;
     [SerializeField] Transform[] starAwardedTransforms;
     [SerializeField] Transform[] buttonTransforms;
-    [SerializeField] Button levelsButton;
+    [SerializeField] Button menuButton;
     [SerializeField] Button replayButton;
     [SerializeField] Button NextButton;
     [Header("Text values")]
@@ -37,7 +37,7 @@ public class ScoreBoard : MonoBehaviour
 
     private void Awake()
     {
-        levelsButton.onClick.AddListener(OnLevelClick);
+        menuButton.onClick.AddListener(OnMenuClick);
         replayButton.onClick.AddListener(OnReplayClick);
         NextButton.onClick  .AddListener(OnNextClick);
     }
@@ -48,7 +48,7 @@ public class ScoreBoard : MonoBehaviour
 
     }
     #region LevelButton
-    private void OnLevelClick()
+    private void OnMenuClick()
     {
 #if UNITY_ANDROID && !UNITY_EDITOR //check interstitial ad condition
         SaveLoadManager.Instance.playerProfile.interStitialAdCount++;
@@ -67,13 +67,13 @@ public class ScoreBoard : MonoBehaviour
         }
 #endif
         // if Ad not ready or Ad condition not true 
-        GamePlayScreenUI.Instance.GotoLevelSelectionScreen();
+        GamePlayScreenUI.Instance.LoadMenu();
     }
 
     private void Level_InterstitialAd_OnAdLoadFailed(LevelPlayAdError obj)
     {
         Debug.Log("scoreboard Level button interstitial ad load failed");
-        GamePlayScreenUI.Instance.GotoLevelSelectionScreen();
+        GamePlayScreenUI.Instance.LoadMenu();
 
         IronSourceAdManager.Instance.interstitialAd.OnAdLoadFailed -= Level_InterstitialAd_OnAdLoadFailed;
     }
@@ -83,7 +83,7 @@ public class ScoreBoard : MonoBehaviour
     {
         //incase ad load fails , continue with level complete
         Debug.Log("scoreboard Level button interstitial ad display failed");
-        GamePlayScreenUI.Instance.GotoLevelSelectionScreen();
+        GamePlayScreenUI.Instance.LoadMenu();
 
         IronSourceAdManager.Instance.interstitialAd.OnAdDisplayFailed -= Level_InterstitialAd_OnAdDisplayFailed;
     }
@@ -93,7 +93,7 @@ public class ScoreBoard : MonoBehaviour
         // on intersitial ad watched and closed , reset count
         SaveLoadManager.Instance.playerProfile.interStitialAdCount = 0;
 
-        GamePlayScreenUI.Instance.GotoLevelSelectionScreen();
+        GamePlayScreenUI.Instance.LoadMenu();
 
         IronSourceAdManager.Instance.LoadInterstitialAd();
         IronSourceAdManager.Instance.interstitialAd.OnAdClosed -= Level_InterstitialOnAdClosedEvent;
@@ -358,7 +358,7 @@ public class ScoreBoard : MonoBehaviour
         DOVirtual.DelayedCall(1.95f,() =>
         {
             //tween buttons
-            var buttons = new List<Button> { levelsButton, replayButton, NextButton };
+            var buttons = new List<Button> { menuButton, replayButton, NextButton };
             float delay = 0;
             foreach (Transform button in buttonTransforms)
             {
@@ -382,7 +382,7 @@ public class ScoreBoard : MonoBehaviour
     }
     private void OnDestroy()
     {
-        levelsButton.onClick.RemoveListener(OnLevelClick);
+        menuButton.onClick.RemoveListener(OnMenuClick);
         replayButton.onClick.RemoveListener(OnReplayClick);
         NextButton.onClick  .RemoveListener(OnNextClick);
     }
