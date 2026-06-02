@@ -11,6 +11,7 @@ public enum ChunkDirection
 public class ChunkHandler : MonoBehaviour
 {
     public Tilemap tilemap;
+    public Tilemap propsTilemap;
     public BoxCollider2D camBounds;
     public ChunkDirection chunkDirection;
     public Transform podSpawnPoint;

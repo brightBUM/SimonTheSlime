@@ -10,6 +10,7 @@ using UnityEngine.U2D;
 public class ChunkGenerator : MonoBehaviour
 {
     [SerializeField] Tilemap baseTilemap;
+    [SerializeField] Tilemap propsTilemap;
 
     [SerializeField] GameObject baseCamBounds;
 
@@ -162,7 +163,7 @@ public class ChunkGenerator : MonoBehaviour
             chunkHandler.Init();
 
             Merge(chunkHandler.tilemap);
-
+            CopyProps(chunkHandler.propsTilemap);
             // Track highest and lowest chunk Y
             float chunkY = spawnPos.y;
             if (chunkY > highestY) { highestY = chunkY; highestChunkIndex = index; }
@@ -272,5 +273,13 @@ public class ChunkGenerator : MonoBehaviour
         //copy other settings like isTrigger, usedByComposite, etc.
         newCollider.isTrigger = chunkHandler.camBounds.isTrigger;
         newCollider.compositeOperation = Collider2D.CompositeOperation.Merge;
+    }
+
+    private void CopyProps(Tilemap propsTilemap)
+    {
+        foreach(Transform child in propsTilemap.transform)
+        {
+            child.parent = this.propsTilemap.transform;
+        }
     }
 }
