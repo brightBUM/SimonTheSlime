@@ -187,7 +187,7 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
         {
             new CurrencyAmount
             {
-                currencyType = CurrencyType.cursedNanas, amount = cost
+                currencyType = CurrencyType.Nanas, amount = cost
             }
         };
         if(SaveLoadManager.Instance.CanPurchase(currencyList))
@@ -201,7 +201,7 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
         }
         else
         {
-            CurrencyManager.TriggerNoCurrencyFeedBack(CurrencyType.cursedNanas);
+            CurrencyManager.TriggerNoCurrencyFeedBack(CurrencyType.Nanas);
 
         }
 
