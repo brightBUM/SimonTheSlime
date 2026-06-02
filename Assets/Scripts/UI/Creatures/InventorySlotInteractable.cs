@@ -57,7 +57,7 @@ public class InventorySlotInteractable : InventorySlot, IBeginDragHandler, IDrag
         {
             new CurrencyAmount
             {
-                currencyType = CurrencyType.cursedNanas, amount = cost
+                currencyType = CurrencyType.Nanas, amount = cost
             }
         };
         if (saveLoadInstance.CanPurchase(currencyList))
@@ -70,7 +70,7 @@ public class InventorySlotInteractable : InventorySlot, IBeginDragHandler, IDrag
         }
         else
         {
-            CurrencyManager.TriggerNoCurrencyFeedBack(CurrencyType.cursedNanas);
+            CurrencyManager.TriggerNoCurrencyFeedBack(CurrencyType.Nanas);
         }
         
     }
