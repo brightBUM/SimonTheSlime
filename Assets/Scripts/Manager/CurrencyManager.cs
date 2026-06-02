@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Firebase.Analytics;
 using System;
 using System.Collections.Generic;
 using TMPro;
@@ -64,25 +65,35 @@ public class CurrencyManager : MonoBehaviour
         switch (currencyType)
         {
             case CurrencyType.Nanas:
-                nanasText.rectTransform.DOShakeAnchorPos(0.3f, 20);
+                ShakeText(nanasText.rectTransform);
                 break;
+
             case CurrencyType.cursedNanas:
-                cursedNanasText.rectTransform.DOShakeAnchorPos(0.3f, 20);
+                ShakeText(cursedNanasText.rectTransform);
                 break;
+
             case CurrencyType.Melons:
-                melonsText.rectTransform.DOShakeAnchorPos(0.3f, 20);
+                ShakeText(melonsText.rectTransform);
                 break;
+
             case CurrencyType.Screws:
-                screwText.rectTransform.DOShakeAnchorPos(0.3f, 20);
+                ShakeText(screwText.rectTransform);
                 break;
+
             case CurrencyType.Batteries:
-                batteriesText.rectTransform.DOShakeAnchorPos(0.3f, 20);
+                ShakeText(batteriesText.rectTransform);
                 break;
         }
         SoundManager.Instance.PlayOutofBulletTimeSFX();
 
     }
+    private void ShakeText(RectTransform rect)
+    {
+        if (DOTween.IsTweening(rect))
+            return;
 
+        rect.DOShakeAnchorPos(0.3f, 20f);
+    }
     private void TweenPanel(bool value)
     {
         var targetPos = value ? showPostion.position : startPos;
