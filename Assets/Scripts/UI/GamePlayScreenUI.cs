@@ -28,9 +28,9 @@ public class GamePlayScreenUI : MonoBehaviour
     [SerializeField] float duration = 0.5f;
 
     [Header("Level Complete")]
-    [SerializeField] TextMeshProUGUI scoreboardTitleUI;
-    [SerializeField] TextMeshProUGUI bananasLevelCompleteUI;
-    [SerializeField] TextMeshProUGUI gemsUI;
+    [SerializeField] TextMeshProUGUI nanasLevelFailedUI;
+    [SerializeField] TextMeshProUGUI cursedNanasLevelFailedUI;
+    [SerializeField] TextMeshProUGUI gemsLevelFailedUI;
     [SerializeField] GameObject nextLevelButton;
     [SerializeField] float levelCompleteTextDelay = 0.2f;
     [SerializeField] float scoreCountTime = 2f;
@@ -205,11 +205,14 @@ public class GamePlayScreenUI : MonoBehaviour
         GameManger.Instance.TogglePauseGame(false);
         LevelManager.Instance.startLevelTimer = false;
         retryScreen.SetActive(false);
-        scoreboardTitleUI.text = "Level Failed";
         nextLevelButton.SetActive(false);
         ScoreboardScreen.SetActive(true);
         ScoreboardScreen.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBounce);
-        UpdateLevelCompleteUI();
+        CurrencyManager.ToggleCurrencyPanel(true);
+        DOVirtual.DelayedCall(0.3f, () =>
+        {
+            UpdateLevelFailedUI();
+        });
 
         LevelManager.Instance.LevelFailStatsToProfile();
         SaveLoadManager.Instance.SaveGame();
@@ -365,63 +368,26 @@ public class GamePlayScreenUI : MonoBehaviour
 
         SaveLoadManager.Instance.SaveGame();
     }
-    public void UpdateLevelCompleteUI()
+    public void UpdateLevelFailedUI()
     {
 
         LevelManager levelManager = LevelManager.Instance;
 
-        bananasLevelCompleteUI.text = levelManager.GetLevelBananasCount();
-        
-        gemsUI.text = levelManager.GetMelonsCount();
-        
-        //for(int i = 0;i<levelCompleteTexts.Count-1;i++)
-        //{
-        //    StartCoroutine(DelayedStarScale(levelCompleteTextDelay + (levelCompleteTextDelay * i), levelCompleteTexts[i].gameObject.transform));
-        //}
+        var nanasAmount = levelManager.collectedBananas;
+        var cursedNanasAmount = levelManager.collectedCursedNanas;
+        var melonsAmount = levelManager.collectedMelons;
 
-
-        //DOVirtual.DelayedCall(0.2f, () =>
-        //{
-        //    levelScoreUI.transform.DOScale(1f, 0.2f).SetEase(Ease.OutBounce).OnComplete(() =>
-        //    {
-        //        int scoreValue = 0;
-        //        levelScoreUI.text = scoreValue.ToString();
-
-        //        int target = levelManager.CalculateLevelScore();
-        //        DOTween.To(() => scoreValue, x => scoreValue = x, target, scoreCountTime).SetUpdate(true).OnUpdate(() =>
-        //        {
-        //            levelScoreUI.text = scoreValue.ToString();
-
-        //        });
-        //    });
-
-        //});
+        nanasLevelFailedUI.text = nanasAmount.ToString();
+        cursedNanasLevelFailedUI.text = cursedNanasAmount.ToString();
+        gemsLevelFailedUI.text = melonsAmount.ToString();
+        if(nanasAmount>0)
+            CurrencyManager.CurrencyCollectAction(nanasAmount, nanasLevelFailedUI.transform.position, CurrencyType.Nanas);
+        if(cursedNanasAmount>0)
+            CurrencyManager.CurrencyCollectAction(cursedNanasAmount, cursedNanasLevelFailedUI.transform.position, CurrencyType.cursedNanas);
+        if(melonsAmount>0)
+            CurrencyManager.CurrencyCollectAction(melonsAmount, gemsLevelFailedUI.transform.position, CurrencyType.Melons);
     }
     
-    private void StarSystem()
-    {
-        //spawn stars and store if best score achieved      
-        var currentStars = LevelManager.Instance.GetWonStars();
-
-        for (int i = 0; i < currentStars; i++)
-        {
-            starItem[i].SetActive(true);
-            StartCoroutine(DelayedStarScale(0.2f + (0.2f * i), starItem[i].gameObject.transform));
-        }
-
-        if (SaveLoadManager.Instance == null)
-            return;
-
-        //check if scored stars are more than saved level stars
-        SaveLoadManager.Instance.FirstOrReplay(LevelManager.Instance.GetWonStars());
-        
-    }
-    IEnumerator DelayedStarScale(float delayTime,Transform transform)
-    {
-        yield return new WaitForSeconds(delayTime);
-
-        transform.DOScale(1f, 0.3f).SetEase(Ease.OutBounce);
-    }
     public void StartTimer(int value,Action timerComplete)
     {
         //SoundManager.instance.PlaySloMoTimer();
