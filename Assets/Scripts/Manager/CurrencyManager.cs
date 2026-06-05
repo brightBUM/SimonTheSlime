@@ -21,6 +21,11 @@ public class CurrencyManager : MonoBehaviour
     public static Action<CurrencyType> TriggerNoCurrencyFeedBack;
     public static Action<int, Vector3, CurrencyType> CurrencyCollectAction;
     Vector3 startPos;
+
+    public const int nanasRatio = 10;
+    public const int cursedNanasRatio = 5;
+   
+
     private void Start()
     {
         startPos = transform.position;
@@ -82,21 +87,32 @@ public class CurrencyManager : MonoBehaviour
         StartCoroutine(CoinRewardRoutine(amount, spawnPos, currencyType));
     }
     public int[] rotationLists = { 360, 720, 1080 };
-
+    public int GetAmountRatios(CurrencyType currencyType)
+    {
+        return currencyType switch
+        {
+            CurrencyType.Nanas => nanasRatio,
+            CurrencyType.cursedNanas => cursedNanasRatio,
+            CurrencyType.Melons => 1,
+            CurrencyType.Screws => 1,
+            CurrencyType.Batteries => 1,
+            _ => 0
+        };
+    }
     IEnumerator CoinRewardRoutine(int amount,Vector3 spawnPos,CurrencyType currencyType)
     {
 
-        int spawnCount = Mathf.Clamp(amount / 30, 3, 10);
+        int spawnCount = Mathf.Clamp(amount / GetAmountRatios(currencyType), 1, 10);
 
         List<GameObject> spawnedCoins = new();
 
         for (int i = 0; i < spawnCount; i++)
         {
             GameObject coin = Instantiate(currencyPrefabs[(int)currencyType], canvas.transform);
-
+            coin.transform.localScale = Vector3.one*0.75f;
             RectTransform rect = coin.GetComponent<RectTransform>();
 
-            rect.position = spawnPos + (Vector3)UnityEngine.Random.insideUnitCircle * 100f;
+            rect.position = spawnPos + (Vector3)UnityEngine.Random.insideUnitCircle * 50f;
 
             spawnedCoins.Add(coin);
 
@@ -115,12 +131,12 @@ public class CurrencyManager : MonoBehaviour
 
             Sequence seq = DOTween.Sequence();
 
-            seq.Append(
-                rect.DORotate(
-                    new Vector3(0, 1080, 0),
-                    UnityEngine.Random.Range(0.25f, 0.75f),
-                    RotateMode.FastBeyond360)
-            );
+            //seq.Append(
+            //    rect.DORotate(
+            //        new Vector3(0, 1080, 0),
+            //        UnityEngine.Random.Range(0.25f, 0.75f),
+            //        RotateMode.FastBeyond360)
+            //);
 
             seq.Append(
                 rect.DOMove(
@@ -133,7 +149,8 @@ public class CurrencyManager : MonoBehaviour
             {
                 if (isFirstCoin)
                 {
-                    var from = SaveLoadManager.Instance.GetCurrency(currencyType);
+                    //removing amount , bcoz it already got added to saveload by level end , just have to match up on the UI
+                    var from = SaveLoadManager.Instance.GetCurrency(currencyType)-amount; 
                     CounterText(currencyType, from, amount);
                 }
 

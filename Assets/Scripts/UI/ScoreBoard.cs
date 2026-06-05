@@ -265,8 +265,6 @@ public class ScoreBoard : MonoBehaviour
 
         //animate perfect jumps (right panel)
         perfectJumpCount.text = levelManager.comboCount.ToString()+"x";
-        var baseValue = GameManger.Instance.gameConfig.perfectJumpBase;
-        var perfectJumpBonus = levelManager.comboCount;
         perfectJumpMultipler.text = levelManager.GetPerfectJumpBonus() ;
 
         yield return new WaitForSeconds(0.25f);
@@ -399,6 +397,11 @@ public class ScoreBoard : MonoBehaviour
         CanCurrencyCollect(levelManagerInstance.collectedBatteries, 
             Camera.main.WorldToScreenPoint(this.batteryText.transform.position), CurrencyType.Batteries);
         
+        var baseValue = GameManger.Instance.gameConfig.perfectJumpBase;
+        var perfectJumpBonus = LevelManager.Instance.comboCount * baseValue;
+
+        CanCurrencyCollect(perfectJumpBonus,
+            Camera.main.WorldToScreenPoint(this.perfectJumpCount.transform.position), CurrencyType.Nanas);
     }
     private void CanCurrencyCollect(int amount,Vector3 pos , CurrencyType currencyType)
     {

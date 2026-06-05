@@ -22,10 +22,10 @@ public class LevelManager : MonoBehaviour
     //[Header("collectibles")]
     public int targetbananas;
     public int collectedBananas;
-    [HideInInspector] public int collectedScrews;
-    [HideInInspector] public int collectedBatteries;
-    [HideInInspector] public int collectedMelons;
-    [HideInInspector] public int collectedCursedNanas;
+    /*[HideInInspector]*/ public int collectedScrews;
+    /*[HideInInspector]*/ public int collectedBatteries;
+    /*[HideInInspector]*/ public int collectedMelons;
+    /*[HideInInspector]*/ public int collectedCursedNanas;
     public float targetTime;
     private int levelScore;
     private BaseRespawn baseRespawn;
@@ -164,6 +164,7 @@ public class LevelManager : MonoBehaviour
     {
         var baseValue = GameManger.Instance.gameConfig.perfectJumpBase;
         var perfectJumpBonus = comboCount*baseValue;
+        //add them to player profile before returning
         SaveLoadManager.Instance.playerProfile.nanas += perfectJumpBonus;
         return $"{baseValue}x{comboCount} = {perfectJumpBonus} nanas";
     }
