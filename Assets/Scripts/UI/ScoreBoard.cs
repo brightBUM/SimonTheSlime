@@ -27,10 +27,10 @@ public class ScoreBoard : MonoBehaviour
     [SerializeField] TextMeshProUGUI perfectJumpCount;
     [SerializeField] TextMeshProUGUI perfectJumpMultipler;
     [SerializeField] TextMeshProUGUI melonsCollected;
+    [SerializeField] TextMeshProUGUI cursedNanasCollected;
     [SerializeField] TextMeshProUGUI screwsText;
     [SerializeField] TextMeshProUGUI batteryText;
 
-    [SerializeField] GameObject nextLevelButton;
     [SerializeField] float levelCompleteTextDelay = 0.2f;
     [SerializeField] float scoreCountTime = 2f;
     private List<TextMeshProUGUI> levelCompleteTexts;
@@ -274,8 +274,9 @@ public class ScoreBoard : MonoBehaviour
         targetBananas.text = "Target : "+levelManager.targetbananas.ToString();
         AnimateCounter(collectedBananas, 0, levelManager.collectedBananas, 1f);
 
-        //animate gems text (right panel)
+        //animate hard+med currency text (right panel)
         melonsCollected.text = levelManager.GetMelonsCount();
+        cursedNanasCollected.text = levelManager.collectedCursedNanas.ToString();
 
         yield return new WaitForSeconds(0.25f);
         //animate respawn panel
@@ -369,7 +370,42 @@ public class ScoreBoard : MonoBehaviour
                 });
                 
             }
+            //trigger currency collection
+            DOVirtual.DelayedCall(0.25f, () =>
+            {
+                CurrencyManager.ToggleCurrencyPanel(true);
+                DOVirtual.DelayedCall(0.25f, () =>
+                {
+                    //
+                    TriggerCurrencyCollect();
+                });
+             });
         });
+
+        
+    }
+
+    private void TriggerCurrencyCollect()
+    {
+        var levelManagerInstance = LevelManager.Instance;
+        CanCurrencyCollect(levelManagerInstance.collectedBananas, 
+            Camera.main.WorldToScreenPoint(this.collectedBananas.transform.position), CurrencyType.Nanas);
+        CanCurrencyCollect(levelManagerInstance.collectedCursedNanas,
+            Camera.main.WorldToScreenPoint(this.cursedNanasCollected.transform.position), CurrencyType.cursedNanas);
+        CanCurrencyCollect(levelManagerInstance.collectedMelons, 
+            Camera.main.WorldToScreenPoint(this.melonsCollected.transform.position), CurrencyType.Melons);
+        CanCurrencyCollect(levelManagerInstance.collectedScrews, 
+            Camera.main.WorldToScreenPoint(this.screwsText.transform.position), CurrencyType.Screws);
+        CanCurrencyCollect(levelManagerInstance.collectedBatteries, 
+            Camera.main.WorldToScreenPoint(this.batteryText.transform.position), CurrencyType.Batteries);
+        
+    }
+    private void CanCurrencyCollect(int amount,Vector3 pos , CurrencyType currencyType)
+    {
+        if (amount > 0)
+        {
+            CurrencyManager.CurrencyCollectAction?.Invoke(amount, pos, currencyType);
+        }
     }
     private void ShakeScaleStar(Transform transform,float delay)
     {

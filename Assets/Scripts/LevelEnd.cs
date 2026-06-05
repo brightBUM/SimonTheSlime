@@ -28,7 +28,7 @@ public class LevelEnd : MonoBehaviour
 
             var confiner = FindAnyObjectByType<CinemachineConfiner2D>();
             var orthoSize = virtualCamera.m_Lens.OrthographicSize;
-            DOTween.To(() => orthoSize, x => orthoSize = x, 12, 0.5f).SetUpdate(true).OnUpdate(() =>
+            DOTween.To(() => orthoSize, x => orthoSize = x, 13, 0.5f).SetUpdate(true).OnUpdate(() =>
             {
                 virtualCamera.m_Lens.OrthographicSize = orthoSize;
                 confiner.InvalidateCache();
