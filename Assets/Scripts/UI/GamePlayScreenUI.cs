@@ -39,7 +39,7 @@ public class GamePlayScreenUI : MonoBehaviour
     [Header("Retry")]
     [SerializeField] Button bananaRespawnButton;
     [SerializeField] TextMeshProUGUI nanasCost;
-
+    [SerializeField] Image retryImageFill;
     [Header("Panel")]
     [SerializeField] GameObject pauseScreen;
     [SerializeField] GameObject gameplayScreen;
@@ -59,6 +59,7 @@ public class GamePlayScreenUI : MonoBehaviour
     public UnityEvent EnableThanksScreen;
     private TweenerCore<float, float, FloatOptions> tween;
     public bool BulletTimeActive => timerFillUI.fillAmount < 1f;
+    float retryCountDownDuration = 3f;
     private void Awake()
     {
         Instance = this;
@@ -168,6 +169,8 @@ public class GamePlayScreenUI : MonoBehaviour
     {
         //triggered with next button
 
+        if(retryCountdownCoroutine!=null)
+            StopCoroutine(retryCountdownCoroutine);
 
 #if UNITY_ANDROID && !UNITY_EDITOR //check interstitial ad condition
         
@@ -235,7 +238,7 @@ public class GamePlayScreenUI : MonoBehaviour
         IronSourceAdManager.Instance.LoadInterstitialAd();
         IronSourceAdManager.Instance.interstitialAd.OnAdClosed -= InterstitialOnAdClosedEvent;
     }
-
+    Coroutine retryCountdownCoroutine;
     public void ShowRetryScreen()
     {
         Debug.Log("show retry");
@@ -253,6 +256,21 @@ public class GamePlayScreenUI : MonoBehaviour
         retryScreen.transform.localScale = Vector3.zero;
         retryScreen.SetActive(true);
         retryScreen.transform.DOScale(Vector3.one, 0.3f).SetEase(Ease.OutBounce).SetUpdate(true);
+        //trigger retry countdown
+        retryCountdownCoroutine = StartCoroutine(TriggerRetryCountDown());
+    }
+    private IEnumerator TriggerRetryCountDown()
+    {
+        float timer = retryCountDownDuration;
+        while(timer>0)
+        {
+            retryImageFill.fillAmount = (float)timer/retryCountDownDuration;
+            timer-= Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        //
+        TriggerLevelFailedScoreboard();
     }
     private int CostToRespawn()
     {
@@ -260,6 +278,9 @@ public class GamePlayScreenUI : MonoBehaviour
     }
     public void RespawnViaBananas()
     {
+        if (retryCountdownCoroutine != null)
+            StopCoroutine(retryCountdownCoroutine);
+
         //current cost to respawn
         var cost = CostToRespawn();
 
@@ -285,6 +306,9 @@ public class GamePlayScreenUI : MonoBehaviour
     }
     public void RespawnViaAd()
     {
+        if (retryCountdownCoroutine != null)
+            StopCoroutine(retryCountdownCoroutine);
+
 #if UNITY_EDITOR
         //allow free respawn in editor , bcoz no test ads
         retryScreen.SetActive(false);
