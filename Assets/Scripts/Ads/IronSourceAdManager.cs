@@ -153,6 +153,10 @@ public class IronSourceAdManager : MonoBehaviour
     {
        return rewardedAd.IsAdReady();
     }
+    public void LoadRewardedAd()
+    {
+        rewardedAd.LoadAd();
+    }
     public void ShowRewardedAd()
     {
         if (rewardedAd.IsAdReady())
@@ -162,7 +166,7 @@ public class IronSourceAdManager : MonoBehaviour
         else
         {
             Debug.Log("Iron source - rewared ad not ready");
-            
+            rewardedAd.LoadAd();
         }
     }
 

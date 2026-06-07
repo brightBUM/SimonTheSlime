@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Unity.Services.LevelPlay;
 
 public enum PodState
 {
@@ -39,6 +40,7 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
     [SerializeField] Image glassImage;
     [SerializeField] Color[] creatureColors;
     [SerializeField] GameObject bubbleVFX;
+    [SerializeField] Button watchAdButton;
     [Header("Complete Setup")]
     [SerializeField] GameObject completeSetup;
     [SerializeField] Transform glowTransform;
@@ -52,6 +54,7 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
         buyButton.onClick.     AddListener(BuyPod);
         upgradeButton.onClick. AddListener(UpgradePod);
         completeButton.onClick.AddListener(RecoverCreature);
+        watchAdButton.onClick.AddListener(ShowRewardedAdforHours);
     }
     public void Init(int index,RecoveryPodData recoveryPodData = null)
     {
@@ -116,6 +119,23 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
 
         }
     }
+    private void ShowRewardedAdforHours()
+    {
+        IronSourceAdManager.Instance.ShowRewardedAd();
+        IronSourceAdManager.Instance.rewardedAd.OnAdRewarded += RewardedAd_OnAdRewarded;
+    }
+
+    private void RewardedAd_OnAdRewarded(LevelPlayAdInfo arg1, LevelPlayReward arg2)
+    {
+        Debug.Log("ad rewarded event");
+        SaveLoadManager.Instance.playerProfile.recoveryPodData[this.podId].ApplyAdBoost();
+        
+        //load the next ad 
+        IronSourceAdManager.Instance.LoadRewardedAd();
+        IronSourceAdManager.Instance.rewardedAd.OnAdRewarded -= RewardedAd_OnAdRewarded;
+    }
+
+    
     private void OnRecoveryComplete(int creatureType)
     {
         vacantSetup.SetActive(false);
@@ -285,7 +305,11 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
         var saveLoadInstance = SaveLoadManager.Instance;
 
         //add it to creature collection
-        var creatureType = (CreatureType)saveLoadInstance.playerProfile.recoveryPodData[podId].creatureType - 1;
+        var podData = saveLoadInstance.playerProfile.recoveryPodData[podId];
+        var creatureType = (CreatureType)podData.creatureType - 1;
+
+        //reset any applied ad/currency boosts
+        podData.reducedSeconds = 0;
 
         //to do implement - random draw logic
         var creaturePool = GameManger.Instance.gameConfig.GetCreatureList((int)creatureType);
@@ -319,9 +343,11 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
         buyButton.onClick.     RemoveListener(BuyPod);
         upgradeButton.onClick. RemoveListener(UpgradePod);
         completeButton.onClick.RemoveListener(RecoverCreature);
+        watchAdButton.onClick. RemoveListener(ShowRewardedAdforHours);
+
     }
 
-    
+
 }
 public static class RecoveryTimeConfig
 {
@@ -329,10 +355,10 @@ public static class RecoveryTimeConfig
     private static readonly Dictionary<int, TimeSpan> baseTimes =
         new Dictionary<int, TimeSpan>
         {
-            { 0, TimeSpan.FromSeconds(0) },
-            { 1, TimeSpan.FromMinutes(1) },
-            { 2,   TimeSpan.FromMinutes(2) },
-            { 3,   TimeSpan.FromMinutes(3) }
+            { 0,   TimeSpan.FromSeconds(0) },
+            { 1,   TimeSpan.FromHours(3) },
+            { 2,   TimeSpan.FromHours(6) },
+            { 3,   TimeSpan.FromHours(12) }
         };
 
     public static TimeSpan GetBaseTime(int type)
@@ -363,7 +389,7 @@ public class RecoveryPodData
     public int creatureType;
     public long timeAssignedTicks;         // for save/load safe serialization
     public bool isUnlocked = false;        // did the player buy this pod slot?
-
+    public double reducedSeconds;
     public DateTime TimeAssigned
     {
         get => new DateTime(timeAssignedTicks, DateTimeKind.Utc);
@@ -378,7 +404,7 @@ public class RecoveryPodData
         //if (creatureType == default) return TimeSpan.Zero; // no creature assigned
         TimeSpan duration = GetRecoveryDuration();
         TimeSpan elapsed = DateTime.UtcNow - TimeAssigned;
-        TimeSpan remaining = duration - elapsed;
+        TimeSpan remaining = duration - elapsed - TimeSpan.FromSeconds(reducedSeconds);
         return remaining > TimeSpan.Zero ? remaining : TimeSpan.Zero;
     }
     public void UpgradePodLevel()
@@ -387,7 +413,10 @@ public class RecoveryPodData
             podLevel++;
     }
     public bool IsComplete() => creatureType != default && GetRemainingTime() <= TimeSpan.Zero;
-
+    public void ApplyAdBoost()
+    {
+        reducedSeconds += TimeSpan.FromHours(6).TotalSeconds;
+    }
     // The state logic
     public PodState GetPodState()
     {

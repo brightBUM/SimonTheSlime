@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System;
 using TMPro;
+using Unity.Services.LevelPlay;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -59,7 +60,7 @@ public class WatchAdRewardUI : MonoBehaviour
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
         IronSourceAdManager.Instance.ShowRewardedAd();
-        IronSourceRewardedVideoEvents.onAdRewardedEvent += IronSourceRewardedVideoEvents_onAdRewardedEvent;
+        IronSourceAdManager.Instance.rewardedAd.OnAdRewarded += RewardedAd_OnAdRewarded;
         return;
 #endif
         var rewardValue = GameManger.Instance.gameConfig.mainMenuRewardedAdNanas;
@@ -69,22 +70,23 @@ public class WatchAdRewardUI : MonoBehaviour
         SaveLoadManager.Instance.MainMenuAdRewarded();
         CalculateRewardLockUnlock();
 
-        Debug.Log("main menu rewarded ad complete");
+        Debug.Log("main menu rewarded ad complete - editor");
 
     }
 
-    private void IronSourceRewardedVideoEvents_onAdRewardedEvent(IronSourcePlacement arg1, IronSourceAdInfo arg2)
+    private void RewardedAd_OnAdRewarded(LevelPlayAdInfo arg1, LevelPlayReward arg2)
     {
         rewardPamel.SetActive(true);
 
         SaveLoadManager.Instance.MainMenuAdRewarded();
         CalculateRewardLockUnlock();
 
-        Debug.Log("main menu rewarded ad complete");
+        Debug.Log("main menu rewarded ad complete - mobile");
 
-        IronSourceRewardedVideoEvents.onAdRewardedEvent -= IronSourceRewardedVideoEvents_onAdRewardedEvent;
-
+        IronSourceAdManager.Instance.LoadRewardedAd();
+        IronSourceAdManager.Instance.rewardedAd.OnAdRewarded -= RewardedAd_OnAdRewarded;
     }
+
 
 
     private void ToggleUnlockImages()
