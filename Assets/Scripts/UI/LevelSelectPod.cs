@@ -46,7 +46,7 @@ public class LevelSelectPod : MonoBehaviour,IPointerEnterHandler,IPointerClickHa
             pointer.SetParent(this.transform);
             pointer.DOScale(1, 0.5f).SetEase(Ease.OutElastic).OnComplete(() =>
             {
-                SoundManager.Instance.PlayPoundSFx();
+                SoundManager.Instance.PlaySlamSFx();
                 LevelSelectionScreen.Instance.LoadLevel(levelNum+3);
             })
             .SetLink(this.gameObject);
@@ -54,7 +54,7 @@ public class LevelSelectPod : MonoBehaviour,IPointerEnterHandler,IPointerClickHa
 
 #if UNITY_EDITOR
             LevelSelectionScreen.Instance.LoadLevel(levelNum+3); // 3 is for the build setting scene index
-            SoundManager.Instance.PlayPoundSFx();
+            SoundManager.Instance.PlaySlamSFx();
 #endif
         }
     }

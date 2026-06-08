@@ -30,11 +30,14 @@ public class ChainToInventory : MonoBehaviour
         creatureChain.segments.Clear();
 
         float duration = 0.25f;
+        int index = 0;
         foreach (var segment in segmentsCopy)
         {
             //Debug.Break();
             segment.transform.DOMove(targetPos, duration).OnComplete(() =>
             {
+                SoundManager.Instance.PlayCreatureCollectToLevelSFx(index);
+                index++;
                 segment.transform.gameObject.SetActive(false);
                 if (SaveLoadManager.Instance.IsInventorySlotAvailable())
                 {
@@ -64,6 +67,7 @@ public class ChainToInventory : MonoBehaviour
                     inventoryHandler.AddCreature(segment.type);
                     flyRect.DOAnchorPos(localPoint, 0.25f).OnComplete(() =>
                     {
+                        SoundManager.Instance.PlayCreatureToInventorySFx(index);
                         //Debug.Break();
                         inventoryHandler.inventorySlots[slotIndex].Init(slotIndex, (InventoryState)segment.type);
                         flyRect.gameObject.SetActive(false);

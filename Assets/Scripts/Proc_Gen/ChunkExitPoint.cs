@@ -45,7 +45,6 @@ public class ChunkExitPoint : MonoBehaviour
                                //trigger exit transition- in scene transition manager
                                LevelManager.Instance.sceneTransitionManager.ReturnToMainScene();
                                //when main scene loads unfreeze player
-                               SoundManager.Instance.PlayDungeonUpTransSFx();
 
                            });
                  });

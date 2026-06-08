@@ -73,6 +73,7 @@ public class PipePlatform : MonoBehaviour, IPoundable
 
         
         LevelManager.Instance.startLevelTimer = false; //pause level timer when entering dungeon
+        SoundManager.Instance.PlayDungeonDownTransSFx();
         StartCoroutine(BreakTilesRowByRow(transform.position));
     }
 
@@ -327,7 +328,6 @@ public class PipePlatform : MonoBehaviour, IPoundable
             triggerCollider.enabled = false;
             poundCollider.enabled = false;
 
-            SoundManager.Instance.PlayDungeonDownTransSFx();
         }
     }
     

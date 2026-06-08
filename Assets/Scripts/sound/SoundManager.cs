@@ -42,6 +42,8 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip upTransition;
     [SerializeField] private AudioClip creatureCollect;
     [SerializeField] private AudioClip[] slamSFX;
+    [SerializeField] private AudioClip[] creaturesAdded;
+    [SerializeField] private AudioClip[] creaturesInventory;
     private AudioSource activeSource;
 
     public static SoundManager Instance;
@@ -247,6 +249,14 @@ public class SoundManager : MonoBehaviour
     public void PlaySlamSFx()
     {
         PlayClip(slamSFX[Random.Range(0, slamSFX.Length)]);
+    }
+    public void PlayCreatureCollectToLevelSFx(int index)
+    {
+        PlayClip(creaturesAdded[index]);
+    }
+    public void PlayCreatureToInventorySFx(int index)
+    {
+        PlayClip(creaturesInventory[index]);
     }
     #endregion
 }
