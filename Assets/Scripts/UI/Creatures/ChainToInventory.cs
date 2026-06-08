@@ -54,6 +54,7 @@ public class ChainToInventory : MonoBehaviour
 
                     var slotIndex = SaveLoadManager.Instance.GetVacantInventorySlotIndex();
                     var targetRect = (RectTransform)inventoryHandler.inventorySlots[slotIndex].transform;
+                    inventoryHandler.ScrollToSlot(targetRect);
 
                     Vector2 localPoint;
 

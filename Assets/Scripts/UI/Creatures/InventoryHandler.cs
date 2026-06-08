@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +16,7 @@ public class InventoryHandler : MonoBehaviour
 {
     [SerializeField] InventorySlot slotPrefab;
     [SerializeField] Transform parent;
+    [SerializeField] ScrollRect scrollRect;
     public List<InventorySlot> inventorySlots = new List<InventorySlot>();
     bool isSlotInteractable;
     // Start is called before the first frame update
@@ -79,10 +81,38 @@ public class InventoryHandler : MonoBehaviour
         PopulateInventory();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ScrollToSlot(RectTransform targetSlot)
     {
-        
+        Canvas.ForceUpdateCanvases();
+
+        RectTransform content = scrollRect.content;
+        RectTransform viewport = scrollRect.viewport;
+
+        float contentHeight = content.rect.height;
+        float viewportHeight = viewport.rect.height;
+
+        // Slot center relative to content
+        float slotCenterY = Mathf.Abs(targetSlot.anchoredPosition.y)
+                          + targetSlot.rect.height * 0.5f;
+
+        // Desired content offset so slot appears at viewport center
+        float targetY = slotCenterY - viewportHeight * 0.5f;
+
+        // Clamp to valid scroll range
+        float maxY = contentHeight - viewportHeight;
+        targetY = Mathf.Clamp(targetY, 0, maxY);
+
+        // Convert to ScrollRect normalized position
+        float normalized =
+            maxY <= 0 ? 1f : 1f - (targetY / maxY);
+
+        var currentValue = scrollRect.verticalNormalizedPosition;
+        DOTween.To(() => currentValue, x =>
+        {
+            currentValue = x;
+            scrollRect.verticalNormalizedPosition = currentValue;
+        }
+        , normalized, 0.25f).SetEase(Ease.OutQuad);
     }
     private void OnDisable()
     {
