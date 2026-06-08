@@ -187,7 +187,7 @@ public class PlayerCollision : MonoBehaviour
                 else
                 {
                     //splatter effect
-                    SoundManager.Instance.PlayPoundSFx();
+                    SoundManager.Instance.PlaySlamSFx();
                     SplatterEffect(transform.position + new Vector3(0, -1, -1) * maskRange);
                     playerController.ResetPound();
                     LevelManager.Instance.ShakeCamera.OnPound();

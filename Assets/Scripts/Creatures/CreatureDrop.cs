@@ -28,6 +28,7 @@ public class CreatureDrop : LootDrop
         if(collision.TryGetComponent<CreatureChain>(out CreatureChain creatureChain))
         {
             creatureChain.AddToChain(creatureType,spriteRenderer.sprite);
+            SoundManager.Instance.PlayCreatureCollectSFx();
             Destroy(this.gameObject);
         }
     }

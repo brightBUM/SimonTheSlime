@@ -91,7 +91,7 @@ public class InventorySlotInteractable : InventorySlot, IBeginDragHandler, IDrag
         draggedRect = draggedIcon.GetComponent<RectTransform>();
         draggedRect.position = eventData.position;
 
-        
+        SoundManager.Instance.PlayCreaturePickupSFx();
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -115,6 +115,7 @@ public class InventorySlotInteractable : InventorySlot, IBeginDragHandler, IDrag
         {
             creatureImage.enabled = true;
             creatureImage.sprite = storedSprite;
+            SoundManager.Instance.PlayCreaturePickCancelSFx();
         }
         else
         {
@@ -128,6 +129,7 @@ public class InventorySlotInteractable : InventorySlot, IBeginDragHandler, IDrag
         droppedOnValidSlot = true;
         //remove creature from saveload 
         SaveLoadManager.Instance.RemoveCreatureFromInventory(slotId);
+        SoundManager.Instance.PlayCreatureDropSFx();
 
         if (draggedIcon != null)
             Destroy(draggedIcon);

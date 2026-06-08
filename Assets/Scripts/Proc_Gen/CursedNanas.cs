@@ -28,7 +28,7 @@ public class CursedNanas : MonoBehaviour
         var effect = ObjectPoolManager.Instance.Spawn(5, transform.position, Quaternion.identity);
         effect.transform.localScale = Vector3.one * effectScale;
         LevelManager.Instance.CollectCursedNanas();
-        //SoundManager.Instance.PlayCollectibleSFx();
+        SoundManager.Instance.PlayCursedCurrencyCollectlSFx();
 
         Destroy(this.gameObject);
     }

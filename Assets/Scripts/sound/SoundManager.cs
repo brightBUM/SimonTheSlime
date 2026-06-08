@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,9 +28,20 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioSource ghostSource;
     [SerializeField] AudioSource gateUnlockSource;
     [SerializeField] private AudioClip[] slimeStickSFX;
-    [SerializeField] private AudioClip[] aimStretchSfx;
-    [SerializeField] private AudioClip[] firstBounceSfx;
     [SerializeField] private AudioClip[] coinCollectSfx;
+
+    [Header("Creatures/UI")]
+    [SerializeField] private AudioClip creaturePickup;
+    [SerializeField] private AudioClip creaturePickCancel;
+    [SerializeField] private AudioClip creatureDrop;
+    [SerializeField] private AudioClip floorScrollUI;
+    [Header("Creatures/Dungeon")]
+    [SerializeField] private AudioClip cagedPodBreak;
+    [SerializeField] private AudioClip cursedCurrencyCollect;
+    [SerializeField] private AudioClip downTransition;
+    [SerializeField] private AudioClip upTransition;
+    [SerializeField] private AudioClip creatureCollect;
+    [SerializeField] private AudioClip[] slamSFX;
     private AudioSource activeSource;
 
     public static SoundManager Instance;
@@ -77,10 +89,7 @@ public class SoundManager : MonoBehaviour
         var audioGameObject = ObjectPoolManager.Instance.Spawn(1, Vector3.zero, Quaternion.identity);
         return audioGameObject.GetComponent<AudioSource>();
     }
-    public void PlayAimSFx()
-    {
-        PlayClip(aimStretchSfx[Random.Range(0, aimStretchSfx.Length)]);
-    }
+    
     public void PlayStickSFx()
     {
         PlayClip(slimeStickSFX[Random.Range(0, slimeStickSFX.Length)]);
@@ -197,5 +206,47 @@ public class SoundManager : MonoBehaviour
             gateUnlockSource.Stop();
         }
     }
+    #region Creatures
 
+    public void PlayCreaturePickupSFx()
+    {
+        PlayClip(creaturePickup);
+    }
+    public void PlayCreaturePickCancelSFx()
+    {
+        PlayClip(creaturePickCancel);
+    }
+    public void PlayCreatureDropSFx()
+    {
+        PlayClip(creatureDrop);
+    }
+    public void PlayFloorScrollSFx()
+    {
+        PlayClip(floorScrollUI);
+    }
+    public void PlayCagedPodSFx()
+    {
+        PlayClip(cagedPodBreak);
+    }
+    public void PlayCursedCurrencyCollectlSFx()
+    {
+        PlayClip(cursedCurrencyCollect);
+    }
+    public void PlayDungeonDownTransSFx()
+    {
+        PlayClip(downTransition);
+    }
+    public void PlayDungeonUpTransSFx()
+    {
+        PlayClip(upTransition);
+    }
+    public void PlayCreatureCollectSFx()
+    {
+        PlayClip(creatureCollect);
+    }
+    public void PlaySlamSFx()
+    {
+        PlayClip(slamSFX[Random.Range(0, slamSFX.Length)]);
+    }
+    #endregion
 }

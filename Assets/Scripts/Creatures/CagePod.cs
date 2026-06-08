@@ -49,6 +49,8 @@ public class CagePod : MonoBehaviour
 
                 //disable the collider 
                 GetComponent<BoxCollider2D>().enabled = false;
+
+                SoundManager.Instance.PlayCagedPodSFx();
             }
         }
             

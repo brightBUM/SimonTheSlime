@@ -326,6 +326,8 @@ public class PipePlatform : MonoBehaviour, IPoundable
             LevelManager.Instance.InDungeon = true;
             triggerCollider.enabled = false;
             poundCollider.enabled = false;
+
+            SoundManager.Instance.PlayDungeonDownTransSFx();
         }
     }
     

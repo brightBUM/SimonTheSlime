@@ -1,109 +1,114 @@
-using System.Collections.Generic;
-using System.IO;
-using UnityEditor;
-using UnityEngine;
+//using System.Collections.Generic;
+//using System.IO;
 
-public class CreatureDataImporter
-{
-    private const string CsvPath = "Assets/Scripts/ScriptableObjects/Creatures/Slunky Creatures - Sheet.csv";
-    private const string BaseOutputPath = "Assets/Scripts/ScriptableObjects/Creatures";
+//#if UNITY_EDITOR
+//using UnityEditor;
+//#endif
 
-    [MenuItem("Tools/Import Creature Data")]
-    public static void Import()
-    {
-        if (!File.Exists(CsvPath))
-        {
-            Debug.LogError("CSV file not found!");
-            return;
-        }
+//using UnityEngine;
 
-        string[] lines = File.ReadAllLines(CsvPath);
+//public class CreatureDataImporter
+//{
+//    private const string CsvPath = "Assets/Scripts/ScriptableObjects/Creatures/Slunky Creatures - Sheet.csv";
+//    private const string BaseOutputPath = "Assets/Scripts/ScriptableObjects/Creatures";
+//#if UNITY_EDITOR
+//    [MenuItem("Tools/Import Creature Data")]
+//    public static void Import()
+//    {
+//        if (!File.Exists(CsvPath))
+//        {
+//            Debug.LogError("CSV file not found!");
+//            return;
+//        }
 
-        // Track running index per tier
-        Dictionary<string, int> tierCounters = new()
-        {
-            { "Common", 0 },
-            { "Rare", 0 },
-            { "Epic", 0 }
-        };
+//        string[] lines = File.ReadAllLines(CsvPath);
 
-        // Skip header
-        for (int i = 1; i < lines.Length; i++)
-        {
-            if (string.IsNullOrWhiteSpace(lines[i]))
-                continue;
+//        // Track running index per tier
+//        Dictionary<string, int> tierCounters = new()
+//        {
+//            { "Common", 0 },
+//            { "Rare", 0 },
+//            { "Epic", 0 }
+//        };
 
-            string[] columns = lines[i].Split(',');
+//        // Skip header
+//        for (int i = 1; i < lines.Length; i++)
+//        {
+//            if (string.IsNullOrWhiteSpace(lines[i]))
+//                continue;
 
-            string tier = columns[0].Trim();
-            string name = columns[1].Trim();
+//            string[] columns = lines[i].Split(',');
 
-            tierCounters[tier]++;
+//            string tier = columns[0].Trim();
+//            string name = columns[1].Trim();
 
-            string folderPath = $"{BaseOutputPath}/{tier}";
-            EnsureFolderExists(folderPath);
+//            tierCounters[tier]++;
 
-            string assetPath = $"{folderPath}/{name}.asset";
-            CreatureData data = AssetDatabase.LoadAssetAtPath<CreatureData>(assetPath);
+//            string folderPath = $"{BaseOutputPath}/{tier}";
+//            EnsureFolderExists(folderPath);
 
-            bool isNewAsset = false;
-            if (data == null)
-            {
-                data = ScriptableObject.CreateInstance<CreatureData>();
-                AssetDatabase.CreateAsset(data, assetPath);
-                isNewAsset = true;
-            }
+//            string assetPath = $"{folderPath}/{name}.asset";
+//            CreatureData data = AssetDatabase.LoadAssetAtPath<CreatureData>(assetPath);
 
-            // Assign ID only once (never overwrite)
-            if (string.IsNullOrEmpty(data.creatureId))
-            {
-                data.creatureId = GenerateCreatureId(tier, tierCounters[tier]);
-            }
+//            bool isNewAsset = false;
+//            if (data == null)
+//            {
+//                data = ScriptableObject.CreateInstance<CreatureData>();
+//                AssetDatabase.CreateAsset(data, assetPath);
+//                isNewAsset = true;
+//            }
 
-            data.creatureName = name;
-            data.creatureType = ParseCreatureType(tier);
-            data.weight = columns[2].Trim();
-            data.region = columns[3].Trim();
-            data.info = columns[4].Trim();
-            data.unq_info = columns[5].Trim();
+//            // Assign ID only once (never overwrite)
+//            if (string.IsNullOrEmpty(data.creatureId))
+//            {
+//                data.creatureId = GenerateCreatureId(tier, tierCounters[tier]);
+//            }
 
-            // Optional sprite auto-link
-            data.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(
-                $"Assets/Creatures/Sprites/{name}.png"
-            );
+//            data.creatureName = name;
+//            data.creatureType = ParseCreatureType(tier);
+//            data.weight = columns[2].Trim();
+//            data.region = columns[3].Trim();
+//            data.info = columns[4].Trim();
+//            data.unq_info = columns[5].Trim();
 
-            EditorUtility.SetDirty(data);
-        }
+//            // Optional sprite auto-link
+//            data.sprite = AssetDatabase.LoadAssetAtPath<Sprite>(
+//                $"Assets/Creatures/Sprites/{name}.png"
+//            );
 
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
+//            EditorUtility.SetDirty(data);
+//        }
 
-        Debug.Log("Creature data imported with stable IDs!");
-    }
-    private static string GenerateCreatureId(string tier, int index)
-    {
-        return $"C_{tier.ToUpper()}_{index:D3}";
-    }
-    private static void EnsureFolderExists(string path)
-    {
-        if (AssetDatabase.IsValidFolder(path))
-            return;
+//        AssetDatabase.SaveAssets();
+//        AssetDatabase.Refresh();
 
-        string parent = Path.GetDirectoryName(path);
-        string folderName = Path.GetFileName(path);
+//        Debug.Log("Creature data imported with stable IDs!");
+//    }
+//#endif
+//    private static string GenerateCreatureId(string tier, int index)
+//    {
+//        return $"C_{tier.ToUpper()}_{index:D3}";
+//    }
+//    private static void EnsureFolderExists(string path)
+//    {
+//        if (AssetDatabase.IsValidFolder(path))
+//            return;
 
-        EnsureFolderExists(parent);
-        AssetDatabase.CreateFolder(parent, folderName);
-    }
+//        string parent = Path.GetDirectoryName(path);
+//        string folderName = Path.GetFileName(path);
 
-    private static CreatureType ParseCreatureType(string tier)
-    {
-        return tier switch
-        {
-            "Common" => CreatureType.Common,
-            "Rare" => CreatureType.Rare,
-            "Epic" => CreatureType.Epic,
-            _ => CreatureType.Common
-        };
-    }
-}
+//        EnsureFolderExists(parent);
+//        AssetDatabase.CreateFolder(parent, folderName);
+//    }
+
+//    private static CreatureType ParseCreatureType(string tier)
+//    {
+//        return tier switch
+//        {
+//            "Common" => CreatureType.Common,
+//            "Rare" => CreatureType.Rare,
+//            "Epic" => CreatureType.Epic,
+//            _ => CreatureType.Common
+//        };
+//    }
+//}

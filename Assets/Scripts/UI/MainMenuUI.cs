@@ -114,6 +114,8 @@ public class MainMenuUI : MonoBehaviour
     }
     private void PageMoved(int num)
     {
+        SoundManager.Instance.PlayFloorScrollSFx();
+
         if(num==4)
         {
             //char upgrade panel
