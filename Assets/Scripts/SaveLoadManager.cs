@@ -14,7 +14,7 @@ public class SaveLoadManager : MonoBehaviour
     public DateTime lastRewardedAdTime;
     int debugUnlock = 5;
     public static SaveLoadManager Instance;
-    public Dictionary<string, bool> unlockMap;
+    public Dictionary<string, CreatureUnlockStateType> unlockMap;
 
     private void Awake()
     {
@@ -99,7 +99,7 @@ public class SaveLoadManager : MonoBehaviour
             //mark all as locked state 
             foreach(var creatureData in allCreatureData)
             {
-                playerProfile.creatureUnlockStates.Add(new CreatureUnlockState(creatureData.creatureId,false));
+                playerProfile.creatureUnlockStates.Add(new CreatureUnlockState(creatureData.creatureId,CreatureUnlockStateType.Locked));
             }
 
             //main menu rewarded ad ready
@@ -113,10 +113,10 @@ public class SaveLoadManager : MonoBehaviour
             firstLoad = true;
         }
 
-        unlockMap = new Dictionary<string, bool>();
+        unlockMap = new Dictionary<string, CreatureUnlockStateType>();
         foreach (var item in SaveLoadManager.Instance.playerProfile.creatureUnlockStates)
         {
-            unlockMap[item.id] = item.acquired;
+            unlockMap[item.id] = item.creatureUnlockState;
         }
     }
 
@@ -396,15 +396,43 @@ public class SaveLoadManager : MonoBehaviour
     }
 
     //creature collection data
-    public void UnlockCreature(string creatureId)
+    public bool CheckIfCreatureUnlocked(string creatureId)
     {
-        unlockMap[creatureId] = true;
-        playerProfile.creatureUnlockStates.Find(x => x.id == creatureId).acquired = true;
+        if(unlockMap[creatureId]==CreatureUnlockStateType.Locked)
+        {
+            unlockMap[creatureId] = CreatureUnlockStateType.UnlockedNew;
+            playerProfile.creatureUnlockStates
+                .Find(x => x.id == creatureId).creatureUnlockState = CreatureUnlockStateType.UnlockedNew;
+            SaveGame();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+       
     }
-    public bool IsCreatureUnlocked(string creatureId)
+   
+    public CreatureUnlockStateType GetCreatureUnlockState(string creatureId)
     {
         return unlockMap[creatureId];
     }
+    public bool CheckIfNewCreatureUnlocked(string creatureId)
+    {
+        if (unlockMap[creatureId] == CreatureUnlockStateType.UnlockedNew)
+        {
+            unlockMap[creatureId] = CreatureUnlockStateType.UnlockedSeen;
+            playerProfile.creatureUnlockStates
+                .Find(x => x.id == creatureId).creatureUnlockState = CreatureUnlockStateType.UnlockedSeen;
+            SaveGame();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
 
     //currencies
     public int GetCurrency(CurrencyType type)

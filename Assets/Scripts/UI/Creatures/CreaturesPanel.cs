@@ -12,9 +12,13 @@ public class CreaturesPanel : MonoBehaviour
     [SerializeField] List<CreatureRecoveredUI> rareButtons;
     [SerializeField] List<CreatureRecoveredUI> epicButtons;
     [SerializeField] CreatureInfoPanel creatureInfoPanel;
+
     public CreatureReveal creatureReveal;
     public int activePanel; //which tab is currently show - common,rare,epic collections
     public static CreaturesPanel Instance;
+    [Header("New Unlock Sticker")]
+    [SerializeField] GameObject mainPanelSticker;
+    [SerializeField] GameObject[] tabStickers;
     private void Awake()
     {
         if (Instance == null)
@@ -28,9 +32,10 @@ public class CreaturesPanel : MonoBehaviour
     }
     private void Start()
     {
-       
         TogglePanel(0); //show common by default
+        RefreshAllStickers(); //show new sticker states based on unlock state
     }
+    //Called by button tabs click 
     public void TogglePanel(int index)
     {
         activePanel = index;
@@ -70,9 +75,11 @@ public class CreaturesPanel : MonoBehaviour
 
         for (int i = 0; i < creatureListData.Count; i++)
         {
-            if (SaveLoadManager.Instance.IsCreatureUnlocked(creatureListData[i].creatureId))
+            var creatureUnlockState = SaveLoadManager.Instance.GetCreatureUnlockState(creatureListData[i].creatureId);
+            if (creatureUnlockState !=CreatureUnlockStateType.Locked)
             {
-                buttons[i].EnableButton(creatureListData[i].creatureId);
+                bool isNewUnlock = creatureUnlockState == CreatureUnlockStateType.UnlockedNew;
+                buttons[i].EnableButton(creatureListData[i].creatureId,isNewUnlock);
             }
             else
             {
@@ -83,12 +90,36 @@ public class CreaturesPanel : MonoBehaviour
     }
     public void ShowCreatureInfo(string creatureId)
     {
-
+        
         var creatureList = GameManger.Instance.gameConfig.GetCreatureList(activePanel);
         var creatureData = creatureList.Find(x => x.creatureId == creatureId);
         creatureInfoPanel.SetInfoData(creatureData);
 
         creatureInfoPanel.gameObject.SetActive(true);   
+    }
+    public void RefreshAllStickers()
+    {
+        bool anyNewCreature = false;
+        for (int i=0;i<3;i++)
+        {
+            bool tabHasNewCreature = false;
+            var creatureListData = GameManger.Instance.gameConfig.GetCreatureList(i);
+            for (int j = 0; j < creatureListData.Count; j++)
+            {
+                var creatureUnlockState = SaveLoadManager.Instance.GetCreatureUnlockState(creatureListData[j].creatureId);
+                if(creatureUnlockState == CreatureUnlockStateType.UnlockedNew)
+                {
+                    //if any one the creature buttons in a tab has a new sticker
+                    tabHasNewCreature = true;
+                    anyNewCreature = true;
+                    break;
+                }
+            }
+            tabStickers[i].SetActive(tabHasNewCreature); 
+        }
+
+        mainPanelSticker.SetActive(anyNewCreature); //i.e if any one of the tabs has a new sticker
+
     }
 }
 
@@ -96,10 +127,16 @@ public class CreaturesPanel : MonoBehaviour
 public class CreatureUnlockState
 {
     public string id;
-    public bool acquired;
-    public CreatureUnlockState(string id, bool acquired)
+    public CreatureUnlockStateType creatureUnlockState;
+    public CreatureUnlockState(string id, CreatureUnlockStateType creatureUnlockState)
     {
         this.id = id;
-        this.acquired = acquired;
+        this.creatureUnlockState = creatureUnlockState;
     }
+}
+public enum CreatureUnlockStateType
+{
+    Locked = 0,
+    UnlockedNew = 1,
+    UnlockedSeen = 2
 }

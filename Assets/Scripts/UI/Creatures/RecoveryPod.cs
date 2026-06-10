@@ -317,12 +317,11 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
         //get creature stats from creatures scriptable object
         var creatureData = creaturePool[randomItem];
         //if new -- new pop up animation ,add to creature panel
-        if(!saveLoadInstance.IsCreatureUnlocked(creatureData.creatureId))
+        if(saveLoadInstance.CheckIfCreatureUnlocked(creatureData.creatureId))
         {
             // trigger new reveal
-            // 
             CreaturesPanel.Instance.creatureReveal.TriggerNewReveal(creatureData);
-            saveLoadInstance.UnlockCreature(creatureData.creatureId);
+            CreaturesPanel.Instance.RefreshAllStickers();
         }
         else
         {
@@ -356,9 +355,9 @@ public static class RecoveryTimeConfig
         new Dictionary<int, TimeSpan>
         {
             { 0,   TimeSpan.FromSeconds(0) },
-            { 1,   TimeSpan.FromHours(3) },
-            { 2,   TimeSpan.FromHours(6) },
-            { 3,   TimeSpan.FromHours(12) }
+            { 1,   TimeSpan.FromSeconds(30) },
+            { 2,   TimeSpan.FromSeconds(45) },
+            { 3,   TimeSpan.FromSeconds(60) }
         };
 
     public static TimeSpan GetBaseTime(int type)
