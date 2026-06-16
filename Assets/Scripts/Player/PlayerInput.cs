@@ -186,10 +186,10 @@ public class PlayerInput : MonoBehaviour
         {
             GrappleAbility.Invoke();
         }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            RespawnToCheckPoint.Invoke();
-        }
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    RespawnToCheckPoint.Invoke();
+        //}
     }
 
     private bool IsSwipeDown(Vector2 start, Vector2 end)

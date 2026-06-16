@@ -403,7 +403,7 @@ public class SaveLoadManager : MonoBehaviour
             unlockMap[creatureId] = CreatureUnlockStateType.UnlockedNew;
             playerProfile.creatureUnlockStates
                 .Find(x => x.id == creatureId).creatureUnlockState = CreatureUnlockStateType.UnlockedNew;
-            SaveGame();
+            //SaveGame();
             return true;
         }
         else

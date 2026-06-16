@@ -115,6 +115,7 @@ public class TutorialManager : MonoBehaviour
         DOVirtual.DelayedCall(1.5f, () =>
         {
             ghostPlayer.enabled = false;
+            ghostPlayer.gameObject.SetActive(false);
         });
 
         LevelManager.Instance.IsTutorialActive = false;
