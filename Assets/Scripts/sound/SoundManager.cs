@@ -35,15 +35,20 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip creaturePickCancel;
     [SerializeField] private AudioClip creatureDrop;
     [SerializeField] private AudioClip floorScrollUI;
+    [SerializeField] private AudioClip floorScrollSnapUI;
     [Header("Creatures/Dungeon")]
     [SerializeField] private AudioClip cagedPodBreak;
     [SerializeField] private AudioClip cursedCurrencyCollect;
-    [SerializeField] private AudioClip downTransition;
-    [SerializeField] private AudioClip upTransition;
+    [SerializeField] private AudioClip tileBreak;
+    [SerializeField] private AudioClip tileRegroup;
+    [SerializeField] private AudioClip fallingSound;
+    [SerializeField] private AudioClip pipeSound;
+    [SerializeField] private AudioClip vaccumPullSound;
     [SerializeField] private AudioClip creatureCollect;
     [SerializeField] private AudioClip[] slamSFX;
     [SerializeField] private AudioClip[] creaturesAdded;
     [SerializeField] private AudioClip[] creaturesInventory;
+    [SerializeField] private AudioClip[] starsCollect;
     private AudioSource activeSource;
 
     public static SoundManager Instance;
@@ -82,7 +87,17 @@ public class SoundManager : MonoBehaviour
     {
         activeSource = GetIdleSource();
         activeSource.clip = clip;
+        activeSource.pitch = 1;
         activeSource.Play();
+        
+        ObjectPoolManager.Instance.Despawn(activeSource.gameObject, activeSource.clip.length);
+    }
+    private void PlayClipPitchRandomized(AudioClip clip)
+    {
+        activeSource = GetIdleSource();
+        activeSource.clip = clip;
+        activeSource.Play();
+        activeSource.pitch = Random.Range(1.0f, 3.0f);
         ObjectPoolManager.Instance.Despawn(activeSource.gameObject, activeSource.clip.length);
     }
     private AudioSource GetIdleSource()
@@ -226,6 +241,10 @@ public class SoundManager : MonoBehaviour
     {
         PlayClip(floorScrollUI);
     }
+    public void PlayFloorScrollSnapSFx()
+    {
+        PlayClip(floorScrollSnapUI);
+    }
     public void PlayCagedPodSFx()
     {
         PlayClip(cagedPodBreak);
@@ -234,14 +253,28 @@ public class SoundManager : MonoBehaviour
     {
         PlayClip(cursedCurrencyCollect);
     }
-    public void PlayDungeonDownTransSFx()
+    public void PlayPipeTileBreakSFx()
     {
-        PlayClip(downTransition);
+        Debug.Log("tile break sfx");
+        PlayClip(tileBreak);
     }
-    public void PlayDungeonUpTransSFx()
+    public void PlayTileRegroupSFx()
     {
-        PlayClip(upTransition);
+        PlayClip(tileRegroup);
     }
+    public void PlayFallingSFx()
+    {
+        PlayClip(fallingSound);
+    }
+    public void PlayEntryPipeSFx()
+    {
+        PlayClip(pipeSound);
+    }
+    public void PlayExitPipeSFx()
+    {
+        PlayClip(vaccumPullSound);
+    }
+  
     public void PlayCreatureCollectSFx()
     {
         PlayClip(creatureCollect);
@@ -257,6 +290,10 @@ public class SoundManager : MonoBehaviour
     public void PlayCreatureToInventorySFx(int index)
     {
         PlayClip(creaturesInventory[index]);
+    }
+    public void PlayStarsCollectSFx(int index)
+    {
+        PlayClip(starsCollect[index]);
     }
     #endregion
 }

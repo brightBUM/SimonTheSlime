@@ -20,5 +20,6 @@ public class ChunkEntryPoint : MonoBehaviour
     public void TriggerEntry()
     {
         animator.SetTrigger("entry");
+        SoundManager.Instance.PlayEntryPipeSFx();
     }
 }

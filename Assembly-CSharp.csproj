@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Misc\IronSourceStatus.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Enums.cs" />
+    <Compile Include="Assets\Scripts\UI\Creatures\CurrencyUIManager.cs" />
     <Compile Include="Assets\Scripts\Manager\SceneTransitionManager.cs" />
     <Compile Include="Assets\Scripts\Tutorial\TutorialData.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Scripts\CFXR_ParticleTextFontAsset.cs" />
@@ -80,12 +81,12 @@
     <Compile Include="Assets\GameAnalytics\Plugins\Playmaker\GetRemoteConfigsValueAsString.cs" />
     <Compile Include="Assets\Scripts\Elements\DynamicWater2Df.cs" />
     <Compile Include="Assets\Scripts\Elements\ActuatorPlatform.cs" />
-    <Compile Include="Assets\Scripts\Misc\DungeonManager.cs" />
     <Compile Include="Assets\New Folder\Fortune Spin Wheel (Lucky Wheel)\Scripts\RewardData.cs" />
     <Compile Include="Assets\Scripts\UI\dumdum.cs" />
     <Compile Include="Assets\Scripts\UI\Creatures\InventorySlot.cs" />
     <Compile Include="Assets\Scripts\Enemies\HorizontalMovingEnemy.cs" />
     <Compile Include="Assets\Fx\Epic Toon FX\Demo\Scripts\VFX Library\PEButtonScript.cs" />
+    <Compile Include="Assets\Scripts\Proc_Gen\ChunkEntryPoint.cs" />
     <Compile Include="Assets\Imported Packages\coin\Coin.cs" />
     <Compile Include="Assets\Scripts\Elements\AlternateLaserToggle.cs" />
     <Compile Include="Assets\Scripts\UI\Creatures\InventoryHandler.cs" />
@@ -114,8 +115,8 @@
     <Compile Include="Assets\Scripts\Creatures\CagePod.cs" />
     <Compile Include="Assets\Scripts\Elements\SwitchPlatform.cs" />
     <Compile Include="Assets\Fx\Epic Toon FX\Demo\Scripts\ETFXLoopScript.cs" />
-    <Compile Include="Assets\Scripts\Misc\TileAssetHandler.cs" />
     <Compile Include="Assets\Scripts\Manager\AnalyticsManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\CurrencyManager.cs" />
     <Compile Include="Assets\Fx\Epic Toon FX\Scripts\ETFXRotation.cs" />
     <Compile Include="Assets\Scripts\sound\SoundManager.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Wrapper\GA_UWPWrapper.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Scripts\CFXR_EmissionBySurface.cs" />
     <Compile Include="Assets\Scripts\SpriteTrailRenderer\ObjectPool.cs" />
     <Compile Include="Assets\Scripts\Elements\LevelTargetStats.cs" />
+    <Compile Include="Assets\Scripts\UI\Creatures\CurrencyItemUI.cs" />
     <Compile Include="Assets\Scripts\Elements\WaterSetup.cs" />
     <Compile Include="Assets\Scripts\Elements\LevelEndGate.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Setup\Settings.cs" />
@@ -140,6 +142,7 @@
     <Compile Include="Assets\Imported Packages\Moving saw\patrol.cs" />
     <Compile Include="Assets\Scripts\UI\IntroCutScene\TweenObject.cs" />
     <Compile Include="Assets\Scripts\UI\IntroCutScene\FillAmountTween.cs" />
+    <Compile Include="Assets\Scripts\Proc_Gen\WeightedRNG.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Playmaker\SendDesignEvent.cs" />
     <Compile Include="Assets\Fx\Epic Toon FX\Scripts\ETFXLightFade.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Events\GA_Debug.cs" />
@@ -155,12 +158,12 @@
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Events\GA_SpecialEvents.cs" />
     <Compile Include="Assets\Fx\Epic Toon FX\Demo\Scripts\ETFXSceneManager.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\ILRD\Aequus\GAAequusIntegration.cs" />
+    <Compile Include="Assets\Scripts\Proc_Gen\ChunkExitPoint.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Wrapper\GA_MonoWrapper.cs" />
     <Compile Include="Assets\Imported Packages\Moving saw\CFX_AutoDestructShuriken.cs" />
     <Compile Include="Assets\Scripts\Creatures\CreaturesDataImporter.cs" />
     <Compile Include="Assets\Scripts\Elements\DrawGateUnlock.cs" />
     <Compile Include="Assets\Material\VerticalScroll.cs" />
-    <Compile Include="Assets\Scripts\Misc\ChunkEntryPoint.cs" />
     <Compile Include="Assets\Scripts\Manager\PurchaseManager.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerCollision.cs" />
     <Compile Include="Assets\Scripts\UI\LoadingBar.cs" />
@@ -186,6 +189,7 @@
     <Compile Include="Assets\Scripts\Enemies\response\Agent_AnimatorResponse.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Wrapper\GA_tvOSWrapper.cs" />
     <Compile Include="Assets\Scripts\Elements\GrapplePoint.cs" />
+    <Compile Include="Assets\Scripts\Proc_Gen\ExitChunkSFXTrigger.cs" />
     <Compile Include="Assets\Scripts\Tutorial\InputRecorder.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Playmaker\IsRemoteConfigsReady.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Playmaker\GetABTestingVariantId.cs" />
@@ -207,7 +211,6 @@
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Events\GA_Design.cs" />
     <Compile Include="Assets\Scripts\SpriteTrailRenderer\IPoolable.cs" />
     <Compile Include="Assets\New Folder\Fortune Spin Wheel (Lucky Wheel)\Scripts\FortuneSpinWheel.cs" />
-    <Compile Include="Assets\Scripts\Misc\ChunkGenerator.cs" />
     <Compile Include="Assets\Scripts\Elements\Banana.cs" />
     <Compile Include="Assets\Scripts\Elements\GoreSplatter.cs" />
     <Compile Include="Assets\Scripts\OrbRespawner.cs" />
@@ -224,9 +227,11 @@
     <Compile Include="Assets\GameAnalytics\Plugins\Playmaker\SendAdEvent.cs" />
     <Compile Include="Assets\Scripts\UI\Shop\ShopManager.cs" />
     <Compile Include="Assets\Scripts\Creatures\CreatureDrop.cs" />
+    <Compile Include="Assets\Scripts\Proc_Gen\TileAssetHandler.cs" />
     <Compile Include="Assets\Scripts\Elements\FlagCheckpoint.cs" />
     <Compile Include="Assets\Scripts\UI\UVScroll.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\ILRD\Max\GAMaxIntegration.cs" />
+    <Compile Include="Assets\Scripts\Proc_Gen\CursedNanas.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\ILRD\TopOn\GATopOnIntegration.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Scripts\CFXR_ParticleText.cs" />
     <Compile Include="Assets\Scripts\UI\MainMenuUI.cs" />
@@ -238,7 +243,6 @@
     <Compile Include="Assets\Scripts\UI\Creatures\CreatureReveal.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\Events\GA_Business.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Playmaker\SendBusinessEvent.cs" />
-    <Compile Include="Assets\Scripts\Misc\ChunkHandler.cs" />
     <Compile Include="Assets\Scripts\Misc\ComboGroup.cs" />
     <Compile Include="Assets\Imported Packages\Electric ball\CFX_LightIntensityFade.cs" />
     <Compile Include="Assets\Scripts\sound\AreaSound.cs" />
@@ -257,7 +261,9 @@
     <Compile Include="Assets\Scripts\SpriteTrailRenderer\SpriteTrailObject.cs" />
     <Compile Include="Assets\Scripts\Notifications\NotificationManager.cs" />
     <Compile Include="Assets\Scripts\Notifications\AndroidNotifications.cs" />
+    <Compile Include="Assets\Scripts\Proc_Gen\ChunkGenerator.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Scripts\CFXR_Effect.CameraShake.cs" />
+    <Compile Include="Assets\Scripts\Proc_Gen\ChunkHandler.cs" />
     <Compile Include="Assets\Scripts\UnityPurchasing\generated\GooglePlayTangle.cs" />
     <Compile Include="Assets\Scripts\UI\Creatures\CreaturesPanel.cs" />
     <Compile Include="Assets\Samples\In App Purchasing\4.10.0\01 Buying Consumables\BuyingConsumables.cs" />
@@ -271,12 +277,10 @@
     <Compile Include="Assets\Scripts\Enemies\response\air_patrolling_enemy\air_patrolling_animator_response.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\ILRD\Mopub\GAMopubIntegration.cs" />
     <Compile Include="Assets\Scripts\UI\IntroCutScene\AnimateTween.cs" />
-    <Compile Include="Assets\Scripts\Misc\ChunkExitPoint.cs" />
     <Compile Include="Assets\Scripts\Enemies\Generic\LivingEntity.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Playmaker\GetABTestingId.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX Remaster\CFXR Assets\Scripts\CFXR_Effect.cs" />
     <Compile Include="Assets\Scripts\Enemies\other\Projectile.cs" />
-    <Compile Include="Assets\Scripts\Misc\WeightedRNG.cs" />
     <Compile Include="Assets\Scripts\FirebaseAnalyticsManager.cs" />
     <Compile Include="Assets\LevelPlay\Samples\UnityLevelPlaySample\Scripts\AdConfig.cs" />
     <Compile Include="Assets\Scripts\Elements\RedBarrel.cs" />
@@ -292,6 +296,8 @@
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\ILRD\Fyber\GAFyberIntegration.cs" />
     <Compile Include="Assets\Scripts\Manager\RemoteConfig.cs" />
     <Compile Include="Assets\Scripts\UI\IntroCutScene\IntroCutScene.cs" />
+    <Compile Include="Assets\Scripts\Proc_Gen\DungeonManager.cs" />
+    <Compile Include="Assets\Scripts\UI\Debug Cheats\DebugCheat.cs" />
     <Compile Include="Assets\PlayerTransitionDummy.cs" />
     <Compile Include="Assets\GameAnalytics\Plugins\Scripts\ILRD\HyperBid\GAHyperBidIntegration.cs" />
     <Compile Include="Assets\Scripts\UI\Creatures\RecoveryPodHandler.cs" />
@@ -886,6 +892,10 @@
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>Library\PackageCache\com.unity.nuget.mono-cecil@d78732e851eb\Mono.Cecil.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Coffee.UIParticle.R">
+      <HintPath>Library\PackageCache\com.coffee.ui-particle@92fb173507ec\Runtime\Coffee.UIParticle.R.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Firebase.Platform">
@@ -1674,6 +1684,10 @@
     </Reference>
     <Reference Include="Unity.Rendering.LightTransport.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Rendering.LightTransport.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Coffee.UIParticle">
+      <HintPath>Library\ScriptAssemblies\Coffee.UIParticle.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.2D.Tilemap.Extras.Editor">

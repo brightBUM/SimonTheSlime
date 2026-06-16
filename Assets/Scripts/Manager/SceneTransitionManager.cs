@@ -133,7 +133,7 @@ public class SceneTransitionManager : MonoBehaviour
     // ── Called when player exits the secret room ─────────────────────────────
     public void ReturnToMainScene()
     {
-        SoundManager.Instance.PlayDungeonUpTransSFx();
+        //SoundManager.Instance.PlayDungeonUpTransSFx();
         StartCoroutine(UnloadSecretRoom());
     }
 

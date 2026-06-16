@@ -34,7 +34,7 @@ public class ScoreBoard : MonoBehaviour
     [SerializeField] float levelCompleteTextDelay = 0.2f;
     [SerializeField] float scoreCountTime = 2f;
     private List<TextMeshProUGUI> levelCompleteTexts;
-
+    int starSoundIndex;
     private void Awake()
     {
         menuButton.onClick.AddListener(OnMenuClick);
@@ -287,6 +287,7 @@ public class ScoreBoard : MonoBehaviour
     [ContextMenu("Tween ScoreBoard")]
     public void TriggerScoreBoard()
     {
+        starSoundIndex = 0;
         StartCoroutine(AssignValues());
 
         scoreboardTitleUI.DOLocalMove(Vector3.zero, 0.4f).SetEase(Ease.OutBack);
@@ -414,6 +415,8 @@ public class ScoreBoard : MonoBehaviour
     {
         DOVirtual.DelayedCall(1.05f + delay, () =>
         {
+            SoundManager.Instance.PlayStarsCollectSFx(starSoundIndex);
+            starSoundIndex++;
             transform.gameObject.SetActive(true);
             transform.DOShakeScale(0.5f, 2.2f).SetEase(Ease.InOutBounce);
         });

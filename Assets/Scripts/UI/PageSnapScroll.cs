@@ -14,6 +14,8 @@ public class PageSnapScroll : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     public int itemsPerPage = 1;
     public int startPageNum = 0;
     public Action<int> OnPageMoved;
+    public Action OnScrollStart;
+    public Action OnScrollEnd;
     public Action SnapToStartComplete;
     private int totalItems;
     private int totalPages;
@@ -104,6 +106,11 @@ public class PageSnapScroll : MonoBehaviour, IBeginDragHandler, IEndDragHandler
         else if (swipeDelta < -threshold && currentPage < totalPages - 1)
             targetPage = currentPage + 1;
 
+        if (targetPage != currentPage)
+        {
+            OnScrollStart?.Invoke();
+        }
+
         pageNum = targetPage;
 
         StopAllCoroutines();
@@ -138,7 +145,6 @@ public class PageSnapScroll : MonoBehaviour, IBeginDragHandler, IEndDragHandler
             scrollRect.horizontalNormalizedPosition : scrollRect.verticalNormalizedPosition;
 
         shifting = true;
-
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
@@ -153,6 +159,7 @@ public class PageSnapScroll : MonoBehaviour, IBeginDragHandler, IEndDragHandler
         }
 
         shifting = false;
+        OnScrollEnd?.Invoke();
 
         if (scrollDirection == ScrollDirection.Horizontal)
             scrollRect.horizontalNormalizedPosition = target;

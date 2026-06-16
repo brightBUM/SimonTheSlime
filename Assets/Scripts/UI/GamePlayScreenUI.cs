@@ -187,6 +187,10 @@ public class GamePlayScreenUI : MonoBehaviour
                 IronSourceInstance.interstitialAd.OnAdLoadFailed += InterstitialAd_OnAdLoadFailed;
                 return;
             }
+            else
+            {
+                Debug.Log("android - interstitial ad not ready");
+            }
         }
 
 #endif

@@ -1,8 +1,5 @@
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.U2D.IK;
 
 public class ChunkExitPoint : MonoBehaviour
 {
@@ -29,6 +26,8 @@ public class ChunkExitPoint : MonoBehaviour
             Vector3 snapTarget = new Vector3(snapPoint.position.x,
                                             player.position.y,
                                             player.position.z);
+
+            SoundManager.Instance.PlayExitPipeSFx();
 
             //rising tween
             player.DOMove(snapTarget, snapDuration)

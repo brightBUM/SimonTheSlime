@@ -30,7 +30,7 @@ public class PipePlatform : MonoBehaviour, IPoundable
     [SerializeField] float pullDuration = 0.8f;   // time to rise to targetPos
     [SerializeField] float riseRowDelay = 0.5f;
     [SerializeField] int width = 3;
-    [SerializeField] int maxDepth = 20;
+    [SerializeField] int maxDepth = 5;
 
     // ✅ Store BOTH tile + sprite (fixes rebuild issue)
     Dictionary<Vector3Int, (TileBase tile, Sprite sprite)> cachedTiles
@@ -73,12 +73,20 @@ public class PipePlatform : MonoBehaviour, IPoundable
 
         
         LevelManager.Instance.startLevelTimer = false; //pause level timer when entering dungeon
-        SoundManager.Instance.PlayDungeonDownTransSFx();
         StartCoroutine(BreakTilesRowByRow(transform.position));
+        //StartCoroutine(PlayTileBreakAudio());
     }
-
+    IEnumerator PlayTileBreakAudio()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
     IEnumerator BreakTilesRowByRow(Vector3 impactWorldPos)
     {
+       
+
         //Debug.Break();
         Vector3Int baseCell = groundTilemap.WorldToCell(
             impactWorldPos + Vector3.down * groundTilemap.cellSize.y
@@ -99,7 +107,7 @@ public class PipePlatform : MonoBehaviour, IPoundable
 
                 anyTileInRow = true;
 
-                // ✅ Cache tile + sprite
+                //  Cache tile + sprite
                 if (!cachedTiles.ContainsKey(pos))
                 {
                     Sprite sprite = groundTilemap.GetSprite(pos);
@@ -148,12 +156,15 @@ public class PipePlatform : MonoBehaviour, IPoundable
                 Destroy(chunk, 2f);
 
                 yield return new WaitForSeconds(0.01f);
+
             }
 
             if (!anyTileInRow)
                 break;
 
             y++;
+            SoundManager.Instance.PlayPipeTileBreakSFx();
+
             yield return new WaitForSeconds(breakRowDelay);
         }
 
@@ -311,6 +322,7 @@ public class PipePlatform : MonoBehaviour, IPoundable
 
         // Restore tile
         groundTilemap.SetTile(cellPos, tile);
+        SoundManager.Instance.PlayTileRegroupSFx();
 
         Destroy(chunk);
     }

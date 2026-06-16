@@ -62,7 +62,8 @@ public class MainMenuUI : MonoBehaviour
         pageSnapScroll.SnapToStartComplete += CharacterUIReparent;
         pageSnapScroll.Init();
         pageSnapScroll.OnPageMoved += PageMoved;
-
+        pageSnapScroll.OnScrollStart += ScrollStart;
+        pageSnapScroll.OnScrollEnd += ScrollEnd;
         creaturePanelSwipe.OnOpenPanel += OnCreaturePanelOpen;
         creaturePanelSwipe.OnClosePanel += OnCreaturePanelClosed;
 
@@ -112,9 +113,17 @@ public class MainMenuUI : MonoBehaviour
             
         });
     }
-    private void PageMoved(int num)
+    private void ScrollStart()
     {
         SoundManager.Instance.PlayFloorScrollSFx();
+
+    }
+    private void ScrollEnd()
+    {
+        //SoundManager.Instance.PlayFloorScrollSnapSFx();
+    }
+    private void PageMoved(int num)
+    {
 
         if(num==4)
         {
@@ -246,6 +255,8 @@ public class MainMenuUI : MonoBehaviour
     {
         pageSnapScroll.SnapToStartComplete -= CharacterUIReparent;
         pageSnapScroll.OnPageMoved      -= PageMoved;
+        pageSnapScroll.OnScrollStart    -= ScrollStart;
+        pageSnapScroll.OnScrollEnd      -= ScrollEnd;
 
         creaturePanelSwipe.OnOpenPanel  -= OnCreaturePanelOpen;
         creaturePanelSwipe.OnClosePanel -= OnCreaturePanelClosed;

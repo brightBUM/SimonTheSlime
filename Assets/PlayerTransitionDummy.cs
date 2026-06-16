@@ -27,6 +27,7 @@ public class PlayerTransitionDummy : MonoBehaviour
             scroll_1.scrollSpeed = -5;
             scroll_2.scrollSpeed = -8;
             direction = Vector3.down;
+            SoundManager.Instance.PlayFallingSFx();
         }
         else
         {
