@@ -60,6 +60,9 @@ public class GamePlayScreenUI : MonoBehaviour
     private TweenerCore<float, float, FloatOptions> tween;
     public bool BulletTimeActive => timerFillUI.fillAmount < 1f;
     float retryCountDownDuration = 3f;
+
+    bool dashButtonState;
+    bool grappleButtonState;
     private void Awake()
     {
         Instance = this;
@@ -84,6 +87,9 @@ public class GamePlayScreenUI : MonoBehaviour
         defaultColor = timerFillUI.color;
         ScoreboardScreen.transform.localScale = Vector3.zero;
         Time.timeScale = 1f;
+
+        dashButtonState = dashButton.gameObject.activeInHierarchy;
+        grappleButtonState = grappleButton.gameObject.activeInHierarchy;
     }
     private void Update()
     {
@@ -92,7 +98,16 @@ public class GamePlayScreenUI : MonoBehaviour
             TogglePauseMenu();
         }
     }
-
+    public void EnableButtonsForDungeon()
+    {
+        dashButton.gameObject.SetActive(true);
+        grappleButton.gameObject.SetActive(true);
+    }
+    public void RestoreButtonStates()
+    {
+        dashButton.gameObject.SetActive(dashButtonState);
+        grappleButton.gameObject.SetActive(grappleButtonState);
+    }
     private void ScaleTexts()
     {
         //levelCompleteTexts = new List<TextMeshProUGUI>()

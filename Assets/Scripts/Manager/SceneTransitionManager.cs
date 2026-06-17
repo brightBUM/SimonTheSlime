@@ -125,7 +125,7 @@ public class SceneTransitionManager : MonoBehaviour
         // 8. Unfreeze player
         //playerController.enabled = true;
         GamePlayScreenUI.Instance.ToggleGameplayScreen(true);
-
+        GamePlayScreenUI.Instance.EnableButtonsForDungeon();
 
         Debug.Log("Transition to secret room complete");
     }
@@ -196,6 +196,7 @@ public class SceneTransitionManager : MonoBehaviour
 
         //playerController.enabled = true;
         GamePlayScreenUI.Instance.ToggleGameplayScreen(true);
+        GamePlayScreenUI.Instance.RestoreButtonStates();
 
         Debug.Log("Transition back to main scene complete");
     }
