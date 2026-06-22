@@ -36,6 +36,9 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip creatureDrop;
     [SerializeField] private AudioClip floorScrollUI;
     [SerializeField] private AudioClip floorScrollSnapUI;
+    [SerializeField] private AudioClip newCreatureRevealUI;
+    [SerializeField] private AudioClip existingCreatureRevealUI;
+
     [Header("Creatures/Dungeon")]
     [SerializeField] private AudioClip cagedPodBreak;
     [SerializeField] private AudioClip cursedCurrencyCollect;
@@ -225,6 +228,14 @@ public class SoundManager : MonoBehaviour
     }
     #region Creatures
 
+    public void PlayNewCreatureReveal()
+    {
+        PlayClip(newCreatureRevealUI);
+    }
+    public void PlayExistingCreatureReveal()
+    {
+        PlayClip(existingCreatureRevealUI);
+    }
     public void PlayCreaturePickupSFx()
     {
         PlayClip(creaturePickup);

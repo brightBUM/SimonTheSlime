@@ -326,8 +326,7 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
         else
         {
             // else -- simple pop up (To-do)
-            //trigger same reveal for now
-            CreaturesPanel.Instance.creatureReveal.TriggerNewReveal(creatureData);
+            CreaturesPanel.Instance.creatureReveal.TriggerExistingReveal(creatureData);
 
         }
 
