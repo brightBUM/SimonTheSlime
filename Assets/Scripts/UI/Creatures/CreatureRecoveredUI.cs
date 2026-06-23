@@ -29,7 +29,7 @@ public class CreatureRecoveredUI : MonoBehaviour
 
         image.sprite = creatureData.sprite;
         image.color = Color.white;
-        nameText.text = creatureData.name;
+        nameText.text = creatureData.creatureName.Replace("\\n", "\n"); ;
         SetNewUnlockState(value);
     }
     public void SetNewUnlockState(bool value)

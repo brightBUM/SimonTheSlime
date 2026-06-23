@@ -36,6 +36,9 @@ public class GameConfig : SerializedScriptableObject
     public List<int> podsCost;
     public List<CurrencyAmount> podLevel_2_Cost;
     public List<CurrencyAmount> podLevel_3_Cost;
+    [Header("Hard currency for Creature Reroll")]
+    public int[] hardCurrencyReRollAmount;
+   
     public List<CreatureData> GetCreatureList(int index)
     {
         switch(index)

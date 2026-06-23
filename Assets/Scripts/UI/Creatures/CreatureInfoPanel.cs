@@ -15,7 +15,7 @@ public class CreatureInfoPanel : MonoBehaviour
     {
         bgImage.color = creatureColors[(int)creatureData.creatureType];
         creatureImg.sprite = creatureData.sprite;
-        nameText.text = creatureData.name;
+        nameText.text = creatureData.creatureName.Replace("\\n", ""); ;
         var joinedText = creatureData.weight + " / "+creatureData.region;
         weight_regionText.text = joinedText;
         descText.text = creatureData.info;

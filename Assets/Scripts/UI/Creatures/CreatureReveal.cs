@@ -15,6 +15,8 @@ public class CreatureReveal : MonoBehaviour
     [SerializeField] Transform glowImage;
     [SerializeField] GameObject sparkles;
     [SerializeField] Transform closeButton;
+    [SerializeField] Transform hardCurrencySetup;
+    [SerializeField] TextMeshProUGUI hardCurrencyValueText;
     Vector3 titlePos;
     Vector3 namePos;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -104,11 +106,22 @@ public class CreatureReveal : MonoBehaviour
                     glowImage.DOLocalRotate(new Vector3(0, 0, 360),10f,RotateMode.FastBeyond360)
                                             .SetEase(Ease.Linear)
                                             .SetLoops(-1, LoopType.Restart);
+
+                    //hard currency reward for re rolling the same creature
+                    HardCurrencyReroll(creatureData.creatureType);
+                   
                 });
 
             });
 
         });
+    }
+    private void HardCurrencyReroll(CreatureType creatureType)
+    {
+        var hardCurrencyValue = GameManger.Instance.gameConfig.hardCurrencyReRollAmount[(int)creatureType];
+        hardCurrencyValueText.text = "+" + hardCurrencyValue.ToString();
+        hardCurrencySetup.DOScale(1, 0.5f).SetEase(Ease.OutBounce);
+        SaveLoadManager.Instance.AddCurrency(CurrencyType.Melons, hardCurrencyValue);
     }
     public void CloseAndReset()
     {
@@ -120,6 +133,7 @@ public class CreatureReveal : MonoBehaviour
         imageParent.transform.localScale = Vector3.zero;
         DOTween.Kill(glowImage);
         sparkles.SetActive(false);
+        hardCurrencySetup.localScale = Vector3.zero;
     }
 
 }
