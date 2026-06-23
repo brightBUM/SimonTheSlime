@@ -25,7 +25,7 @@ public class DrawGateUnlock : MonoBehaviour
             //pan camera to target
 
             //move draw bridge 
-            SoundManager.Instance.PlayGateUnlockSFx(true);
+            //SoundManager.Instance.PlayGateUnlockSFx(true);
             drawGate.DOLocalMoveX(gateXValue, gateUnlockDuration).OnUpdate(() =>
             {
                 //turn gears as door opens
@@ -41,7 +41,7 @@ public class DrawGateUnlock : MonoBehaviour
 
                 //re enable input
                 LevelManager.Instance.PlayerInputToggle(true);
-                SoundManager.Instance.PlayGateUnlockSFx(false);
+                //SoundManager.Instance.PlayGateUnlockSFx(false);
 
             });
 

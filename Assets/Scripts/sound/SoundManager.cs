@@ -23,10 +23,10 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip erectPlatformSFx;
     [SerializeField] private AudioClip switchPlatformSFx;
     [SerializeField] private AudioClip timeOrbCollectSFx;
-    [SerializeField] private AudioClip resetPuzzleSFx;
-    [SerializeField] private AudioClip lightBlinkSFx;
+    //[SerializeField] private AudioClip resetPuzzleSFx;
+    //[SerializeField] private AudioClip lightBlinkSFx;
     [SerializeField] AudioSource ghostSource;
-    [SerializeField] AudioSource gateUnlockSource;
+    //[SerializeField] AudioSource gateUnlockSource;
     [SerializeField] private AudioClip[] slimeStickSFX;
     [SerializeField] private AudioClip[] coinCollectSfx;
 
@@ -38,6 +38,8 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip floorScrollSnapUI;
     [SerializeField] private AudioClip newCreatureRevealUI;
     [SerializeField] private AudioClip existingCreatureRevealUI;
+    [SerializeField] private AudioClip nanasCoinBunch;
+    [SerializeField] private AudioClip melonsCoinBunch;
 
     [Header("Creatures/Dungeon")]
     [SerializeField] private AudioClip cagedPodBreak;
@@ -118,18 +120,18 @@ public class SoundManager : MonoBehaviour
     {
         PlayClip(grappleRopeSFx);
     }
-    public void PlaylightBlinkSFX()
-    {
-        PlayClip(lightBlinkSFx);
-    }
+    //public void PlaylightBlinkSFX()
+    //{
+    //    PlayClip(lightBlinkSFx);
+    //}
     public void PlaySlimeSplashSFX()
     {
         PlayClip(slimeSplashSFx);
     }
-    public void PlayResetPuzzleSFX()
-    {
-        PlayClip(resetPuzzleSFx);
-    }
+    //public void PlayResetPuzzleSFX()
+    //{
+    //    PlayClip(resetPuzzleSFx);
+    //}
     public void PlayDashSFX()
     {
         PlayClip(dashSFx);
@@ -215,17 +217,17 @@ public class SoundManager : MonoBehaviour
             ghostSource?.Stop();
         }
     }
-    public void PlayGateUnlockSFx(bool value)
-    {
-        if (value)
-        {
-            gateUnlockSource.Play();
-        }
-        else
-        {
-            gateUnlockSource.Stop();
-        }
-    }
+    //public void PlayGateUnlockSFx(bool value)
+    //{
+    //    if (value)
+    //    {
+    //        gateUnlockSource.Play();
+    //    }
+    //    else
+    //    {
+    //        gateUnlockSource.Stop();
+    //    }
+    //}
     #region Creatures
 
     public void PlayNewCreatureReveal()
@@ -289,6 +291,14 @@ public class SoundManager : MonoBehaviour
     public void PlayCreatureCollectSFx()
     {
         PlayClip(creatureCollect);
+    }
+    public void PlayNanasCoinBunchSFx()
+    {
+        PlayClip(nanasCoinBunch);
+    }
+    public void PlayMelonsCoinBunchSFx()
+    {
+        PlayClip(melonsCoinBunch);
     }
     public void PlaySlamSFx()
     {

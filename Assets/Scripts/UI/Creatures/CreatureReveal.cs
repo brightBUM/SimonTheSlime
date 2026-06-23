@@ -96,12 +96,13 @@ public class CreatureReveal : MonoBehaviour
             titleText.transform.localScale = Vector3.one;
             titleText.rectTransform.DOAnchorPosY(-158.2f, 0.5f).SetEase(Ease.OutExpo).OnComplete(() =>
             {
+                SoundManager.Instance.PlayExistingCreatureReveal();
+
                 //nameText.rectTransform.DOScale(1f, 0.5f).SetEase(Ease.OutBounce);
                 nameText.transform.localScale = Vector3.one;
                 nameText.rectTransform.DOAnchorPosY(90.1f, 0.5f).SetEase(Ease.OutExpo);
                 imageParent.transform.DOScale(1f, 0.5f).SetEase(Ease.OutExpo).OnComplete(() =>
                 {
-                    SoundManager.Instance.PlayExistingCreatureReveal();
                     closeButton.DOScale(1.0f, 0.25f).SetEase(Ease.OutBounce);
                     glowImage.DOLocalRotate(new Vector3(0, 0, 360),10f,RotateMode.FastBeyond360)
                                             .SetEase(Ease.Linear)
@@ -121,6 +122,11 @@ public class CreatureReveal : MonoBehaviour
         var hardCurrencyValue = GameManger.Instance.gameConfig.hardCurrencyReRollAmount[(int)creatureType];
         hardCurrencyValueText.text = "+" + hardCurrencyValue.ToString();
         hardCurrencySetup.DOScale(1, 0.5f).SetEase(Ease.OutBounce);
+        DOVirtual.DelayedCall(0.25f , () =>
+        {
+            SoundManager.Instance.PlayNanasCoinBunchSFx();
+        });
+
         SaveLoadManager.Instance.AddCurrency(CurrencyType.Melons, hardCurrencyValue);
     }
     public void CloseAndReset()

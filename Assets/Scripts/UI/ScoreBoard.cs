@@ -408,6 +408,14 @@ public class ScoreBoard : MonoBehaviour
     {
         if (amount > 0)
         {
+            if(currencyType == CurrencyType.Nanas)
+            {
+                SoundManager.Instance.PlayNanasCoinBunchSFx();
+            }
+            else if (currencyType == CurrencyType.Melons)
+            {
+                SoundManager.Instance.PlayMelonsCoinBunchSFx();
+            }
             CurrencyManager.CurrencyCollectAction?.Invoke(amount, pos, currencyType);
         }
     }
