@@ -40,6 +40,8 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip existingCreatureRevealUI;
     [SerializeField] private AudioClip nanasCoinBunch;
     [SerializeField] private AudioClip melonsCoinBunch;
+    [SerializeField] private AudioClip buyClip;
+    [SerializeField] private AudioClip upgradeClip;
 
     [Header("Creatures/Dungeon")]
     [SerializeField] private AudioClip cagedPodBreak;
@@ -315,6 +317,14 @@ public class SoundManager : MonoBehaviour
     public void PlayStarsCollectSFx(int index)
     {
         PlayClip(starsCollect[index]);
+    }
+    public void PlayPurchaseSFX()
+    {
+        PlayClip(buyClip);
+    }
+    public void PlayUpgradeClip()
+    {
+        PlayClip(upgradeClip);
     }
     #endregion
 }

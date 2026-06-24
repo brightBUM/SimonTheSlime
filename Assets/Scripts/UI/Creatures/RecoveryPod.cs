@@ -218,6 +218,7 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
             podState = PodState.Upgrade;
             ShowUpgradeState();
             SaveLoadManager.Instance.BuyNewPod();
+            SoundManager.Instance.PlayPurchaseSFX();
         }
         else
         {
@@ -237,6 +238,7 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
                 podLevel++;
             //update text for the current upgrade progress
             SaveLoadManager.Instance.UpgradePod(podId);
+            SoundManager.Instance.PlayUpgradeClip();
             ShowUpgradeState();
         }
         else

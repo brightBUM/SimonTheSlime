@@ -65,6 +65,7 @@ public class InventorySlotInteractable : InventorySlot, IBeginDragHandler, IDrag
             buySetup.SetActive(false);
             ownedSetup.SetActive(true);
             ClearSlot();
+            SoundManager.Instance.PlayPurchaseSFX();
             saveLoadInstance.BuyInventorySlot(slotId);
             saveLoadInstance.SaveGame();
         }
