@@ -52,9 +52,5 @@ public class DungeonManager : MonoBehaviour
             layer.transform.position = target.position;
         }
     }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }

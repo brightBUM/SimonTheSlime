@@ -1,11 +1,13 @@
 ﻿using DG.Tweening;
 using System.Collections;
 using TMPro;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class BangablePlatform : MonoBehaviour, IPoundable
 {
     [SerializeField] GameObject bananaPrefab;
+    [SerializeField] GameObject cursedNanasPrefab;
     [SerializeField] float melonDropOffset = 0.5f;
     [SerializeField] float coinForce = 5f;
     [SerializeField] int HitCount = 0;
@@ -27,13 +29,29 @@ public class BangablePlatform : MonoBehaviour, IPoundable
             GetComponentInChildren<BouncyDeform>().HitDeform();
 
             SoundManager.Instance.PlayCoinBangSFX();
-            var coin = Instantiate(bananaPrefab, transform.position, Quaternion.identity);
-            coin.GetComponent<Banana>().runTime = true;
-            coin.AddComponent<Rigidbody2D>().AddForce(Vector2.up * coinForce, ForceMode2D.Impulse);
-            DOVirtual.DelayedCall(0.5f, () =>
+
+            if(LevelManager.Instance.InDungeon)
             {
-                coin.GetComponent<Banana>().CollectEffect();
-            });
+                var cursedNanaObject = Instantiate(cursedNanasPrefab, transform.position, Quaternion.identity);
+                cursedNanaObject.AddComponent<Rigidbody2D>().AddForce(Vector2.up * 25f, ForceMode2D.Impulse);
+                DOVirtual.DelayedCall(0.5f, () =>
+                {
+                    cursedNanaObject.GetComponent<CursedNanas>().CollectEffect();
+                });
+            }
+            else
+            {
+                var coin = Instantiate(bananaPrefab, transform.position, Quaternion.identity);
+                coin.GetComponent<Banana>().runTime = true;
+                coin.AddComponent<Rigidbody2D>().AddForce(Vector2.up * coinForce, ForceMode2D.Impulse);
+                DOVirtual.DelayedCall(0.5f, () =>
+                {
+                    coin.GetComponent<Banana>().CollectEffect();
+                });
+            }
+            
+
+
 
             //lucky drop melon prefab - 1 in 20 chances
             var chance = Random.Range(1, GameManger.Instance.gameConfig.melonDropChance+1);
