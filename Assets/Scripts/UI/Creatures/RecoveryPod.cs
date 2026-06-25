@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Unity.Services.LevelPlay;
+using UnityEditor.Rendering;
 
 public enum PodState
 {
@@ -36,25 +37,28 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
     [SerializeField] GameObject assignedSetup;
     [SerializeField] Image creatureImage;
     [SerializeField] TextMeshProUGUI timeRemainingText;
+    [SerializeField] TextMeshProUGUI gemText;
     [SerializeField] Button hardCurrencyFinishButton;
     [SerializeField] Image glassImage;
     [SerializeField] Color[] creatureColors;
     [SerializeField] GameObject bubbleVFX;
     [SerializeField] Button watchAdButton;
+    [SerializeField] Button gemRecoverButton;
     [Header("Complete Setup")]
     [SerializeField] GameObject completeSetup;
     [SerializeField] Transform glowTransform;
     [SerializeField] Button completeButton;
     public PodState podState;
     public int podLevel;
-
+    private int gemCostValue;
     private String[] upgradeTexts = { "1x >> 2x Speed", "2x >> 3x Speed", "Max Level" };
     private void OnEnable()
     {
-        buyButton.onClick.     AddListener(BuyPod);
-        upgradeButton.onClick. AddListener(UpgradePod);
-        completeButton.onClick.AddListener(RecoverCreature);
-        watchAdButton.onClick.AddListener(ShowRewardedAdforHours);
+        buyButton.onClick.       AddListener(BuyPod);
+        upgradeButton.onClick.   AddListener(UpgradePod);
+        completeButton.onClick.  AddListener(RecoverCreature);
+        watchAdButton.onClick.   AddListener(ShowRewardedAdforHours);
+        gemRecoverButton.onClick.AddListener(InstantRecoverViaGem);
     }
     public void Init(int index,RecoveryPodData recoveryPodData = null)
     {
@@ -103,17 +107,20 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
     {
         if(podState == PodState.Assigned)
         {
-            var recoverPodData = SaveLoadManager.Instance.playerProfile.recoveryPodData;
-            var timeSpan = recoverPodData[podId].GetRemainingTime();
+            var recoverPodData = SaveLoadManager.Instance.playerProfile.recoveryPodData[this.podId];
+            var timeSpan = recoverPodData.GetRemainingTime();
             timeRemainingText.text = $"{timeSpan.Hours} : {timeSpan.Minutes} : {timeSpan.Seconds}";
-
-            if(recoverPodData[podId].IsComplete())
+            this.gemCostValue = CalculateGemCost(timeSpan);
+            gemText.text = gemCostValue.ToString();
+            
+            if(recoverPodData.IsComplete())
             {
                 podState = PodState.Recovered;
                 assignedSetup.SetActive(false);
                 completeSetup.SetActive(true);
                 bubbleVFX.SetActive(false);
                 glowTransform.gameObject.SetActive(true);
+                SoundManager.Instance.PlayPodRecoveredClip();
                 //tween glow transform same as loot drop
             }
 
@@ -123,6 +130,32 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
     {
         IronSourceAdManager.Instance.ShowRewardedAd();
         IronSourceAdManager.Instance.rewardedAd.OnAdRewarded += RewardedAd_OnAdRewarded;
+    }
+    private int CalculateGemCost(TimeSpan remaining)
+    {
+        if (remaining <= TimeSpan.Zero)
+            return 0;
+
+        return Mathf.Max(1, Mathf.CeilToInt((float)remaining.TotalHours));
+    }
+    private void InstantRecoverViaGem()
+    {
+        List<CurrencyAmount> currencyList = new List<CurrencyAmount>
+        {
+            new CurrencyAmount
+            {
+                currencyType = CurrencyType.Melons, amount = gemCostValue
+            }
+        };
+        if(SaveLoadManager.Instance.CanPurchase(currencyList))
+        {
+            SaveLoadManager.Instance.playerProfile.recoveryPodData[this.podId].ApplyGemBoost();
+            SoundManager.Instance.PlayPurchaseSFX();
+        }
+        else
+        {
+            CurrencyManager.TriggerNoCurrencyFeedBack(CurrencyType.Melons);
+        }
     }
 
     private void RewardedAd_OnAdRewarded(LevelPlayAdInfo arg1, LevelPlayReward arg2)
@@ -340,10 +373,11 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
 
     private void OnDisable()
     {
-        buyButton.onClick.     RemoveListener(BuyPod);
-        upgradeButton.onClick. RemoveListener(UpgradePod);
-        completeButton.onClick.RemoveListener(RecoverCreature);
-        watchAdButton.onClick. RemoveListener(ShowRewardedAdforHours);
+        buyButton.onClick.       RemoveListener(BuyPod);
+        upgradeButton.onClick.   RemoveListener(UpgradePod);
+        completeButton.onClick.  RemoveListener(RecoverCreature);
+        watchAdButton.onClick.   RemoveListener(ShowRewardedAdforHours);
+        gemRecoverButton.onClick.RemoveListener(InstantRecoverViaGem);
 
     }
 
@@ -352,6 +386,7 @@ public class RecoveryPod : MonoBehaviour,IDropHandler
 public static class RecoveryTimeConfig
 {
     // Base times in hours
+    // to do plug values to gameconfig , remote config
     private static readonly Dictionary<int, TimeSpan> baseTimes =
         new Dictionary<int, TimeSpan>
         {
@@ -416,6 +451,10 @@ public class RecoveryPodData
     public void ApplyAdBoost()
     {
         reducedSeconds += TimeSpan.FromHours(6).TotalSeconds;
+    }
+    public void ApplyGemBoost()
+    {
+        reducedSeconds += GetRemainingTime().TotalSeconds;
     }
     // The state logic
     public PodState GetPodState()

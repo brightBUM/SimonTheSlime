@@ -42,6 +42,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip melonsCoinBunch;
     [SerializeField] private AudioClip buyClip;
     [SerializeField] private AudioClip upgradeClip;
+    [SerializeField] private AudioClip recoveredClip;
 
     [Header("Creatures/Dungeon")]
     [SerializeField] private AudioClip cagedPodBreak;
@@ -325,6 +326,10 @@ public class SoundManager : MonoBehaviour
     public void PlayUpgradeClip()
     {
         PlayClip(upgradeClip);
+    }
+    public void PlayPodRecoveredClip()
+    {
+        PlayClip(recoveredClip);
     }
     #endregion
 }
