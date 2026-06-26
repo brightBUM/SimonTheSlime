@@ -32,7 +32,12 @@ public class LevelEnd : MonoBehaviour
             {
                 virtualCamera.m_Lens.OrthographicSize = orthoSize;
                 confiner.InvalidateCache();
-            });
+            }).OnComplete(() =>
+            {
+                var screenPos = Camera.main.WorldToScreenPoint(camCentre.position);
+                CurrencyManager.AlignPanel?.Invoke(screenPos);
+
+            }); ;
             
 
             SoundManager.Instance.PlaySlimeSplashSFX();

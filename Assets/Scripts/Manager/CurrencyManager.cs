@@ -15,11 +15,12 @@ public class CurrencyManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI batteriesText;
     [SerializeField] GameObject[] currencyPrefabs;
     [SerializeField] Canvas canvas;
-    [SerializeField] Transform showPostion;
+    public Transform showPostion;
     public static Action<bool> ToggleCurrencyPanel;
     public static Action<CurrencyType, int, int> OnCurrencyAddition;
     public static Action<CurrencyType> TriggerNoCurrencyFeedBack;
     public static Action<int, Vector3, CurrencyType> CurrencyCollectAction;
+    public static Action<Vector3> AlignPanel;
     Vector3 startPos;
 
     public const int nanasRatio = 10;
@@ -38,6 +39,7 @@ public class CurrencyManager : MonoBehaviour
         OnCurrencyAddition += CounterText;
         TriggerNoCurrencyFeedBack += NoCurrencyTweenFeedBack;
         CurrencyCollectAction += CurrencyCollectAnimation;
+        AlignPanel += AlignPanelPos;
     }
     public void FetchAllCurrency()
     {
@@ -172,13 +174,22 @@ public class CurrencyManager : MonoBehaviour
         var targetPos = value ? showPostion.position : startPos;
         transform.DOMove(targetPos, 1f).SetEase(Ease.OutBack);
     }
-   
+
+    private void AlignPanelPos(Vector3 screenPos)
+    {
+        showPostion.position = new Vector3(
+         screenPos.x,
+         showPostion.position.y,
+         0);
+
+    }
     private void OnDisable()
     {
         ToggleCurrencyPanel -= TweenPanel;
         OnCurrencyAddition -= CounterText;
         TriggerNoCurrencyFeedBack -= NoCurrencyTweenFeedBack;
-
         CurrencyCollectAction -= CurrencyCollectAnimation;
+        AlignPanel -= AlignPanelPos;
+
     }
 }
