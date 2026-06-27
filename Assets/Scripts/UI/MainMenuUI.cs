@@ -59,7 +59,7 @@ public class MainMenuUI : MonoBehaviour
         scrollPageSizer.Apply();
 
         //initialise page snap scroll
-        pageSnapScroll.SnapToStartComplete += CharacterUIReparent;
+        //pageSnapScroll.SnapToStartComplete += CharacterUIReparent;
         pageSnapScroll.Init();
         pageSnapScroll.OnPageMoved += PageMoved;
         pageSnapScroll.OnScrollStart += ScrollStart;
@@ -125,23 +125,23 @@ public class MainMenuUI : MonoBehaviour
     private void PageMoved(int num)
     {
 
-        if(num==4)
+        if (num == 4)
         {
             //char upgrade panel
             //characterUI.parent = mainParent;
             //characterUI.localPosition = characterUIAnchorPoint_1.localPosition;
-            itemRect.SetSiblingIndex(3);
-            StartCoroutine(ToggleLines(0.3f, true));
+            //itemRect.SetSiblingIndex(3);
+            //StartCoroutine(ToggleLines(0.3f, true));
         }
-        else if(num == 3)
-        {
-            //main menu panel
-            //characterUI.parent = mainMenuParent;
-            //characterUI.localPosition = characterUIAnchorPoint_2.localPosition;
-            itemRect.SetSiblingIndex(1);
-            StartCoroutine(ToggleLines(0f, false));
+        //else if(num == 3)
+        //{
+        //    //main menu panel
+        //    //characterUI.parent = mainMenuParent;
+        //    //characterUI.localPosition = characterUIAnchorPoint_2.localPosition;
+        //    itemRect.SetSiblingIndex(1);
+        //    StartCoroutine(ToggleLines(0f, false));
 
-        }
+        //}
 
 
         if (num>=3)
@@ -253,7 +253,7 @@ public class MainMenuUI : MonoBehaviour
 
     private void OnDisable()
     {
-        pageSnapScroll.SnapToStartComplete -= CharacterUIReparent;
+        //pageSnapScroll.SnapToStartComplete -= CharacterUIReparent;
         pageSnapScroll.OnPageMoved      -= PageMoved;
         pageSnapScroll.OnScrollStart    -= ScrollStart;
         pageSnapScroll.OnScrollEnd      -= ScrollEnd;

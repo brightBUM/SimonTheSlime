@@ -8,8 +8,8 @@ public class UpgradeStateUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI description;
     [SerializeField] TextMeshProUGUI costUI;
     [SerializeField] TextMeshProUGUI valueUI;
-    [SerializeField] Image[] upgrades;
-
+    //[SerializeField] Image[] upgrades;
+    [SerializeField] Button upgradeButton;
 
     public void Init()
     {
@@ -22,7 +22,10 @@ public class UpgradeStateUI : MonoBehaviour
         //modify saveload 
         //update the UI 
     }
-
+    public void UnlockCard()
+    {
+        upgradeButton.interactable = true;
+    }
     private void UpdateText()
     {
         //simple setter function that updates the UI
