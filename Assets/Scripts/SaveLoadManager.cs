@@ -116,7 +116,7 @@ public class SaveLoadManager : MonoBehaviour
         unlockMap = new Dictionary<string, CreatureUnlockStateType>();
         foreach (var item in SaveLoadManager.Instance.playerProfile.creatureUnlockStates)
         {
-            unlockMap[item.id] = item.creatureUnlockState;
+            unlockMap[item.id] = item.creatureUnlockStateType;
         }
     }
 
@@ -402,7 +402,7 @@ public class SaveLoadManager : MonoBehaviour
         {
             unlockMap[creatureId] = CreatureUnlockStateType.UnlockedNew;
             playerProfile.creatureUnlockStates
-                .Find(x => x.id == creatureId).creatureUnlockState = CreatureUnlockStateType.UnlockedNew;
+                .Find(x => x.id == creatureId).creatureUnlockStateType = CreatureUnlockStateType.UnlockedNew;
             //SaveGame();
             return true;
         }
@@ -423,7 +423,7 @@ public class SaveLoadManager : MonoBehaviour
         {
             unlockMap[creatureId] = CreatureUnlockStateType.UnlockedSeen;
             playerProfile.creatureUnlockStates
-                .Find(x => x.id == creatureId).creatureUnlockState = CreatureUnlockStateType.UnlockedSeen;
+                .Find(x => x.id == creatureId).creatureUnlockStateType = CreatureUnlockStateType.UnlockedSeen;
             SaveGame();
             return true;
         }
@@ -431,6 +431,11 @@ public class SaveLoadManager : MonoBehaviour
         {
             return false;
         }
+    }
+    public int GetUnlockedCreaturesCount()
+    {
+        return playerProfile.creatureUnlockStates
+            .FindAll(x => x.creatureUnlockStateType != CreatureUnlockStateType.Locked).Count;
     }
     
 

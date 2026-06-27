@@ -127,11 +127,11 @@ public class CreaturesPanel : MonoBehaviour
 public class CreatureUnlockState
 {
     public string id;
-    public CreatureUnlockStateType creatureUnlockState;
-    public CreatureUnlockState(string id, CreatureUnlockStateType creatureUnlockState)
+    public CreatureUnlockStateType creatureUnlockStateType;
+    public CreatureUnlockState(string id, CreatureUnlockStateType creatureUnlockStateType)
     {
         this.id = id;
-        this.creatureUnlockState = creatureUnlockState;
+        this.creatureUnlockStateType = creatureUnlockStateType;
     }
 }
 public enum CreatureUnlockStateType

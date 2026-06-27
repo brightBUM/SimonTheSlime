@@ -1,7 +1,5 @@
 ﻿using DG.Tweening;
-using System.Collections;
 using TMPro;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class BangablePlatform : MonoBehaviour, IPoundable
