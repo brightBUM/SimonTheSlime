@@ -90,6 +90,8 @@ public class GamePlayScreenUI : MonoBehaviour
 
         dashButtonState = dashButton.gameObject.activeInHierarchy;
         grappleButtonState = grappleButton.gameObject.activeInHierarchy;
+
+        duration = GameManger.Instance.GetCharUpgradeCurrentValue(UpgradeStatId.BulletTime);
     }
     private void Update()
     {

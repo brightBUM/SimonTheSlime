@@ -8,16 +8,17 @@ public class BangablePlatform : MonoBehaviour, IPoundable
     [SerializeField] GameObject cursedNanasPrefab;
     [SerializeField] float melonDropOffset = 0.5f;
     [SerializeField] float coinForce = 5f;
-    [SerializeField] int HitCount = 0;
     [SerializeField] SpriteRenderer originalSprite;
     [SerializeField] Color breakColor;
     [SerializeField] TextMeshProUGUI hitCountText;
     [SerializeField] BreakablePlatform breakablePlatform;
+    int HitCount;
 
     private void Start()
     {
-        LevelManager.Instance.UpdateTargetBananas(4);
         melonDropOffset = 2f;
+        HitCount = (int)GameManger.Instance.GetCharUpgradeCurrentValue(UpgradeStatId.SlamPower);
+        LevelManager.Instance.UpdateTargetBananas(HitCount-1);
     }
     public void OnPlayerPounded(System.Action<IPoundable> ContinuePound)
     {

@@ -12,11 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42c34975931912e4a916d014d4853dab, type: 3}
   m_Name: Time Orb
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeStatDefinitionSO
+  icon: {fileID: 0}
   statId: 3
-  description: 
-  baseValue: 1
+  description: Inc Orb capacity
   upgrades:
-  - cost: 400
+  - currencyAmount:
+      currencyType: 0
+      amount: 400
+    value: 1
+  - currencyAmount:
+      currencyType: 0
+      amount: 400
     value: 2
-  - cost: 800
-    value: 3

@@ -19,20 +19,15 @@ public class GrapplePoint : MonoBehaviour
     float timer = 0;
     ParticleSystem.EmissionModule emissionModule;
     private TweenerCore<float, float, FloatOptions> Tween;
-    public Action PlayerDropped; 
-
+    public Action PlayerDropped;
+    public float hangTimePower;
     // Start is called before the first frame update
     void Start()
     {
         emissionModule = smokeFX.emission;
-        
+        hangTimePower = GameManger.Instance.GetCharUpgradeCurrentValue(UpgradeStatId.HangTime);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-       
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -65,7 +60,7 @@ public class GrapplePoint : MonoBehaviour
     }
     IEnumerator DelayedCall()
     {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(hangTimePower);
 
         StartCoroutine(DroneSmokeFx());
     }
@@ -81,7 +76,7 @@ public class GrapplePoint : MonoBehaviour
         emissionModule.rateOverTime = emissionrate;
         float rate = 0f;
         
-        while(rate <= 3.0f)
+        while(rate <= hangTimePower)
         {
             if(!playerDummy.activeSelf)
             {

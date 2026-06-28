@@ -684,7 +684,7 @@ public class PlayerController : MonoBehaviour
     }
     public void RefillBulletTime()
     {
-        bulletTimeAbility += 2;
+        bulletTimeAbility += (int)GameManger.Instance.GetCharUpgradeCurrentValue(UpgradeStatId.TimeOrb);
         bulletTimeAbility = Mathf.Clamp(bulletTimeAbility, 0, 2);
         GamePlayScreenUI.Instance.UpdateBulletTimeUI(bulletTimeAbility);
     }

@@ -14,7 +14,16 @@ public class ActuatorPlatform : MonoBehaviour,IPoundable
     [SerializeField] Ease easeType = Ease.Linear;
     private TweenerCore<Vector2, Vector2, VectorOptions> tween;
     private int hitCount = 5;
-    
+    // Start is called before the first frame update
+    void Start()
+    {
+        var targetHeight = hitCount * stepAmount;
+        var newHitCount = GameManger.Instance.GetCharUpgradeCurrentValue(UpgradeStatId.SlamPower);
+        //adjusted step Amount
+        stepAmount = targetHeight / newHitCount;
+        hitCount = (int)newHitCount;
+        StepIncrease(0);
+    }
     public void OnPlayerPounded(Action<IPoundable> ContinuePound)
     {
         ContinuePound.Invoke(this);
@@ -48,11 +57,7 @@ public class ActuatorPlatform : MonoBehaviour,IPoundable
 
         
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        StepIncrease(0);
-    }
+    
 
     // Update is called once per frame
     void Update()
