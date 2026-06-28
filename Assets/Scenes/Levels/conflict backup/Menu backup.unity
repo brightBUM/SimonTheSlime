@@ -8012,6 +8012,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2688140296413599288, guid: 9f70c322913b58f4f829b3da1825e868, type: 3}
+      propertyPath: upgradesStatId
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4209713443935865332, guid: 9f70c322913b58f4f829b3da1825e868, type: 3}
       propertyPath: m_text
       value: Bullet Time
@@ -17706,7 +17710,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 75994933628134724, guid: d115dbdc863215947a1355e1a673f960, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.0013008118
+      value: -0.0013046265
       objectReference: {fileID: 0}
     - target: {fileID: 93564406733448841, guid: d115dbdc863215947a1355e1a673f960, type: 3}
       propertyPath: m_Pivot.x
@@ -17928,9 +17932,17 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: -0.38607788
       objectReference: {fileID: 0}
+    - target: {fileID: 4629012413477390116, guid: d115dbdc863215947a1355e1a673f960, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 15.188477
+      objectReference: {fileID: 0}
     - target: {fileID: 5106456699561926053, guid: d115dbdc863215947a1355e1a673f960, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -0.0029296875
+      objectReference: {fileID: 0}
+    - target: {fileID: 5106456699561926053, guid: d115dbdc863215947a1355e1a673f960, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.2029419
       objectReference: {fileID: 0}
     - target: {fileID: 5498389769022476466, guid: d115dbdc863215947a1355e1a673f960, type: 3}
       propertyPath: m_Color.b
@@ -18026,7 +18038,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8592097681615188420, guid: d115dbdc863215947a1355e1a673f960, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -1.262497
+      value: -1.2625122
       objectReference: {fileID: 0}
     - target: {fileID: 8797657794407905223, guid: d115dbdc863215947a1355e1a673f960, type: 3}
       propertyPath: m_Name
@@ -27483,7 +27495,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 1080}
+  m_SizeDelta: {x: 0, y: 1079.9995}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1253526829
 MonoBehaviour:
@@ -28173,6 +28185,7 @@ MonoBehaviour:
   creatureSprites: []
   creatureColors: []
   currencyIcons: []
+  upgradeStatDefinitionSO: []
   gameConfig: {fileID: 0}
   sceneLimitOffset: 18
 --- !u!328 &1277510017
@@ -28298,6 +28311,10 @@ PrefabInstance:
     - target: {fileID: 1722895404918450452, guid: 9f70c322913b58f4f829b3da1825e868, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2688140296413599288, guid: 9f70c322913b58f4f829b3da1825e868, type: 3}
+      propertyPath: upgradesStatId
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4209713443935865332, guid: 9f70c322913b58f4f829b3da1825e868, type: 3}
       propertyPath: m_text
@@ -34174,7 +34191,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 1080}
+  m_SizeDelta: {x: 0, y: 1080.0005}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1308819618
 MonoBehaviour:
@@ -45422,6 +45439,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2688140296413599288, guid: 9f70c322913b58f4f829b3da1825e868, type: 3}
+      propertyPath: upgradesStatId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4209713443935865332, guid: 9f70c322913b58f4f829b3da1825e868, type: 3}
       propertyPath: m_text
       value: Hang Time
@@ -49527,7 +49548,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 1080.0002}
+  m_SizeDelta: {x: 0, y: 1080}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1951946612
 MonoBehaviour:
@@ -56908,7 +56929,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1853409474433047077, guid: 9f70c322913b58f4f829b3da1825e868, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7006026995855333290, guid: 9f70c322913b58f4f829b3da1825e868, type: 3}
       propertyPath: m_AnchorMax.y

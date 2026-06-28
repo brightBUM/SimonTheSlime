@@ -102,6 +102,10 @@ public class SaveLoadManager : MonoBehaviour
                 playerProfile.creatureUnlockStates.Add(new CreatureUnlockState(creatureData.creatureId,CreatureUnlockStateType.Locked));
             }
 
+            //char upgrades
+            playerProfile.charUpgrades = new List<int>() { 0,0,0,0 };
+
+
             //main menu rewarded ad ready
             this.lastRewardedAdTime = DateTime.Now.AddHours(-25);
             //date time conversion
@@ -511,6 +515,16 @@ public class SaveLoadManager : MonoBehaviour
         //shortcut currency addition only for testing in the editor
         AddCurrency(testCurrentAmmount.currencyType, testCurrentAmmount.amount);    
     }
+
+    //
+    public int GetCharUpgradeProgress(int index)
+    {
+        return playerProfile.charUpgrades[index];
+    }
+    public void SetCharUpgradeProgress(int index)
+    {
+        playerProfile.charUpgrades[index]++;
+    }
 }
 [System.Serializable]
 public class PlayerProfile
@@ -536,6 +550,7 @@ public class PlayerProfile
     public List<RecoveryPodData> recoveryPodData;
     public List<InventoryState> inventoryData;
     public List<CreatureUnlockState> creatureUnlockStates;
+    public List<int> charUpgrades;
 }
 
 [System.Serializable]

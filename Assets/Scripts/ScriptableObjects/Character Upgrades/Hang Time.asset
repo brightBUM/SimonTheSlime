@@ -9,14 +9,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 42c34975931912e4a916d014d4853dab, type: 3}
   m_Name: Hang Time
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeStatDefinitionSO
+  icon: {fileID: -8574616353396775328, guid: ec7d797e6ba8fc54c8ea6a095fe925e1, type: 3}
   statId: 1
-  description: Increase drone hang time
-  baseValue: 0.5
+  description: Inc hang duration
   upgrades:
-  - cost: 600
+  - currencyAmount:
+      currencyType: 0
+      amount: 400
     value: 1
-  - cost: 1000
+  - currencyAmount:
+      currencyType: 0
+      amount: 400
+    value: 1.5
+  - currencyAmount:
+      currencyType: 0
+      amount: 400
     value: 2

@@ -16,6 +16,7 @@ public class GameManger : MonoBehaviour
     [SerializeField] Sprite[] creatureSprites;
     [SerializeField] Color[] creatureColors;
     [SerializeField] Sprite[] currencyIcons;
+    [SerializeField] List<UpgradeStatDefinitionSO> upgradeStatDefinitionSO;
 
     public GameConfig gameConfig;
 
@@ -171,6 +172,17 @@ public class GameManger : MonoBehaviour
                 return Color.white;
 
         }
+    }
+
+    public UpgradeStatDefinitionSO GetCurrentCharUpgradeStat(UpgradeStatId upgradeStatId)
+    {
+        return upgradeStatDefinitionSO[(int)upgradeStatId];
+    }
+    public float GetCharUpgradeCurrentValue(UpgradeStatId upgradeStatId)
+    {
+        var upgradeStateSO = upgradeStatDefinitionSO[(int)upgradeStatId];
+        var progressIndex = SaveLoadManager.Instance.GetCharUpgradeProgress((int)upgradeStatId);
+        return upgradeStateSO.upgrades[progressIndex].value;
     }
     public Sprite GetCurrencyIcon(int index)
     {
