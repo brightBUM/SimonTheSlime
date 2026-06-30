@@ -1,12 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Splines;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UpgradeStateUI : MonoBehaviour
 {
+    [SerializeField] Image icon;
     [SerializeField] TextMeshProUGUI upgradeName;
     [SerializeField] TextMeshProUGUI description;
     [SerializeField] TextMeshProUGUI valueChange;
@@ -18,22 +17,25 @@ public class UpgradeStateUI : MonoBehaviour
     [SerializeField] GameObject borderObject;
    
     UpgradeStatId upgradesStatId;
-   
-    
+    int upgradeIndex;
+    CurrencyAmount currencyAmount;
     public void Init(UpgradeStatId upgradesStatId,int upgradeIndex)
     {
         this.upgradesStatId = upgradesStatId;
+        this.upgradeIndex = upgradeIndex;
         //get current upgrade stats from gamemanager
         var upgradeStatSO = GameManger.Instance.GetCurrentCharUpgradeStat(upgradesStatId);
         var progressIndex = SaveLoadManager.Instance.GetCharUpgradeProgress((int)upgradesStatId);
+
+        icon.sprite = upgradeStatSO.icon;
         upgradeName.text = upgradeStatSO.name+" "+upgradeIndex;
         description.text = upgradeStatSO.description;
 
-        if(progressIndex!= upgradeStatSO.upgrades.Count-1)
+        valueChange.text = $"{upgradeStatSO.upgrades[this.upgradeIndex-1].value}>>{upgradeStatSO.upgrades[this.upgradeIndex].value}";
+        if(progressIndex<this.upgradeIndex)
         {
-            valueChange.text = $"{upgradeStatSO.upgrades[progressIndex].value}>>{upgradeStatSO.upgrades[progressIndex + 1].value}";
-            costUI.text = upgradeStatSO.upgrades[progressIndex+1].currencyAmount.amount.ToString();
-
+            currencyAmount = upgradeStatSO.upgrades[this.upgradeIndex].currencyAmount;
+            costUI.text = currencyAmount.amount.ToString();
         }
         else
         {
@@ -43,15 +45,17 @@ public class UpgradeStateUI : MonoBehaviour
         }
 
     }
+    public void CheckPurchased()
+    {
+
+    }
     public void UpgradeButton()
     {
         var saveLoadInstance = SaveLoadManager.Instance;
-        var upgradeStatSO = GameManger.Instance.GetCurrentCharUpgradeStat(upgradesStatId);
-        var progressIndex = saveLoadInstance.GetCharUpgradeProgress((int)upgradesStatId);
-        var costAmount = upgradeStatSO.upgrades[progressIndex + 1].currencyAmount;
+        
         List<CurrencyAmount> currencyList = new List<CurrencyAmount>
         {
-            costAmount
+            this.currencyAmount,
         };
 
         if (saveLoadInstance.CanPurchase(currencyList))
@@ -59,35 +63,30 @@ public class UpgradeStateUI : MonoBehaviour
             //inc upgrade level
             //modify saveload 
             saveLoadInstance.SetCharUpgradeProgress((int)upgradesStatId);
-            //updatedIndex;
-            progressIndex = saveLoadInstance.GetCharUpgradeProgress((int)upgradesStatId);
 
-            //update the UI
-            if (progressIndex != upgradeStatSO.upgrades.Count - 1)
-            {
-                valueChange.text = $"{upgradeStatSO.upgrades[progressIndex].value}>>{upgradeStatSO.upgrades[progressIndex + 1].value}";
-                costUI.text = upgradeStatSO.upgrades[progressIndex + 1].currencyAmount.amount.ToString();
+            //show purchased setup
+            upgradeSetup.SetActive(false);
+            doneSetup.SetActive(true);
 
-            }
-            else
-            {
-                //show max level
-                upgradeSetup.SetActive(false);
-                doneSetup.SetActive(true);
-            }
-
+            SoundManager.Instance.PlayPowerupClip();
+            CharUpgradeUI.UpdateCreatureCount?.Invoke();
             saveLoadInstance.SaveGame();
         }
         else
         {
-            CurrencyManager.TriggerNoCurrencyFeedBack(costAmount.currencyType);
+            CurrencyManager.TriggerNoCurrencyFeedBack(this.currencyAmount.currencyType);
         }
        
     }
     public void UnlockCard()
     {
-        upgradeButton.interactable = true;
-        borderObject.SetActive(true);
+        var progressIndex = SaveLoadManager.Instance.GetCharUpgradeProgress((int)upgradesStatId);
+
+        var diff = Mathf.Abs(progressIndex - this.upgradeIndex);
+        //Debug.Log($"{upgradesStatId} ,{upgradeIndex} : diff_{diff}");
+        bool value = diff == 1;
+        upgradeButton.interactable = value;
+        borderObject.SetActive(value);
     }
 
 

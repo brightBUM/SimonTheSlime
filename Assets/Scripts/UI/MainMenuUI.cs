@@ -130,6 +130,7 @@ public class MainMenuUI : MonoBehaviour
             //char upgrade panel
 
             CurrencyManager.ToggleCurrencyPanel(true);
+            CharUpgradeUI.UpdateCreatureCount?.Invoke();
             //characterUI.parent = mainParent;
             //characterUI.localPosition = characterUIAnchorPoint_1.localPosition;
             //itemRect.SetSiblingIndex(3);

@@ -96,6 +96,7 @@ public class CharUpgradeUI : MonoBehaviour
 
     public void RefreshUpgradeProgress()
     {
+        Debug.Log("char upgrade refresh called");
         var totalCreatureCount = SaveLoadManager.Instance.playerProfile.creatureUnlockStates.Count;
         int unlockedCreatureCount = SaveLoadManager.Instance.GetUnlockedCreaturesCount();
 

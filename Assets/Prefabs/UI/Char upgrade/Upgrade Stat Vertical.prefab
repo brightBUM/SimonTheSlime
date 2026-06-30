@@ -205,6 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e8ffd85695ddc42b6e1f0f14242cf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  icon: {fileID: 6302124870688265293}
   upgradeName: {fileID: 282006942642292332}
   description: {fileID: 3813771647948861365}
   valueChange: {fileID: 4936886689923254911}
@@ -789,7 +790,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6369638242395021786
 RectTransform:
   m_ObjectHideFlags: 0
@@ -830,7 +831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.69182384, g: 0.69182384, b: 0.69182384, a: 0.78431374}
+  m_Color: {r: 0.78039217, g: 0.78039217, b: 0.78039217, a: 0.78431374}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1283,7 +1284,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8497660701484647000}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 865683822753261170}
+        m_TargetAssemblyTypeName: UpgradeStateUI, Assembly-CSharp
+        m_MethodName: UpgradeButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8665432235740264177
 GameObject:
   m_ObjectHideFlags: 0

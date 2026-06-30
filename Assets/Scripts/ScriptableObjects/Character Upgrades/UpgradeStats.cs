@@ -6,7 +6,7 @@ using UnityEngine;
 public class UpgradeStatDefinitionSO : ScriptableObject
 {
     public UpgradeStatId statId;
-
+    public Sprite icon;
     [Header("Designer Info")]
     [TextArea] public string description;
 
