@@ -7,35 +7,26 @@ using UnityEngine.UI;
 
 public class UpgradeStateUI : MonoBehaviour
 {
-    [SerializeField] UpgradeStatId upgradesStatId;
     [SerializeField] TextMeshProUGUI upgradeName;
     [SerializeField] TextMeshProUGUI description;
     [SerializeField] TextMeshProUGUI valueChange;
 
     [SerializeField] TextMeshProUGUI costUI;
     [SerializeField] GameObject upgradeSetup;
-    [SerializeField] GameObject maxedSetup;
-    [Header("Upgrade Dots")]
-    [SerializeField] Transform shadowParent;
-    [SerializeField] GameObject shadowPrefab;
-    [SerializeField] Transform dotParent;
-    [SerializeField] GameObject dotPrefab;
-    List<Transform> dotItems;
-    private void Start()
+    [SerializeField] GameObject doneSetup;
+    [SerializeField] Button upgradeButton;
+    [SerializeField] GameObject borderObject;
+   
+    UpgradeStatId upgradesStatId;
+   
+    
+    public void Init(UpgradeStatId upgradesStatId,int upgradeIndex)
     {
-        Init();
-    }
-    IEnumerator DelayedInitialization()
-    {
-        yield return new WaitForSeconds(1);
-        Init();
-    }
-    public void Init()
-    {
+        this.upgradesStatId = upgradesStatId;
         //get current upgrade stats from gamemanager
         var upgradeStatSO = GameManger.Instance.GetCurrentCharUpgradeStat(upgradesStatId);
         var progressIndex = SaveLoadManager.Instance.GetCharUpgradeProgress((int)upgradesStatId);
-        upgradeName.text = upgradeStatSO.statId.ToString();
+        upgradeName.text = upgradeStatSO.name+" "+upgradeIndex;
         description.text = upgradeStatSO.description;
 
         if(progressIndex!= upgradeStatSO.upgrades.Count-1)
@@ -43,32 +34,12 @@ public class UpgradeStateUI : MonoBehaviour
             valueChange.text = $"{upgradeStatSO.upgrades[progressIndex].value}>>{upgradeStatSO.upgrades[progressIndex + 1].value}";
             costUI.text = upgradeStatSO.upgrades[progressIndex+1].currencyAmount.amount.ToString();
 
-            dotItems = new List<Transform>();
-            for(int i=0;i<upgradeStatSO.upgrades.Count-1 ;i++)
-            {
-                Instantiate(shadowPrefab, shadowParent);
-                var dotObject = Instantiate(dotPrefab, dotParent);
-                dotItems.Add(dotObject.transform);
-            }
-            //yield return new WaitForEndOfFrame();
-            HorizontalLayoutGroup layout = dotParent.GetComponent<HorizontalLayoutGroup>();
-            Canvas.ForceUpdateCanvases();
-            LayoutRebuilder.ForceRebuildLayoutImmediate(dotParent.GetComponent<RectTransform>());
-
-            layout.enabled = false;
-            for (int i = 0; i < dotItems.Count; i++)
-            {
-                dotItems[i].gameObject.SetActive(false);
-            }
-            if(progressIndex>0)
-                dotItems[progressIndex - 1].gameObject.SetActive(true);
         }
         else
         {
             //show max level
             upgradeSetup.SetActive(false);
-            maxedSetup.SetActive(true);
-            valueChange.text = upgradeStatSO.upgrades[progressIndex].value.ToString();
+            doneSetup.SetActive(true);
         }
 
     }
@@ -97,14 +68,12 @@ public class UpgradeStateUI : MonoBehaviour
                 valueChange.text = $"{upgradeStatSO.upgrades[progressIndex].value}>>{upgradeStatSO.upgrades[progressIndex + 1].value}";
                 costUI.text = upgradeStatSO.upgrades[progressIndex + 1].currencyAmount.amount.ToString();
 
-                dotItems[progressIndex-1].gameObject.SetActive(true);
             }
             else
             {
                 //show max level
                 upgradeSetup.SetActive(false);
-                maxedSetup.SetActive(true);
-                valueChange.text = upgradeStatSO.upgrades[progressIndex].value.ToString();
+                doneSetup.SetActive(true);
             }
 
             saveLoadInstance.SaveGame();
@@ -115,6 +84,11 @@ public class UpgradeStateUI : MonoBehaviour
         }
        
     }
+    public void UnlockCard()
+    {
+        upgradeButton.interactable = true;
+        borderObject.SetActive(true);
+    }
 
-    
+
 }

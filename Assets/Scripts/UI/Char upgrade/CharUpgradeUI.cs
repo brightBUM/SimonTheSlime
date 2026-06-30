@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -8,7 +9,12 @@ public class CharUpgradeUI : MonoBehaviour
 {
     [SerializeField] Slider slider;
     [SerializeField] GameObject mileStoneAnchorPrefab;
-    [SerializeField] List<UpgradeStateUI> upgradeCards;
+    [SerializeField] GameObject upgradeStateUIPrefab;
+    [SerializeField] RectTransform cardsLayout;
+    [SerializeField] RectTransform content;
+    [SerializeField] RectTransform mileStoneContainer;
+    [SerializeField] List<UpgradeCard> upgradeCardsOrder;
+     List<UpgradeStateUI> upgradeStateUIs = new List<UpgradeStateUI>();
     const float sliderOffset = 150f;
     const float cardWidth = 350;
 
@@ -17,42 +23,73 @@ public class CharUpgradeUI : MonoBehaviour
     {
         UpdateCreatureCount += RefreshUpgradeProgress;
     }
+    private IEnumerator Start()
+    {
+        foreach(UpgradeCard upgradeCard in upgradeCardsOrder)
+        {
+            var upgradeStateUIObject = Instantiate(upgradeStateUIPrefab, cardsLayout);
+            var upgradeStateUI = upgradeStateUIObject.GetComponent<UpgradeStateUI>();
+            upgradeStateUI.Init(upgradeCard.upgradeStatId, upgradeCard.upgradeIndex);
+            upgradeStateUIs.Add(upgradeStateUI);
+        }
+
+        yield return null;
+
+        Canvas.ForceUpdateCanvases();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(cardsLayout);
+
+        float width = cardsLayout.rect.width;
+        content.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
+
+        AlignCardsWithMileStones();
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void AlignCardsWithMileStones()
     {
         var totalCreatureCount = SaveLoadManager.Instance.playerProfile.creatureUnlockStates.Count;
         int unlockedCreatureCount = SaveLoadManager.Instance.GetUnlockedCreaturesCount();
         Debug.Log($"unlocked / total : {unlockedCreatureCount}/{totalCreatureCount} ");
 
+        RectTransform first = upgradeStateUIs[0].GetComponent<RectTransform>();
+
+        RectTransform last = upgradeStateUIs[^1].GetComponent<RectTransform>();
+
         RectTransform sliderRT = slider.GetComponent<RectTransform>();
 
-        sliderRT.anchorMin = new Vector2(0, 0);
-        sliderRT.anchorMax = new Vector2(1, 0);
+        float left = first.anchoredPosition.x;
+        float right = last.anchoredPosition.x;
 
-        sliderRT.offsetMin = new Vector2(200f, sliderRT.offsetMin.y);
-        sliderRT.offsetMax = new Vector2(-150f, sliderRT.offsetMax.y);
+        float cardsWidth = cardsLayout.rect.width;
 
-        for (int i = 0; i < upgradeCards.Count; i++)
+        sliderRT.offsetMin = new Vector2(left, sliderRT.offsetMin.y);
+        sliderRT.offsetMax = new Vector2(-(cardsWidth - right), sliderRT.offsetMax.y);
+
+        for (int i = 0; i < upgradeStateUIs.Count; i++)
         {
-            float centerX = sliderOffset + i * cardWidth;
-            var cardRectTransform = upgradeCards[i].GetComponent<RectTransform>();
-            cardRectTransform.anchoredPosition = new Vector2(centerX+50,cardRectTransform.anchoredPosition.y);
 
-
-            int reqMilestoneCreatures = Mathf.RoundToInt((float)i * totalCreatureCount / (upgradeCards.Count - 1));
+            int reqMilestoneCreatures = Mathf.RoundToInt((float)i * totalCreatureCount / (upgradeStateUIs.Count - 1));
             slider.value = unlockedCreatureCount / (float)totalCreatureCount;
-            float normalizedPosition = reqMilestoneCreatures / (float)totalCreatureCount;
-            float x = normalizedPosition * sliderRT.rect.width;
 
-            var mileStoneObject = Instantiate(mileStoneAnchorPrefab,slider.transform);
-            RectTransform rt = mileStoneObject.GetComponent<RectTransform>();
-            rt.anchoredPosition = new Vector2(x, rt.anchoredPosition.y);
+            RectTransform card = upgradeStateUIs[i].GetComponent<RectTransform>();
 
-            mileStoneObject.GetComponentInChildren<TextMeshProUGUI>().text = reqMilestoneCreatures.ToString();
+            GameObject marker =
+                Instantiate(mileStoneAnchorPrefab, mileStoneContainer);
+
+            RectTransform markerRT =
+                marker.GetComponent<RectTransform>();
+
+            markerRT.anchorMin =
+            markerRT.anchorMax =
+                new Vector2(0, .5f);
+
+            markerRT.anchoredPosition =
+                new Vector2(card.anchoredPosition.x, 0);
+
+            marker.GetComponentInChildren<TextMeshProUGUI>().text = reqMilestoneCreatures.ToString();
 
             //to do unlock card
             if(unlockedCreatureCount >= reqMilestoneCreatures)
-                upgradeCards[i].UnlockCard();
+                upgradeStateUIs[i].UnlockCard();
         }
         
     }
@@ -62,13 +99,13 @@ public class CharUpgradeUI : MonoBehaviour
         var totalCreatureCount = SaveLoadManager.Instance.playerProfile.creatureUnlockStates.Count;
         int unlockedCreatureCount = SaveLoadManager.Instance.GetUnlockedCreaturesCount();
 
-        for (int i = 0; i < upgradeCards.Count; i++)
+        for (int i = 0; i < upgradeStateUIs.Count; i++)
         {
-            int reqMilestoneCreatures = Mathf.RoundToInt((float)i * totalCreatureCount / (upgradeCards.Count - 1));
+            int reqMilestoneCreatures = Mathf.RoundToInt((float)i * totalCreatureCount / (upgradeStateUIs.Count - 1));
             slider.value = unlockedCreatureCount / (float)totalCreatureCount;
 
             if (unlockedCreatureCount >= reqMilestoneCreatures)
-                upgradeCards[i].UnlockCard();
+                upgradeStateUIs[i].UnlockCard();
         }
     }
     private void OnDisable()
@@ -77,4 +114,10 @@ public class CharUpgradeUI : MonoBehaviour
 
     }
 
+}
+[System.Serializable]
+public class UpgradeCard
+{
+    public UpgradeStatId upgradeStatId;
+    public int upgradeIndex;
 }

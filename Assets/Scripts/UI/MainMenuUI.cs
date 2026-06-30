@@ -128,27 +128,31 @@ public class MainMenuUI : MonoBehaviour
         if (num == 4)
         {
             //char upgrade panel
+
+            CurrencyManager.ToggleCurrencyPanel(true);
             //characterUI.parent = mainParent;
             //characterUI.localPosition = characterUIAnchorPoint_1.localPosition;
             //itemRect.SetSiblingIndex(3);
             //StartCoroutine(ToggleLines(0.3f, true));
         }
-        //else if(num == 3)
-        //{
-        //    //main menu panel
-        //    //characterUI.parent = mainMenuParent;
-        //    //characterUI.localPosition = characterUIAnchorPoint_2.localPosition;
-        //    itemRect.SetSiblingIndex(1);
-        //    StartCoroutine(ToggleLines(0f, false));
+        else if (num == 3)
+        {
+            //main menu panel
+            CurrencyManager.ToggleCurrencyPanel(false);
 
-        //}
+
+            //characterUI.parent = mainMenuParent;
+            //characterUI.localPosition = characterUIAnchorPoint_2.localPosition;
+            //itemRect.SetSiblingIndex(1);
+            //StartCoroutine(ToggleLines(0f, false));
+
+        }
 
 
         if (num>=3)
         {
             //hide inventory
             HideInventory();
-            CurrencyManager.ToggleCurrencyPanel?.Invoke(false);
             creaturePanel.transform.DOMove(crHideTransform.position, 0.5f).SetEase(Ease.OutBack);
         }
         else if(num<3)

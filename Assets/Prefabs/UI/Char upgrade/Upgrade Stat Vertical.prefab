@@ -152,7 +152,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 2650, y: 0}
   m_SizeDelta: {x: 300, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2686156203082619696
@@ -207,9 +207,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeName: {fileID: 282006942642292332}
   description: {fileID: 3813771647948861365}
+  valueChange: {fileID: 4936886689923254911}
   costUI: {fileID: 9166927051695135577}
-  valueUI: {fileID: 4936886689923254911}
+  upgradeSetup: {fileID: 3056464185834566325}
+  doneSetup: {fileID: 6739100755708082193}
   upgradeButton: {fileID: 2453783925681537479}
+  borderObject: {fileID: 6238028902392817999}
 --- !u!1 &3056464185834566325
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,7 +314,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Slam Power
+  m_text: Bullet Time 2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c6c3e3617716bae4195c19153a17600b, type: 2}
   m_sharedMaterial: {fileID: 8387024938936783984, guid: c6c3e3617716bae4195c19153a17600b, type: 2}
@@ -622,7 +625,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 4->3
+  m_text: 1.5>>2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f762f8df179984b4a8f81d6604453342, type: 2}
   m_sharedMaterial: {fileID: -8277108232994766254, guid: f762f8df179984b4a8f81d6604453342, type: 2}
@@ -786,7 +789,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6369638242395021786
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1346,7 +1349,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'dec no of slam req '
+  m_text: Inc duration
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c6c3e3617716bae4195c19153a17600b, type: 2}
   m_sharedMaterial: {fileID: 8387024938936783984, guid: c6c3e3617716bae4195c19153a17600b, type: 2}
