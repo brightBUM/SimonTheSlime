@@ -211,6 +211,8 @@ public class GamePlayScreenUI : MonoBehaviour
         }
 
 #endif
+        Debug.Log("showing level failed leaderboard without ad");
+
         LevelFailedLeaderBoard();
 
     }

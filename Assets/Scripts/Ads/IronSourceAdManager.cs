@@ -1,8 +1,12 @@
 using Unity.Services.LevelPlay;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class IronSourceAdManager : MonoBehaviour
 {
+    [SerializeField] Image rewaredStatus;
+    [SerializeField] Image interstitialStatus;
+    [SerializeField] Image bannerStatus;
     private LevelPlayBannerAd bannerAd;
     public LevelPlayInterstitialAd interstitialAd;
     public LevelPlayRewardedAd rewardedAd;
@@ -10,7 +14,6 @@ public class IronSourceAdManager : MonoBehaviour
     public bool NoAdsPurchased { get; set; }
 
     public bool sdkInitialized;
-
 
 #if UNITY_ANDROID && !UNITY_EDITOR
     string appKey = "21c87ea5d";
@@ -35,6 +38,14 @@ public class IronSourceAdManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    private void Update()
+    {
+        if(sdkInitialized)
+        {
+            rewaredStatus.color = IsRewardedAdReady()?Color.green:Color.red;
+            interstitialStatus.color = IsInterstitialAdReady()?Color.green:Color.red;
+        }
+    }
     public void Start()
     {
         LevelPlay.ValidateIntegration();
@@ -43,6 +54,9 @@ public class IronSourceAdManager : MonoBehaviour
         LevelPlay.OnInitFailed += SdkInitializationFailedEvent;
 
         LevelPlay.Init(appKey);
+
+        bannerStatus.color = Color.red;
+
     }
     void SdkInitializationCompletedEvent(LevelPlayConfiguration config)
     {
@@ -54,6 +68,8 @@ public class IronSourceAdManager : MonoBehaviour
     private void EnableAds()
     {
         bannerAd = new LevelPlayBannerAd(bannerAdUnitId);
+        //bannerAd.LoadAd();
+        //bannerAd.OnAdLoaded += BannerAd_OnAdLoaded;
 
         //keep the rewarded video ad ready for main menu daily reward
         interstitialAd = new LevelPlayInterstitialAd(interstitialAdUnitId);
@@ -68,7 +84,7 @@ public class IronSourceAdManager : MonoBehaviour
 
     }
 
-    
+   
 
     void SdkInitializationFailedEvent(LevelPlayInitError error)
     {
@@ -92,13 +108,17 @@ public class IronSourceAdManager : MonoBehaviour
     
     public void HideBannerAd()
     {
-
 #if UNITY_ANDROID && !UNITY_EDITOR
         bannerAd.HideAd();
 #endif
 
     }
-#endregion
+    private void BannerAd_OnAdLoaded(com.unity3d.mediation.LevelPlayAdInfo obj)
+    {
+        bannerStatus.color = Color.green;
+
+    }
+    #endregion
 
     #region InterstitialAds
     public void LoadInterstitialAd()

@@ -15,10 +15,10 @@ public class SceneTransitionManager : MonoBehaviour
     public Vector3 secretRoomOffset = new Vector3(20000f, 0f, 0f);
 
     [Header("Main Scene References")]
-    public Camera mainCam;
-    public Transform playerTransform;
-    public PlayerController playerController;
-    public CinemachineVirtualCamera mainVirtualCam;
+    [HideInInspector] public Camera mainCam;
+    [HideInInspector] public Transform playerTransform;
+    [HideInInspector] public PlayerController playerController;
+    [HideInInspector] public CinemachineVirtualCamera mainVirtualCam;
 
     [Header("Camera Blending")]
     public float blendDuration = 1f;

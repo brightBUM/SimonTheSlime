@@ -55,6 +55,12 @@ public class PipePlatform : MonoBehaviour, IPoundable
             arrowSprite.SetActive(false);
             inventoryFullText.SetActive(true);
             this.enabled = false;
+            Debug.Log("No inventory slot available - disable pipe platform");
+        }
+        else
+        {
+            Debug.Log("inv slot available - pipe platform");
+
         }
         
     }

@@ -65,7 +65,14 @@ public class ScoreBoard : MonoBehaviour
                 return;
             }
         }
+        else
+        {
+            Debug.Log("on level complete - level button android - interstitial ad not ready ");
+        }
 #endif
+
+        Debug.Log("loading menu  without ad");
+
         // if Ad not ready or Ad condition not true 
         GamePlayScreenUI.Instance.LoadMenu();
     }
@@ -120,7 +127,13 @@ public class ScoreBoard : MonoBehaviour
                 return;
             }
         }
+        else
+        {
+            Debug.Log("on level complete - replay button android - interstitial ad not ready ");
+        }
 #endif
+
+        Debug.Log("replaying scene  without ad");
         // if Ad not ready or Ad condition not true 
         GamePlayScreenUI.Instance.ReplayScene();
     }
@@ -181,7 +194,12 @@ public class ScoreBoard : MonoBehaviour
                 return;
             }
         }
+        else
+        {
+            Debug.Log("on level complete - next button android - interstitial ad not ready ");
+        }
 #endif
+        Debug.Log("loading next scene without ad");
         // if Ad not ready or Ad condition not true 
         GotoNextAfterAd();
     }
