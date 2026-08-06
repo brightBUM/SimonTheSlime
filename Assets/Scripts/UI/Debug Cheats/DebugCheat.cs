@@ -2,6 +2,11 @@ using UnityEngine;
 using IngameDebugConsole;
 public class DebugCheat : MonoBehaviour
 {
+    [ConsoleMethod("ToggleAdStatus","toggles Ad load status panel")]
+    public static void ToggleAdStatusPanel()
+    {
+        IronSourceAdManager.Instance.ToggleAdPanel();
+    }
     [ConsoleMethod("AddCurrency ","adds currency to profile")]
     public static void AddCurrency(CurrencyType currencyType,int amount)
     {

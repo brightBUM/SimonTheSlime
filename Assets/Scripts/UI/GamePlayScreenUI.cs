@@ -208,7 +208,7 @@ public class GamePlayScreenUI : MonoBehaviour
             {
                 Debug.Log("android - interstitial ad not ready");
             }
-        }
+        }  
 
 #endif
         Debug.Log("showing level failed leaderboard without ad");
@@ -342,11 +342,11 @@ public class GamePlayScreenUI : MonoBehaviour
 #elif UNITY_ANDROID
         //trigger rewarded ad  here
         IronSourceAdManager.Instance.ShowRewardedAd();
-        IronSourceRewardedVideoEvents.onAdRewardedEvent += IronSourceRewardedVideoEvents_onAdRewardedEvent;
+        IronSourceAdManager.Instance.rewardedAd.OnAdRewarded += RewardedAd_OnAdRewarded;
 #endif
     }
 
-    private void IronSourceRewardedVideoEvents_onAdRewardedEvent(IronSourcePlacement arg1, IronSourceAdInfo arg2)
+    private void RewardedAd_OnAdRewarded(LevelPlayAdInfo arg1, LevelPlayReward arg2)
     {
         retryScreen.SetActive(false);
         gameplayScreen.SetActive(true);
@@ -367,7 +367,7 @@ public class GamePlayScreenUI : MonoBehaviour
         {"level", LevelManager.Instance.levelIndex+1 }
     });
 
-        IronSourceRewardedVideoEvents.onAdRewardedEvent -= IronSourceRewardedVideoEvents_onAdRewardedEvent;
+        IronSourceAdManager.Instance.rewardedAd.OnAdRewarded -= RewardedAd_OnAdRewarded;
 
     }
 

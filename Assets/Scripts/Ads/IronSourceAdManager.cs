@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class IronSourceAdManager : MonoBehaviour
 {
+    [SerializeField] GameObject adStatusPanel;
     [SerializeField] Image rewaredStatus;
     [SerializeField] Image interstitialStatus;
     [SerializeField] Image bannerStatus;
@@ -14,6 +15,7 @@ public class IronSourceAdManager : MonoBehaviour
     public bool NoAdsPurchased { get; set; }
 
     public bool sdkInitialized;
+    public bool adPanelActive;
 
 #if UNITY_ANDROID && !UNITY_EDITOR
     string appKey = "21c87ea5d";
@@ -40,7 +42,7 @@ public class IronSourceAdManager : MonoBehaviour
     }
     private void Update()
     {
-        if(sdkInitialized)
+        if(sdkInitialized && adPanelActive)
         {
             rewaredStatus.color = IsRewardedAdReady()?Color.green:Color.red;
             interstitialStatus.color = IsInterstitialAdReady()?Color.green:Color.red;
@@ -91,7 +93,11 @@ public class IronSourceAdManager : MonoBehaviour
         Debug.Log("unity-script: I got SdkInitializationFailedEvent with error: " + error);
         sdkInitialized = false;
     }
-   
+    public void ToggleAdPanel()
+    {
+        adPanelActive = !adPanelActive;
+        adStatusPanel.SetActive(adPanelActive);
+    }
    
     
     #region BannerAds
